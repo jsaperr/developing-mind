@@ -29,6 +29,20 @@ Roughly a third of the "winning" correlated group's own synapses actually land a
 behaving exactly like losers — not a moderately, uniformly-reinforced group. Conversely, a
 fifth of uncorrelated synapses land at the ceiling.
 
+**Confirmed independently, not a one-dataset artifact:** the same breakdown, computed the same
+way on the population extension's final-snapshot weights (5-neuron, 1000s, independent
+presynaptic draws — a different network size, duration, and dataset entirely) at Apre=0.005:
+
+| | near ceiling (>0.9) | near floor (<0.1) | mid-range |
+|---|---|---|---|
+| correlated (n=200, pooled across 20 replicates) | 60% | 29% | 11% |
+| uncorrelated (n=200, pooled across 20 replicates) | 23.5% | 55.5% | 21% |
+
+Essentially identical to the 8-seed ensemble's numbers above. This upgrades the finding from
+"one dataset's result" to independently confirmed across two structurally different runs —
+the bimodal, winner-take-most structure is a real property of the mechanism, not an artifact
+of the specific ensemble it was first noticed in.
+
 **This refines, not contradicts, the existing group-mean-gap stability finding.** The
 aggregate metric was always accurate — the mean genuinely does stay bounded away from zero,
 that result stands — it's just coarser than what's actually happening at the synapse level.
@@ -40,13 +54,24 @@ group") — now with actual numbers behind it.
 
 **Scope, matching the analysis method:** this is a post-hoc analysis of final-snapshot weights
 only, from data that already existed — not a new experiment. It can't say anything about
-*when* a given synapse committed to its final side, whether defectors flip back and forth or
-settle early, or whether defector identity is stable across seeds (a positional-symmetry check
-across the 8 seeds was inconclusive either way, too few seeds to distinguish from
-uniform-random). None of the ensemble runs saved full per-synapse time traces, only group
-aggregates, final snapshots, and reversal counts — see the design note added to
+*when* a given synapse committed to its final side, or whether defectors flip back and forth
+or settle early and stay. None of the ensemble runs saved full per-synapse time traces, only
+group aggregates, final snapshots, and reversal counts — see the design note added to
 `src/brian2_stdp/network.py`'s docstring: future long runs should save at least a subsampled
 per-synapse trace so trace-level questions like this are answerable without a full rerun.
+
+**Open, unresolved, not being chased right now — same treatment as the trace-saving gap
+above:** whether *which* correlated-synapse index tends to defect is positionally biased or
+pure noise. Re-checked with real power using the population extension's 20 replicates per
+condition (vs. the original 8): at Apre=0.005, floor rate varies 15%-55% across the 10
+correlated indices (chi-square p=0.068 — suggestive, not significant); at Apre=0.02 the same
+check shows no structure at all (p=0.46, indistinguishable from noise). Nothing in
+`spikes.py`'s generation process treats indices differently, so a real positional effect would
+be surprising — more likely read is that Apre=0.005's slow relaxation (24-98s, from a separate
+autocorrelation check on the ensemble data) lets early random fluctuations lock in before 20
+replicates is enough to average them out, and Apre=0.02's constant churn prevents that same
+lock-in. Plausible, not resolved — would need many more replicates to actually settle either
+way, not worth that spend right now.
 
 ---
 
@@ -247,7 +272,10 @@ small excursions that stay close to the current assignment, not genuine converge
 fixed point — the same underlying churn is present everywhere, just invisible at low
 amplitude. This single finding retroactively explains why both the scaling-interval sweep and
 the per-event jump-cap sweep found nothing: neither touches switching frequency, only
-amplitude (jump-cap) or nothing relevant at all (interval). See the full reasoning below.
+amplitude (jump-cap) or nothing relevant at all (interval). See the full reasoning below, and
+the mechanistic extension at the end of this entry: the same amplitude picture also predicts
+(and post-hoc analysis confirmed) less time spent pinned at the clip boundaries at higher Apre,
+not more.
 
 **Notebook:** `notebooks/brian2/brian2_stdp_apre_sweep.ipynb`
 
@@ -321,6 +349,18 @@ not something this experiment resolves on its own.
 question asked, even though the honest answer is "neither framing was right, the wrong
 variable was assumed to be changing." Flagging the reframed picture (frequency vs. amplitude)
 for discussion rather than continuing to generate new hypotheses independently.
+
+**Mechanistic extension (post-hoc, same-day addendum — see the bimodal-distribution entry
+above for the full result):** the amplitude picture predicts a further consequence that wasn't
+checked until a later post-hoc analysis of final-snapshot weights found it directly. If Apre
+controls excursion size but not switching frequency, higher Apre should mean *less time spent
+pinned at the clip boundaries* between reversals, not more — a synapse making bigger jumps
+crosses the boundary region faster and is more likely to be caught mid-transit by any given
+snapshot. That's exactly what the data shows: at Apre=0.02 the correlated group sits 54%
+mid-range at a final snapshot, vs. only 11% at Apre=0.005 (see the bimodal-distribution entry's
+population-extension numbers). The trajectory-plot "chaotic" read and the final-snapshot
+"less bimodal" read are the same underlying fact — large-amplitude excursions — seen from two
+different angles, not in tension with each other.
 
 ---
 
