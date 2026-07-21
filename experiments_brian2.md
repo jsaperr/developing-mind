@@ -5,6 +5,51 @@ for the Brian2/spiking-dynamics phase specifically — different tools (differen
 instead of tensor ops), different failure modes, split out at the natural phase boundary
 rather than mixed into an already-long single log.
 
+## 2026-07-20 — Post-hoc analysis: the group-mean-gap's "bounded stability" hides a bimodal, winner-take-most structure at the synapse level
+
+**Analysis, not a new simulation** — pooled `final_corr_w`/`final_uncorr_w` from the existing
+8-seed/5000s ensemble (`apre005_ensemble_data/apre_ensemble_seed*.json`), no new runs. Same
+pattern as the amplitude-vs-frequency reframe: post-hoc analysis of data that already existed,
+prompted by an informal exploratory-analysis pass, not a new experiment.
+
+**Question:** does "group-mean gap stays bounded away from zero" (the ensemble's headline
+finding) mean the correlated and uncorrelated groups cleanly separate into two tight clusters,
+or is there more structure underneath the group mean than that number reveals?
+
+**Result: final weights are bimodal in both groups — synapses land near the clip boundaries (0
+or 1), rarely in between — and group identity biases which boundary, but doesn't determine it
+cleanly:**
+
+| | near ceiling (>0.9) | near floor (<0.1) | mid-range |
+|---|---|---|---|
+| correlated (n=80, pooled across 8 seeds) | 61% | 31% | 8% |
+| uncorrelated (n=80, pooled across 8 seeds) | 20% | 55% | 25% |
+
+Roughly a third of the "winning" correlated group's own synapses actually land at the floor,
+behaving exactly like losers — not a moderately, uniformly-reinforced group. Conversely, a
+fifth of uncorrelated synapses land at the ceiling.
+
+**This refines, not contradicts, the existing group-mean-gap stability finding.** The
+aggregate metric was always accurate — the mean genuinely does stay bounded away from zero,
+that result stands — it's just coarser than what's actually happening at the synapse level.
+"Differentiation" in this system means "most correlated synapses saturate high and most
+uncorrelated synapses saturate low," not "every correlated synapse beats every uncorrelated
+synapse." This quantifies what was previously only a qualitative caveat in the original
+correlation-experiment writeup ("real if imperfect separation, a few defector synapses in each
+group") — now with actual numbers behind it.
+
+**Scope, matching the analysis method:** this is a post-hoc analysis of final-snapshot weights
+only, from data that already existed — not a new experiment. It can't say anything about
+*when* a given synapse committed to its final side, whether defectors flip back and forth or
+settle early, or whether defector identity is stable across seeds (a positional-symmetry check
+across the 8 seeds was inconclusive either way, too few seeds to distinguish from
+uniform-random). None of the ensemble runs saved full per-synapse time traces, only group
+aggregates, final snapshots, and reversal counts — see the design note added to
+`src/brian2_stdp/network.py`'s docstring: future long runs should save at least a subsampled
+per-synapse trace so trace-level questions like this are answerable without a full rerun.
+
+---
+
 ## 2026-07-20 — Population extension (N=1 -> N=5): does the single-neuron STDP signature generalize, or was it an artifact?
 
 **Data:** `notebooks/brian2/population_extension_data/run_population_seed.py` (standalone script,

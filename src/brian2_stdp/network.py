@@ -15,6 +15,15 @@ frame that constructed the object, so it silently breaks the moment network-buil
 in a different module than the run() call (exactly the situation this extraction creates).
 Caught by the population-network calibration run failing with `KeyError: "tau" could not be
 resolved` -- fixed here for build_network() too, which had the same latent bug.
+
+Design note for future long runs: existing ensemble/population run scripts only save group
+aggregates (group_mean_gap etc.), final-snapshot weights, and reversal counts -- not full
+per-synapse time traces. That's fine for the questions asked so far, but it means anything
+about *when* an individual synapse settled, co-movement between synapses, or reversal-interval
+timing is unanswerable from saved data without a full rerun (found the hard way via a post-hoc
+analysis, see experiments_brian2.md). Future long runs should save at least a subsampled
+per-synapse trace (e.g. every Nth StateMonitor sample, not every 500ms point) so trace-level
+questions like this are answerable after the fact instead of requiring new compute.
 """
 from brian2 import (
     NeuronGroup, SpikeGeneratorGroup, Synapses, ms, mV, prefs,
