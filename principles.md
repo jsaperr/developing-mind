@@ -42,6 +42,80 @@ principle to matter again anywhere else strength-like signals get
 added — episodic write/prune decisions, thalamus gating, sub-brain
 resonance activation.
 
+## Named decision: what "stability" means for the STDP layer (2026-07-20)
+
+**Status: provisional, scoped to the single-neuron/many-synapse population readout actually
+tested — not a closed architectural commitment.** The rejection of (a) below is a fact about
+the system, not scoped to any one scale, and doesn't need revisiting. The adoption of (b) is
+earned at the scale tested (many synapses onto one neuron) and extrapolated, not proven, to
+the scale this decision is meant to describe (many neurons forming a joint population code —
+the scale that actually feeds a Hopfield layer). Revisit this entry, not just extend it, if
+the shared-input competitive population experiment (flagged, not started) shows the aggregate
+signal doesn't stay stable once neurons genuinely compete for shared resources — two nested
+competitive dynamics instead of one, and nothing guarantees the outer one inherits the inner
+one's stability property for free.
+
+**The STDP layer's stability requirement is a population-level readout that tolerates
+individual-synapse churn, not individual-synapse convergence — and the data earns this now,
+it isn't a default.** Two candidate definitions were on the table, following the external
+review's reframe: (a) individual-synapse convergence — a given synapse settles to a fixed
+weight — versus (b) a stable population-level readout tolerating individual-unit churn,
+matching real cortical representational drift (population code stable, single-unit identity
+not).
+
+(a) is not just unmet, it's unmeetable in this system as built. Reversal-frequency counting
+(the Apre-sweep round, confirmed again in the population extension) found direction-reversal
+frequency is essentially Apre-invariant — ~140/synapse/300s at N=1, ~500/synapse/1000s at
+N=5 (the same rate once normalized for duration) — at every Apre value tested, including the
+"stable" one. Every individual synapse keeps reversing direction on this timescale regardless
+of Apre; low Apre just keeps each excursion small. There is no setting anywhere in the tested
+range where a synapse's weight settles to a fixed value. Requiring (a) would judge the entire
+tested range "unstable" and throw away the real, useful distinction already earned between
+Apre=0.005 and Apre=0.02 — not a workable spec for anything downstream.
+
+(b) is what has actually been measured as stable this whole arc, without ever being named as
+the choice it was. The group-mean gap (correlated-group mean weight minus uncorrelated-group
+mean weight) — a population-level readout over the synapses feeding one postsynaptic neuron —
+stayed bounded away from zero in every regime tested: 0/20 replicates near zero at Apre=0.005
+(settled mean +0.346, min +0.148 across the population extension), and even at Apre=0.02,
+where the readout never settles and fluctuates continuously, direction never flipped across
+20 replicates (closest approach +0.002, momentary). Individual synapses churn constantly
+underneath this the entire time. That's stable-population/unstable-unit, exactly the
+reviewer's proposed reframe — now with two independent confirmations (the 8-seed/5000s N=1
+ensemble, and the 5-neuron population extension) instead of one.
+
+**Choosing (b): this mechanism needs to guarantee a stable population-level readout, not
+individual-synapse fixed points, for its role feeding a future Hopfield layer.** The empirical
+case stands on its own, on the two paragraphs above alone: reversal-frequency invariance rules
+out (a) as achievable at all, and the bounded group-mean gap confirms (b) at the scale tested.
+The validated two-layer/episodic retrieval mechanism reads accumulated, aggregate-level
+evidence — content similarity plus strength — not literal frozen per-synapse identity, which
+is a second, independent reason (a) was never going to be available to hand it anyway.
+
+One more note in the same direction, offered as motivation rather than evidence — don't read
+it as adding to the empirical case above: this choice is also the better fit with the core
+commitment at the top of this file, substrate that keeps reorganizing under lived experience
+while its aggregate meaning persists being closer to "identity through path-dependent
+modification" than further from it. That's philosophical coherence, not data; it's a nice
+bonus that the choice the numbers support also happens to fit the project's stated
+commitments, not a reason to believe the numbers.
+
+**What the current dataset can't settle, stated plainly rather than glossed over:** every
+check so far — including the population extension — measured a population of *synapses onto
+one postsynaptic neuron*, not a population of *postsynaptic neurons* forming a joint ensemble
+code. The population extension deliberately used independent replicates (each neuron its own
+dedicated presynaptic block, no shared input, no competition between neurons — a shared-input
+design was tried first and found not to produce any inter-neuron divergence at all, see
+experiments_brian2.md) because that was the cheap, well-supported test actually available.
+Whether multiple postsynaptic neurons sharing or competing over common input form a stable
+joint population code — the scale that actually matters for "population code" in the
+reviewer's cortical-drift sense, and the scale a Hopfield layer fed by many such neurons would
+really depend on — has not been tested by anything run so far. Choosing (b) at the
+single-neuron/many-synapses scale is earned by real data. Assuming it also holds at the
+many-neuron/shared-population scale is an extrapolation, not a result, and should be treated
+as one until the shared-input competitive population experiment (flagged, not started, see
+experiments_brian2.md) actually closes that gap.
+
 ## How to fail correctly
 
 Negative results are real data, not something to route around or

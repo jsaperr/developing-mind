@@ -51,3 +51,38 @@ def count_reversals(trace_row, smooth_window=5):
     if len(sign) < 2:
         return 0
     return int(np.sum(sign[1:] != sign[:-1]))
+
+
+def compute_population_metrics(trace, syn_i, syn_j, n_post, n_corr=10):
+    """Per-postsynaptic-neuron group_mean_gap trajectory, reversal frequency, and final weight
+    vector, for a population built with network.build_population_network (block-diagonal: each
+    postsynaptic neuron has its own dedicated presynaptic block).
+
+    trace: shape (n_synapses, n_timepoints), rows in synapse creation order.
+    syn_i/syn_j: (global) presynaptic/postsynaptic index per synapse (same order as trace's
+    rows) -- from `np.array(syn.i[:])` / `np.array(syn.j[:])` recorded at network-build time.
+    Sorting the synapses belonging to one postsynaptic neuron by their (block-local, since
+    global index within one block is just a constant offset from local) presynaptic index puts
+    the correlated group first -- matches spikes.build_presynaptic_input's layout.
+
+    Returns {post_index: {"group_mean_gap": ..., "mean_reversals": ..., "final_w": ...}}.
+    """
+    results = {}
+    for j in range(n_post):
+        mask = syn_j == j
+        sub_trace = trace[mask]
+        sub_i = syn_i[mask]
+        order = np.argsort(sub_i)  # sort by presynaptic index so [:n_corr] is the correlated group
+        sub_trace = sub_trace[order]
+
+        corr_trace = sub_trace[:n_corr]
+        uncorr_trace = sub_trace[n_corr:]
+        group_mean_gap = corr_trace.mean(axis=0) - uncorr_trace.mean(axis=0)
+        reversals = [count_reversals(row) for row in sub_trace]
+
+        results[j] = {
+            "group_mean_gap": group_mean_gap,
+            "mean_reversals": float(np.mean(reversals)),
+            "final_w": sub_trace[:, -1],
+        }
+    return results

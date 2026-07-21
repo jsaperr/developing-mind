@@ -5,6 +5,114 @@ for the Brian2/spiking-dynamics phase specifically — different tools (differen
 instead of tensor ops), different failure modes, split out at the natural phase boundary
 rather than mixed into an already-long single log.
 
+## 2026-07-20 — Population extension (N=1 -> N=5): does the single-neuron STDP signature generalize, or was it an artifact?
+
+**Data:** `notebooks/brian2/population_extension_data/run_population_seed.py` (standalone script,
+8 raw result JSONs for full reproducibility). Shared rig code: `src/brian2_stdp/network.py`
+(`build_population_network`), `src/brian2_stdp/spikes.py`
+(`build_population_presynaptic_input`), `src/brian2_stdp/metrics.py`
+(`compute_population_metrics`).
+
+**Question, per external review feedback (relayed via Jasper):** every STDP finding so far
+(reversal-frequency invariance, Apre005's genuine bounded stability, seed 2006's discrete
+reorganization) used exactly one postsynaptic neuron. Could any of it be an artifact of
+single-neuron zero-sum synaptic scaling specifically, rather than a general property of the
+mechanism? Extend to a small population and check.
+
+**Design pivot caught by a cheap calibration run, before committing real compute — a genuine
+finding in its own right:** the first design shared one presynaptic pool across 5 postsynaptic
+neurons (all-to-all) and relied on small (+/-0.02) initial-weight jitter to break the symmetry
+between them. A 20s calibration run showed this **does not work**: all 5 neurons converged to
+*bit-identical* final weights (max abs diff = 0.0) despite different starting points. Root
+cause, confirmed by direct inspection: the LIF neuron's hard reset (`v = v_reset` on every
+spike) wipes out any pre-spike membrane-potential difference every interspike interval, and
+with `GMAX=6mV` the correlated group's spike bursts are large enough that postsynaptic
+threshold-crossing timing is robust to +/-4% weight jitter — so every neuron saw identical
+effective post-spike timing, and since STDP trace updates (`apre`/`apost`) depend only on
+spike *timing* (not on the synapse's current weight), all 5 neurons received identical
+trace-driven weight deltas from identical initial-weight-adjacent starting points, converging
+exactly once any synapse first hit a clip boundary. **Pivoted to block-diagonal connectivity
+instead**: each of the 5 postsynaptic neurons gets its own dedicated, independently-drawn
+20-neuron presynaptic block (same p_share=0.9 generative process, different randomness) —
+genuinely independent replicates of the validated single-neuron mechanism, run together in one
+Brian2 network for efficiency, rather than literal shared-input competition. Re-calibration
+confirmed real divergence (different post rates, different final weights, different reversal
+counts per neuron) and **no meaningful wall-clock cost increase** — 5 replicated neurons cost
+about the same as 1 (0.23s wall/simulated-second either way), since Brian2 vectorizes across
+neurons/synapses.
+
+**A second real bug caught by the same calibration run:** `build_network`'s (and the new
+`build_population_network`'s) reliance on Brian2 resolving free identifiers (`tau`, `v_thresh`,
+`taupre`, ...) from the *calling frame's* namespace broke the moment the network-building code
+moved into `src/brian2_stdp/network.py` — a different module than wherever `run()` gets called.
+Brian2's auto-resolution walks the stack from the `run()` call site, not from wherever the
+object was constructed, so this was silently broken for `build_network` too (undetected by the
+earlier construction-only smoke test, which never calls `run()`). Fixed by passing every free
+identifier explicitly via `namespace=` in both builders — see `src/brian2_stdp/network.py`.
+
+**Design (stated before launching the real batch):** Apre in {0.005 (single-neuron "stable"),
+0.02 (single-neuron "chaotic")}, 4 independent population-seeds each (3001-3004), 1000s per run,
+4 concurrent processes / 2 waves, 8 runs total (~230s wall each). Falsification stated up
+front: if population replicates N=1, Apre=0.005 should show a tight, positive, bounded
+group-mean-gap across all neurons/seeds; Apre=0.02 should stay noisy/non-settling; reversal
+frequency should be similar in scale between the two Apre values (Apre-invariant, per the
+standing explanation). Population data diverging from this — unreliable differentiation,
+population-emergent Apre-dependence in reversal frequency, or Apre=0.005 crossing zero well
+within 1000s — would mean the N=1 findings don't generalize.
+
+**Result, aggregated across all 20 (4 seeds x 5 neurons) replicates per Apre value, settled
+region t>=100s:**
+
+| Apre | gap mean | gap min (any replicate, any time) | fraction crossing zero | reversals/synapse/1000s | post rate |
+|---|---|---|---|---|---|
+| 0.005 | +0.346 | +0.148 | 0/20 | 501.2 (std 8.0) | 18.7 Hz |
+| 0.02 | +0.285 | +0.002 | 0/20 | 505.6 (std 6.7) | 18.5 Hz |
+
+**Reversal-frequency invariance replicates cleanly, and quantitatively, not just
+qualitatively:** 501.2 vs 505.6 reversals/synapse/1000s — essentially identical between Apre
+values, exactly as the standing explanation predicts. This also closely matches a linear
+extrapolation from the original N=1 300s finding (~140/300s -> ~467/1000s) — a real
+quantitative consistency check across an entirely different network size, not just the same
+qualitative shape.
+
+**Apre=0.005's genuine bounded stability replicates cleanly, numbers included:** trajectory
+plots show all 20 replicates climb from 0 to ~0.3-0.5 over the first ~100-150s then settle into
+a flat band for the remaining ~850s (aggregate settled mean +0.346, matching the N=1 ensemble's
+own settled-region numbers of ~0.35-0.36 closely). 2/20 replicates settle into a visibly lower
+(~0.15-0.25) but still clearly positive band — the same shape as the N=1 ensemble's seed 2006
+discrete reorganization, now seen twice independently in a different network. No replicate, at
+any point in the full 1000s, came within even 0.1 of crossing zero.
+
+**Apre=0.02 refines rather than contradicts the N=1 characterization -- inspected via full
+trajectory plots, not the summary table alone, per the standing discipline:** visually, every
+replicate fluctuates continuously and chaotically across the entire 1000s with no settling
+(matches N=1's "no visible stable separation" read exactly). But the correlated>uncorrelated
+**direction** never flips: all 20 replicates stay positive the entire run, and even the
+closest-approach replicate (seed 3004, neuron 4, min +0.002) only brushes zero twice, briefly,
+spending the overwhelming majority of 1000s clearly positive (0.15-0.5 range). N=1's original
+300s snapshot never claimed the gap went negative either (its own numbers were 0.330 mid-run ->
+0.228 late-run, still positive) -- "no visible stable separation" was correctly describing the
+lack of *settling*, not a sign flip. The population data adds real precision N=1 didn't have at
+300s: differentiation *direction* is robust even when its magnitude never settles, across 20
+independent replicates and over more than 3x the original observation window.
+
+**Honest scope caveat:** this tests whether the mechanism generalizes *across independent
+instances* of itself (does replicating the exact single-neuron rig 5 times produce the same
+statistical signature), not genuine population-level phenomena from neurons sharing or
+competing over common input -- that design was tried first and found not to produce any
+inter-neuron divergence at all (see above). A literal shared-input competitive population is a
+different, unbuilt experiment.
+
+**Verdict:** no evidence that any of the single-neuron STDP findings are single-neuron
+artifacts. Reversal-frequency invariance, Apre005's genuine bounded stability, and Apre02's
+noisy-but-directionally-robust differentiation all replicate across 5 independently-instantiated
+neurons and 4 seeds (20 total replicates), with reversal frequency matching the N=1 rate
+quantitatively. The explicit stability-definition decision (individual-synapse convergence vs.
+population-level readout tolerating member churn) that this extension was meant to inform is
+still open -- not decided here, flagged for the next round.
+
+---
+
 ## 2026-07-20 — Does Apre=0.005's stability reflect genuine boundedness, or insufficient observation time? 8-seed, 5000s ensemble
 
 **Notebook:** `notebooks/brian2/brian2_stdp_apre005_long_ensemble.ipynb` (loads results,

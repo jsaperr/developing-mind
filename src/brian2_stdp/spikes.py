@@ -66,3 +66,33 @@ def build_presynaptic_input(target_rate_hz, p_share, duration_s, rng, jitter_ms=
     all_t = np.concatenate([corr_t, uncorr_t])
     order = np.argsort(all_t)
     return all_idx[order], all_t[order] * second
+
+
+def build_population_presynaptic_input(n_post, target_rate_hz, p_share, duration_s, rng,
+                                        jitter_ms=2.0, n_correlated=10, n_uncorrelated=10):
+    """n_post independent presynaptic blocks (each its own build_presynaptic_input draw, same
+    generative process, independent randomness), concatenated into one global index space --
+    block b occupies global presynaptic indices [b*n_pre_per_neuron, (b+1)*n_pre_per_neuron).
+
+    This is the real symmetry-breaking for a population network: giving every postsynaptic
+    neuron a literally different input, rather than nudging shared-input initial weights, which
+    was tried first and found NOT to produce divergent postsynaptic neurons -- the LIF hard
+    reset (`v = v_reset` on every spike) erases pre-spike membrane differences every interspike
+    interval, and threshold-crossing timing turned out to be robust to small weight jitter, so
+    all neurons converged to bit-identical trajectories despite different starting weights.
+
+    Returns (indices, times_with_units) ready for SpikeGeneratorGroup(n_post * n_pre_per_neuron,
+    indices, times), plus n_pre_per_neuron for use by build_network's block-diagonal connect.
+    """
+    n_pre_per_neuron = n_correlated + n_uncorrelated
+    all_idx, all_t = [], []
+    for b in range(n_post):
+        idx, t = build_presynaptic_input(target_rate_hz, p_share, duration_s, rng,
+                                          jitter_ms=jitter_ms, n_correlated=n_correlated,
+                                          n_uncorrelated=n_uncorrelated)
+        all_idx.append(idx + b * n_pre_per_neuron)
+        all_t.append(t)
+    combined_idx = np.concatenate(all_idx)
+    combined_t = np.concatenate([arr / second for arr in all_t])
+    order = np.argsort(combined_t)
+    return combined_idx[order].astype(int), combined_t[order] * second, n_pre_per_neuron

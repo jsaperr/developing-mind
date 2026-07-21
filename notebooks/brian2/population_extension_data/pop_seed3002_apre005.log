@@ -1,0 +1,3 @@
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([4.86301448e-04, 2.65773713e-03, 4.39729463e-03, ...,
+       9.99999359e+02, 9.99999698e+02, 9.99999886e+02]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+seed 3002 apre=0.005 -> pop_seed3002_apre005.json

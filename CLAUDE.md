@@ -37,18 +37,33 @@ stability is genuine-but-probabilistic, not absolute: bounded away
 from collapse in the large majority of realizations tested, but the
 settled level isn't architecturally guaranteed identical across all of
 them (see experiments_brian2.md's 8-seed ensemble entry for the full
-result — not duplicated here).
+result — not duplicated here). RESOLVED, whether any of this was a
+single-neuron artifact: a 5-neuron population extension (independent
+replicates of the same mechanism, 4 seeds x 2 Apre values) found no
+evidence it was — reversal-frequency invariance replicated
+quantitatively (matched the N=1 rate almost exactly), Apre=0.005's
+bounded stability replicated cleanly, and Apre=0.02's noisy-but-
+directionally-robust differentiation refined rather than contradicted
+the N=1 read (see experiments_brian2.md's population-extension entry).
+
+RESOLVED, the stability-definition decision: this layer needs a
+stable population-level readout tolerating individual-synapse churn,
+not individual-synapse convergence — the latter is unmeetable in this
+system as built (reversal frequency is Apre-invariant everywhere
+tested, so no synapse ever truly settles), while the former is what's
+actually been robustly measured this whole arc. See principles.md's
+named decision entry for the full defense, including the explicit
+caveat that this is earned at the single-neuron/many-synapses scale
+but still an extrapolation, not a result, at the many-neuron/shared-
+population scale relevant to feeding a Hopfield layer.
 
 Open/blocked, not being chased right now:
 - Episodic layer: variable-size-X primacy/recency ordering, blocked on
   context/phase-awareness that doesn't exist yet.
-- STDP: everything so far is N=1 (single postsynaptic neuron) — a
-  population extension (3-5 neurons, same mechanism) is planned to
-  check whether Apre-invariance/boundedness findings generalize or are
-  single-neuron artifacts. An explicit named stability-definition
-  decision (individual-synapse convergence vs. population-level
-  readout tolerating member churn) is planned for `principles.md`,
-  informed by that extension once it runs.
+- STDP: a literal shared-input/competitive population (as opposed to
+  independent replicates, which is what was actually tested) is a
+  separate, unbuilt experiment — needed to close the many-neuron gap
+  flagged above.
 
 NOT yet built: per-event step-size characterization for high-Apre
 instability, more STDP/SNN work beyond this, BindsNET, ESN probing,
