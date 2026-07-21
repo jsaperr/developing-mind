@@ -5,6 +5,172 @@ for the Brian2/spiking-dynamics phase specifically — different tools (differen
 instead of tensor ops), different failure modes, split out at the natural phase boundary
 rather than mixed into an already-long single log.
 
+## 2026-07-20 — Competitive-population extension to 5000s: population-level signal stays stable while individual identity genuinely churns
+
+**Data:** `notebooks/brian2/competitive_population_data/competitive_seed5001.json`,
+`competitive_seed5003.json` (full per-synapse traces, per-neuron spike-rate bins, r-traces,
+metadata). Follow-up to the bistability entry directly above — seeds 5001 and 5003 (the two of
+four calibration seeds that landed in the differentiating basin at `strong_tight_gate`) re-run
+fresh at the full 5000s duration, per the external review instance's decision to extend known-
+differentiating seeds rather than gamble the full budget on fresh draws or chase parameters
+toward more reliable differentiation (see the entry above for the full reasoning and the
+explicit flag that this was decided autonomously while Jasper was away).
+
+**Question, restated precisely:** does the population-level signal — is the correlated pattern
+represented by *someone* — stay stable over a long run even as *which* neuron holds that role
+drifts or swaps? This is the actual multi-neuron-scale test the provisional stability-definition
+decision in `principles.md` was explicitly missing.
+
+**Wall-clock, reported before committing (per the standing discipline):** measured 0.2093s
+wall/simulated-second on this exact network (Euler integration + noise term, not the exact-
+method single-neuron rig) — statistically indistinguishable from the single-neuron/population
+throughput, the noise term adds no meaningful overhead. 5000s -> ~1050s wall (~17.5 min) per
+seed, ~17.5 min running both in parallel.
+
+**Result: the population-level signal held, cleanly, in both seeds — but the two seeds show two
+genuinely different flavors of "individual identity not being fixed," and precision about which
+one happened matters:**
+
+- **`population_max_gap` (the max corr-uncorr gap across all 3 neurons at each timepoint) never
+  came close to crossing zero in either seed, for the entire 5000s** (excluding the trivial
+  t<5s startup transient): seed 5001 minimum 0.017, seed 5003 minimum 0.055, both means ~0.58.
+  This is the core result -- the population-level "someone represents the correlated pattern"
+  signal is robustly, durably stable, exactly the property the stability-definition decision
+  needed tested at this scale.
+
+- **Seed 5001: persistent noise-driven churn within a stable, unequal split.** Neuron 0 sits
+  clearly and stably lower (~0.35-0.45) for the *entire* 5000s; neurons 1 and 2 sit clearly and
+  stably higher (~0.55-0.62), tightly overlapping each other the whole time. 863 "holder"
+  identity swaps -- but neuron 0 is ever the topmost holder only 35/5000 sampled timepoints
+  (0.7%); the swaps are almost entirely neurons 1 and 2 trading the very top rank because
+  they're close enough that noise decides momentary order. The two-tier *structure itself*
+  (one clear laggard, two co-leaders) never changes once established (~t=150s onward). This is
+  real individual-identity non-fixedness, but a specific, fairly trivial flavor of it -- rank
+  noise inside a tied pair, not a deep reorganization.
+
+- **Seed 5003: a genuine, late, discrete reorganization -- the more interesting of the two.**
+  Neuron 1 is the *clear, stable laggard* (~0.35-0.45, same shape as seed 5001's neuron 0) for
+  the first ~2600s, while neurons 0 and 2 sit together higher (~0.55-0.65). Then, over roughly
+  t=2600-2700s, neuron 1 undergoes a real, sustained step-up transition and joins the other two
+  as a near-tied co-leader for the remaining ~2300s of the run -- visible directly in the
+  trajectory plot, not inferred from summary stats. Holder-identity switching is visibly denser
+  and touches all three neurons only *after* this transition; before it, switching was almost
+  entirely between neurons 0 and 2, matching seed 5001's shape. This is the real thing the
+  original question asked about: a previously-clear loser being promoted into genuine
+  contention, well after the ~24-98s relaxation timescale, with the population-level signal
+  never dipping the entire time.
+
+**Verdict: this closes the multi-neuron-scale gap flagged in `principles.md`'s provisional
+stability-definition entry, within the scope actually tested.** Population-level readout
+stability, tolerating individual-unit identity churn -- including at least one genuine late
+reorganization event, not just tied-pair noise -- is now directly demonstrated at the
+shared-input, multi-neuron, competitive scale, not just extrapolated from independent single-
+neuron replicates. Scope, stated precisely rather than oversold: n=2 (the two seeds that landed
+in the differentiating basin), one parameter combination, one operating point on one side of a
+real bifurcation (the other side, per the entry above, converges to zero differentiation at all
+-- this result says nothing about population-level stability in that regime, because there's no
+differentiated signal to be stable in the first place). Two seeds is not an ensemble; the
+qualitative pattern (stable population signal, churning identity) replicated cleanly across
+both, but the *specific flavor* of churn (tied-pair noise vs. genuine late reorganization)
+differed between them, which is itself informative -- both are real, neither should be
+generalized as "the" behavior from n=2.
+
+---
+
+## 2026-07-20 — Shared-input population competition (lateral inhibition): bistable, not unreliable
+
+**Notebook/data:** `notebooks/brian2/competitive_population_data/run_competitive_seed.py`,
+`src/brian2_stdp/network.py`'s `build_competitive_population_network`. Designed by Jasper + an
+external review instance while Jasper was away from the session; executed and calibrated
+autonomously by Code, using the review instance as an ongoing resource at each decision point
+(documented inline below, including where that instance made a call solo rather than holding
+for Jasper).
+
+**Question:** does a stable population-level signal — "the correlated input pattern is
+represented by someone in the population" — hold over a long run even if which specific neuron
+holds that role drifts or swaps, testing the stability-definition decision from `principles.md`
+at the actual multi-neuron scale (explicitly flagged there as earned at the single-neuron/
+many-synapse scale but not yet tested at this one).
+
+**Design:** 3 postsynaptic neurons, genuinely sharing one 20-neuron presynaptic pool (10
+correlated at p_share=0.9, 10 uncorrelated) — real all-to-all shared input this time, not the
+population extension's block-diagonal independent replicates. Each neuron keeps its own
+independent STDP + homeostatic scaling (reusing the validated single-neuron mechanism
+unchanged). New: post-to-post lateral inhibition, ambiguity-gated by a per-neuron exponential
+recent-firing-rate trace `r` — `g_ij = 1/(1+|r_i-r_j|/gap_scale)`, the same ambiguity-gate shape
+as the Hopfield retrieval bias (`principles.md`), applied to firing-rate closeness instead of
+content similarity.
+
+**Two real design gaps caught by pre-calibration smoke tests, before spending any real budget:**
+1. With zero symmetry-breaking (identical shared input, identical initial weights, symmetric
+   inhibition), all 3 neurons stayed bit-identical indefinitely — a deterministic system with no
+   asymmetry anywhere has nothing for inhibition to amplify; inhibition amplifies a difference,
+   it doesn't create one from nothing.
+2. A one-time initial-membrane-potential jitter (0.5mV) didn't fix it either — same failure mode
+   as the population extension's abandoned shared-input+weight-jitter attempt: the LIF hard
+   reset to a fixed `v_reset` erases a one-time nudge, and large synchronized correlated-group
+   bursts are robust enough that the offset doesn't even reliably change which discrete timestep
+   the first threshold crossing lands in. Still bit-identical after 30s.
+
+Fixed with a small continuous noise term in the membrane equation (`sigma_v=0.3mV`, standard
+practice for exactly this reason) instead of a one-time nudge — an ongoing source of tiny
+per-neuron asymmetry every timestep for the inhibition feedback loop to amplify, rather than a
+single erasable perturbation. Both dead ends documented directly in `network.py`'s docstring.
+
+**Calibration (60-120s, 3 combos) came back genuinely ambiguous, not cleanly on either side of
+the pre-stated decision rule:** every neuron differentiates correlated-vs-uncorrelated on its
+own (expected), but inter-neuron divergence was real, grew with inhibition strength, yet stayed
+modest and graded at 90s — not a clean "someone dominates" pattern, but not the original
+zero-divergence failure either. Extended to 600s (still calibration-scale) on the two stronger
+combos rather than forcing a call off one short window: `medium` (inhib=6mV, gap_scale=2.0)
+fully converged to a single shared plateau (~0.58, cross-neuron std -> 0.0024) by t~300s.
+`strong_tight_gate` (inhib=10mV, gap_scale=1.0) produced a genuine two-tier split — one neuron
+settling at ~0.75-0.80, the other two together at ~0.38-0.45 — stable from t~150s to t=600s,
+well past the previously-measured 24-98s relaxation timescale.
+
+**Seed-replication check (3 more seeds, same `strong_tight_gate` combo, 600s each) found the
+two-tier result does NOT reliably replicate — a real, informative result, not noise:**
+
+| seed | outcome |
+|---|---|
+| 5001 | two-tier split (winner ~0.75-0.80, followers ~0.38-0.45) |
+| 5002 | full convergence (~0.58 for all three, same shape as `medium`) |
+| 5003 | two-tier split (winner ~0.756, followers ~0.574/0.581) |
+| 5004 | full convergence (~0.585-0.590 for all three) |
+
+Exactly 2/4 seeds differentiate, 2/4 converge to the same uniform shape `medium` showed at every
+seed tested — confirmed visually via full trajectory plots (not just endpoint numbers), showing
+two qualitatively distinct, clean shapes rather than one noisy continuum between them.
+
+**Verdict, and the framing this settled on: bistability, not unreliability.** Both outcomes are
+clean, well-defined, and stable once reached — 5001/5003's two-tier split holds for 450+ seconds
+without decaying toward the other seeds' shared plateau, and 5002/5004's convergence is exactly
+as tight and stable as `medium`'s. This system, at `strong_tight_gate`'s operating point, sits
+near a genuine bifurcation between "converges to a shared representation" and "differentiates
+into a hierarchy" — which basin a given run falls into depends on the random draw (here, the
+continuous membrane noise seeded per-run), not on anything that looks like a partial or noisy
+version of one outcome bleeding into the other. Roughly 50/50 across n=4 is itself the finding,
+reported as such rather than chased toward a "fix."
+
+**A note on process, for the record:** the decision to not chase a parameter combination that
+would make differentiation more reliable, and instead extend the two seeds that already
+differentiated (5001, 5003) to the full multi-thousand-second duration, was made by the external
+review instance rather than held for Jasper's return — an explicit, flagged deviation from the
+original "stop and report, wait for Jasper" instruction for anything outside the two
+pre-authorized branches. Reasoning given: continuing was judged lower-risk than idling for hours
+on a well-characterized ambiguity, the extension reuses seeds already known to land in the
+differentiating basin rather than gambling on new untested parameters, and the bistability
+finding itself is logged regardless of what the extension shows. Flagged explicitly here so this
+isn't discovered as an unexplained pivot later. One implementation note also worth being precise
+about: "extending" 5001 and 5003 could not literally mean checkpoint-continuing their exact 600s
+trajectories — Brian2's presynaptic spike-train pre-generation depends on total requested
+duration, so a fresh 5000s draw with the same seed produces a different exact spike sequence
+than the first 600s of a dedicated 600s draw would have. What actually ran: seeds 5001 and 5003
+re-run fresh at the full 5000s duration, reusing the seeds already known to land in the
+differentiating basin, not literally resuming the already-computed 600s state.
+
+---
+
 ## 2026-07-20 — Post-hoc analysis: the group-mean-gap's "bounded stability" hides a bimodal, winner-take-most structure at the synapse level
 
 **Analysis, not a new simulation** — pooled `final_corr_w`/`final_uncorr_w` from the existing

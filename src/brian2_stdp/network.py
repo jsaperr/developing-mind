@@ -141,3 +141,105 @@ def build_population_network(n_post, idx, t, apre_val, n_pre_per_neuron=N_SYNAPS
     syn.run_regularly(scaling_op, dt=scaling_interval)
 
     return pre, post, syn
+
+
+# Rate-trace timescale for lateral inhibition's ambiguity gate -- deliberately slower than the
+# STDP traces (taupre/taupost=20ms) since this needs to reflect *recent firing rate*, not
+# spike-to-spike proximity. r_inc=1.0 per own spike with tau_r=200ms gives r's steady state
+# roughly on the order of rate_Hz * 0.2 (e.g. ~4 at a 20Hz baseline) -- gap_scale is calibrated
+# against that scale, not an independent absolute unit.
+TAU_R = 200 * ms
+R_INC = 1.0
+
+# A one-time initial-v jitter alone was found NOT to be enough: LIF's hard reset to a fixed
+# v_reset after the first spike wipes it out, and (as with the earlier failed shared-input+
+# weight-jitter attempt) synchronized correlated-group bursts are large enough that a small
+# one-time offset doesn't even reliably change which discrete timestep the first threshold
+# crossing lands in -- confirmed directly, all 3 neurons still came back bit-identical after
+# 30s with a 0.5mV initial jitter. Fixed with a small continuous noise term in the membrane
+# equation instead (standard practice for exactly this reason) -- this supplies an ongoing
+# source of tiny, independent asymmetry between neurons at every timestep for the inhibition
+# feedback loop to amplify, rather than a single nudge that a hard reset can erase. The
+# inhibition coupling still does the actual differentiating; this only gives it something
+# to work with, matching the same "coupling, not noise, does the differentiating" intent.
+SIGMA_V = 0.3 * mV
+
+post_eqs_competitive = """
+dv/dt = (v_rest - v)/tau + sigma_v*xi*tau**-0.5 : volt (unless refractory)
+dr/dt = -r/tau_r : 1
+w_total : 1
+"""
+
+
+def build_competitive_population_network(n_post, idx, t, apre_val, inhib_strength, gap_scale,
+                                          n_pre=N_SYNAPSES, gmax=GMAX, w_init=W_INIT,
+                                          target_total=TARGET_TOTAL,
+                                          scaling_interval=SCALING_INTERVAL,
+                                          tau_r=TAU_R, r_inc=R_INC, sigma_v=SIGMA_V):
+    """n_post postsynaptic neurons genuinely sharing one presynaptic pool, all-to-all (unlike
+    build_population_network's block-diagonal independent replicates) -- each still gets its
+    own independent STDP + homeostatic scaling on its own n_pre incoming synapses (the
+    stdp_model_homeo/stdp_on_pre/stdp_on_post/scaling_op strings are reused completely
+    unmodified from build_network/build_population_network).
+
+    New here: post-to-post lateral inhibition, ambiguity-gated by a per-neuron exponential
+    recent-firing-rate trace `r` (own spike -> r += r_inc; decays with tau_r otherwise). On a
+    postsynaptic-population spike from neuron i, neuron j gets an inhibitory kick of
+    `inhib_strength * g_ij`, where `g_ij = 1 / (1 + |r_i - r_j| / gap_scale)` -- the same
+    ambiguity-gate shape as the Hopfield retrieval bias (principles.md), just measuring the gap
+    between two neurons' recent rates instead of a top1-top2 content-similarity gap. Two
+    neurons with clearly different recent rates get weak inhibition (the gap can keep growing);
+    two neurons with near-equal recent rates get strong inhibition (forced differentiation).
+    inhib_strength: a Brian2 voltage Quantity (e.g. 5*mV), NOT a bare float, matching gmax's
+    convention. gap_scale: a bare float, compared against |r_i - r_j| (see TAU_R note above).
+
+    An earlier shared-input attempt (no lateral inhibition, just initial-weight jitter) failed
+    to produce any divergence at all -- LIF's hard reset erases pre-spike membrane differences
+    every interspike interval, and spike timing was robust to the jitter tried. This adds actual
+    coupling between neurons instead of relying on noise to break symmetry.
+
+    A perfectly symmetric starting point still needs *something* to seed a direction, though.
+    Caught by pre-calibration smoke tests, in two stages: (1) with identical shared input,
+    identical initial weights, and symmetric inhibition, all n_post neurons stayed bit-identical
+    the entire run -- a deterministic system with zero asymmetry anywhere has no direction to
+    differentiate toward, no matter how strong the inhibition is; inhibition amplifies a
+    difference, it doesn't create one from nothing. (2) A one-time initial-v jitter (tried
+    first) did NOT fix it either -- the hard reset to a fixed v_reset after the first spike
+    wipes out a one-time nudge, and (matching the earlier failed weight-jitter attempt) large
+    synchronized correlated-group bursts are robust enough that a small one-time offset doesn't
+    even reliably change which discrete timestep the first threshold crossing lands in; all 3
+    neurons still came back bit-identical after 30s. Fixed with `sigma_v`, a small *continuous*
+    noise term in the membrane equation (standard practice for exactly this reason) -- an
+    ongoing source of tiny independent per-neuron asymmetry every timestep, for the inhibition
+    feedback loop to amplify at any point, not a single erasable nudge. The inhibition coupling
+    still does the actual differentiating; this only gives it something to work with. Requires
+    `method="euler"` instead of `"exact"` -- Brian2's exact/analytic integrator doesn't support
+    stochastic (`xi`) terms.
+
+    Returns (pre, post, syn, inhib). `g_ij(t)` is deliberately NOT stored as its own monitored
+    variable -- it's fully reconstructable post-hoc from a saved `r` trace (`g_ij(t) = 1 / (1 +
+    abs(r_i(t) - r_j(t)) / gap_scale)`) plus the known `gap_scale`, so record `r` instead of
+    duplicating that computation into the simulation.
+    """
+    apost_val = apre_to_apost(apre_val)
+
+    pre = SpikeGeneratorGroup(n_pre, idx, t)
+    post = NeuronGroup(n_post, post_eqs_competitive, threshold="v>v_thresh",
+                        reset="v=v_reset; r += r_inc", refractory=t_ref, method="euler",
+                        namespace={**_neuron_namespace(), "tau_r": tau_r, "r_inc": r_inc,
+                                   "sigma_v": sigma_v})
+    post.v = v_rest
+    post.r = 0
+
+    syn = Synapses(pre, post, model=stdp_model_homeo, on_pre=stdp_on_pre, on_post=stdp_on_post,
+                    namespace=_synapse_namespace(apre_val, apost_val, gmax, target_total))
+    syn.connect()  # genuine all-to-all: every presynaptic neuron feeds every postsynaptic neuron
+    syn.w = w_init
+    syn.run_regularly(scaling_op, dt=scaling_interval)
+
+    inhib = Synapses(post, post,
+                      on_pre="v_post -= inhib_strength / (1 + abs(r_pre - r_post) / gap_scale)",
+                      namespace={"inhib_strength": inhib_strength, "gap_scale": gap_scale})
+    inhib.connect(condition="i != j")
+
+    return pre, post, syn, inhib

@@ -86,3 +86,47 @@ def compute_population_metrics(trace, syn_i, syn_j, n_post, n_corr=10):
             "final_w": sub_trace[:, -1],
         }
     return results
+
+
+def compute_competitive_metrics(weight_trace, syn_i, syn_j, n_post, n_corr=10):
+    """Population-level metrics for the shared-input competitive population (built with
+    network.build_competitive_population_network -- genuine all-to-all shared input, not
+    block-diagonal, so syn_i's meaning (correlated < n_corr) is the same for every postsynaptic
+    neuron rather than block-relative).
+
+    weight_trace: shape (n_synapses, n_timepoints), rows in synapse creation order.
+    syn_i/syn_j: presynaptic/postsynaptic index per synapse, same order as weight_trace's rows.
+
+    Returns:
+      per_neuron_gap: shape (n_post, n_timepoints) -- each neuron's own corr_w-uncorr_w gap.
+      population_max_gap: shape (n_timepoints,) -- max per_neuron_gap across neurons at each
+        timepoint. The primary "is the correlated pattern represented by *someone*" signal.
+      holder_identity: shape (n_timepoints,) int -- argmax_j(per_neuron_gap) at each timepoint,
+        i.e. which neuron currently "holds" the strongest representation. Track this over time
+        (not just its final value) to see whether identity swaps during a run, independent of
+        whether the population-level signal itself stays stable.
+    """
+    per_neuron_gap = np.zeros((n_post, weight_trace.shape[1]))
+    for j in range(n_post):
+        mask = syn_j == j
+        w_j = weight_trace[mask]
+        i_j = syn_i[mask]
+        order = np.argsort(i_j)
+        w_j = w_j[order]
+        per_neuron_gap[j] = w_j[:n_corr].mean(axis=0) - w_j[n_corr:].mean(axis=0)
+
+    population_max_gap = per_neuron_gap.max(axis=0)
+    holder_identity = per_neuron_gap.argmax(axis=0)
+
+    return {
+        "per_neuron_gap": per_neuron_gap,
+        "population_max_gap": population_max_gap,
+        "holder_identity": holder_identity,
+    }
+
+
+def count_identity_swaps(holder_identity):
+    """Number of times holder_identity (from compute_competitive_metrics) changes value --
+    how many times the "who currently best represents the correlated pattern" role swapped
+    over the run."""
+    return int(np.sum(np.diff(holder_identity) != 0))

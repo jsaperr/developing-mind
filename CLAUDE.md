@@ -51,19 +51,28 @@ stable population-level readout tolerating individual-synapse churn,
 not individual-synapse convergence — the latter is unmeetable in this
 system as built (reversal frequency is Apre-invariant everywhere
 tested, so no synapse ever truly settles), while the former is what's
-actually been robustly measured this whole arc. See principles.md's
-named decision entry for the full defense, including the explicit
-caveat that this is earned at the single-neuron/many-synapses scale
-but still an extrapolation, not a result, at the many-neuron/shared-
-population scale relevant to feeding a Hopfield layer.
+actually been robustly measured this whole arc. TESTED DIRECTLY at the
+many-neuron/shared-input scale too (not just extrapolated anymore): a
+genuine shared-input competitive population (lateral inhibition
+between postsynaptic neurons, ambiguity-gated the same way as the
+Hopfield retrieval bias) held a stable population-level signal for
+5000s in both seeds that reached a differentiated state, including one
+real late identity reorganization (a laggard neuron promoted into
+contention mid-run), not just tied-pair noise. Scope stays real,
+though: n=2 seeds, one operating point, and only on the differentiating
+side of a genuine bifurcation this same experiment found — the other
+side (also ~half the seeds tested) converges to zero differentiation
+entirely, which this result says nothing about. See principles.md's
+named decision entry for the full defense and precise scope, and
+experiments_brian2.md's two newest entries for the full run.
 
 Open/blocked, not being chased right now:
 - Episodic layer: variable-size-X primacy/recency ordering, blocked on
   context/phase-awareness that doesn't exist yet.
-- STDP: a literal shared-input/competitive population (as opposed to
-  independent replicates, which is what was actually tested) is a
-  separate, unbuilt experiment — needed to close the many-neuron gap
-  flagged above.
+- STDP: a proper multi-seed ensemble at the competitive-population
+  scale (the above is n=2, not an ensemble), and whether the
+  converge-vs-differentiate bifurcation appears at other operating
+  points, are both real, unstarted follow-ups.
 
 NOT yet built: per-event step-size characterization for high-Apre
 instability, more STDP/SNN work beyond this, BindsNET, ESN probing,

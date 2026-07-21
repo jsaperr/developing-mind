@@ -44,16 +44,23 @@ resonance activation.
 
 ## Named decision: what "stability" means for the STDP layer (2026-07-20)
 
-**Status: provisional, scoped to the single-neuron/many-synapse population readout actually
-tested — not a closed architectural commitment.** The rejection of (a) below is a fact about
-the system, not scoped to any one scale, and doesn't need revisiting. The adoption of (b) is
-earned at the scale tested (many synapses onto one neuron) and extrapolated, not proven, to
-the scale this decision is meant to describe (many neurons forming a joint population code —
-the scale that actually feeds a Hopfield layer). Revisit this entry, not just extend it, if
-the shared-input competitive population experiment (flagged, not started) shows the aggregate
-signal doesn't stay stable once neurons genuinely compete for shared resources — two nested
-competitive dynamics instead of one, and nothing guarantees the outer one inherits the inner
-one's stability property for free.
+**Status: (b) is now directly tested at the multi-neuron scale, not just extrapolated — within
+a specific, stated scope, not a closed/exhaustive result.** The rejection of (a) below is a
+fact about the system, not scoped to any one scale, and doesn't need revisiting. The adoption
+of (b) was earned at the single-neuron/many-synapse scale when this entry was first written,
+then extrapolated (not proven) to the many-neuron/shared-input scale this decision was actually
+meant to describe. That extrapolation has since been tested directly: a genuine shared-input
+competitive population (all-to-all input, lateral inhibition between postsynaptic neurons) held
+a stable population-level signal for 5000s in both seeds that reached a differentiated state —
+including one seed with a real, late, discrete identity reorganization (a previously-clear
+laggard neuron promoted into contention around t~2600s), not just tied-pair noise (see
+experiments_brian2.md's "Competitive-population extension to 5000s" entry for the full result).
+Remaining scope, stated precisely: n=2, one parameter combination, and only on the
+differentiating side of a genuine bifurcation this same experiment found — the other side
+converges to zero differentiation entirely (also n=2 of the 4 seeds tested at that combination),
+so this says nothing about population-level stability where there's no differentiated signal to
+be stable in the first place. Revisit this entry again if a broader sweep (more seeds, other
+operating points) changes this picture.
 
 **The STDP layer's stability requirement is a population-level readout that tolerates
 individual-synapse churn, not individual-synapse convergence — and the data earns this now,
@@ -100,21 +107,19 @@ modification" than further from it. That's philosophical coherence, not data; it
 bonus that the choice the numbers support also happens to fit the project's stated
 commitments, not a reason to believe the numbers.
 
-**What the current dataset can't settle, stated plainly rather than glossed over:** every
-check so far — including the population extension — measured a population of *synapses onto
-one postsynaptic neuron*, not a population of *postsynaptic neurons* forming a joint ensemble
-code. The population extension deliberately used independent replicates (each neuron its own
-dedicated presynaptic block, no shared input, no competition between neurons — a shared-input
-design was tried first and found not to produce any inter-neuron divergence at all, see
-experiments_brian2.md) because that was the cheap, well-supported test actually available.
-Whether multiple postsynaptic neurons sharing or competing over common input form a stable
-joint population code — the scale that actually matters for "population code" in the
-reviewer's cortical-drift sense, and the scale a Hopfield layer fed by many such neurons would
-really depend on — has not been tested by anything run so far. Choosing (b) at the
-single-neuron/many-synapses scale is earned by real data. Assuming it also holds at the
-many-neuron/shared-population scale is an extrapolation, not a result, and should be treated
-as one until the shared-input competitive population experiment (flagged, not started, see
-experiments_brian2.md) actually closes that gap.
+**What's now settled at the multi-neuron scale, and what still isn't, stated plainly rather
+than glossed over:** the population extension (independent replicates, no shared input, no
+competition — a shared-input design was tried first there and found not to produce any
+inter-neuron divergence at all) was the cheap test available at the time, and it only measured
+a population of *synapses onto one postsynaptic neuron*. The competitive-population follow-up
+(genuine shared input, lateral inhibition) closes that specific gap: a population of
+*postsynaptic neurons*, genuinely sharing input and coupled through real competition, does show
+a stable joint signal with churning individual identity — at least in the differentiating basin
+of the bifurcation this experiment found. What's still open: only n=2 seeds, one parameter
+combination, and the whole thing is contingent on landing in the differentiating basin at all
+(roughly half of seeds at this operating point converge to zero differentiation instead — see
+experiments_brian2.md's bistability entry). A proper ensemble at this scale, and whether other
+operating points show the same bifurcation structure, remain real, unstarted follow-ups.
 
 ## How to fail correctly
 
