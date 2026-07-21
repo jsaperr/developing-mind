@@ -16,9 +16,10 @@ for it unless the task needs architectural grounding, principles.md is
 the load-bearing summary for day-to-day work.
 
 ## Experiment logs
-Two files, split at the phase boundary: `experiments.md` for
+Three files, split at phase boundaries: `experiments.md` for
 Hopfield/two-layer-memory/episodic-layer work, `experiments_brian2.md`
-for the Brian2/SNN phase. Check whichever matches the task.
+for the Brian2/SNN phase, `experiments_esn.md` for the Echo State
+Network phase. Check whichever matches the task.
 
 ## Current build state
 Hopfield two-layer + episodic grow-and-prune work is closed out — see
@@ -83,18 +84,36 @@ the original 20 (n=50) moved the chi-square away from significance
 underdetected real effect. Was noise from early-relaxation-window
 lock-in, not a positional bias in the generation code.
 
+ESN (new third phase, `experiments_esn.md`): stage 1 (memory-capacity
+characterization) done — a minimal 300-unit leaky-integrator reservoir
+gives a real, non-degenerate memory-capacity/spectral-radius curve
+(peaks ~5.75 near spectral_radius=1.1, ~37-step effective memory
+horizon there). All three two-layer decay constants (`decay_fast`,
+`consolidation_rate`, `decay_char`) sit beyond that horizon, even the
+fastest one — the two-layer memory's persistence isn't something a
+modestly-sized passive reservoir provides for free, consistent with
+why a dedicated consolidation mechanism was needed. Comparison is an
+order-of-magnitude sanity check, not a rigorous unit conversion — see
+experiments_esn.md for the full caveat. STAGE 2 (episodic-layer
+context-signal follow-up) IS EXPLICITLY NOT STARTED — deferred pending
+a separate go-ahead per the original design message. Don't start it
+without being asked.
+
 Open/blocked, not being chased right now:
 - Episodic layer: variable-size-X primacy/recency ordering, blocked on
-  context/phase-awareness that doesn't exist yet.
+  context/phase-awareness that doesn't exist yet — ESN stage 2 is a
+  candidate approach for this, not yet attempted.
 - STDP: a measured distribution over the individual-level regimes
   (the above is a typology at n=7, not a frequency estimate), and
   whether the converge-vs-differentiate bifurcation appears at other
   operating points, are both real, unstarted follow-ups. The bimodal
   structure's timing dynamics (no per-synapse traces saved from the
   early ensembles) are also still open.
+- ESN: whether a larger reservoir closes the gap to the two-layer
+  decay constants' timescales is untested.
 
 NOT yet built: per-event step-size characterization for high-Apre
-instability, more STDP/SNN work beyond this, BindsNET, ESN probing,
+instability, more STDP/SNN work beyond this, BindsNET, ESN stage 2,
 anything neuromorphic beyond the install check, metacog, cross-
 substrate principle-transfer experiments. Don't jump ahead to those
 unless explicitly asked.
