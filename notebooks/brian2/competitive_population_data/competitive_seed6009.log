@@ -1,0 +1,3 @@
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([2.74063172e-04, 1.15286746e-02, 1.37180482e-02, ...,
+       4.99999534e+03, 4.99999739e+03, 4.99999876e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+seed 6009 -> C:/Users/urawi/OneDrive/Desktop/a wide variety of vscode projects/developing-mind/notebooks/brian2/competitive_population_data/competitive_seed6009.json

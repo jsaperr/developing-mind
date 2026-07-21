@@ -5,6 +5,99 @@ for the Brian2/spiking-dynamics phase specifically — different tools (differen
 instead of tensor ops), different failure modes, split out at the natural phase boundary
 rather than mixed into an already-long single log.
 
+## 2026-07-21 — Seed expansion (n=2 -> n=7): individual-identity behavior is a spectrum, population signal is the invariant across all of it
+
+**Data:** `notebooks/brian2/competitive_population_data/competitive_seed6001.json`,
+`competitive_seed6002.json`, `competitive_seed6007.json`, `competitive_seed6008.json`,
+`competitive_seed6009.json` (full traces, same format as 5001/5003). Follow-up to the entry
+below, per Jasper + the external review instance: the original result rested on exactly 2 seeds
+that happened to land in the differentiating basin — before treating it as a settled result
+rather than "we saw it twice," it needed a real sample.
+
+**Design:** same `strong_tight_gate` combo (inhib=10mV, gap_scale=1.0), 600s calibration-scale
+check across 10 fresh seeds (6001-6010, no overlap with 5001-5004), sorted into the two known
+basins by the same numeric criterion as before (late-window cross-neuron gap std > 0.03 =
+differentiate). Every differentiating seed extended to the full 5000s; converging seeds not
+extended (nothing to track over time in that branch).
+
+**Basin split confirms the original ratio wasn't noisy at small n:** 5/10 differentiate (6001,
+6002, 6007, 6008, 6009), 5/10 converge (6003, 6004, 6005, 6006, 6010) — landing almost exactly
+on the original 4-seed ratio (2/4 = 50%). With n=4 alone the true rate could plausibly have been
+anywhere from ~20-80%; with n=14 total now sitting at ~50%, that's a meaningfully tighter bound.
+Stated as its own small result, not just background on the way to the extension numbers — and
+explicitly *not* claimed as a precise rate, just a much narrower plausible range than n=4 gave.
+
+**Wall-clock, checked rather than assumed:** running all 5 extensions in parallel (vs. 2 for the
+original pair) came in at ~1465-1496s per seed (avg ~1480s) — about 25% slower than the
+2-parallel baseline of ~1180s. Real degradation going from 2 to 5 concurrent processes on 6
+physical cores, not the clean linear scaling assumed going in. Worth having for sizing future
+batches at this concurrency level.
+
+**A false alarm caught before it went in the log:** seed 6002 initially showed
+`population_max_gap` min=-0.0081 after excluding t<5s, which looked like the first real
+zero-crossing among any differentiating seed. Checked precisely: it's a single sample at
+exactly t=5.0s, the tail edge of the initial climb from zero, not a genuine late-run crossing.
+Not an exception — flagged and dropped before being reported as one.
+
+**Result: population-level signal held in all 7 differentiating seeds, no exceptions.** Every
+seed's `population_max_gap` stayed clearly positive for the full 5000s once the trivial startup
+transient is excluded. That's the core, invariant finding, and it's the same across everything
+described below.
+
+**What varies is how much individual-level structure ever locks in, and for how long -- a
+spectrum, not a clean binary, and richer than the original two categories anticipated (this is
+the ambiguous-middle case explicitly flagged as worth its own honest treatment rather than being
+forced into an existing bucket):**
+
+- **Near-permanent individual lock-in (5001, 6002):** a hierarchy forms early (~t=150s) and
+  never changes structurally for the rest of the run. The only churn is noise-level rank-trading
+  between two neurons close enough that it doesn't matter (5001's original 863-swap case).
+
+- **Individual lock-in, but not permanent -- one real structural transition, then a new
+  hierarchy locks in and holds (5003, 6007, 6001):** worth keeping the sub-flavors visible
+  rather than flattening them, since they're genuinely different mechanisms:
+  - *Laggard promoted* (5003): a clear laggard (~0.35-0.40) rises to join the leader tier
+    (~0.58) at t~2600s, late, well past relaxation.
+  - *Intermediate promoted, earlier* (6007): a neuron starting at an intermediate level (~0.47,
+    between the laggard at ~0.40 and the leader at ~0.58) rises to join the leader by t~1000s;
+    the actual laggard is untouched throughout.
+  - *Leader-pair-internal merge* (6001): one leader starts elevated (~0.73) and decays down to
+    match its partner (~0.58) by t~2000-2500s; the laggard is untouched throughout -- a
+    reorganization within the leader tier, not a laggard promotion at all.
+
+- **Individual lock-in never happens, ever (6008, 6009) -- and this is the strongest instance
+  of the stability-definition decision found so far, not just an odd third case:** no hierarchy
+  forms at any point across the full 5000s. 6009's per-neuron gaps are already near-identical
+  (0.58/0.58/0.59) in the very first sampled window (t=100-500s) and stay that way the entire
+  run -- never shows a laggard phase at all. 6008 starts closer together than any other
+  differentiating seed (0.53/0.52/0.58 early) and locks into near-parity by t~1000s. Both then
+  show constant, large-amplitude reshuffling among all three neurons for the rest of the run --
+  1203 and 1353 holder-identity swaps respectively, the two highest counts of all 7 seeds.
+  Genuinely different from the *converged* seeds (which lock tightly together at every instant,
+  cross-neuron std ~0.007-0.01): 6008/6009 keep real ongoing spread at any given moment, they
+  just never let any one neuron settle into a stable lead or lag. **A stable population-level
+  readout with *zero* persistent individual identity, not even a temporary one** -- if the
+  population-readout framing in `principles.md` were challenged on "sure, but individual units
+  mostly do settle down eventually," 6008/6009 are the direct counterexample.
+
+**Framing, stated precisely rather than oversold:** this is a typology observed at n=7
+(2 near-permanent-lock-in, 3 one-transition in two sub-flavors, 2 never-locks-in), not a
+distribution. Do not read "3/7 show reorganization" as a stable ~40% rate -- the relative
+frequency of each regime is unknown at this sample size, only the existence of all three regimes
+and the invariance of the population-level signal across them are established. The one precise
+rate this entry does support is the ~50% differentiate-vs-converge basin split (see above), which
+is a different question from the typology within the differentiating basin.
+
+**Verdict:** strengthens, and adds real texture to, the multi-neuron closure of the
+stability-definition decision (`principles.md`). Population-level stability isn't just
+compatible with individual-identity churn -- it's compatible with a whole spectrum of
+individual-level behavior, from near-total identity permanence through one-time reorganization
+to individual identity never resolving at all, with the population signal equally solid in every
+case tested. Not yet known: the relative frequency of each regime, or whether other operating
+points (beyond `strong_tight_gate`) show the same spectrum or something structurally different.
+
+---
+
 ## 2026-07-21 — Competitive-population extension to 5000s: population-level signal stays stable while individual identity genuinely churns
 
 **Data:** `notebooks/brian2/competitive_population_data/competitive_seed5001.json`,

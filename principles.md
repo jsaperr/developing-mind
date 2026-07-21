@@ -44,23 +44,29 @@ resonance activation.
 
 ## Named decision: what "stability" means for the STDP layer (2026-07-20)
 
-**Status: (b) is now directly tested at the multi-neuron scale, not just extrapolated — within
-a specific, stated scope, not a closed/exhaustive result.** The rejection of (a) below is a
-fact about the system, not scoped to any one scale, and doesn't need revisiting. The adoption
-of (b) was earned at the single-neuron/many-synapse scale when this entry was first written,
-then extrapolated (not proven) to the many-neuron/shared-input scale this decision was actually
-meant to describe. That extrapolation has since been tested directly: a genuine shared-input
-competitive population (all-to-all input, lateral inhibition between postsynaptic neurons) held
-a stable population-level signal for 5000s in both seeds that reached a differentiated state —
-including one seed with a real, late, discrete identity reorganization (a previously-clear
-laggard neuron promoted into contention around t~2600s), not just tied-pair noise (see
-experiments_brian2.md's "Competitive-population extension to 5000s" entry for the full result).
-Remaining scope, stated precisely: n=2, one parameter combination, and only on the
-differentiating side of a genuine bifurcation this same experiment found — the other side
-converges to zero differentiation entirely (also n=2 of the 4 seeds tested at that combination),
-so this says nothing about population-level stability where there's no differentiated signal to
-be stable in the first place. Revisit this entry again if a broader sweep (more seeds, other
-operating points) changes this picture.
+**Status: (b) is now directly tested at the multi-neuron scale across a real sample, not just
+extrapolated or shown twice — within a specific, stated scope, not a closed/exhaustive result.**
+The rejection of (a) below is a fact about the system, not scoped to any one scale, and doesn't
+need revisiting. The adoption of (b) was earned at the single-neuron/many-synapse scale when
+this entry was first written, then extrapolated (not proven) to the many-neuron/shared-input
+scale this decision was actually meant to describe. That extrapolation has since been tested
+directly, first at n=2 and then expanded to n=7: a genuine shared-input competitive population
+(all-to-all input, lateral inhibition between postsynaptic neurons) held a stable population-
+level signal for 5000s in *every* differentiating seed tested, no exceptions, while individual-
+level identity behavior spanned a full spectrum underneath — near-permanent lock-in, one-time
+reorganization (in two distinct sub-flavors), and, most strikingly, persistent lock-in that
+*never* happens at all (constant multi-way reshuffling for the entire 5000s, the highest churn
+of any seeds tested). That last regime is the strongest empirical instance of (b) found so far —
+a stable population readout with *zero* persistent individual identity, not even a temporary
+one (see experiments_brian2.md's "Seed expansion (n=2 -> n=7)" entry for the full typology).
+Remaining scope, stated precisely: n=7 differentiating seeds is a typology, not a distribution —
+the relative frequency of each individual-level regime is unknown, only their existence and the
+population-signal invariant across all of them are established. Still only one parameter
+combination, and only the differentiating side of a genuine bifurcation this experiment found —
+the other side converges to zero differentiation entirely (basin split now measured at n=14,
+~50/50), so this says nothing about population-level stability where there's no differentiated
+signal to be stable in the first place. Revisit this entry again if other operating points show
+a structurally different picture.
 
 **The STDP layer's stability requirement is a population-level readout that tolerates
 individual-synapse churn, not individual-synapse convergence — and the data earns this now,
@@ -112,14 +118,17 @@ than glossed over:** the population extension (independent replicates, no shared
 competition — a shared-input design was tried first there and found not to produce any
 inter-neuron divergence at all) was the cheap test available at the time, and it only measured
 a population of *synapses onto one postsynaptic neuron*. The competitive-population follow-up
-(genuine shared input, lateral inhibition) closes that specific gap: a population of
-*postsynaptic neurons*, genuinely sharing input and coupled through real competition, does show
-a stable joint signal with churning individual identity — at least in the differentiating basin
-of the bifurcation this experiment found. What's still open: only n=2 seeds, one parameter
-combination, and the whole thing is contingent on landing in the differentiating basin at all
-(roughly half of seeds at this operating point converge to zero differentiation instead — see
-experiments_brian2.md's bistability entry). A proper ensemble at this scale, and whether other
-operating points show the same bifurcation structure, remain real, unstarted follow-ups.
+(genuine shared input, lateral inhibition), now at n=7 differentiating seeds, closes that
+specific gap with real texture: a population of *postsynaptic neurons*, genuinely sharing input
+and coupled through real competition, shows a stable joint signal across a whole spectrum of
+individual-level behavior — not just "churns a bit," but ranging all the way to individual
+identity never locking in at all — and does so in every differentiating seed tested, not just
+the original two. What's still open: this is a typology at n=7, not a measured distribution
+over how common each individual-level regime is; still one parameter combination; and the whole
+thing is contingent on landing in the differentiating basin at all (measured at ~50/50 across
+n=14 seeds now — see experiments_brian2.md's bistability entry). A proper distributional
+estimate of the individual-level regimes, and whether other operating points show the same
+bifurcation structure, remain real, unstarted follow-ups.
 
 ## How to fail correctly
 
