@@ -70,8 +70,18 @@ experiment found (basin split now measured at ~50/50 across n=14
 seeds) — the converging side says nothing about population-level
 stability since there's no differentiated signal to be stable in the
 first place. See principles.md's named decision entry for the full
-defense and precise scope, and experiments_brian2.md's three newest
-entries for the full run.
+defense and precise scope, and experiments_brian2.md's consolidated-
+summary entry at the top of the file (or its "Seed expansion" and
+"Shared-input population competition" entries directly) for the full
+run.
+
+Also RESOLVED: the positional-bias question flagged in the bimodal-
+distribution entry (was the per-index floor-rate spread at Apre=0.005
+a real effect or noise). Pooling 30 new single-neuron replicates with
+the original 20 (n=50) moved the chi-square away from significance
+(p=0.068 -> p=0.30), the signature of noise averaging out, not an
+underdetected real effect. Was noise from early-relaxation-window
+lock-in, not a positional bias in the generation code.
 
 Open/blocked, not being chased right now:
 - Episodic layer: variable-size-X primacy/recency ordering, blocked on
@@ -79,7 +89,9 @@ Open/blocked, not being chased right now:
 - STDP: a measured distribution over the individual-level regimes
   (the above is a typology at n=7, not a frequency estimate), and
   whether the converge-vs-differentiate bifurcation appears at other
-  operating points, are both real, unstarted follow-ups.
+  operating points, are both real, unstarted follow-ups. The bimodal
+  structure's timing dynamics (no per-synapse traces saved from the
+  early ensembles) are also still open.
 
 NOT yet built: per-event step-size characterization for high-Apre
 instability, more STDP/SNN work beyond this, BindsNET, ESN probing,
