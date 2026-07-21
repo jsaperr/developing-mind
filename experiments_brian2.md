@@ -5,7 +5,7 @@ for the Brian2/spiking-dynamics phase specifically — different tools (differen
 instead of tensor ops), different failure modes, split out at the natural phase boundary
 rather than mixed into an already-long single log.
 
-## 2026-07-20 — Competitive-population extension to 5000s: population-level signal stays stable while individual identity genuinely churns
+## 2026-07-21 — Competitive-population extension to 5000s: population-level signal stays stable while individual identity genuinely churns
 
 **Data:** `notebooks/brian2/competitive_population_data/competitive_seed5001.json`,
 `competitive_seed5003.json` (full per-synapse traces, per-neuron spike-rate bins, r-traces,
@@ -77,7 +77,7 @@ generalized as "the" behavior from n=2.
 
 ---
 
-## 2026-07-20 — Shared-input population competition (lateral inhibition): bistable, not unreliable
+## 2026-07-21 — Shared-input population competition (lateral inhibition): bistable, not unreliable
 
 **Notebook/data:** `notebooks/brian2/competitive_population_data/run_competitive_seed.py`,
 `src/brian2_stdp/network.py`'s `build_competitive_population_network`. Designed by Jasper + an
