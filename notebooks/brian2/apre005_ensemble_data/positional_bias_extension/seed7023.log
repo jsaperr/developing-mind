@@ -1,0 +1,3 @@
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([3.47905614e-03, 4.78781339e-03, 8.06931715e-03, ...,
+       9.99985883e+02, 9.99985928e+02, 9.99992398e+02]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+seed 7023 -> C:/Users/urawi/OneDrive/Desktop/a wide variety of vscode projects/developing-mind/notebooks/brian2/apre005_ensemble_data/positional_bias_extension/seed7023.json

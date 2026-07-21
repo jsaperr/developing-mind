@@ -5,6 +5,53 @@ for the Brian2/spiking-dynamics phase specifically — different tools (differen
 instead of tensor ops), different failure modes, split out at the natural phase boundary
 rather than mixed into an already-long single log.
 
+## 2026-07-21 — Positional-bias follow-up: the p=0.068 chi-square washes out to noise with more data, resolved
+
+**Data:** `notebooks/brian2/apre005_ensemble_data/run_positional_bias_replicate.py`,
+`positional_bias_extension/seed7001.json` through `seed7030.json`. The fallback queued while
+Jasper was away (never triggered then, since the competitive-population calibration cleared its
+bar) — picked back up now that the population-competition thread reached its own stopping
+point, per the stated priority order.
+
+**Question:** the population extension's EDA found a suggestive-but-not-significant spread in
+per-correlated-index floor rates at Apre=0.005 (15%-55% across the 10 indices, chi-square
+p=0.068, n=20) — plausibly early random luck locking in during the ~24-98s relaxation window
+before 20 replicates was enough to average it out, but explicitly flagged as unresolved rather
+than either dismissed or oversold.
+
+**Design:** 30 new independent single-neuron (N=1) replicates at Apre=0.005, 1000s each (`
+build_network` as-is, no new mechanism), reusing the fully-validated single-neuron rig. Wall-
+clock measured directly (0.1911s/s on a 200s test run, not assumed) before committing to the
+batch size — ~191s/replicate, 30 replicates at 5-concurrent/6-wave ≈ 19-22 min, matching the
+concurrency level already characterized rather than pushing higher and risking another
+contention surprise. Pooled with the original 20 into one real n=50 combined chi-square, not
+two separate checks compared informally, per explicit instruction.
+
+**Result: the spread washes out with more data — moves away from significance, not toward it,
+exactly what noise looks like:**
+
+| sample | n | chi-square | p | floor-rate range |
+|---|---|---|---|---|
+| original (population extension) | 20 | 15.93 | 0.068 | 15%-55% |
+| new (single-neuron replicates) | 30 | 9.41 | 0.400 | 16.7%-46.7% |
+| **pooled** | **50** | **10.61** | **0.304** | **18%-42%** |
+
+The new 30 alone show no structure at all (p=0.40) and don't even agree with the original 20 on
+*which* index looks elevated (original: index 4 highest at 55%; new: index 5 highest at 46.7%)
+— a real positional effect should reproduce roughly the same shape on a fresh independent draw;
+a noise artifact should not, and does not. Pooling to n=50 narrows the range further (18%-42%,
+down from the original 20's 15%-55%) and pushes p further from significance, not closer — the
+signature of averaging out chance fluctuation, not of an underdetected real effect gaining
+power.
+
+**Verdict: resolved.** The per-index floor-rate spread was noise from the early-relaxation-
+window lock-in mechanism already hypothesized, not a positional effect in the mechanism. No
+change needed anywhere else in the codebase or log — `spikes.py`'s generation process was
+already known not to treat indices differently, and this confirms there's no hidden effect it
+was missing. Closes the "open, unresolved" item flagged in the bimodal-distribution entry below.
+
+---
+
 ## 2026-07-21 — Seed expansion (n=2 -> n=7): individual-identity behavior is a spectrum, population signal is the invariant across all of it
 
 **Data:** `notebooks/brian2/competitive_population_data/competitive_seed6001.json`,
@@ -319,18 +366,19 @@ group aggregates, final snapshots, and reversal counts — see the design note a
 `src/brian2_stdp/network.py`'s docstring: future long runs should save at least a subsampled
 per-synapse trace so trace-level questions like this are answerable without a full rerun.
 
-**Open, unresolved, not being chased right now — same treatment as the trace-saving gap
-above:** whether *which* correlated-synapse index tends to defect is positionally biased or
-pure noise. Re-checked with real power using the population extension's 20 replicates per
+**RESOLVED (see the "Positional-bias follow-up" entry above for the full result) — whether
+*which* correlated-synapse index tends to defect is positionally biased or pure noise, at
+Apre=0.005.** Re-checked with real power using the population extension's 20 replicates per
 condition (vs. the original 8): at Apre=0.005, floor rate varies 15%-55% across the 10
 correlated indices (chi-square p=0.068 — suggestive, not significant); at Apre=0.02 the same
 check shows no structure at all (p=0.46, indistinguishable from noise). Nothing in
 `spikes.py`'s generation process treats indices differently, so a real positional effect would
-be surprising — more likely read is that Apre=0.005's slow relaxation (24-98s, from a separate
-autocorrelation check on the ensemble data) lets early random fluctuations lock in before 20
-replicates is enough to average them out, and Apre=0.02's constant churn prevents that same
-lock-in. Plausible, not resolved — would need many more replicates to actually settle either
-way, not worth that spend right now.
+be surprising — the hypothesized read was that Apre=0.005's slow relaxation (24-98s, from a
+separate autocorrelation check on the ensemble data) lets early random fluctuations lock in
+before 20 replicates is enough to average them out. 30 additional independent single-neuron
+replicates confirmed this directly: pooled to n=50, the chi-square moved to p=0.304 (further
+from significance, not closer) and the floor-rate range narrowed to 18%-42% — noise averaging
+out, not an underdetected real effect. Was noise, not a positional bias in the mechanism.
 
 ---
 
