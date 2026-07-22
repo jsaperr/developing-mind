@@ -1,0 +1,4 @@
+n_units=300: total_MC=6.63 (std=0.3305058450212115, n_seeds=3) wall_time=0.3s
+n_units=1000: total_MC=6.06 (std=0.4602454186005672, n_seeds=3) wall_time=2.7s
+n_units=3000: total_MC=5.74 (std=0.0619848226760396, n_seeds=3) wall_time=28.9s
+saved -> C:\Users\urawi\OneDrive\Desktop\a wide variety of vscode projects\developing-mind\notebooks\esn\size_scaling_results.json

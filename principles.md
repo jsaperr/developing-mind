@@ -181,6 +181,26 @@ quietly reframe as positive. When something breaks:
    generalize anywhere a system is deemed stable from a bounded
    observation window.
 
+## Standing operational habits
+
+Not design principles about the architecture — mechanical hygiene about how experiments get
+run, worth keeping consistent so it doesn't get rediscovered fresh each time someone hits the
+same friction.
+
+- **Background any long-running script with `python -u`** (unbuffered stdout), not plain
+  `python`. Redirected stdout is block-buffered by default, not line-buffered — status prints
+  sit invisibly in a buffer until it fills or the process exits, so checking a `.log` file
+  mid-run shows nothing even when the script has clearly been running long enough to have
+  printed several lines (hit this directly during the ESN size-scaling sweep). `-u` is free for
+  the sparse status prints these scripts actually do; only matters in genuinely hot loops
+  printing every iteration, which none of them are.
+- **For genuinely long single runs, write structured intermediate progress to a small file**
+  (a `status`/`current_step`/`progress` field, updated at each meaningful sub-step — one size
+  point, one seed, one spectral-radius value), not just a start/end status. This isn't a new
+  idea, it's applying the already-validated start/end pattern (the `"started"` marker written
+  immediately so a hang is distinguishable from "never launched," used since the first
+  multi-seed STDP ensemble) more consistently, to the middle of a run too, not just its edges.
+
 ## What's out of scope right now, and why
 
 Not arbitrary gatekeeping — it's dependency order:

@@ -94,23 +94,53 @@ fastest one — the two-layer memory's persistence isn't something a
 modestly-sized passive reservoir provides for free, consistent with
 why a dedicated consolidation mechanism was needed. Comparison is an
 order-of-magnitude sanity check, not a rigorous unit conversion — see
-experiments_esn.md for the full caveat. STAGE 2 (episodic-layer
-context-signal follow-up) IS EXPLICITLY NOT STARTED — deferred pending
-a separate go-ahead per the original design message. Don't start it
-without being asked.
+experiments_esn.md for the full caveat.
+
+Three follow-ups to stage 1, RESOLVED: (1) reservoir size scaling
+does NOT close the gap — total linear memory capacity plateaus
+(6.63 -> 6.06 -> 5.74 across 300/1000/3000 units, within noise, not
+growing) — ruling out "just make it bigger." (2) The premise that
+stage 2 needs reconstruction-grade memory was wrong: a much weaker,
+task-relevant classification signal ("which phase was active k steps
+ago," not exact reconstruction) stays well above chance at 300 units
+all the way to k=1000 (27x past the 37-step linear horizon, 2x past
+the 400-step phase length stage 2 needs). (3) A multi-timescale
+reservoir (half fast-leaking, half slow-leaking — the reservoir-world
+version of the two-layer memory's own fast/slow split) extends that
+classification signal further still (near-ceiling accuracy the whole
+1-1000 range, vs. baseline's plateau ~0.6), at the cost of gutting
+linear reconstruction capacity by 93% — a real, coherent trade-off,
+not a free lunch. Net: stage 2 looks considerably more promising than
+stage 1's raw number suggested on its own. STAGE 2 ITSELF (the actual
+episodic-layer application) IS STILL EXPLICITLY NOT STARTED — deferred
+pending a separate go-ahead. Don't start it without being asked.
+
+Two real bugs caught and fixed during the follow-ups, worth knowing
+about if touching src/esn/ again: a periodicity-leakage bug in the
+phase-cycling task generator (a strictly periodic schedule let a
+linear readout infer absolute time position instead of using genuine
+memory — fixed with randomized phase order/length), and a catastrophic-
+overfitting bug in the size-scaling sweep (fixed ridge_alpha=1e-6 was
+essentially unregularized once reservoir size approached the training-
+sample count — fixed with ridge_alpha=0.1). See experiments_esn.md for
+the full diagnosis of both.
 
 Open/blocked, not being chased right now:
 - Episodic layer: variable-size-X primacy/recency ordering, blocked on
   context/phase-awareness that doesn't exist yet — ESN stage 2 is a
-  candidate approach for this, not yet attempted.
+  candidate approach for this, not yet attempted, and now better-
+  motivated than when stage 1 alone was the only data point.
 - STDP: a measured distribution over the individual-level regimes
   (the above is a typology at n=7, not a frequency estimate), and
   whether the converge-vs-differentiate bifurcation appears at other
   operating points, are both real, unstarted follow-ups. The bimodal
   structure's timing dynamics (no per-synapse traces saved from the
   early ensembles) are also still open.
-- ESN: whether a larger reservoir closes the gap to the two-layer
-  decay constants' timescales is untested.
+- ESN: the 10000-unit size-scaling point was dropped (impractically
+  expensive with the current dense-matrix implementation, see
+  experiments_esn.md) — the 300-3000 trend already answered the
+  question, but a sparse-reservoir implementation would be needed to
+  test genuinely large sizes if that's ever wanted.
 
 NOT yet built: per-event step-size characterization for high-Apre
 instability, more STDP/SNN work beyond this, BindsNET, ESN stage 2,

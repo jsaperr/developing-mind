@@ -1,0 +1,7 @@
+single-timescale baseline (leak=0.3): total_MC=5.19+/-0.32, cls_horizon=None, cls_acc=[0.989, 0.964, 0.843, 0.651, 0.61, 0.633, 0.648, 0.605, 0.614]
+multi-timescale (50/50 fast=0.3 / slow=0.02): total_MC=0.34+/-0.17, cls_horizon=None, cls_acc=[0.99, 0.995, 0.993, 0.993, 0.993, 0.993, 0.99, 0.985, 0.985]
+
+MC ratio (multiscale/baseline - 1): -93.4%
+Classification horizon ratio: None
+Meaningfully extends (>= 20% on either metric)? False
+saved -> C:\Users\urawi\OneDrive\Desktop\a wide variety of vscode projects\developing-mind\notebooks\esn\multiscale_results.json
