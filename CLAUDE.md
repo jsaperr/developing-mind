@@ -110,10 +110,41 @@ version of the two-layer memory's own fast/slow split) extends that
 classification signal further still (near-ceiling accuracy the whole
 1-1000 range, vs. baseline's plateau ~0.6), at the cost of gutting
 linear reconstruction capacity by 93% — a real, coherent trade-off,
-not a free lunch. Net: stage 2 looks considerably more promising than
-stage 1's raw number suggested on its own. STAGE 2 ITSELF (the actual
-episodic-layer application) IS STILL EXPLICITLY NOT STARTED — deferred
-pending a separate go-ahead. Don't start it without being asked.
+not a free lunch. Net: stage 2 looked considerably more promising than
+stage 1's raw number suggested on its own — this motivated web to
+greenlight stage 2, scoped down into stage 2a first (standalone
+testbed, no episodic.py touch).
+
+Stage 2a, RESOLVED, FALSIFIED: follow-ups 2/3 tested backward-looking
+memory ("what happened k steps ago"); stage 2 actually needs a
+forward-looking forecast ("will this stale pattern return soon"), a
+different question that hadn't been tested. Built a per-pattern
+irregular (gamma-renewal-process, non-periodic) visitation schedule
+and compared a reservoir-based forecast readout against a trivial
+staleness-only baseline (no reservoir, just time-since-last-seen).
+Result: the reservoir is *worse* than the baseline (mean AUC 0.627 vs
+0.752, 5/5 seeds, no overlap) — falsified, not just unhelpful.
+Root-caused, not just accepted: swept the multi-timescale reservoir's
+slow leak rate from tau~50 up to tau~1000 (matching/exceeding the
+task's 400-step interval) — AUC improves (0.59->0.65) but plateaus
+well short of the baseline at every setting, so it's not a fixable
+tuning mismatch. A leaky-integrator's decayed trace is a lossy analog
+of elapsed time; a literal counter beats it. Practical implication:
+if check (b) only needs "how likely is this stale pattern to return,"
+the system doesn't need a reservoir for that — plain elapsed-time
+tracking (which the ambiguity gate already has access to) already
+does at least as well. Caveat: this schedule makes staleness the
+sufficient statistic by construction, so this specifically rules out
+"reservoir as elapsed-time forecaster," not reservoir-carried
+content/context signals more broadly — see experiments_esn.md.
+
+STAGE 2 ITSELF (the actual episodic-layer application) IS STILL
+EXPLICITLY NOT STARTED — deferred pending a separate go-ahead. Don't
+start it without being asked. Given stage 2a's result, the original
+"wire an ESN into check (b)" framing looks less promising than it did
+right after follow-ups 2/3 — any future attempt should reckon with why
+staleness already covers what was tested, not just retry the same
+mechanism.
 
 Two real bugs caught and fixed during the follow-ups, worth knowing
 about if touching src/esn/ again: a periodicity-leakage bug in the
@@ -127,9 +158,13 @@ the full diagnosis of both.
 
 Open/blocked, not being chased right now:
 - Episodic layer: variable-size-X primacy/recency ordering, blocked on
-  context/phase-awareness that doesn't exist yet — ESN stage 2 is a
-  candidate approach for this, not yet attempted, and now better-
-  motivated than when stage 1 alone was the only data point.
+  context/phase-awareness that doesn't exist yet — ESN stage 2a tested
+  the most direct version of "reservoir as context/phase-awareness
+  signal" (forecasting pattern return) and it was falsified against a
+  plain staleness baseline; this specific gap is not closed by that
+  approach as tested. See experiments_esn.md's stage 2a caveat for
+  what wasn't ruled out (content/context-triggered signals, as
+  opposed to elapsed-time forecasting).
 - STDP: a measured distribution over the individual-level regimes
   (the above is a typology at n=7, not a frequency estimate), and
   whether the converge-vs-differentiate bifurcation appears at other

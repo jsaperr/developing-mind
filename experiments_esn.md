@@ -5,6 +5,92 @@ Echo State Network work — a new, third tool alongside the Hopfield/two-layer-m
 natural phase boundary as those two: different technique, different questions, not mixed into
 either existing log.
 
+## 2026-07-21 — Stage 2a: does the reservoir forecast pattern return, or just remember it? Falsified — staleness alone beats it
+
+**Data:** `notebooks/esn/run_forecast_signal.py` (`forecast_signal_results.json`). Shared code:
+`src/esn/forecast_task.py` (new — `generate_visitation_schedule`, `forecast_signal`), reusing
+`src/esn/reservoir.py` unchanged. Per web's design message: follow-ups 2/3 proved the reservoir
+can *decode what happened k steps ago* (a backward-looking memory question). Stage 2's actual
+need is different — check (b) needs to *forecast whether a currently-stale pattern will become
+relevant again soon*, a forward-looking question that was never actually tested. Web explicitly
+scoped this as stage 2a: standalone testbed only, no `episodic.py` or real eviction-gate
+integration, worth a separate go-ahead if this lands.
+
+**Question:** given current reservoir state, can a linear readout predict "will pattern p return
+within the next W steps" — and does that reservoir-based forecast beat the trivial baseline the
+real system already has for free (how long ago p was last seen, no reservoir required)?
+
+**Design, deliberately different from follow-ups 2/3 in two ways (both stated up front, not
+discovered after the fact):**
+
+1. **Non-periodic in a new way.** `generate_visitation_schedule` gives each of `n_core=4` core
+   patterns its own renewal process — inter-visit gaps drawn from `Gamma(shape=4,
+   scale=mean_interval/4)`, mean=400 steps, coefficient of variation=0.5 — not a reshuffled fixed
+   period like follow-up 2's fix, a genuinely different generative process. Between core visits,
+   filler/one-off slots (single shared distractor channel) fill the gap, approximating real
+   episodic traffic where most events don't recur. This matters specifically because a periodic
+   *schedule* was the leakage bug caught in follow-up 2 — a periodic *inter-visit interval* would
+   just be the same bug in forecasting clothes.
+2. **Chronological train/test split, not shuffled.** phase_task.py's shuffled split existed to
+   break train/test time-adjacency that could leak "when in the run is this" from slow reservoir
+   drift. Here the label is itself a forward-looking window `(t, t+W]`; shuffling would put train
+   examples immediately adjacent in time to test examples, and reservoir state is autocorrelated
+   — that adjacency would inflate held-out AUC for reasons having nothing to do with genuine
+   forecasting. Chronological split (train on the first 70% of the run, test on the last 30%) is
+   the honest evaluation here; the periodicity-style leakage is already blocked by the schedule's
+   irregularity itself, not by shuffling.
+
+Multi-timescale reservoir (`n_units=300`, `spectral_radius=1.1`, 50/50 `leak_rate∈{0.3,0.02}`) —
+follow-up 3's winning config — used as the base, per web's instruction. `n_core=4`,
+`mean_interval=400` (matches follow-up 2's phase length), `w_forecast=200` (half the mean
+interval — a non-trivial horizon, not near-certain or near-impossible), 5 seeds. Per-pattern
+readout: ridge regression on reservoir state (or, for the baseline, on the single scalar feature
+time-since-p-was-last-active) targeting the binary forward-looking label, evaluated by AUC
+(threshold-independent, appropriate since label balance varies by pattern and lag).
+
+**Falsification criteria, stated before running (the direct lesson from follow-up 3's broken
+threshold-crossing check):** confirms a real forecast signal if mean reservoir AUC clears the
+staleness-only baseline by ≥0.05 absolute **and** exceeds 0.65 in its own right. Rejects if that
+margin isn't met, or if reservoir AUC collapses toward 0.5 (chance) — which would suggest
+follow-ups 2/3's success was schedule-regularity leakage in a different guise, per web's explicit
+hypothesis to test here.
+
+**Result: falsified, cleanly and consistently — the reservoir is *worse* than the trivial
+baseline, not just unhelpful.** Mean reservoir AUC = 0.627 ± 0.037; mean staleness-only baseline
+AUC = 0.752 ± 0.038. Margin = **−0.124** (wrong sign entirely; nowhere close to the +0.05
+required). Consistent across all 5 seeds individually (reservoir: 0.554–0.654; baseline:
+0.692–0.797 — no overlap). Reservoir AUC does stay meaningfully above chance (0.5), so it isn't
+inert, it's just reliably worse than a one-line staleness counter.
+
+**Root-caused before reporting, not just accepted at face value.** Hypothesis: follow-up 3's
+slow leak rate (0.02, ≈50-step time constant) is far shorter than this task's 400-step mean
+interval, so the reservoir's own memory horizon doesn't reach the timescale being asked about —
+directly echoing stage 1's original finding that even `decay_fast` (≈50 steps) sits beyond a
+300-unit reservoir's natural horizon. Tested directly: swept the slow leak rate from 0.02
+(τ≈50) up to 0.001 (τ≈1000, comfortably longer than the 400-step interval), 3 seeds each.
+Reservoir AUC improves with better-matched timescale (0.591 → 0.646 → 0.638 → 0.655) but
+**plateaus around 0.64–0.65 and never closes the gap** to the baseline's 0.75–0.80, even at the
+best-matched time constant. So this isn't a fixable tuning mismatch — a leaky-integrator's decay
+trace is a lossy, nonlinear analog of elapsed time, and no amount of retuning makes reading a
+precise time-since-last-event off of it as accurate as a literal counter already is.
+
+**Caveat worth stating plainly, not glossing over:** this schedule's generative process makes
+staleness the literal sufficient statistic of the label by construction (each pattern's return
+time is an independent renewal process — nothing else in the input stream carries information
+about *when* p returns). That structurally favors the baseline in a way real episodic relevance
+might not — genuine content- or context-triggered recall (not a pure elapsed-time clock) is
+plausibly a case where reservoir state carries something staleness alone doesn't. This test does
+not rule that out; it specifically rules out "reservoir as an elapsed-time forecaster," which is
+what was actually tested and what stage 2's original check (b) sketch would have needed.
+
+**Verdict:** stage 2a's stated hypothesis is falsified as tested — a reservoir-based forecast of
+pattern return does not beat the cheap staleness signal the real system already has, even after
+root-causing and ruling out a simple leak-rate mismatch as the explanation. Practical
+implication: if check (b) only needs "how likely is this stale pattern to return soon," the
+existing system doesn't need a reservoir for that — plain elapsed-time tracking already does at
+least as well. Not touching `episodic.py`; this was explicitly a standalone testbed question, and
+it has a clean, negative, root-caused answer. Reporting and stopping here pending review.
+
 ## 2026-07-21 — Three follow-ups to stage 1: size doesn't help, task-relevant capacity does, multi-timescale mixing helps most
 
 **Data:** `notebooks/esn/run_size_scaling.py`, `run_classification_capacity.py`,
