@@ -5,6 +5,70 @@ Echo State Network work — a new, third tool alongside the Hopfield/two-layer-m
 natural phase boundary as those two: different technique, different questions, not mixed into
 either existing log.
 
+## 2026-07-21 — ESN arc: consolidated summary
+
+Closing summary for the ESN thread — every entry below is kept in full as the detailed record;
+this is a synthesis on top, not a replacement. Five entries deep (stage 1 → three follow-ups →
+stage 2a → stage 2b) — read this for the throughline, follow the entries below for mechanism and
+data.
+
+**What ESNs were for, and what they stayed:** a cheap diagnostic/grounding tool, not a component
+of the deployed architecture — stage 1 was framed from the start as a way to check where the
+two-layer memory's by-feel decay constants land on a real, measured memory-capacity curve, not
+to build anything into the running system. That held for the whole arc: nothing from this
+thread got wired into `episodic.py` or anywhere else in the real system, including every
+follow-up and every stage-2 attempt. Worth stating plainly after this many rounds.
+
+**What's validated:**
+
+- **Stage 1 — grounding the two-layer memory's decay constants.** No reasonably-sized reservoir
+  naturally reaches the timescales the two-layer memory needs: a 300-unit reservoir's effective
+  memory horizon (~37 steps at its best-performing spectral radius) sits well short of even
+  `decay_fast`'s ~50-step timescale, let alone `consolidation_rate`'s ~100 or `decay_char`'s
+  ~2000. Confirmed flat, not improving, across 300-3000 units (follow-up 1). A real negative
+  result: confirms the engineered saturating-consolidation fix was doing genuine work, not
+  reinventing something a passive substrate gives for free.
+- **Follow-ups 2/3 — general reservoir characterization, useful independent of any specific
+  application.** Task-relevant (classification-style) capacity vastly outlasts linear
+  reconstruction capacity in the same reservoir — 27x the linear horizon in follow-up 2.
+  Multi-timescale mixing (half fast-leaking, half slow-leaking units) extends that usable horizon
+  further still, at a real, quantified cost to reconstruction capacity (follow-up 3). Both are
+  genuine properties of leaky-integrator reservoirs, not tied to the episodic-layer application
+  that originally motivated testing them.
+- **Stages 2a/2b — two structurally different attempts to fix episodic check (b) via
+  reservoir-based forecasting, both cleanly falsified.** Elapsed-time-only (2a) and
+  content-plus-associative-priming (2b) both lost to a trivial staleness-only baseline, by a
+  larger margin in 2b (−0.223 vs −0.124). Both root-caused rather than just reported: a leak-rate
+  sweep in 2a ruled out simple timescale mismatch; priming-strength and dilution diagnostics in
+  2b ruled out a too-weak signal and isolated (without fully explaining away) a real dilution
+  effect — including the explicit refusal to report the easier n_core=2 config as if it were the
+  actual result.
+
+**Where check (b) actually stands now:** real, open, non-blocking architectural debt — nothing
+in the system currently depends on it, and it wasn't blocking the STDP arc or any hypothetical
+next step either. But it's more precisely scoped after tonight than before: two structurally
+different reservoir mechanisms were tested and ruled out, so a real fix likely needs genuine
+per-pattern visitation history or actual curiosity/salience-driven context, not another reservoir
+variant on the same premise. Not being chased further right now.
+
+**What's still open, beyond check (b) itself:**
+
+- Whether a sparse-reservoir implementation would change follow-up 1's size-scaling verdict at
+  genuinely large sizes (10000+ units) is untested — dropped for cost, not because the 300-3000
+  trend was ambiguous (see follow-up 1's entry).
+- Stage 2b's dilution diagnostic (n_core=2 partially recovers signal) was deliberately not
+  pursued into a full characterization of how dilution scales with n_core — per this thread's own
+  scoping, two well-designed negative attempts is a complete answer, not a reason to keep
+  investigating a mechanism that's already closed.
+
+**Next steps (not started tonight):** population-competition bistability characterization —
+whether the ~50/50 convergence/differentiation split at `strong_tight_gate` (see
+`experiments_brian2.md`) is a general property or specific to that one operating point — is the
+next real thread, flagged as the actual prerequisite before anything MNIST-adjacent, since that
+needs the competition mechanism differentiating reliably, not by coin flip.
+
+---
+
 ## 2026-07-21 — Stage 2b: does pattern CONTENT (not just identity) give the reservoir a forecast edge? Falsified — worse than stage 2a, and closing check (b) via reservoirs for now
 
 **Data:** `notebooks/esn/run_forecast_signal_content.py` (`forecast_signal_content_results.json`).
