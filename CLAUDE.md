@@ -138,13 +138,33 @@ sufficient statistic by construction, so this specifically rules out
 "reservoir as elapsed-time forecaster," not reservoir-carried
 content/context signals more broadly — see experiments_esn.md.
 
-STAGE 2 ITSELF (the actual episodic-layer application) IS STILL
-EXPLICITLY NOT STARTED — deferred pending a separate go-ahead. Don't
-start it without being asked. Given stage 2a's result, the original
-"wire an ESN into check (b)" framing looks less promising than it did
-right after follow-ups 2/3 — any future attempt should reckon with why
-staleness already covers what was tested, not just retry the same
-mechanism.
+Stage 2b, RESOLVED, FALSIFIED (worse than 2a): stage 2a fed the
+reservoir pure timing (identity only); stage 2b tested a structurally
+different mechanism before shelving check (b) — actual pattern CONTENT
+vectors, with a deliberate associative-priming effect built in (content
+drifts toward a pattern before its scheduled return) so a real
+content-based precursor signal genuinely existed to be found. Result:
+worse than stage 2a, not just unhelpful — mean reservoir AUC 0.530
+(barely above chance) vs. baseline 0.753, margin -0.223, 5/5 seeds no
+overlap. Root-caused two ways: (1) not a signal-strength problem — even
+a maximal, noise-free priming signal barely moved AUC (0.522); (2)
+partly a dilution effect — multiple simultaneously-due patterns compete
+for the priming slot at n_core=4; dropping to n_core=2 recovers some
+signal (0.650) but still trails baseline (0.738) even there. The
+n_core=2 check was a root-cause diagnostic, not a rerun of the official
+test under an easier config.
+
+CHECK (b) VIA RESERVOIR-BASED FORECASTING IS NOW CLOSED FOR NOW, per
+explicit instruction after two structurally different mechanisms
+(elapsed-time-only, content-plus-priming) both cleanly lost to the same
+trivial staleness baseline. Not a single inconclusive attempt — treat
+as settled unless something genuinely new changes the picture; don't
+retry a third reservoir mechanism on the same premise without a real
+reason. STAGE 2 ITSELF (the actual episodic-layer application) WAS
+NEVER STARTED — episodic.py was never touched anywhere in this thread.
+If check (b) is revisited later, it needs a different premise than
+"reservoir carries the missing context signal," not just a different
+reservoir variant.
 
 Two real bugs caught and fixed during the follow-ups, worth knowing
 about if touching src/esn/ again: a periodicity-leakage bug in the
@@ -158,13 +178,14 @@ the full diagnosis of both.
 
 Open/blocked, not being chased right now:
 - Episodic layer: variable-size-X primacy/recency ordering, blocked on
-  context/phase-awareness that doesn't exist yet — ESN stage 2a tested
-  the most direct version of "reservoir as context/phase-awareness
-  signal" (forecasting pattern return) and it was falsified against a
-  plain staleness baseline; this specific gap is not closed by that
-  approach as tested. See experiments_esn.md's stage 2a caveat for
-  what wasn't ruled out (content/context-triggered signals, as
-  opposed to elapsed-time forecasting).
+  context/phase-awareness that doesn't exist yet — ESN stages 2a and 2b
+  tested the two most direct versions of "reservoir as
+  context/phase-awareness signal" (elapsed-time forecasting, then
+  content-plus-priming forecasting) and both were falsified against a
+  plain staleness baseline. This gap is not closed by reservoir-based
+  forecasting as tested, twice, and that avenue is now closed debt —
+  see experiments_esn.md's stage 2b verdict. Any future attempt here
+  needs a different premise, not a third reservoir variant.
 - STDP: a measured distribution over the individual-level regimes
   (the above is a typology at n=7, not a frequency estimate), and
   whether the converge-vs-differentiate bifurcation appears at other

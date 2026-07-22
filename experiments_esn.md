@@ -5,6 +5,79 @@ Echo State Network work — a new, third tool alongside the Hopfield/two-layer-m
 natural phase boundary as those two: different technique, different questions, not mixed into
 either existing log.
 
+## 2026-07-21 — Stage 2b: does pattern CONTENT (not just identity) give the reservoir a forecast edge? Falsified — worse than stage 2a, and closing check (b) via reservoirs for now
+
+**Data:** `notebooks/esn/run_forecast_signal_content.py` (`forecast_signal_content_results.json`).
+Shared code: `src/esn/forecast_task.py` extended (`generate_visitation_schedule_with_content`,
+`forecast_signal_content`, and a `_forecast_readouts` helper factored out of stage 2a's
+`forecast_signal` so both stages share identical downstream evaluation logic). Per web's message:
+one more narrow test before shelving check (b) again — stage 2a fed the reservoir pure timing
+(one-hot identity), nothing about content; does feeding actual pattern content instead produce a
+state that carries genuine content-driven context ("recent input has been trending toward
+patterns similar to p"), rather than a fuzzy version of elapsed time?
+
+**Question:** same forecast target as stage 2a (will pattern p return within W steps), same
+staleness-only baseline, same schedule timing, same multi-timescale reservoir — only the input
+representation changes, from one-hot identity to actual content vectors. Isolates content vs.
+identity as the one variable under test.
+
+**Design, one deliberate addition beyond stage 2a's schedule, stated up front:** feeding raw
+content alone would be uninformative by construction — the renewal-process timing is generated
+fully independently of content, so if filler content were just unrelated random noise, there
+would be no real content-based precursor signal to find, and a null result would be guaranteed
+rather than discovered. Added a deliberate associative-priming mechanism to
+`generate_visitation_schedule_with_content`: filler slots within `priming_window` steps of some
+core pattern p's next scheduled visit have probability `priming_prob` of showing a noisy,
+corrupted echo of p's content instead of pure random noise — modeling the real intuition that
+related context drifts in before literal recall. `n_core=4`, `pattern_dim=32` (unit-norm vectors,
+same convention as `src/hopfield/two_layer.py`), `priming_window=150` (shorter than
+`w_forecast=200`, a genuine leading indicator, not a relabeling of the same window),
+`priming_prob=0.5`, `priming_noise_std=0.5`. Everything else (mean_interval=400, gamma_shape=4,
+visit_len=40, duration=20000, washout=1000, multi-timescale reservoir, 5 seeds) identical to
+stage 2a.
+
+**Falsification bar, stated before running, deliberately identical to stage 2a's (a different
+bar here would look like moving the goalposts):** confirms a real content-driven signal if mean
+reservoir AUC clears the staleness baseline by ≥0.05 absolute **and** exceeds 0.65 in its own
+right.
+
+**Result: falsified again, and worse than stage 2a, not just unhelpful.** Mean reservoir AUC =
+0.530 ± 0.026 — barely above chance (0.5) — vs. mean staleness baseline AUC = 0.753 ± 0.031.
+Margin = **−0.223**, a larger gap than stage 2a's −0.124. Consistent across all 5 seeds
+(reservoir: 0.493–0.566; baseline: 0.713–0.799 — no overlap). The baseline is essentially
+unchanged from stage 2a (0.753 vs. 0.752), as expected since the staleness feature doesn't
+depend on the input representation at all — the drop is entirely on the reservoir side.
+
+**Root-caused before reporting, not accepted at face value — two diagnostics, not one:**
+
+1. **Is it a signal-strength problem?** Reran with `priming_prob=1.0, priming_noise_std=0` —
+   the strongest, most unambiguous version of the priming signal possible (every filler slot
+   near a due pattern shows that pattern's *exact* content, deterministically). Reservoir AUC
+   barely moved: 0.522 ± 0.032, still near chance. Ruling this out as "priming was too weak/rare
+   to detect" — even the maximal version of the signal doesn't help at n_core=4.
+2. **Is it dilution across competing patterns?** With `n_core=4`, multiple core patterns can be
+   simultaneously "due soon," and the priming mechanism only echoes one of them per slot —
+   diluting the effective signal-to-noise ratio for any single pattern p. Tested directly:
+   dropping to `n_core=2` (less competition for priming slots) at the same max-signal setting
+   recovers real signal, reservoir AUC = 0.650 ± 0.072 vs. 0.552 ± 0.032 at n_core=4 — confirming
+   dilution is a real, contributing mechanism. But even at n_core=2 the reservoir (0.650) still
+   trails the staleness baseline at that setting (0.738) — the dilution fix narrows the gap, it
+   doesn't close it. This was a root-cause diagnostic, not a rerun of the official falsification
+   test under an easier config — the n_core=4 result above is what's reported as the finding;
+   changing n_core after seeing a weak result to get a better number would be exactly the
+   post-hoc rationalization principles.md warns against.
+
+**Verdict: check (b) via reservoir-based forecasting is closed for now, per Jasper/web's
+explicit instruction — two structurally different mechanisms tested (elapsed-time-only in stage
+2a, content-plus-priming in stage 2b), both root-caused, both cleanly falsified against the same
+trivial baseline.** Not a single inconclusive attempt — a real, complete answer: whatever
+"reservoir-carried context" check (b) was imagined to provide, neither pure timing nor
+content-with-priming produces it in a form a linear readout can extract better than a one-line
+staleness counter already does. Not proposing a third variant. Not touching `episodic.py` at any
+point in this thread. If check (b) is revisited later, it should reckon with why two structurally
+different reservoir signals both lost to the same trivial baseline, not retry a third reservoir
+mechanism on the same premise.
+
 ## 2026-07-21 — Stage 2a: does the reservoir forecast pattern return, or just remember it? Falsified — staleness alone beats it
 
 **Data:** `notebooks/esn/run_forecast_signal.py` (`forecast_signal_results.json`). Shared code:

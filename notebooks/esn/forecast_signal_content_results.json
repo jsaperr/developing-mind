@@ -1,0 +1,227 @@
+{
+  "n_units": 300,
+  "spectral_radius": 1.1,
+  "fast_rate": 0.3,
+  "slow_rate": 0.02,
+  "n_core": 4,
+  "pattern_dim": 32,
+  "mean_interval": 400,
+  "gamma_shape": 4,
+  "visit_len": 40,
+  "duration": 20000,
+  "w_forecast": 200,
+  "washout": 1000,
+  "priming_window": 150,
+  "priming_prob": 0.5,
+  "priming_noise_std": 0.5,
+  "n_seeds": 5,
+  "ridge_alpha": 0.01,
+  "min_margin": 0.05,
+  "min_reservoir_auc": 0.65,
+  "per_seed_reservoir_auc": [
+    0.5502001137917517,
+    0.5188752640899038,
+    0.5663679466258953,
+    0.4934902046190818,
+    0.5219954721737534
+  ],
+  "per_seed_baseline_auc": [
+    0.7247659111922087,
+    0.7622214687173664,
+    0.7992638188000268,
+    0.7134067802428314,
+    0.7663767205612866
+  ],
+  "per_seed_reservoir_acc": [
+    0.538168954107243,
+    0.5167511549976884,
+    0.5437124943467863,
+    0.5294063405011622,
+    0.4994102210095596
+  ],
+  "per_seed_baseline_acc": [
+    0.5975028081662582,
+    0.5236771366799042,
+    0.6643882775226537,
+    0.6545025573845443,
+    0.6781202374358232
+  ],
+  "mean_reservoir_auc": 0.5301858002600772,
+  "mean_baseline_auc": 0.7532069399027439,
+  "std_reservoir_auc": 0.02550018393599356,
+  "std_baseline_auc": 0.030883282756762703,
+  "margin": -0.22302113964266668,
+  "confirmed": false,
+  "per_pattern_detail": [
+    {
+      "0": {
+        "reservoir_auc": 0.6487054018304018,
+        "reservoir_acc": 0.6302083333333334,
+        "baseline_auc": 0.7361768018018018,
+        "baseline_acc": 0.5150462962962963,
+        "n_test": 5184,
+        "base_rate": 0.4861111111111111
+      },
+      "1": {
+        "reservoir_auc": 0.5578423704178164,
+        "reservoir_acc": 0.5494913928012519,
+        "baseline_auc": 0.7165306587504927,
+        "baseline_acc": 0.6400625978090767,
+        "n_test": 5112,
+        "base_rate": 0.4616588419405321
+      },
+      "2": {
+        "reservoir_auc": 0.5444426043781883,
+        "reservoir_acc": 0.5355738993710691,
+        "baseline_auc": 0.7020652766083899,
+        "baseline_acc": 0.6591981132075472,
+        "n_test": 5088,
+        "base_rate": 0.5204402515723271
+      },
+      "3": {
+        "reservoir_auc": 0.44981007854060023,
+        "reservoir_acc": 0.43740219092331767,
+        "baseline_auc": 0.7442909076081502,
+        "baseline_acc": 0.5757042253521126,
+        "n_test": 5112,
+        "base_rate": 0.5774647887323944
+      }
+    },
+    {
+      "0": {
+        "reservoir_auc": 0.6664968449519231,
+        "reservoir_acc": 0.6319767441860465,
+        "baseline_auc": 0.8094756610576923,
+        "baseline_acc": 0.5782945736434109,
+        "n_test": 5160,
+        "base_rate": 0.49612403100775193
+      },
+      "1": {
+        "reservoir_auc": 0.5042246514146473,
+        "reservoir_acc": 0.4772549019607843,
+        "baseline_auc": 0.6277895289021254,
+        "baseline_acc": 0.4696078431372549,
+        "n_test": 5100,
+        "base_rate": 0.6509803921568628
+      },
+      "2": {
+        "reservoir_auc": 0.46259311716489876,
+        "reservoir_acc": 0.4885658914728682,
+        "baseline_auc": 0.8832247468659595,
+        "baseline_acc": 0.47790697674418603,
+        "n_test": 5160,
+        "base_rate": 0.5271317829457365
+      },
+      "3": {
+        "reservoir_auc": 0.4421864428281461,
+        "reservoir_acc": 0.4692070823710547,
+        "baseline_auc": 0.7283959380436884,
+        "baseline_acc": 0.5688991531947653,
+        "n_test": 5196,
+        "base_rate": 0.4311008468052348
+      }
+    },
+    {
+      "0": {
+        "reservoir_auc": 0.6202466630591631,
+        "reservoir_acc": 0.5870069605568445,
+        "baseline_auc": 0.9088834776334777,
+        "baseline_acc": 0.6950889404485692,
+        "n_test": 5172,
+        "base_rate": 0.46403712296983757
+      },
+      "1": {
+        "reservoir_auc": 0.6255313962558502,
+        "reservoir_acc": 0.599336455893833,
+        "baseline_auc": 0.813818283200078,
+        "baseline_acc": 0.7355581576893052,
+        "n_test": 5124,
+        "base_rate": 0.5003903200624512
+      },
+      "2": {
+        "reservoir_auc": 0.5071009069055944,
+        "reservoir_acc": 0.48598130841121495,
+        "baseline_auc": 0.7278196629759129,
+        "baseline_acc": 0.67601246105919,
+        "n_test": 5136,
+        "base_rate": 0.48598130841121495
+      },
+      "3": {
+        "reservoir_auc": 0.5125928202829731,
+        "reservoir_acc": 0.5025252525252525,
+        "baseline_auc": 0.7465338513906387,
+        "baseline_acc": 0.5508935508935509,
+        "n_test": 5148,
+        "base_rate": 0.5283605283605284
+      }
+    },
+    {
+      "0": {
+        "reservoir_auc": 0.47992858026218155,
+        "reservoir_acc": 0.5047169811320755,
+        "baseline_auc": 0.7522950160771704,
+        "baseline_acc": 0.6922169811320755,
+        "n_test": 5088,
+        "base_rate": 0.5110062893081762
+      },
+      "1": {
+        "reservoir_auc": 0.6089945840126476,
+        "reservoir_acc": 0.5833333333333334,
+        "baseline_auc": 0.733423342473198,
+        "baseline_acc": 0.6479984603541186,
+        "n_test": 5196,
+        "base_rate": 0.3995381062355658
+      },
+      "2": {
+        "reservoir_auc": 0.3644731578268164,
+        "reservoir_acc": 0.5137299771167048,
+        "baseline_auc": 0.745124370886566,
+        "baseline_acc": 0.6811594202898551,
+        "n_test": 5244,
+        "base_rate": 0.34324942791762014
+      },
+      "3": {
+        "reservoir_auc": 0.5205644963746816,
+        "reservoir_acc": 0.5158450704225352,
+        "baseline_auc": 0.6227843915343916,
+        "baseline_acc": 0.5966353677621283,
+        "n_test": 5112,
+        "base_rate": 0.5070422535211268
+      }
+    },
+    {
+      "0": {
+        "reservoir_auc": 0.4006707124842371,
+        "reservoir_acc": 0.43928847641144625,
+        "baseline_auc": 0.8091762295081967,
+        "baseline_acc": 0.7262180974477959,
+        "n_test": 5172,
+        "base_rate": 0.3866976024748647
+      },
+      "1": {
+        "reservoir_auc": 0.5416020413268625,
+        "reservoir_acc": 0.4837962962962963,
+        "baseline_auc": 0.7352039763346175,
+        "baseline_acc": 0.6319444444444444,
+        "n_test": 5184,
+        "base_rate": 0.3904320987654321
+      },
+      "2": {
+        "reservoir_auc": 0.5651948796214573,
+        "reservoir_acc": 0.5383411580594679,
+        "baseline_auc": 0.8043978927625772,
+        "baseline_acc": 0.7408059467918623,
+        "n_test": 5112,
+        "base_rate": 0.4835680751173709
+      },
+      "3": {
+        "reservoir_auc": 0.5805142552624567,
+        "reservoir_acc": 0.5362149532710281,
+        "baseline_auc": 0.7167287836397549,
+        "baseline_acc": 0.61351246105919,
+        "n_test": 5136,
+        "base_rate": 0.35046728971962615
+      }
+    }
+  ]
+}
