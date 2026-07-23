@@ -1,0 +1,3 @@
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([1.23653712e-02, 1.27727579e-02, 1.40099294e-02, ...,
+       5.99988060e+02, 5.99993618e+02, 5.99996558e+02]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+seed 21050 -> C:\Users\urawi\OneDrive\Desktop\a wide variety of vscode projects\developing-mind\notebooks\brian2\bistability_sweep_data\sweep_inhib8_gap1.5_seed21050.json

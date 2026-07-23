@@ -70,6 +70,95 @@ mechanism and data.
 
 ---
 
+## 2026-07-23 — Population-competition bistability sweep: reliability rises with inhib_strength, richness doesn't trade off against it
+
+**Data:** `notebooks/brian2/bistability_sweep_data/run_sweep.py` (orchestrator), `analyze_sweep.py`
+(analysis), 128 per-seed result JSONs, `sweep_analysis.json` (aggregated grid). Shared code:
+`src/brian2_stdp/metrics.py` gained `classify_differentiation` (the late-window
+cross-neuron-gap-std>0.03 basin classifier, extracted from the informal criterion used ad hoc for
+the original `strong_tight_gate` calibration/seed-expansion, now reusable and tested). Per web's
+design message: `strong_tight_gate` (inhib=10mV, gap_scale=1.0) showed ~50/50
+converge/differentiate across 14 seeds — before treating that as *the* operating point, map the
+actual shape of the tradeoff, and specifically whether reliability and the rich individual-identity
+dynamics from the n=7 extension can coexist or trade off, the way savings-vs-content-fidelity did
+in the Hopfield work.
+
+**Question:** across a grid of `inhib_strength` x `gap_scale`, does a region exist where
+differentiation is *reliable* (most seeds differentiate) AND the individual-identity spectrum
+(some seeds locking in fast/hard, others staying loose/noisy) still shows up — or does reliability
+only rise by making differentiation uniformly rigid/winner-take-all, a real tradeoff?
+
+**Design:** 4x4 grid, `inhib_strength` in {6, 8, 10, 13} mV x `gap_scale` in {0.5, 1.0, 1.5, 2.0}
+(spans the known converged corner at 6/2.0 up through the known ~50/50 point at 10/1.0), 8 fresh
+seeds per point (128 runs total, seed block 21000+, no overlap with any prior batch), 600s each
+(calibration scale, matching the original characterization — full 5000s extension deliberately
+deferred to whichever region looks promising, not run at every point). Tracked two things per
+point, not a single collapsed number: **reliability** (fraction differentiating, via
+`classify_differentiation`) and **richness** (among differentiating seeds only: holder-identity
+swap count within the 600s window, via the already-validated `count_identity_swaps` — an explicit
+proxy for the identity-churn spectrum, not the full frozen/reorganization/never-locks-in
+classification, which needs the full 5000s to resolve).
+
+**Falsification criteria, stated before running (in `analyze_sweep.py`, written before the sweep
+launched):** the interesting outcome is a region with reliability >=80% where richness
+(swap-count spread across differentiating seeds, `std_swaps`) stays real, not collapsed toward
+zero. A region where reliability only rises as richness drops would be a genuine tradeoff finding,
+reported as such, not fished into a "best of both" reading.
+
+**Infrastructure note:** built a Python-level batch orchestrator (`run_sweep.py`, concurrency-
+limited `subprocess` pool) rather than bash `&`/`wait` loops — 128 jobs is too many to manage
+safely with shell backgrounding at this scale, and this project already hit a real bash
+subshell-variable-scoping bug once at much smaller scale. Calibrated wall-clock first (6-job batch,
+~300s/round at 6-way concurrency, matching the machine's physical core count) before committing to
+the full grid; actual full run finished in 4568s (~76 min, faster than the ~107 min estimate — later
+rounds ran closer to ~165s/job as the OS-level page/disk cache warmed up). 0/128 runs failed.
+
+**Two apparent anomalies checked before trusting anything else, not glossed over:**
+1. `strong_tight_gate` itself (10mV/1.0) landed at 1/8 (12.5%) differentiating in this fresh
+   sample — well under the established ~50% (n=14) rate. Checked directly: all 8 seeds'
+   `late_window_std` values sit far from the 0.03 threshold in either direction (converging seeds
+   0.0005-0.0069, the one differentiating seed 0.0913) — a clean classification, not a
+   threshold-boundary artifact. Binomial variance at n=8 against a true ~50% rate lands at <=1
+   success about 3.5% of the time; with 16 grid points swept, seeing one point that low somewhere
+   isn't remarkable. Doesn't revise the established ~50% figure (n=14 remains the better-powered
+   estimate for this exact point) -- flagged here rather than silently smoothed over.
+2. `medium` (6mV/2.0), previously characterized as reliably converging, differentiated in 5/8
+   fresh seeds here (62%) -- checked the same way, all classifications clean (converging seeds
+   std 0.003-0.006, differentiating seeds 0.047-0.131, nothing near the boundary). This one *does*
+   revise the prior picture, honestly: `medium`'s "fully converges" characterization rested on a
+   single calibration seed, never actually replicated at n>1 the way `strong_tight_gate` was --
+   this is the same "small n can mislead" trap the project already learned once with
+   `strong_tight_gate` itself, now caught at `medium` too before it got treated as a settled fact.
+
+**Result: reliability rises clearly with `inhib_strength`; richness does not collapse as it
+does.** Average reliability by row: 6mV=0.41, 8mV=0.59, 10mV=0.50 (dragged down by the anomaly
+above), 13mV=**0.88**, consistently high (0.75-1.00) across all four `gap_scale` values tested at
+13mV -- the clearest single-parameter driver in the grid. Correlation across all 15 grid points
+with >=2 differentiating seeds: `corr(reliability, std_swaps) = +0.10` -- richness's *spread*
+across seeds does not shrink as reliability rises, no collapse into uniform rigidity.
+`corr(reliability, mean_swaps) = -0.47` -- a real but moderate tendency for the *average* seed to
+lock in a bit faster/sharper at higher reliability, but that's a shift in the average, not a loss
+of variety: individual seeds at every reliability level still range from near-immediate lock-in to
+persistent churn.
+
+**Standout point: inhib=13mV, gap_scale=1.5 -- reliability=1.00 (8/8 differentiate), and the
+richest spread in the "reliable" set.** Per-seed identity-swap counts: 3, 96, 17, 62, 11, 100, 70,
+112 -- a genuine spread from fast/hard lock-in to persistent reshuffling, all within seeds that
+differentiated cleanly (`late_window_std` 0.086-0.264, nowhere near the 0.03 boundary). This is
+the target outcome stated before running: reliable AND rich, not a coin flip and not a rigid
+monoculture either.
+
+**Verdict:** the pessimistic tradeoff hypothesis (reliability only bought at the cost of rigid,
+uniform winner-take-all dynamics) is not what this grid shows -- richness survives, even
+strengthens in absolute terms, in the region that differentiates most reliably. `inhib_strength`
+(not `gap_scale`) is the primary lever for reliability. **Next step, not run this round per the
+original scoping:** extend inhib=13mV (gap_scale=1.5 specifically, or the row more broadly) to the
+full 5000s duration, the way 5001/5003 were extended from the original bistability check -- that's
+the deliberate follow-up once a promising region is identified, not something to run at every grid
+point.
+
+---
+
 ## 2026-07-21 — Positional-bias follow-up: the p=0.068 chi-square washes out to noise with more data, resolved
 
 **Data:** `notebooks/brian2/apre005_ensemble_data/run_positional_bias_replicate.py`,

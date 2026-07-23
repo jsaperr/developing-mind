@@ -130,3 +130,27 @@ def count_identity_swaps(holder_identity):
     how many times the "who currently best represents the correlated pattern" role swapped
     over the run."""
     return int(np.sum(np.diff(holder_identity) != 0))
+
+
+def classify_differentiation(per_neuron_gap, weight_trace_t, late_window_s=100.0, threshold=0.03):
+    """Basin classification for the competitive-population network: 'differentiate' (a real
+    hierarchy formed) vs. 'converge' (all postsynaptic neurons settled to the same shared
+    representation). Reproduces the informal criterion used to sort the original
+    strong_tight_gate calibration/seed-expansion runs (late-window cross-neuron gap std > 0.03),
+    now as shared code rather than a one-off inline calculation -- see experiments_brian2.md's
+    "Shared-input population competition" and "Seed expansion" entries for where this criterion
+    came from.
+
+    per_neuron_gap: shape (n_post, n_timepoints), from compute_competitive_metrics.
+    weight_trace_t: shape (n_timepoints,), seconds -- used to select the late window rather than
+    assuming a fixed sample count, so this works at any run duration/sampling rate.
+
+    Returns (label, late_window_std) -- label is 'differentiate' or 'converge'; late_window_std
+    is returned too so callers can inspect margin from the threshold, not just the binary call."""
+    weight_trace_t = np.asarray(weight_trace_t)
+    duration = weight_trace_t[-1]
+    late_mask = weight_trace_t >= (duration - late_window_s)
+    late_mean_per_neuron = per_neuron_gap[:, late_mask].mean(axis=1)
+    late_window_std = float(late_mean_per_neuron.std())
+    label = 'differentiate' if late_window_std > threshold else 'converge'
+    return label, late_window_std

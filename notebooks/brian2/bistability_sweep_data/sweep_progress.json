@@ -1,0 +1,33 @@
+{
+  "status": "done",
+  "total_jobs": 128,
+  "completed": 128,
+  "failed": 0,
+  "started_at": 1784837598.8783116,
+  "grid": {
+    "inhib_values": [
+      6.0,
+      8.0,
+      10.0,
+      13.0
+    ],
+    "gap_scale_values": [
+      0.5,
+      1.0,
+      1.5,
+      2.0
+    ]
+  },
+  "n_seeds_per_point": 8,
+  "duration_s": 600.0,
+  "last_completed": {
+    "seed": 21127,
+    "inhib": 13.0,
+    "gap_scale": 2.0,
+    "combo_name": "inhib13_gap2",
+    "out_path": "C:\\Users\\urawi\\OneDrive\\Desktop\\a wide variety of vscode projects\\developing-mind\\notebooks\\brian2\\bistability_sweep_data\\sweep_inhib13_gap2_seed21127.json",
+    "wall_s": 140.02629470825195,
+    "exit_code": 0
+  },
+  "elapsed_s": 4568.332543134689
+}

@@ -1,0 +1,3 @@
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([2.02082090e-02, 2.56843187e-02, 2.61158531e-02, ...,
+       5.99990522e+02, 5.99997379e+02, 5.99998379e+02]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+seed 20000 -> notebooks/brian2/bistability_sweep_data/calib_seed20000.json

@@ -1,0 +1,8 @@
+launching 6 jobs, max_concurrent=6
+[1/6] seed 21000 (inhib6_gap0.5) -> exit 0, 302.1s
+[2/6] seed 21001 (inhib6_gap0.5) -> exit 0, 302.1s
+[3/6] seed 21002 (inhib6_gap0.5) -> exit 0, 302.1s
+[4/6] seed 21004 (inhib6_gap0.5) -> exit 0, 302.1s
+[5/6] seed 21005 (inhib6_gap0.5) -> exit 0, 302.1s
+[6/6] seed 21003 (inhib6_gap0.5) -> exit 0, 308.1s
+SWEEP DONE -- 6 jobs, 0 failed, 308.1s total
