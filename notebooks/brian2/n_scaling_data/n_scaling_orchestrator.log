@@ -1,0 +1,34 @@
+launching 32 jobs, max_concurrent=6
+[1/32] seed 22000 (n3) -> exit 0, 208.1s
+[2/32] seed 22002 (n3) -> exit 0, 208.1s
+[3/32] seed 22004 (n3) -> exit 0, 208.0s
+[4/32] seed 22001 (n3) -> exit 0, 210.1s
+[5/32] seed 22005 (n3) -> exit 0, 210.1s
+[6/32] seed 22003 (n3) -> exit 0, 212.1s
+[7/32] seed 22006 (n3) -> exit 0, 206.1s
+[8/32] seed 22007 (n3) -> exit 0, 206.1s
+[9/32] seed 22008 (n5) -> exit 0, 206.1s
+[10/32] seed 22009 (n5) -> exit 0, 204.1s
+[11/32] seed 22010 (n5) -> exit 0, 206.1s
+[12/32] seed 22011 (n5) -> exit 0, 204.1s
+[13/32] seed 22012 (n5) -> exit 0, 204.1s
+[14/32] seed 22014 (n5) -> exit 0, 206.1s
+[15/32] seed 22015 (n5) -> exit 0, 206.1s
+[16/32] seed 22016 (n7) -> exit 0, 206.1s
+[17/32] seed 22017 (n7) -> exit 0, 206.1s
+[18/32] seed 22013 (n5) -> exit 0, 210.2s
+[19/32] seed 22018 (n7) -> exit 0, 208.1s
+[20/32] seed 22019 (n7) -> exit 0, 208.1s
+[21/32] seed 22020 (n7) -> exit 0, 208.1s
+[22/32] seed 22022 (n7) -> exit 0, 206.1s
+[23/32] seed 22023 (n7) -> exit 0, 206.1s
+[24/32] seed 22021 (n7) -> exit 0, 210.1s
+[25/32] seed 22024 (n10) -> exit 0, 210.1s
+[26/32] seed 22026 (n10) -> exit 0, 212.1s
+[27/32] seed 22027 (n10) -> exit 0, 212.1s
+[28/32] seed 22028 (n10) -> exit 0, 210.1s
+[29/32] seed 22029 (n10) -> exit 0, 210.1s
+[30/32] seed 22025 (n10) -> exit 0, 218.1s
+[31/32] seed 22030 (n10) -> exit 0, 166.0s
+[32/32] seed 22031 (n10) -> exit 0, 164.0s
+N-SCALING SWEEP DONE -- 32 jobs, 0 failed, 1204.6s total

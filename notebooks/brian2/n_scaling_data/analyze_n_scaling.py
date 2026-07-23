@@ -79,6 +79,23 @@ def classify_n_point(per_seed, n_post):
         "std_rank_swaps": float(np.std(rank_swaps_diff)) if rank_swaps_diff else None,
     }
 
+    # Hierarchy-SHAPE variability: top_tier_size as a fraction of n_post, among differentiating
+    # seeds. Caught by inspecting raw tier data, not the reliability/disorder verdict alone: at
+    # N=10, roughly half the seeds keep a small, legible top tier while the other half collapse
+    # toward "almost everyone ties, 1-2 excluded" -- a real bimodal split in what "differentiate"
+    # even means, invisible to reliability (still counts as differentiate) and to the disorder
+    # detector (the tied top group IS stable, just enormous). Reported as its own axis, not
+    # folded into the reliability/disorder verdict, since collapsing it would hide exactly the
+    # kind of thing this sweep is supposed to surface.
+    top_tier_fracs = [r["top_tier_size"] / r["n_post"] for r in per_seed if r["label"] == "differentiate"]
+    shape = {
+        "top_tier_fracs": top_tier_fracs,
+        "mean_top_tier_frac": float(np.mean(top_tier_fracs)) if top_tier_fracs else None,
+        "std_top_tier_frac": float(np.std(top_tier_fracs)) if top_tier_fracs else None,
+        "frac_seeds_majority_tied": (sum(1 for f in top_tier_fracs if f > 0.5) / len(top_tier_fracs))
+                                      if top_tier_fracs else None,
+    }
+
     if reliability >= 0.8 and n_disorder_total <= 1 and (richness["std_rank_swaps"] or 0) > 0:
         verdict = "holds_cleanly"
     elif n_disorder_total > n_differentiate:
@@ -91,7 +108,7 @@ def classify_n_point(per_seed, n_post):
     return {
         "n_post": n_post, "n_seeds": n_total, "n_differentiate": n_differentiate,
         "n_converge": n_converge, "n_disorder": n_disorder_total, "reliability": reliability,
-        "disorder_frac_of_spread": disorder_frac_of_spread, "richness": richness,
+        "disorder_frac_of_spread": disorder_frac_of_spread, "richness": richness, "shape": shape,
         "verdict": verdict, "per_seed": per_seed,
     }
 
@@ -116,6 +133,14 @@ def main():
         print(f"{r['n_post']:>3d} {r['n_seeds']:>3d} {r['n_differentiate']:>13d} "
               f"{r['n_converge']:>9d} {r['n_disorder']:>9d} {r['reliability']:>11.2f} "
               f"{mean_str:>11} {std_str:>10} {r['verdict']:>14}")
+
+    print(f"\n{'N':>3} {'mean_top_tier_frac':>19} {'std_top_tier_frac':>18} {'frac_majority_tied':>19}")
+    for r in curve:
+        s = r["shape"]
+        mean_str = f"{s['mean_top_tier_frac']:.2f}" if s["mean_top_tier_frac"] is not None else "n/a"
+        std_str = f"{s['std_top_tier_frac']:.2f}" if s["std_top_tier_frac"] is not None else "n/a"
+        maj_str = f"{s['frac_seeds_majority_tied']:.2f}" if s["frac_seeds_majority_tied"] is not None else "n/a"
+        print(f"{r['n_post']:>3d} {mean_str:>19} {std_str:>18} {maj_str:>19}")
 
     out_path = OUT_DIR / "n_scaling_analysis.json"
     with open(out_path, "w") as f:

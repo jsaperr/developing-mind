@@ -70,6 +70,94 @@ mechanism and data.
 
 ---
 
+## 2026-07-23 — Experiment B step 3: population-competition N-scaling curve — reliability holds through N=10, hierarchy shape doesn't move monotonically
+
+**Data:** `notebooks/brian2/n_scaling_data/run_n_scaling_seed.py` (parametrized twin of
+`run_competitive_seed.py`, applies `scale_inhib_for_n`), `run_n_scaling_sweep.py` (orchestrator),
+`analyze_n_scaling.py`, 32 per-seed result JSONs, `n_scaling_analysis.json`. Per web's Experiment
+B design, cleared at Gate 1 (see prior entries for the normalization design and the
+`classify_hierarchy`/`compute_tiers`/`full_rank_swap_count` metrics, validated against all 128
+N=3 sweep results before use — 127/128 agreement, one real, inspected disagreement).
+
+**Question:** does the competitive-population mechanism (reliable differentiation, preserved
+richness, legible hierarchy shape) hold up as `n_post` grows, and where — if anywhere — does it
+start breaking down? Explicitly not a search for "the best N" — output is a curve describing
+current limits, not a recommended size.
+
+**Design:** `n_post` ∈ {3, 5, 7, 10}, same winning combo (13mV-reference/gap_scale=1.5) with
+per-connection `inhib_strength` normalized via `scale_inhib_for_n` so total per-neuron inhibitory
+drive stays comparable across `n_post`, 8 seeds per point (32 runs), 600s calibration scale, same
+batch approach as the original 4×4 grid.
+
+**Falsification criteria, stated before running (three-way, per web's Gate 1 instruction):** (a)
+HOLDS CLEANLY — ≥80% differentiate, richness present, at most 1 disorder seed; (b) EARLY STRAIN —
+differentiation 50-80%, richness thinning, or 2-3 disorder seeds; (c) BREAKDOWN — disorder becomes
+the dominant differentiating-seed outcome, or differentiation collapses below 50%.
+
+**Result on reliability/disorder — clean, no breakdown found in the tested range:**
+
+| N | differentiate | converge | disorder | reliability | mean rank-swaps | verdict |
+|---|---|---|---|---|---|---|
+| 3 | 7/8 | 1 | 0 | 0.88 | 71.4 | holds cleanly |
+| 5 | 7/8 | 1 | 0 | 0.88 | 225.1 | holds cleanly |
+| 7 | 8/8 | 0 | 0 | 1.00 | 410.6 | holds cleanly |
+| 10 | 8/8 | 0 | 0 | 1.00 | 531.5 | holds cleanly |
+
+Disorder never appeared at any tested N — the leadership-consistency check (`classify_hierarchy`'s
+top-tier-set stability across sub-windows) stayed clean throughout. `full_rank_swap_count` rises
+with N, but this is expected and not itself evidence of richness improving — more neurons means
+combinatorially more possible pairwise rank changes even from pure noise (directly consistent with
+the caveat from the same day's Test A entry: swap-count metrics conflate genuine reorganization
+with noise-level trading among near-tied non-winners, and that conflation gets worse, not better,
+as N grows).
+
+**A gap in my own automated verdict, caught before reporting, not after:** the table above says
+"holds cleanly" at every single N — technically true on the reliability/disorder axis, but that
+verdict never looked at hierarchy *shape*, and manually inspecting the raw tier data (`top_tier_size`
+from `compute_tiers`) found something the verdict logic completely missed:
+
+| N | mean top-tier fraction | std top-tier fraction | frac. seeds majority-tied |
+|---|---|---|---|
+| 3 | 0.57 | 0.15 | 0.71 |
+| 5 | 0.34 | 0.18 | 0.29 |
+| 7 | 0.27 | 0.23 | 0.12 |
+| 10 | 0.51 | **0.33** | 0.50 |
+
+Hierarchy shape is **not monotonic in N**: legibility (a small, clear top tier rather than most
+neurons tied together) *improves* from N=3 to N=7 — top-tier fraction drops from 0.57 to 0.27, and
+the fraction of seeds where a majority of neurons tie for the top spot drops from 71% to 12% — then
+**reverses sharply at N=10**, jumping back to N=3-like tier fractions with the highest variability
+of any N tested (std=0.33, roughly double every other point). Concretely: at N=10, half the
+seeds keep a small, legible top tier (1-2 neurons), the other half collapse toward 8-9 of the 10
+neurons tying together with only 1-2 genuinely excluded — a real bimodal split in what
+"differentiate" even means at that seed, invisible to both the reliability metric (still counts as
+differentiate either way) and the disorder detector (a huge tied group is still a *stable* top
+tier, just not a legible one).
+
+**Candidate explanation, explicitly flagged as a hypothesis, not settled** (per web's Gate 1
+instruction to consider this): `scale_inhib_for_n` normalizes *mean* total inhibitory drive per
+neuron, not its variance — more, smaller kicks smooth out relative to fewer, larger ones at
+matched mean. This predicts *monotonically increasing* smoothing with N, which does not by itself
+explain why N=7 looks *more* legible than N=3 and N=5 before N=10 reverses course — a purely
+monotonic smoothing story doesn't fit a curve that improves then reverses. The mean-vs-variance
+gap is a plausible contributing factor at N=10 specifically, not a full explanation for the shape
+of the whole curve. Real, unresolved complexity here, not glossed over.
+
+**Scope, stated precisely:** 8 seeds/point is the same scale as the original grid, and the
+original grid's own experience (the `strong_tight_gate` anchor landing at 1/8 in a fresh sample
+against an established ~50% rate) is a direct reminder that single-point statistics at n=8 carry
+real sampling noise — the N=10 shape-variability finding is a real, reportable signal worth
+surfacing, not yet a robust distributional claim.
+
+**Verdict:** reliability and freedom from genuine disorder hold cleanly through N=10, the full
+tested range — no breakdown on that axis. Hierarchy-shape legibility is a separate, non-monotonic
+story: improves through N=7, then shows real strain (elevated variability, a bimodal legible/tied
+split) at N=10. Reporting the full curve, both axes, to web at Gate 2 rather than reporting only
+the reliability table's clean "holds cleanly" read, which would have hidden the more interesting
+finding.
+
+---
+
 ## 2026-07-23 — Test A: does the 600s swap-count proxy hold at full 5000s duration? Partially — laggard exclusion is fast and permanent, but the "richness" it measured isn't what the proxy suggested
 
 **Data:** `notebooks/brian2/bistability_sweep_data/test_a_5000s/` (4 seed JSONs, same

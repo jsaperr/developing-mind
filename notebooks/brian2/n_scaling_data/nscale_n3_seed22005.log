@@ -1,0 +1,3 @@
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([8.69829980e-04, 3.35060201e-03, 9.27996449e-03, ...,
+       5.99966850e+02, 5.99984227e+02, 5.99990811e+02]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+seed 22005 (n_post=3) -> C:\Users\urawi\OneDrive\Desktop\a wide variety of vscode projects\developing-mind\notebooks\brian2\n_scaling_data\nscale_n3_seed22005.json
