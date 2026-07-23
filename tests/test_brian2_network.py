@@ -12,7 +12,7 @@ from brian2 import run, second, start_scope
 
 from src.brian2_stdp.network import (
     N_SYNAPSES, TARGET_TOTAL, W_INIT, apre_to_apost, build_network,
-    build_population_network, taupost, taupre,
+    build_population_network, scale_inhib_for_n, taupost, taupre,
 )
 from src.brian2_stdp.spikes import build_population_presynaptic_input, build_presynaptic_input
 
@@ -66,3 +66,21 @@ def test_apre_to_apost_is_negative_and_scaled():
     apost = apre_to_apost(0.02)
     assert apost < 0
     assert abs(apost) == abs(-0.02 * (taupre / taupost) * 1.05)
+
+
+def test_scale_inhib_for_n_reproduces_reference_point():
+    # n_post=3 must reproduce the exact known-good 13mV setting from the bistability sweep
+    assert scale_inhib_for_n(3, reference_inhib_mV=13.0, reference_n_post=3) == 13.0
+
+
+def test_scale_inhib_for_n_holds_total_drive_constant():
+    # (n_post - 1) * inhib_strength should be the same constant at every n_post
+    reference_total = 13.0 * (3 - 1)
+    for n in [3, 5, 7, 10]:
+        per_connection = scale_inhib_for_n(n, reference_inhib_mV=13.0, reference_n_post=3)
+        assert abs(per_connection * (n - 1) - reference_total) < 1e-9
+
+
+def test_scale_inhib_for_n_decreases_as_n_grows():
+    values = [scale_inhib_for_n(n, reference_inhib_mV=13.0, reference_n_post=3) for n in [3, 5, 7, 10]]
+    assert values == sorted(values, reverse=True)

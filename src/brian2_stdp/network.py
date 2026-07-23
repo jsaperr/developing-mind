@@ -171,6 +171,37 @@ w_total : 1
 """
 
 
+REFERENCE_N_POST = 3          # the already-characterized bistability-sweep scale
+REFERENCE_INHIB_STRENGTH = 13.0  # mV, per-connection -- the sweep's standout point
+
+
+def scale_inhib_for_n(n_post, reference_inhib_mV=REFERENCE_INHIB_STRENGTH,
+                       reference_n_post=REFERENCE_N_POST):
+    """Per-connection inhib_strength (mV) for build_competitive_population_network's all-to-all
+    inhibition, normalized so TOTAL incoming inhibitory drive per neuron stays comparable as
+    n_post changes.
+
+    Each neuron receives an inhibitory kick from every OTHER neuron's spike -- (n_post - 1)
+    independent sources, not n_post^2 (that count is the total number of directed inhibitory
+    synapses across the whole population, not what any single neuron actually receives). Holding
+    (n_post - 1) * inhib_strength constant as n_post grows is what isolates n_post as the
+    variable under test, rather than confounding it with "more total inhibition." A static,
+    one-time division at build time is the right-sized fix here -- unlike the STDP layer's
+    homeostatic synaptic scaling (a `run_regularly` correction applied every 500ms), n_post and
+    the resulting connection count are fixed at construction, not a learned quantity that drifts
+    over a run and needs continuous re-normalization.
+
+    Calibrated so n_post=reference_n_post reproduces reference_inhib_mV exactly (the
+    already-characterized standout point from the original bistability sweep, inhib=13mV at
+    n_post=3), so this is a strict generalization, not a re-tuning of the known-good setting.
+
+    Known limitation, not solved here: this matches the MEAN total inhibitory drive across
+    n_post, not its variance -- (n_post-1) independent smaller kicks average out smoother than 2
+    larger ones even at matched mean (a real, second-order confound), but chasing higher-moment
+    matching is out of scope for a first normalization pass."""
+    return reference_inhib_mV * (reference_n_post - 1) / (n_post - 1)
+
+
 def build_competitive_population_network(n_post, idx, t, apre_val, inhib_strength, gap_scale,
                                           n_pre=N_SYNAPSES, gmax=GMAX, w_init=W_INIT,
                                           target_total=TARGET_TOTAL,
