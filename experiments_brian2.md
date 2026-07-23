@@ -70,6 +70,61 @@ mechanism and data.
 
 ---
 
+## 2026-07-23 — Experiment B step 4: N=7 at full 5000s — extends Test A's finding, not a contradiction. Reliable competition still means fast, permanent settling, not genuine reorganization
+
+**Data:** `notebooks/brian2/n_scaling_data/step4_n7_5000s/` (4 seed JSONs, `run_n_scaling_seed.py`
+reused with `n_post=7, duration_s=5000`). Seeds picked to span the range observed at 600s
+(top_tier_size and rank-swap range): 22016, 22017, 22019, 22020.
+
+**Question, reframed by web before this ran:** Test A found that at 13mV/1.5's N=3, the
+swap-count "richness" metric was measuring noise-trading between two already-decided winners, not
+genuine reorganization — the laggard was permanently excluded within ~80s and never returned. Does
+N=7 (this thread's step-4 target, picked for its tier-legibility minimum) show real reorganization
+(an excluded neuron genuinely re-entering the leading tier later in the run), or does it extend
+the same fast-permanent-exclusion pattern to a larger N?
+
+**Explicit instruction from web, applied here:** don't lead with `full_rank_swap_count` or any
+swap-derived richness number. Check directly, per seed, whether excluded/lower-tier neurons ever
+re-enter the top tier well past the initial settling period, using `compute_tiers` over time.
+
+**A false positive caught and corrected before reporting, not after — worth documenting the
+mistake itself, not just the fix:** a first pass (comparing the top tier at t=0-200s against the
+top tier after t=1000s) found what looked like real re-entry in 2 of 4 seeds (22017, 22019) —
+neurons absent from the very first window appeared in the top tier later. Before reporting that as
+a genuine reorganization finding, re-checked with finer time resolution (250s windows across the
+full run) and found the "re-entry" was an artifact of the comparison window, not the phenomenon:
+in both seeds, the FULL final top-tier composition was already reached by t≈250-500s — those
+neurons weren't excluded and later re-admitted, they just took slightly longer than others to join
+the initial settling process, still well within it. After t≈250s, top-tier composition in **all
+four seeds** — not just these two — never changed again for the remaining 95% of the run (4750 of
+5000s). Exactly the kind of thing a two-point comparison misses and a full trajectory catches; the
+project's own "distrust a single check" principle catching itself in the act again.
+
+**Result: extends Test A's finding cleanly, does not contradict it.** All 4 seeds settle to a
+final, permanent top-tier composition by t≈250s and hold it unchanged for the rest of the 5000s
+run — zero genuine reorganization in any seed tested. What varies across seeds is hierarchy
+*shape*, not temporal dynamics: 22016 and 22020 settle to a single clear leader (top tier size 1),
+22017 and 22019 settle to 5-of-7 neurons tied at the top (only 2 genuinely excluded) — consistent
+with, and a direct confirmation of, the real shape-variance already measured in the 600s N-scaling
+curve (N=7's std_top_tier_frac=0.23, real but the lowest of any N tested). The settling itself is
+just faster in absolute terms here than Test A's N=3 (t≈250s vs t≈3-81s) relative to nothing —
+both are fast and permanent relative to the full 5000s duration; N=7 is not meaningfully slower or
+more prone to reorganizing than N=3, contrary to what a hopeful reading of the swap-count numbers
+might have suggested.
+
+**Verdict, matching web's explicitly stated framing:** reliable competition at 13mV/1.5 achieves
+its reliability through fast, permanent structural settling, full stop, at every N tested so far
+(3 and 7). The genuine identity-persists-through-churn reorganization found at `strong_tight_gate`
+appears to be a property of that more marginal, near-bifurcation operating point specifically, not
+something that survives at settings tuned for high reliability. This doesn't threaten any
+MNIST-adjacent use of the mechanism (permanent, reliable specialization is exactly what that needs)
+— it specifically narrows where the philosophically-central "identity through churn" result is
+known to hold: the original bistable zone, not yet shown to generalize to reliable operating
+points. Whether a genuinely reliable-and-reorganizing setting exists anywhere in the untested space
+between the coin-flip zone and 13mV/1.5 remains open, not closed by this result.
+
+---
+
 ## 2026-07-23 — Experiment B step 3 follow-up: is N=10's shape reversal real or n=8 noise? Partially real — it's a gradual creep from a real minimum at N=7, not a sharp cliff
 
 **Data:** `notebooks/brian2/n_scaling_data/run_n_scaling_followup.py`, 24 new seed JSONs (N=8, N=9
