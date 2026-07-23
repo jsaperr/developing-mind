@@ -70,6 +70,64 @@ mechanism and data.
 
 ---
 
+## 2026-07-23 — Test A: does the 600s swap-count proxy hold at full 5000s duration? Partially — laggard exclusion is fast and permanent, but the "richness" it measured isn't what the proxy suggested
+
+**Data:** `notebooks/brian2/bistability_sweep_data/test_a_5000s/` (4 seed JSONs, same
+`run_competitive_seed.py` reused unmodified, `duration_s=5000`). Per web's Test A instruction:
+the bistability sweep's swap-count "richness" at inhib=13mV/gap_scale=1.5 was measured at 600s, a
+proxy for the real identity-behavior spectrum (frozen leader / one-time reorganization /
+never-locks-in) that only became visible at full 5000s duration in the original n=7 extension.
+Confirm the proxy holds at true duration before treating it as solid.
+
+**Design:** picked the 4 seeds from the 13mV/1.5 sweep batch spanning the observed 600s
+swap-count range — 21112 (≈3 swaps), 21114 (≈17), 21118 (≈70), 21119 (≈112) — and re-ran each
+fresh at the full 5000s (same convention as the original 5001/5003 extension: a fresh full-duration
+draw with the same seed, not a literal resume of the 600s trajectory, since Brian2's presynaptic
+spike-train pre-generation depends on total requested duration).
+
+**Result: the proxy does NOT hold the way it was expected to — a real, useful correction, not a
+failed replication.** All 4 seeds show the identical qualitative pattern at 5000s: one neuron (the
+eventual laggard) gets excluded from the leader role almost immediately — last time the laggard
+ever held the #1 spot was t=3s, 3s, 48s, and 81s across the 4 seeds — and never regains it for the
+remaining ~4900+ seconds in any of them. None of the original strong_tight_gate typology's richer
+outcomes (laggard promoted late, as in 5003 at t~2600s; never-locks-in at all, as in 6008/6009)
+showed up in any of the 4 seeds tested here.
+
+**Root-caused before reporting, not just noted:** the 600s swap counts (3, 17, 70, 112) looked
+like they spanned a real range, but at 5000s the FULL swap counts (818, 895, 853, 289) don't even
+preserve that ordering — 21119, the highest at 600s, ends up lowest at 5000s. Checked why:
+holder-identity swaps were never tracking genuine leadership reorganization at all in these seeds
+— they're the same phenomenon already documented for 5001 in the original n=7 typology
+(863 swaps, "near-permanent lock-in" despite the high count) — constant noise-level rank-trading
+between the two non-excluded ("winner") neurons, who stay close enough to keep swapping #1 between
+themselves, while the actual laggard is excluded early and never re-enters the count. The
+600s-scale swap count was measuring "how much do the two winners jostle in the first 600s," not
+"will this seed show a different long-run identity structure" — those turned out to be different
+questions.
+
+**What DOES still vary across the 4 seeds, honestly reported:** not the frozen/reorganize/
+never-locks-in spectrum, but how EVENLY the two winner neurons split leadership time long-run —
+from a near-even 49.6%/50.3% trade (21114) to a lopsided 80.1%/19.1% split (21119), with the other
+two in between (66.9/33.1 and 37.8/61.8). A real form of seed-to-seed variation, just not the one
+the proxy was built to detect.
+
+**Interpretation, connecting back to the sweep's own finding:** this is consistent with, and adds
+texture to, the sweep's `corr(reliability, mean_swaps) ≈ -0.47` result — 13mV/1.5 is the most
+reliable point tested, and now at full duration it's clear why: fast, decisive, permanent laggard
+exclusion is a simpler underlying mechanism than the marginal, genuinely bistable dynamics seen at
+10mV/1.0 (strong_tight_gate), which is closer to the actual differentiate/converge bifurcation and
+where the richer typology (including late reorganization and permanent non-settling) was found.
+Stronger inhibition looks like it buys reliability partly by making the outcome more mechanically
+determined, not just "the same rich dynamics, more often."
+
+**Verdict:** the swap-count proxy is not a reliable predictor of long-run identity-typology
+richness at this operating point — flagging this explicitly as a caveat on the N-scaling curve's
+`full_rank_swap_count` richness metric (Experiment B), which inherits the same underlying
+assumption. Logged per web's "no gate needed" instruction; reporting to web alongside Gate 2 as
+relevant context, not holding up Experiment B for it.
+
+---
+
 ## 2026-07-23 — Population-competition bistability sweep: reliability rises with inhib_strength, richness doesn't trade off against it
 
 **Data:** `notebooks/brian2/bistability_sweep_data/run_sweep.py` (orchestrator), `analyze_sweep.py`
