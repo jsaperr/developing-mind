@@ -70,6 +70,50 @@ mechanism and data.
 
 ---
 
+## 2026-07-23 — Experiment B step 3 follow-up: is N=10's shape reversal real or n=8 noise? Partially real — it's a gradual creep from a real minimum at N=7, not a sharp cliff
+
+**Data:** `notebooks/brian2/n_scaling_data/run_n_scaling_followup.py`, 24 new seed JSONs (N=8, N=9
+new; N=10 gets 8 more, bringing it to 16 total). Per web's Gate 2 response: the original curve's
+N=10 point (n=8) showed the highest tier-shape variability of any N tested — before treating that
+as real rather than the same kind of n=8 sampling noise that made `strong_tight_gate` read 1/8
+against an established ~50% rate, get more seeds at N=10 and fill in N=8/N=9 to see whether the
+reversal from N=7 is a sharp cliff right at 10 or a gradual creep starting earlier. Explicitly
+not a new gate-worthy design change — same 600s scale, same batch pattern, no new metrics.
+
+**Result: the original N=10 reading was somewhat inflated by n=8, but the underlying signal is
+real — it's just a gradual creep, not a sharp cliff, with a genuine minimum at N=7, not a
+monotonic decline:**
+
+| N | n (differentiating) | mean top-tier frac | std top-tier frac | frac. majority-tied |
+|---|---|---|---|---|
+| 3 | 7 | 0.57 | 0.15 | 0.71 |
+| 5 | 7 | 0.34 | 0.18 | 0.29 |
+| 7 | 8 | **0.27** | 0.23 | **0.12** |
+| 8 | 8 | 0.39 | 0.29 | 0.25 |
+| 9 | 7 | 0.41 | 0.22 | 0.29 |
+| 10 | 15 (n=16 total, one now disorder) | 0.42 | 0.29 | 0.33 |
+
+With the doubled sample, N=10's mean top-tier fraction drops from the original 0.51 to 0.42, and
+its majority-tied fraction drops from 50% to 33% — the most alarming part of the original reading
+*does* wash out with more data, the same direction as `medium`'s and `strong_tight_gate`'s prior
+small-n corrections. But it doesn't wash out to nothing: N=10's mean (0.42) and std (0.29) both
+stay clearly above N=7's (0.27, 0.23), and — this is the actual new information — N=8 and N=9 sit
+at essentially the same elevated level (0.39, 0.41) as N=10, not somewhere between N=7 and N=10.
+That rules out "sharp cliff exactly at N=10" cleanly: the curve is `0.57 → 0.34 → 0.27 → 0.39 →
+0.41 → 0.42`, a real valley bottoming out at N=7 with a gradual, not sudden, rise on the other
+side. One seed in the expanded N=10 batch also landed as genuine `disorder` for the first time
+anywhere in this curve (a single occurrence, not treated as a trend on its own).
+
+**Verdict, direct answer to web's question:** neither "real cliff" nor "pure n=8 noise" — the
+honest picture is a genuine local minimum in tier-shape variability/legibility at N=7, with a
+real (smaller than first estimated) gradual widening on both sides of it. N=7 remains the
+strongest legibility candidate in the tested range, now on a firmer footing (n=8, consistent
+with N=5's neighboring point) rather than looking like an isolated best-of-four score. Reporting
+this back to web before deciding step 4's target, per its own instruction not to self-approve
+that choice.
+
+---
+
 ## 2026-07-23 — Experiment B step 3: population-competition N-scaling curve — reliability holds through N=10, hierarchy shape doesn't move monotonically
 
 **Data:** `notebooks/brian2/n_scaling_data/run_n_scaling_seed.py` (parametrized twin of

@@ -1,0 +1,25 @@
+{
+  "status": "done",
+  "total_jobs": 24,
+  "completed": 24,
+  "failed": 0,
+  "started_at": 1784847423.049931,
+  "n_values": [
+    8,
+    9,
+    10
+  ],
+  "n_seeds_per_point": 8,
+  "duration_s": 600.0,
+  "reference_inhib_mV": 13.0,
+  "gap_scale": 1.5,
+  "last_completed": {
+    "seed": 23022,
+    "n_post": 10,
+    "combo_name": "n10",
+    "out_path": "C:\\Users\\urawi\\OneDrive\\Desktop\\a wide variety of vscode projects\\developing-mind\\notebooks\\brian2\\n_scaling_data\\nscale_n10_seed23022.json",
+    "wall_s": 216.05394649505615,
+    "exit_code": 0
+  },
+  "elapsed_s": 854.4193813800812
+}

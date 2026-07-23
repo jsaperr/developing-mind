@@ -1,0 +1,26 @@
+launching 24 jobs, max_concurrent=6
+[1/24] seed 23001 (n8) -> exit 0, 208.1s
+[2/24] seed 23002 (n8) -> exit 0, 210.1s
+[3/24] seed 23005 (n8) -> exit 0, 210.1s
+[4/24] seed 23000 (n8) -> exit 0, 212.1s
+[5/24] seed 23003 (n8) -> exit 0, 212.1s
+[6/24] seed 23004 (n8) -> exit 0, 212.1s
+[7/24] seed 23007 (n8) -> exit 0, 210.1s
+[8/24] seed 23006 (n8) -> exit 0, 214.1s
+[9/24] seed 23009 (n9) -> exit 0, 210.1s
+[10/24] seed 23008 (n9) -> exit 0, 214.1s
+[11/24] seed 23010 (n9) -> exit 0, 212.1s
+[12/24] seed 23011 (n9) -> exit 0, 212.1s
+[13/24] seed 23012 (n9) -> exit 0, 214.1s
+[14/24] seed 23013 (n9) -> exit 0, 212.1s
+[15/24] seed 23014 (n9) -> exit 0, 212.1s
+[16/24] seed 23015 (n9) -> exit 0, 214.1s
+[17/24] seed 23016 (n10) -> exit 0, 214.1s
+[18/24] seed 23017 (n10) -> exit 0, 214.1s
+[19/24] seed 23018 (n10) -> exit 0, 216.1s
+[20/24] seed 23019 (n10) -> exit 0, 216.1s
+[21/24] seed 23020 (n10) -> exit 0, 216.1s
+[22/24] seed 23021 (n10) -> exit 0, 212.1s
+[23/24] seed 23023 (n10) -> exit 0, 214.0s
+[24/24] seed 23022 (n10) -> exit 0, 216.1s
+N-SCALING FOLLOWUP DONE -- 24 jobs, 0 failed, 854.4s total
