@@ -1,0 +1,3 @@
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([6.28276980e-03, 1.30149337e-02, 1.42134451e-02, ...,
+       5.99974537e+02, 5.99975872e+02, 5.99984494e+02]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+seed 24094 -> C:\Users\urawi\OneDrive\Desktop\a wide variety of vscode projects\developing-mind\notebooks\brian2\boundary_sweep_data\boundary_inhib12_gap1.50_seed24094.json

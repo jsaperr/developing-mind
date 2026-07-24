@@ -1,0 +1,33 @@
+{
+  "status": "done",
+  "total_jobs": 128,
+  "completed": 128,
+  "failed": 0,
+  "started_at": 1784861459.4080286,
+  "grid": {
+    "inhib_values": [
+      10.0,
+      11.0,
+      12.0,
+      13.0
+    ],
+    "gap_scale_values": [
+      1.0,
+      1.17,
+      1.33,
+      1.5
+    ]
+  },
+  "n_seeds_per_point": 8,
+  "duration_s": 600.0,
+  "last_completed": {
+    "seed": 24127,
+    "inhib": 13.0,
+    "gap_scale": 1.5,
+    "combo_name": "inhib13_gap1.50",
+    "out_path": "C:\\Users\\urawi\\OneDrive\\Desktop\\a wide variety of vscode projects\\developing-mind\\notebooks\\brian2\\boundary_sweep_data\\boundary_inhib13_gap1.50_seed24127.json",
+    "wall_s": 306.1003668308258,
+    "exit_code": 0
+  },
+  "elapsed_s": 4642.684065103531
+}

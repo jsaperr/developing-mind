@@ -70,6 +70,81 @@ mechanism and data.
 
 ---
 
+## 2026-07-23 — Boundary-mapping sweep: does a reliable-and-rich region exist between strong_tight_gate and 13mV/1.5? Undetermined at 600s — the timescale itself is the obstacle, confirmed directly, not assumed
+
+**Data:** `notebooks/brian2/boundary_sweep_data/run_boundary_sweep.py`, `analyze_boundary_sweep.py`,
+128 seed JSONs, `boundary_analysis.json`. New shared code: `src/brian2_stdp/metrics.py` gained
+`detect_tier_reentry` (generalizes the by-hand tier-reentry check from step 4). Per web's message:
+Test A/step 4 found zero genuine reorganization at the reliable 13mV/1.5 setting at two N values —
+does a region exist between that point and the known-rich-but-unreliable `strong_tight_gate`
+(10mV/1.0, ~50% reliable) where both reliability and genuine reorganization coexist, or do they
+trade off cleanly across the whole range?
+
+**Design:** 4×4 grid, inhib_strength ∈ {10,11,12,13}mV × gap_scale ∈ {1.0,1.17,1.33,1.5}mV
+(spans exactly between the two known points), 8 seeds/point (128 runs), 600s, N=3 (matching every
+prior sweep at this scale). Two metrics tracked separately per web's instruction: reliability
+(differentiate rate) and reentry_rate (fraction of ALL seeds showing genuine tier reentry via
+`detect_tier_reentry`, not swap-count).
+
+**A real bug caught before trusting the first result, then a second, deeper one caught after
+"fixing" the first — worth walking through both, not just reporting the final number:**
+
+1. **First pass:** reentry_rate came back suspiciously high and uniform across the *entire* grid
+   (12-62%), including at the exact 13mV/1.5 endpoint where Test A/step 4 had already found zero
+   reentry in 8 seeds. That contradiction was the tell. Inspected two flagged seeds directly:
+   both were still visibly in the middle of the initial differentiation transient (gap values
+   monotonically rising from their common starting point, one neuron catching up to another over
+   250-400+s) when `detect_tier_reentry`'s fixed 100s washout treated a too-early window as the
+   "settled baseline" — the exact false-positive class already caught by hand in step 4, just not
+   carried into this function's defaults when it was generalized into reusable code.
+2. **Fix (round 1):** replaced the fixed washout with adaptive per-seed settling detection — find
+   the first point where the top tier stays IDENTICAL for 3 consecutive windows, use that as the
+   baseline. Re-verified against the same two seeds: fixed one, but the other (24124) *still*
+   showed a false positive. Root cause: a slow, continuous convergence can keep each individual
+   window-to-window step under the 0.03 threshold while still accumulating real drift across the
+   whole "stable" stretch — top-tier-set stability alone isn't sufficient evidence of an actual
+   plateau.
+3. **Fix (round 2):** required the full per-neuron VALUE range across the whole stable stretch
+   (not just pairwise adjacent-window steps) to stay under threshold. Both regressions now pass
+   as dedicated unit tests (`test_detect_tier_reentry_does_not_flag_slow_initial_convergence_as_reentry`),
+   not just fixed ad hoc.
+
+**Re-ran the analysis (no re-simulation needed) with the corrected metric: reentry_rate dropped
+to 0.00 at 13 of 16 grid points, non-zero (0.12, i.e. 1/8 seeds) at exactly 3.** Inspected all
+three non-zero cases directly rather than accepting the number. All three show the *same* pattern
+as the two already-fixed false positives: slow, extended, non-plateauing drift continuing for
+most of the 600s run, with no clean, sharp "settled, then something new happened later" structure
+— ambiguous at best, not a confirmed instance of genuine reentry. **Decisive check: even
+`strong_tight_gate` itself (10mV/1.0) — included in this grid, the one point already known with
+certainty to show real reorganization at full 5000s duration — reads reentry_rate=0.00 here.**
+That is the clean confirmation, not an assumption: if the reference point that *is* rich reads as
+zero, this design cannot be trusted to detect richness anywhere else in the grid either.
+
+**Verdict: the boundary-mapping question is undetermined at 600s — not because of a remaining
+bug, but because the settling process itself, in this system, does not reliably finish within a
+600s window for a meaningful fraction of seeds.** The pre-stated caveat (genuine reorganization
+in the original typology took 1000-2600s, past 600s) turns out to understate the problem: it's
+not just that late reorganization is missed, it's that the network can still be in its *initial*
+relaxation for most or all of a 600s run, leaving no reliable "settled" baseline to check reentry
+against in the first place. No amount of smarter windowing fixes that within a fixed 600s budget
+-- the fix here catches false positives, it can't manufacture time that wasn't simulated.
+
+**What this sweep DOES answer cleanly:** reliability itself (0.62-1.00 across all 16 points, no
+sharp cliffs) and disorder_rate (0.00 at every single point in this range) — the "never settles
+at all" pattern doesn't appear anywhere between the two known operating points, which at least
+rules out that specific failure mode across this whole region. What it cannot answer: whether the
+5003-style one-time-late-reorganization pattern exists anywhere in this range, reliable or not —
+that requires runs long enough for the network's own relaxation to actually finish, which 600s
+frequently isn't.
+
+**Recommendation, not decided here:** either run this same grid (or a coarser sub-grid) at longer
+duration (perhaps 1500-2000s, enough margin past the observed 400-500s worst-case settling tail
+plus real time to observe reentry after it) — real added cost, but the only way to actually answer
+the question as posed — or accept that this specific boundary can't be mapped cheaply and decide
+whether it's worth the longer-duration cost given nothing currently depends on resolving it.
+
+---
+
 ## 2026-07-23 — Experiment B step 4: N=7 at full 5000s — extends Test A's finding, not a contradiction. Reliable competition still means fast, permanent settling, not genuine reorganization
 
 **Data:** `notebooks/brian2/n_scaling_data/step4_n7_5000s/` (4 seed JSONs, `run_n_scaling_seed.py`

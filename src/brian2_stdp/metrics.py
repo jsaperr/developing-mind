@@ -132,46 +132,89 @@ def count_identity_swaps(holder_identity):
     return int(np.sum(np.diff(holder_identity) != 0))
 
 
-def detect_tier_reentry(per_neuron_gap, weight_trace_t, washout_s=100.0, window_s=100.0, threshold=0.03):
-    """Does any neuron genuinely re-enter the top tier after an initial settling/washout period,
-    despite NOT being in the top tier during that settled baseline? Catches actual reorganization
-    (a previously-excluded neuron regaining contention) as distinct from noise-level swapping
-    among an already-decided top tier -- the exact distinction Test A's step-4 analysis needed
-    to build by hand; this is that check, generalized and reusable.
+def detect_tier_reentry(per_neuron_gap, weight_trace_t, window_s=50.0, stable_windows=3, threshold=0.03):
+    """Does any neuron genuinely re-enter the top tier after the network has reached an actual
+    stable state, despite NOT being in the top tier during that stable baseline? Catches real
+    reorganization (a previously-excluded neuron regaining contention) as distinct from
+    noise-level swapping among an already-decided top tier, AND as distinct from just still being
+    in the middle of the initial differentiation transient (see below).
 
-    Splits (washout_s, duration] into window_s-long windows, computes the top tier
-    (compute_tiers) within each via the window-averaged gap. baseline_top = the top tier in the
-    FIRST post-washout window. A neuron counts as a genuine reentrant only if it appears in the
-    top tier of some LATER window while having been absent from baseline_top -- being in the top
-    tier at every window (even a big, noisy one) is not reentry, it never left.
+    A fixed washout period (an earlier version of this function used one) does NOT work: the
+    initial transient, where gaps rise from their common w_init starting point toward their
+    eventual settled values, can itself last 250-400+s in some seeds -- confirmed directly by
+    inspecting raw boundary-sweep data (seed 24124: gap trajectory still visibly rising, one
+    neuron catching up to another, all the way out to t~400s; seed 24120: still mid-transient at
+    t=100-150s, converges to a stable 3-way tie only by t~200s). A fixed 100s washout caught both
+    mid-transient and flagged the tail of the SAME initial rise as false "reentry" -- the exact
+    false-positive class already caught by hand in the step-4 analysis, just not carried into
+    this function's original defaults.
 
-    Returns {'reentered': bool, 'reentrants': set of neuron indices, 'first_reentry_t': float or
-    None, 'baseline_top': set}. Caveat, not solved here: this only detects reentry events that
-    happen to occur within `duration` -- if genuine reorganization typically takes longer than
-    the window tested (e.g. the ~1000-2600s range seen in the original strong_tight_gate
-    typology, well past a 600s calibration-scale run), a short run will systematically undercount
-    it. A 'reentered: False' result at short duration means "no reentry observed in this window,"
-    not "this setting never reorganizes at any timescale" -- see the boundary-mapping sweep
-    entry in experiments_brian2.md for how this gets interpreted in practice."""
+    Fix: detect the actual stabilization point per seed, adaptively, on TWO conditions, not one.
+    Computes the top tier (compute_tiers) AND the full per-neuron window-mean gap in
+    window_s-long windows across the whole run. The candidate stable point requires, for
+    `stable_windows` consecutive windows: (a) the top-tier SET stays identical, AND (b) EVERY
+    neuron's RANGE (max-min) across the whole stretch stays below `threshold`. (a) alone is not
+    sufficient -- a neuron already in the eventual top tier can plateau early while ANOTHER
+    neuron destined to join it is still mid-rise but not yet close enough to register in the
+    tier; condition (a) alone would then lock onto a premature "stable" baseline and misread the
+    still-rising neuron's eventual arrival as reentry. A first attempt at (b) using only
+    adjacent-window drift (not full-stretch range) still wasn't enough -- a slow, continuous
+    convergence can keep each individual window-to-window step just under threshold while still
+    accumulating real drift across the stretch (caught directly on real sweep data, seed 24124:
+    neuron 1's gap kept rising ~0.02-0.04 per 50s step, each step individually small, but the
+    stretch as a whole was still trending, not flat). Using the full stretch's range (not
+    pairwise steps) catches slow cumulative drift that a pairwise check misses. Both false
+    positives are now regression tests. baseline_top = the tier once both conditions hold. A
+    neuron counts as a genuine reentrant only if it appears in the top tier of some window AFTER
+    that stable stretch ends, having been absent from baseline_top.
+
+    If the top tier never stays stable for `stable_windows` consecutive windows anywhere in the
+    run, reentry isn't a well-posed question (there's no baseline to re-enter relative to) --
+    returns 'never_settled': True rather than guessing; classify_hierarchy's disorder label
+    already exists for exactly this "never settles" case.
+
+    Returns {'reentered': bool, 'reentrants': set, 'first_reentry_t': float or None,
+    'baseline_top': set, 'settled_at': float or None, 'never_settled': bool}. Caveat, not solved
+    here: still only detects reentry events that happen to occur within `duration` -- if genuine
+    reorganization typically takes longer than the window tested (the ~1000-2600s range seen in
+    the original strong_tight_gate typology, well past a 600s calibration-scale run, and now on
+    top of a settling transient that can itself eat several hundred seconds), a short run will
+    still undercount it even with this fix. A 'reentered: False' result means "no reentry
+    observed after this seed's own settling point, within this run's duration," not "this
+    setting never reorganizes at any timescale.\""""
     weight_trace_t = np.asarray(weight_trace_t)
     duration = weight_trace_t[-1]
-    edges = np.arange(washout_s, duration + 1e-9, window_s)
-    windows_top = []
+    edges = np.arange(0, duration + 1e-9, window_s)
+    tops = []
+    means = []
     for i in range(len(edges) - 1):
         mask = (weight_trace_t >= edges[i]) & (weight_trace_t < edges[i + 1])
         if mask.sum() == 0:
             continue
         window_mean = per_neuron_gap[:, mask].mean(axis=1)
         tiers = compute_tiers(window_mean, threshold=threshold)
-        windows_top.append((edges[i], frozenset(tiers[0])))
+        tops.append((edges[i], frozenset(tiers[0])))
+        means.append(window_mean)
 
-    if len(windows_top) < 2:
-        return {'reentered': False, 'reentrants': set(), 'first_reentry_t': None, 'baseline_top': set()}
+    stable_start_idx = None
+    for i in range(len(tops) - stable_windows + 1):
+        window_sets = [tops[j][1] for j in range(i, i + stable_windows)]
+        sets_stable = all(s == window_sets[0] for s in window_sets)
+        stretch = np.stack(means[i:i + stable_windows])  # shape (stable_windows, n_post)
+        max_range = (stretch.max(axis=0) - stretch.min(axis=0)).max()
+        if sets_stable and max_range < threshold:
+            stable_start_idx = i
+            break
 
-    baseline_top = windows_top[0][1]
+    if stable_start_idx is None:
+        return {'reentered': False, 'reentrants': set(), 'first_reentry_t': None,
+                'baseline_top': set(), 'settled_at': None, 'never_settled': True}
+
+    baseline_top = tops[stable_start_idx][1]
+    settled_at = tops[stable_start_idx][0]
     reentrants = set()
     first_reentry_t = None
-    for t, top in windows_top[1:]:
+    for t, top in tops[stable_start_idx + stable_windows:]:
         new_members = top - baseline_top
         if new_members:
             reentrants |= new_members
@@ -181,6 +224,7 @@ def detect_tier_reentry(per_neuron_gap, weight_trace_t, washout_s=100.0, window_
     return {
         'reentered': len(reentrants) > 0, 'reentrants': reentrants,
         'first_reentry_t': first_reentry_t, 'baseline_top': set(baseline_top),
+        'settled_at': float(settled_at), 'never_settled': False,
     }
 
 

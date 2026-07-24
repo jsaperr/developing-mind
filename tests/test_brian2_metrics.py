@@ -157,20 +157,22 @@ def test_classify_hierarchy_detects_disorder():
 def test_detect_tier_reentry_false_when_top_tier_never_changes():
     t = np.linspace(0, 600, 601)
     per_neuron_gap = np.tile(np.array([[0.80], [0.40], [0.42]]), (1, len(t)))
-    result = detect_tier_reentry(per_neuron_gap, t, washout_s=100, window_s=100)
+    result = detect_tier_reentry(per_neuron_gap, t, window_s=100, stable_windows=3)
     assert result['reentered'] is False
     assert result['reentrants'] == set()
+    assert result['never_settled'] is False
 
 
 def test_detect_tier_reentry_true_when_excluded_neuron_rejoins():
-    # neuron 1 starts excluded (0.40), rejoins the top tier (0.80) after t=300
+    # neuron 1 starts excluded (0.40) but stable for 300s (3 windows of 100s), then rejoins the
+    # top tier (0.79) after t=300 -- a genuine post-settling reentry.
     t = np.linspace(0, 600, 601)
     per_neuron_gap = np.zeros((3, len(t)))
     per_neuron_gap[0, :] = 0.80  # neuron 0: always top
     per_neuron_gap[2, :] = 0.40  # neuron 2: always excluded
-    per_neuron_gap[1, t < 300] = 0.40   # neuron 1: excluded at first
+    per_neuron_gap[1, t < 300] = 0.40   # neuron 1: excluded and STABLE for the first 300s
     per_neuron_gap[1, t >= 300] = 0.79  # neuron 1: rejoins the top tier later
-    result = detect_tier_reentry(per_neuron_gap, t, washout_s=100, window_s=100)
+    result = detect_tier_reentry(per_neuron_gap, t, window_s=100, stable_windows=3)
     assert result['reentered'] is True
     assert 1 in result['reentrants']
     assert 2 not in result['reentrants']
@@ -185,5 +187,37 @@ def test_detect_tier_reentry_ignores_noise_among_already_top_neurons():
     per_neuron_gap[2, :] = 0.20  # always excluded
     per_neuron_gap[0, :] = np.where((t.astype(int) // 50) % 2 == 0, 0.78, 0.76)
     per_neuron_gap[1, :] = np.where((t.astype(int) // 50) % 2 == 0, 0.76, 0.78)
-    result = detect_tier_reentry(per_neuron_gap, t, washout_s=100, window_s=100)
+    result = detect_tier_reentry(per_neuron_gap, t, window_s=100, stable_windows=3)
+    assert result['reentered'] is False
+
+
+def test_detect_tier_reentry_does_not_flag_slow_initial_convergence_as_reentry():
+    """Regression test for the real false-positive class caught in the boundary-mapping sweep:
+    a fixed washout_s=100 flagged neurons still in the middle of the initial differentiation
+    transient (gap values monotonically rising from a common start, one neuron catching up to
+    another over several hundred seconds) as 'reentry' once they finally converged -- they were
+    never excluded-then-readmitted, they just took longer to rise. The fix must recognize this
+    as still-settling, not settled-then-changed."""
+    t = np.linspace(0, 600, 601)
+    per_neuron_gap = np.zeros((3, len(t)))
+    per_neuron_gap[2, :] = 0.15  # neuron 2: excluded throughout, never rises
+    # neuron 0 rises fast to 0.65 by t=100 and stays there
+    per_neuron_gap[0, :] = np.minimum(0.65, 0.65 * t / 100)
+    # neuron 1 rises SLOWLY, only catching up to neuron 0 by t~400, then both stay tied
+    per_neuron_gap[1, :] = np.minimum(0.65, 0.65 * t / 400)
+    result = detect_tier_reentry(per_neuron_gap, t, window_s=50, stable_windows=3)
+    assert result['reentered'] is False
+
+
+def test_detect_tier_reentry_never_settled_when_top_tier_keeps_changing():
+    rng = np.random.RandomState(0)
+    per_neuron_gap = rng.uniform(0.3, 0.5, size=(4, 601))
+    t = np.linspace(0, 600, 601)
+    # force a different leader in every 50s block -- never 3 consecutive identical windows
+    for i, start in enumerate(range(0, 600, 50)):
+        mask = (t >= start) & (t < start + 50)
+        per_neuron_gap[:, mask] = 0.3
+        per_neuron_gap[i % 4, mask] = 0.9
+    result = detect_tier_reentry(per_neuron_gap, t, window_s=50, stable_windows=3)
+    assert result['never_settled'] is True
     assert result['reentered'] is False
