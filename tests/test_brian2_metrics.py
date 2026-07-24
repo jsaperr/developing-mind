@@ -4,7 +4,8 @@ import numpy as np
 
 from src.brian2_stdp.metrics import (
     classify_differentiation, classify_hierarchy, compute_competitive_metrics, compute_tiers,
-    count_identity_swaps, count_reversals, compute_group_metrics, full_rank_swap_count,
+    count_identity_swaps, count_reversals, compute_group_metrics, detect_tier_reentry,
+    full_rank_swap_count,
 )
 
 
@@ -151,3 +152,38 @@ def test_classify_hierarchy_detects_disorder():
     result = classify_hierarchy(per_neuron_gap, t, late_window_s=100)
     assert result['label'] == 'disorder'
     assert result['n_distinct_top_sets'] > 2
+
+
+def test_detect_tier_reentry_false_when_top_tier_never_changes():
+    t = np.linspace(0, 600, 601)
+    per_neuron_gap = np.tile(np.array([[0.80], [0.40], [0.42]]), (1, len(t)))
+    result = detect_tier_reentry(per_neuron_gap, t, washout_s=100, window_s=100)
+    assert result['reentered'] is False
+    assert result['reentrants'] == set()
+
+
+def test_detect_tier_reentry_true_when_excluded_neuron_rejoins():
+    # neuron 1 starts excluded (0.40), rejoins the top tier (0.80) after t=300
+    t = np.linspace(0, 600, 601)
+    per_neuron_gap = np.zeros((3, len(t)))
+    per_neuron_gap[0, :] = 0.80  # neuron 0: always top
+    per_neuron_gap[2, :] = 0.40  # neuron 2: always excluded
+    per_neuron_gap[1, t < 300] = 0.40   # neuron 1: excluded at first
+    per_neuron_gap[1, t >= 300] = 0.79  # neuron 1: rejoins the top tier later
+    result = detect_tier_reentry(per_neuron_gap, t, washout_s=100, window_s=100)
+    assert result['reentered'] is True
+    assert 1 in result['reentrants']
+    assert 2 not in result['reentrants']
+    assert result['first_reentry_t'] is not None and result['first_reentry_t'] >= 300
+
+
+def test_detect_tier_reentry_ignores_noise_among_already_top_neurons():
+    # neurons 0 and 1 are both in the top tier the whole time, just trading rank order --
+    # not reentry, they never left.
+    t = np.linspace(0, 600, 601)
+    per_neuron_gap = np.zeros((3, len(t)))
+    per_neuron_gap[2, :] = 0.20  # always excluded
+    per_neuron_gap[0, :] = np.where((t.astype(int) // 50) % 2 == 0, 0.78, 0.76)
+    per_neuron_gap[1, :] = np.where((t.astype(int) // 50) % 2 == 0, 0.76, 0.78)
+    result = detect_tier_reentry(per_neuron_gap, t, washout_s=100, window_s=100)
+    assert result['reentered'] is False

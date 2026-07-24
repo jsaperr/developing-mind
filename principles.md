@@ -130,6 +130,25 @@ n=14 seeds now — see experiments_brian2.md's bistability entry). A proper dist
 estimate of the individual-level regimes, and whether other operating points show the same
 bifurcation structure, remain real, unstarted follow-ups.
 
+**A real boundary condition on the identity-persistence claim, found 2026-07-23 — stated
+plainly rather than left as the original broad framing.** The genuine ongoing-reorganization
+version of this finding — a laggard actually re-entering the leading tier well after initial
+settling, or a population that never settles into a fixed hierarchy at all — has only been
+confirmed at `strong_tight_gate` (inhib=10mV, gap_scale=1.0), a marginal, near-bifurcation
+operating point where differentiation itself is unreliable (~50%, see the bistability sweep).
+At a more reliable setting (13mV/1.5), confirmed independently at both n_post=3 and n_post=7
+(the N-scaling curve and its step-4 extension), competition instead resolves fast and
+permanently within the first ~1-5% of run duration and never changes again — real seed-to-seed
+variety in final hierarchy *shape*, but zero ongoing reorganization in every seed tested.
+**Reliability and genuine ongoing identity-churn have not been shown to coexist at any setting
+tested so far.** They may be in real tension — possibly requiring the system to sit specifically
+near a differentiation bifurcation rather than comfortably reliable on one side of it, the same
+"stability-plasticity is structural, not tunable" shape as the two-layer memory's own decay
+constants, applied to a mechanism that hadn't been tested this precisely before. Flagged here as
+a real, falsifiable, open architectural question — not a settled one, and not something to
+silently assume away when reusing this mechanism elsewhere. See experiments_brian2.md's Test A
+and N-scaling step-4 entries for the data this rests on.
+
 ## How to fail correctly
 
 Negative results are real data, not something to route around or

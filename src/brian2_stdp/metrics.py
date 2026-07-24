@@ -132,6 +132,58 @@ def count_identity_swaps(holder_identity):
     return int(np.sum(np.diff(holder_identity) != 0))
 
 
+def detect_tier_reentry(per_neuron_gap, weight_trace_t, washout_s=100.0, window_s=100.0, threshold=0.03):
+    """Does any neuron genuinely re-enter the top tier after an initial settling/washout period,
+    despite NOT being in the top tier during that settled baseline? Catches actual reorganization
+    (a previously-excluded neuron regaining contention) as distinct from noise-level swapping
+    among an already-decided top tier -- the exact distinction Test A's step-4 analysis needed
+    to build by hand; this is that check, generalized and reusable.
+
+    Splits (washout_s, duration] into window_s-long windows, computes the top tier
+    (compute_tiers) within each via the window-averaged gap. baseline_top = the top tier in the
+    FIRST post-washout window. A neuron counts as a genuine reentrant only if it appears in the
+    top tier of some LATER window while having been absent from baseline_top -- being in the top
+    tier at every window (even a big, noisy one) is not reentry, it never left.
+
+    Returns {'reentered': bool, 'reentrants': set of neuron indices, 'first_reentry_t': float or
+    None, 'baseline_top': set}. Caveat, not solved here: this only detects reentry events that
+    happen to occur within `duration` -- if genuine reorganization typically takes longer than
+    the window tested (e.g. the ~1000-2600s range seen in the original strong_tight_gate
+    typology, well past a 600s calibration-scale run), a short run will systematically undercount
+    it. A 'reentered: False' result at short duration means "no reentry observed in this window,"
+    not "this setting never reorganizes at any timescale" -- see the boundary-mapping sweep
+    entry in experiments_brian2.md for how this gets interpreted in practice."""
+    weight_trace_t = np.asarray(weight_trace_t)
+    duration = weight_trace_t[-1]
+    edges = np.arange(washout_s, duration + 1e-9, window_s)
+    windows_top = []
+    for i in range(len(edges) - 1):
+        mask = (weight_trace_t >= edges[i]) & (weight_trace_t < edges[i + 1])
+        if mask.sum() == 0:
+            continue
+        window_mean = per_neuron_gap[:, mask].mean(axis=1)
+        tiers = compute_tiers(window_mean, threshold=threshold)
+        windows_top.append((edges[i], frozenset(tiers[0])))
+
+    if len(windows_top) < 2:
+        return {'reentered': False, 'reentrants': set(), 'first_reentry_t': None, 'baseline_top': set()}
+
+    baseline_top = windows_top[0][1]
+    reentrants = set()
+    first_reentry_t = None
+    for t, top in windows_top[1:]:
+        new_members = top - baseline_top
+        if new_members:
+            reentrants |= new_members
+            if first_reentry_t is None:
+                first_reentry_t = float(t)
+
+    return {
+        'reentered': len(reentrants) > 0, 'reentrants': reentrants,
+        'first_reentry_t': first_reentry_t, 'baseline_top': set(baseline_top),
+    }
+
+
 def classify_differentiation(per_neuron_gap, weight_trace_t, late_window_s=100.0, threshold=0.03):
     """Basin classification for the competitive-population network: 'differentiate' (a real
     hierarchy formed) vs. 'converge' (all postsynaptic neurons settled to the same shared
