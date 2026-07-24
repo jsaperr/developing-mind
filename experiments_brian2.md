@@ -137,11 +137,23 @@ rules out that specific failure mode across this whole region. What it cannot an
 that requires runs long enough for the network's own relaxation to actually finish, which 600s
 frequently isn't.
 
-**Recommendation, not decided here:** either run this same grid (or a coarser sub-grid) at longer
-duration (perhaps 1500-2000s, enough margin past the observed 400-500s worst-case settling tail
-plus real time to observe reentry after it) — real added cost, but the only way to actually answer
-the question as posed — or accept that this specific boundary can't be mapped cheaply and decide
-whether it's worth the longer-duration cost given nothing currently depends on resolving it.
+**Decision (web, after review): do not rerun at a guessed longer duration.** A 1500-2000s rerun
+would itself be an unvalidated duration — the exact same category of problem this round just
+surfaced with 600s, just kicked down the road rather than solved. The one duration already known
+to be sufficient is 5000s (validated by Test A and step 4). If this boundary is ever mapped
+properly, the right approach is a handful of specific intermediate points extended to the full
+5000s the way Test A and step 4 were, not a new "probably long enough" guess at cheap scale.
+
+**Status: closed as honest, precisely-scoped debt, not chased further right now.** The boundary
+zone's shape (needle-thin point vs. real region) is genuinely unknown. The cheap 600s probe
+methodology has a confirmed timescale limit and cannot answer this question at any tuning of the
+detection algorithm — two rounds of fixing `detect_tier_reentry` establish that directly, not by
+assumption. Answering it properly requires full 5000s runs at a handful of intermediate points
+between `strong_tight_gate` and 13mV/1.5, a real cost, not undertaken tonight since nothing
+currently depends on resolving it. This closes out the population-competition thread for now —
+reliability (bistability sweep), hierarchy shape (N-scaling curve), and the reliability-vs-
+reorganization tension (Test A, step 4, this boundary probe) are all now characterized as
+precisely as tonight's tools allow, with what's still unknown stated plainly rather than glossed.
 
 ---
 
