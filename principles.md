@@ -149,6 +149,35 @@ a real, falsifiable, open architectural question — not a settled one, and not 
 silently assume away when reusing this mechanism elsewhere. See experiments_brian2.md's Test A
 and N-scaling step-4 entries for the data this rests on.
 
+**Named finding: reliability can come from suppression, not dominance — and the two look
+identical under passive observation but diverge sharply under active perturbation, found
+2026-07-23 via a three-round perturbation-testing arc (see experiments_brian2.md).** "Robust"
+is underspecified without saying robust to *what*. This system produces at least two
+structurally different routes to a reliably-differentiating outcome:
+
+- **Suppression-based reliability** (13mV/1.5 in the competitive population): the excluded
+  neuron gets pushed out of firing fast, via strong lateral inhibition, almost from the start
+  of the run — it barely gets the chance to accumulate correlated-synapse weight at all. This
+  reads as "deep, permanent lock-in" under passive observation (zero spontaneous reorganization
+  in every seed tested, at two network sizes) precisely because the loser was never really in
+  the competition on weight terms — it was held down by a strong hand, not out-competed.
+- **Dominance-based reliability** (`strong_tight_gate`, 10mV/1.0): differentiation is less
+  reliable outright (~50% of seeds even reach a stable hierarchy), but seeds that do land there
+  won it on genuinely closer, more contested weight terms.
+
+Directly perturbing the excluded neuron's own correlated-synapse weights (bypassing the
+inhibitory suppression mechanism entirely, rather than waiting for spontaneous reorganization)
+reveals these are different axes that don't even rank operating points the same way: the
+"more reliable, deeper-locked-in" 13mV/1.5 setting was *easier* to knock into a new hierarchy
+than `strong_tight_gate` (flipped in 7/8 seeds vs 5/8, at lower-or-comparable magnitude,
+replicated across two independently-seeded batches at two ladder resolutions). Once the
+suppression mechanism is bypassed, there's less real resistance underneath than the setting
+that was less reliable but more genuinely contested. **Passive reliability (never spontaneously
+reorganizes) and structural depth (resists a direct forced perturbation) are not the same
+property and must not be treated as interchangeable evidence for each other anywhere this
+mechanism gets reused.** See experiments_brian2.md's perturbation-testing entries (all three
+rounds) for the full mechanistic trail and data.
+
 ## How to fail correctly
 
 Negative results are real data, not something to route around or

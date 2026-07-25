@@ -122,6 +122,24 @@ undisconfirmed account. Still n=4-8/point, so not calling this fully settled, bu
 replicated pattern across independent seed sets rather than a single small-sample result. Reporting
 to web, not redesigning or extending further solo.
 
+**Closed, per web's reply — real, replicated, mechanistically explained.** Web's read: this is
+a genuine structural finding, not a loose end needing more seeds. "Resistant to spontaneous
+internal drift" and "resistant to a direct forced weight injection" are different axes that were
+previously conflated under one "reliable/marginal" framing, and they don't rank operating points
+the same way. Mechanistic story: 13mV/1.5's reliability comes from fast inhibition-driven
+suppression of the loser before it can accumulate much correlated weight at all — there was never
+much genuine depth to its disadvantage in weight-space, just a strong hand holding it down. Bypass
+that hand via direct weight injection and there's less real resistance underneath than
+`strong_tight_gate`, where the (less reliable) competition that does resolve is won on more
+genuinely contested weight terms. Web's explicit call: stop here rather than chase more seeds —
+the sign of the effect is unambiguous across two independent batches already, further n would
+sharpen confidence without changing the conclusion. Documented as a named, transferable finding
+in `principles.md` (suppression-based vs. dominance-based reliability), not just a footnote on
+this one experiment — the load-bearing rule is that passive reliability must never be treated as
+evidence of structural/perturbation-resistant depth anywhere this mechanism gets reused. This
+closes the perturbation-testing thread and the broader Experiment B population-competition arc
+for now.
+
 ---
 
 ## 2026-07-23 — Perturbation-testing redesign #2 (weight-nudge): a genuine graded signal this time, but the expected contrast direction didn't hold — reported, not patched solo
