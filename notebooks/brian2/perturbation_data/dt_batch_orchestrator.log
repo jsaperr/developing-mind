@@ -1,0 +1,10 @@
+launching 8 dt-check jobs at dt=0.2ms
+[1/8] seed 25000 -> exit 0, 90.1s
+[2/8] seed 25001 -> exit 0, 90.1s
+[3/8] seed 25003 -> exit 0, 90.0s
+[4/8] seed 25004 -> exit 0, 90.0s
+[5/8] seed 25005 -> exit 0, 90.0s
+[6/8] seed 25002 -> exit 0, 92.1s
+[7/8] seed 25007 -> exit 0, 82.0s
+[8/8] seed 25006 -> exit 0, 84.0s
+DT CHECK DONE -- 8 jobs, 0 failed, 174.1s

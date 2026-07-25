@@ -1,0 +1,41 @@
+{
+  "status": "done",
+  "total_jobs": 8,
+  "completed": 8,
+  "failed": 0,
+  "started_at": 1784939032.9902267,
+  "points": [
+    {
+      "name": "strong_tight_gate",
+      "inhib": 10.0,
+      "gap_scale": 1.0,
+      "seeds": [
+        26000,
+        26001,
+        26002,
+        26003
+      ]
+    },
+    {
+      "name": "reliable_13_1p5",
+      "inhib": 13.0,
+      "gap_scale": 1.5,
+      "seeds": [
+        26010,
+        26011,
+        26012,
+        26013
+      ]
+    }
+  ],
+  "last_completed": {
+    "seed": 26013,
+    "inhib": 13.0,
+    "gap_scale": 1.5,
+    "point_name": "reliable_13_1p5",
+    "out_path": "C:\\Users\\urawi\\OneDrive\\Desktop\\a wide variety of vscode projects\\developing-mind\\notebooks\\brian2\\perturbation_data\\perturb_reliable_13_1p5_seed26013.json",
+    "wall_s": 402.049063205719,
+    "exit_code": 0
+  },
+  "elapsed_s": 861.1986660957336
+}

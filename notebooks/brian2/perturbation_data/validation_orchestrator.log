@@ -1,0 +1,10 @@
+launching 8 validation jobs, max_concurrent=6
+[1/8] seed 26000 (strong_tight_gate) -> exit 0, 189.1s
+[2/8] seed 26002 (strong_tight_gate) -> exit 0, 459.1s
+[3/8] seed 26010 (reliable_13_1p5) -> exit 0, 498.1s
+[4/8] seed 26003 (strong_tight_gate) -> exit 0, 504.1s
+[5/8] seed 26001 (strong_tight_gate) -> exit 0, 576.1s
+[6/8] seed 26011 (reliable_13_1p5) -> exit 0, 588.1s
+[7/8] seed 26012 (reliable_13_1p5) -> exit 0, 477.1s
+[8/8] seed 26013 (reliable_13_1p5) -> exit 0, 402.0s
+VALIDATION BATCH DONE -- 8 jobs, 0 failed, 861.2s total

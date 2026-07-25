@@ -1,0 +1,12 @@
+{
+  "status": "done",
+  "total_jobs": 8,
+  "completed": 8,
+  "failed": 0,
+  "started_at": 1784925859.1232662,
+  "dt_ms": 0.2,
+  "inhib_mV": 13.0,
+  "gap_scale": 1.5,
+  "duration_s": 600.0,
+  "elapsed_s": 174.1269087791443
+}

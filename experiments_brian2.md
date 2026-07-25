@@ -70,6 +70,88 @@ mechanism and data.
 
 ---
 
+## 2026-07-23 — Perturbation-testing validation: FAILED, for a mechanistic reason, not a statistical one — I_pert doesn't test basin depth, it confounds two other effects
+
+**Data:** `notebooks/brian2/perturbation_data/` (`run_perturbation_seed.py`, `run_validation_batch.py`,
+8 seed JSONs, `run_dt_check.py` + `run_dt_batch.py` for the side-task). New: `src/brian2_stdp/network.py`
+gained `I_pert` (per-neuron resting-potential offset, confirmed bit-identical to the original
+equation at `I_pert=0` via dedicated regression test). Per web's redesign after the 600s reentry
+probe's confirmed timescale limit: instead of passively waiting for spontaneous reorganization,
+actively perturb the excluded neuron with escalating magnitude and measure the threshold at which
+the hierarchy permanently changes — a graded basin-depth number instead of a rare-event binary.
+
+**Side-task result first (cheap, resolved before the main experiment):** measured the actual
+presynaptic ISI floor directly (0.2ms, from `spikes.dedup_spike_times`' `min_gap`) rather than
+guessing a coarser dt. `dt=0.2ms` gives a real, validated 4x wall-clock speedup with zero
+same-timestep spike collisions. `dt=0.5ms` (the originally-guessed value) causes hard Brian2 errors
+and, separately, measurably shifts the outcome distribution at 13mV/1.5 (differentiate rate
+7/8→5/8, late-window std roughly halved) — confirming the jitter-aliasing risk flagged before
+running, not adopted. `dt=0.2ms` was used for validation and (see below) does not appear to be the
+cause of what follows.
+
+**Mandatory validation (per web's explicit instruction, before touching any intermediate point):**
+4 seeds each at `strong_tight_gate` (10mV/1.0) and 13mV/1.5, full ladder (1/2/4/8/16mV, 50s hold +
+200s recovery per rung, ~14 min total for all 8 seeds, 0 failures).
+
+**Surface-level result:** 13mV/1.5 — 0/4 seeds flipped at any magnitude (censored above 16mV in
+all four). `strong_tight_gate` — 1/4 flipped, at the *smallest* tested magnitude (1mV); the other
+3/4 censored above 16mV, same as every 13mV/1.5 seed. A real but thin contrast (1/4 vs 0/4, n=4 per
+point) — and on its own, not obviously distinguishable from the ALREADY-KNOWN heterogeneity at
+`strong_tight_gate` itself (near-permanent lock-in, e.g. seeds 5001/6002, is one of the established
+categories at that exact operating point, not a validation failure).
+
+**Didn't stop at the surface number — inspected the actual target-neuron gap trajectory across the
+magnitude ladder for all 8 seeds, and found something that invalidates the method, not just makes
+the contrast thin:**
+
+```
+target_baseline -> target_hold_gap at magnitude [1, 2, 4, 8, 16 mV]
+0.572 -> [0.565, 0.547, 0.521, 0.461, 0.416]   (13/1.5, seed 26010)
+0.395 -> [0.380, 0.371, 0.272, 0.124, 0.164]   (13/1.5, seed 26011)
+0.386 -> [0.375, 0.379, 0.314, 0.265, 0.265]   (13/1.5, seed 26012)
+0.387 -> [0.389, 0.392, 0.309, 0.187, 0.070]   (13/1.5, seed 26013)
+0.384 -> [0.375, 0.373, 0.365, 0.146, -0.148]  (strong_tight_gate, seed 26001)
+0.421 -> [0.397, 0.368, 0.300, 0.274, 0.070]   (strong_tight_gate, seed 26002)
+0.398 -> [0.396, 0.376, 0.320, 0.168, 0.003]   (strong_tight_gate, seed 26003)
+```
+
+**Every single seed shows the same monotonic pattern: the target's own correlated-vs-uncorrelated
+gap DECLINES as perturbation magnitude increases, reaching near-zero or negative at 16mV.** The
+perturbation was intended to help the excluded neuron build competitive strength; instead, at
+sufficient magnitude, it destroys the very thing (correlated-input selectivity) that would need to
+rise for it to genuinely compete. Mechanistically this makes sense on reflection: `I_pert` pins the
+target's resting potential closer to threshold, making it fire more regardless of whether that
+firing is triggered by correlated input specifically — STDP then potentiates correlated and
+uncorrelated synapses roughly equally, collapsing the neuron's own selectivity rather than sharpening
+it.
+
+**Checked the one seed that DID flip (26000, at just 1mV) to see whether it at least demonstrates
+genuine reentry through a different pathway — it doesn't.** The target's own gap stayed essentially
+flat throughout (baseline 0.593 → final 0.562, no real rise). What actually happened: the *leader's*
+gap declined (0.671 → 0.599) until all three converged into a single tied tier `[0,1,2]` — not "the
+excluded neuron reclaimed leadership," but "the leader got pulled down toward a three-way tie."
+Plausible mechanism: lateral inhibition fires per postsynaptic spike, not per rate-difference alone
+(`network.py`'s `inhib` Synapses trigger `on_pre`, one event per source spike) — so even a small
+`I_pert`-driven increase in the target's firing RATE directly increases the total inhibitory output
+it delivers to *both* competitors, independent of anything about its own learned correlated-weight
+advantage. That's a real effect, but a mechanistically different one than "how much force does the
+basin resist" — it's closer to "does forcing extra firing from a follower knock the leader down via
+raw inhibitory volume," which conflates the population's shared-inhibition dynamics with the
+individual-neuron competitive-strength question the experiment was designed to isolate.
+
+**Verdict: the method as implemented does not test what it was designed to test. This is not the
+1/4-vs-0/4 contrast being too thin to trust statistically — it's that inspecting the underlying
+mechanism shows the confound is present in literally every single tested seed, deterministically,
+not probabilistically.** A resting-potential-offset perturbation confounds two effects that both
+move the observable outcome in ways unrelated to genuine basin depth: (1) destroying the target's own
+input-selectivity at higher magnitudes, and (2) increasing the target's raw inhibitory output to
+competitors via elevated firing rate, independent of (1). Neither is "the excluded neuron rebuilding
+correlated-weight strength and reclaiming the lead on its own merits," which is what the basin-depth
+framing needs to mean something. **Not proceeding to any intermediate point. Reporting this to web
+before attempting a redesign** — this is a design-level problem, not a parameter to retune solo.
+
+---
+
 ## 2026-07-23 — Boundary-mapping sweep: does a reliable-and-rich region exist between strong_tight_gate and 13mV/1.5? Undetermined at 600s — the timescale itself is the obstacle, confirmed directly, not assumed
 
 **Data:** `notebooks/brian2/boundary_sweep_data/run_boundary_sweep.py`, `analyze_boundary_sweep.py`,

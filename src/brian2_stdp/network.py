@@ -164,10 +164,25 @@ R_INC = 1.0
 # to work with, matching the same "coupling, not noise, does the differentiating" intent.
 SIGMA_V = 0.3 * mV
 
+# `I_pert` is a per-neuron, externally-settable offset to the effective resting potential, used
+# by the perturbation-testing protocol (notebooks/brian2/perturbation_data/) to transiently boost
+# one neuron's drive and measure how much force it takes to permanently change a settled
+# hierarchy -- basin depth, rather than passively waiting for a rare spontaneous reorganization.
+#
+# Deliberately written as `(v_rest + I_pert - v)` rather than adding a separate `+ I_pert/tau`
+# term: with I_pert at its default 0*volt this evaluates as `(v_rest + 0.0) - v`, which is
+# bit-identical to the original `(v_rest - v)` in IEEE754 (adding exact zero is exact), so every
+# prior result built on this function is unaffected. A dedicated test asserts this equivalence
+# rather than trusting the reasoning.
+#
+# A sustained offset (not a one-time `v` nudge) is required for the same reason sigma_v exists
+# at all: the LIF hard reset to a fixed v_reset erases any one-time perturbation at the next
+# spike -- documented at length below and confirmed twice in this project's history.
 post_eqs_competitive = """
-dv/dt = (v_rest - v)/tau + sigma_v*xi*tau**-0.5 : volt (unless refractory)
+dv/dt = (v_rest + I_pert - v)/tau + sigma_v*xi*tau**-0.5 : volt (unless refractory)
 dr/dt = -r/tau_r : 1
 w_total : 1
+I_pert : volt
 """
 
 
@@ -261,6 +276,8 @@ def build_competitive_population_network(n_post, idx, t, apre_val, inhib_strengt
                                    "sigma_v": sigma_v})
     post.v = v_rest
     post.r = 0
+    post.I_pert = 0 * mV  # no perturbation by default -- see post_eqs_competitive's note on why
+                           # this leaves the equation bit-identical to the pre-perturbation version
 
     syn = Synapses(pre, post, model=stdp_model_homeo, on_pre=stdp_on_pre, on_post=stdp_on_post,
                     namespace=_synapse_namespace(apre_val, apost_val, gmax, target_total))

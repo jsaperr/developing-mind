@@ -1,0 +1,3 @@
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([1.62354239e-03, 1.02128961e-02, 1.06294463e-02, ...,
+       5.99976544e+02, 5.99981918e+02, 5.99984997e+02]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+dt-check seed 25007 dt=0.2ms -> C:\Users\urawi\OneDrive\Desktop\a wide variety of vscode projects\developing-mind\notebooks\brian2\perturbation_data\dtcheck_dt0.2_seed25007.json

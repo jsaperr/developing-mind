@@ -1,0 +1,3 @@
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([4.06871386e-03, 4.22102047e-03, 6.09331876e-03, ...,
+       2.64998252e+03, 2.64998836e+03, 2.64999617e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+perturbation seed 26011 -> C:\Users\urawi\OneDrive\Desktop\a wide variety of vscode projects\developing-mind\notebooks\brian2\perturbation_data\perturb_reliable_13_1p5_seed26011.json
