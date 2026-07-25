@@ -1,0 +1,10 @@
+launching 8 v2 validation jobs, max_concurrent=6
+[1/8] seed 27011 (reliable_13_1p5) -> exit 0, 153.0s
+[2/8] seed 27010 (reliable_13_1p5) -> exit 0, 156.1s
+[3/8] seed 27002 (strong_tight_gate) -> exit 0, 195.1s
+[4/8] seed 27003 (strong_tight_gate) -> exit 0, 207.1s
+[5/8] seed 27000 (strong_tight_gate) -> exit 0, 210.1s
+[6/8] seed 27001 (strong_tight_gate) -> exit 0, 267.1s
+[7/8] seed 27013 (reliable_13_1p5) -> exit 0, 135.0s
+[8/8] seed 27012 (reliable_13_1p5) -> exit 0, 153.0s
+V2 VALIDATION BATCH DONE -- 8 jobs, 0 failed, 306.1s total

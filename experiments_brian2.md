@@ -70,6 +70,71 @@ mechanism and data.
 
 ---
 
+## 2026-07-23 — Perturbation-testing redesign #2 (weight-nudge): a genuine graded signal this time, but the expected contrast direction didn't hold — reported, not patched solo
+
+**Data:** `notebooks/brian2/perturbation_data/run_perturbation_seed_v2.py`, `run_validation_batch_v2.py`,
+8 seed JSONs (`perturbv2_*`). Per web's redesign after round 1's I_pert failure: directly nudge
+the target's CORRELATED-synapse weights toward the ceiling (`wmax=1.0`), calibrated as a fraction
+of the way there (0.25/0.5/0.75/1.0), rather than forcing extra firing via current injection.
+Ladder magnitude is now grounded in the bimodal post-hoc analysis (winning correlated synapses
+cluster near `wmax`, not an arbitrary unit). Uses the validated `dt=0.2ms` throughout per web's
+instruction. Includes live monitoring (tier state printed every chunk) per web's separate ask.
+
+**A real implementation bug caught before any real run, not after:** `syn.w[boolean_mask] =
+values` (Brian2 Synapses state-variable assignment) reproducibly raised `ValueError: Provided
+values do not match the size of the indices, 10 != 60` -- but only once enough simulated time had
+elapsed (fails after a 450s run, works fine after 1s, identical mask/values shapes both times).
+Root cause not fully chased down (plausibly an interaction between Brian2's Cython codegen index
+caching and the long-running `run_regularly` scaling op), but confirmed directly that integer
+indices (`syn.w[np.where(mask)[0]] = values`) work reliably at both durations -- switched to that
+form, smoke-tested clean before the real batch.
+
+**Mandatory validation (4 seeds/point, `dt=0.2ms`, ~5 min total vs round 1's ~14 min -- the
+speedup is real and paying off): a genuinely different, more informative failure mode than
+round 1's.** Nearly every seed flipped at SOME ladder rung this time (7/8, vs round 1's
+1/8) -- and inspecting the underlying trajectory (not just the pass/fail table) shows why this
+result is trustworthy in a way round 1's wasn't: the target's own gap now shows real "boost, then
+partial pull-back" dynamics across the ladder. E.g. seed 27000: `corr_w` nudged to 0.840 at
+frac=0.25, but by the next rung's baseline it had decayed back to 0.784 -- genuine reclamation
+happening in the recovery window, not the destructive monotonic collapse round 1 showed. This is
+what the method was supposed to measure.
+
+**But the expected contrast direction didn't hold:**
+
+| point | seed | baseline top tier | threshold_frac | censored_above |
+|---|---|---|---|---|
+| strong_tight_gate | 27000 | [0] | 1.0 | - |
+| strong_tight_gate | 27001 | [0,2] | 1.0 | - |
+| strong_tight_gate | 27002 | [0,1,2] (converged) | 1.0 | - |
+| strong_tight_gate | 27003 | [0,1,2] (converged) | - | 1.0 |
+| 13mV/1.5 | 27010 | [1] | 0.75 | - |
+| 13mV/1.5 | 27011 | [1,2] | 0.75 | - |
+| 13mV/1.5 | 27012 | [0,2] | 1.0 | - |
+| 13mV/1.5 | 27013 | [1,2] | 0.75 | - |
+
+`strong_tight_gate` needed the maximum tested fraction (1.0) to flip in 3/4 seeds (the 4th was
+already fully converged, censored). 13mV/1.5 flipped at the *lower* fraction (0.75) in 3/4 seeds.
+If anything, in this small sample, 13mV/1.5 -- the setting expected to be the *harder*-to-flip,
+deep-basin point -- flipped more easily than the marginal, supposedly-shallow-basin
+`strong_tight_gate`. Backwards from web's stated expectation, on n=4 per point.
+
+**Verdict, stated plainly rather than either dismissed or over-interpreted:** this is a
+structurally different situation from round 1. Round 1 failed because the measurement itself was
+confounded -- the numbers were actively lying (deterministic, in every seed). Round 2's mechanism
+looks sound on inspection (real graded dynamics, genuine pull-back, no obvious confound found so
+far) but the actual DIRECTION of the reliability-vs-basin-depth relationship came out opposite to
+what both of us expected going in, on a small sample. Two real possibilities, not distinguished by
+this data: either the perturbation ladder's upper range (0.75-1.0, i.e. nudging most of the way to
+the literal weight ceiling) is simply strong enough to overturn structure almost everywhere
+regardless of true basin depth, making the ladder's TOP end uninformative and the real signal (if
+any) living in a range not finely sampled here — or the relationship between inhibition strength
+and basin depth genuinely isn't monotonic the way the "reliable = deep basin" framing assumed.
+Not deciding between these solo. **Reporting to web before any further redesign or additional
+seeds** -- two rounds is exactly the point web's own instruction named for checking in again
+rather than self-approving a third attempt.
+
+---
+
 ## 2026-07-23 — Perturbation-testing validation: FAILED, for a mechanistic reason, not a statistical one — I_pert doesn't test basin depth, it confounds two other effects
 
 **Data:** `notebooks/brian2/perturbation_data/` (`run_perturbation_seed.py`, `run_validation_batch.py`,

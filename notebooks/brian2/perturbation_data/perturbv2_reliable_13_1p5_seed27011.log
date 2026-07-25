@@ -1,0 +1,25 @@
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([1.04054588e-02, 1.17062768e-02, 1.35400473e-02, ...,
+       2.19996653e+03, 2.19996921e+03, 2.19999528e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+[settle] t=50s gap=[0.354, 0.445, 0.445] top=[1, 2]
+[settle] t=100s gap=[0.51, 0.611, 0.626] top=[1, 2]
+[settle] t=150s gap=[0.421, 0.708, 0.665] top=[1]
+[settle] t=200s gap=[0.395, 0.727, 0.77] top=[2]
+[settle] t=250s gap=[0.406, 0.764, 0.772] top=[1, 2]
+[settle] t=300s gap=[0.401, 0.774, 0.77] top=[1, 2]
+[settle] t=350s gap=[0.4, 0.77, 0.744] top=[1, 2]
+[nudge] target=0 fraction=0.25 corr_w 0.702 -> 0.777
+[recover frac=0.25] t+50s gap=[0.435, 0.774, 0.794] top=[1, 2]
+[recover frac=0.25] t+100s gap=[0.474, 0.778, 0.786] top=[1, 2]
+[recover frac=0.25] t+150s gap=[0.479, 0.754, 0.77] top=[1, 2]
+[recover frac=0.25] t+200s gap=[0.469, 0.773, 0.751] top=[1, 2]
+[nudge] target=0 fraction=0.5 corr_w 0.733 -> 0.866
+[recover frac=0.5] t+50s gap=[0.615, 0.782, 0.785] top=[1, 2]
+[recover frac=0.5] t+100s gap=[0.582, 0.771, 0.765] top=[1, 2]
+[recover frac=0.5] t+150s gap=[0.583, 0.745, 0.739] top=[1, 2]
+[recover frac=0.5] t+200s gap=[0.567, 0.743, 0.754] top=[1, 2]
+[nudge] target=0 fraction=0.75 corr_w 0.784 -> 0.946
+[recover frac=0.75] t+50s gap=[0.761, 0.784, 0.777] top=[0, 1, 2]
+[recover frac=0.75] t+100s gap=[0.747, 0.728, 0.744] top=[0, 1, 2]
+[recover frac=0.75] t+150s gap=[0.775, 0.762, 0.74] top=[0, 1, 2]
+[recover frac=0.75] t+200s gap=[0.763, 0.791, 0.779] top=[0, 1, 2]
+perturbation v2 seed 27011 -> C:\Users\urawi\OneDrive\Desktop\a wide variety of vscode projects\developing-mind\notebooks\brian2\perturbation_data\perturbv2_reliable_13_1p5_seed27011.json
