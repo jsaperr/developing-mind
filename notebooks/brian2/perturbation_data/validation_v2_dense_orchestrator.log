@@ -1,0 +1,10 @@
+launching 8 v2-dense validation jobs, max_concurrent=6
+[1/8] seed 28011 (reliable_13_1p5) -> exit 0, 81.0s
+[2/8] seed 28002 (strong_tight_gate) -> exit 0, 108.1s
+[3/8] seed 28013 (reliable_13_1p5) -> exit 0, 105.0s
+[4/8] seed 28010 (reliable_13_1p5) -> exit 0, 225.1s
+[5/8] seed 28003 (strong_tight_gate) -> exit 0, 237.1s
+[6/8] seed 28001 (strong_tight_gate) -> exit 0, 243.1s
+[7/8] seed 28000 (strong_tight_gate) -> exit 0, 255.1s
+[8/8] seed 28012 (reliable_13_1p5) -> exit 0, 216.0s
+V2-DENSE VALIDATION BATCH DONE -- 8 jobs, 0 failed, 297.1s total

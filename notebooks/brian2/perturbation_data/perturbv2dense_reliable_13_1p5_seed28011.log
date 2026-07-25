@@ -1,0 +1,14 @@
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([7.20617422e-04, 4.48556272e-03, 1.01363289e-02, ...,
+       2.59999546e+03, 2.59999693e+03, 2.59999705e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+[settle] t=50s gap=[0.388, 0.444, 0.427] top=[1, 2]
+[settle] t=100s gap=[0.537, 0.654, 0.649] top=[1, 2]
+[settle] t=150s gap=[0.531, 0.659, 0.751] top=[2]
+[settle] t=200s gap=[0.605, 0.67, 0.775] top=[2]
+[settle] t=250s gap=[0.59, 0.69, 0.786] top=[2]
+[settle] t=300s gap=[0.595, 0.692, 0.763] top=[2]
+[nudge] target=0 fraction=0.1 corr_w 0.797 -> 0.817
+[recover frac=0.1] t+50s gap=[0.593, 0.753, 0.762] top=[1, 2]
+[recover frac=0.1] t+100s gap=[0.603, 0.774, 0.785] top=[1, 2]
+[recover frac=0.1] t+150s gap=[0.588, 0.778, 0.791] top=[1, 2]
+[recover frac=0.1] t+200s gap=[0.594, 0.776, 0.78] top=[1, 2]
+perturbation v2 seed 28011 -> C:\Users\urawi\OneDrive\Desktop\a wide variety of vscode projects\developing-mind\notebooks\brian2\perturbation_data\perturbv2dense_reliable_13_1p5_seed28011.json

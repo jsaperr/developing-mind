@@ -71,12 +71,13 @@ RECOVERY_S = 200.0
 FRACTIONS = [0.25, 0.5, 0.75, 1.0]
 
 
-def run_perturbation_seed_v2(seed_val, inhib_mV, gap_scale, out_path, apre_val=0.005):
+def run_perturbation_seed_v2(seed_val, inhib_mV, gap_scale, out_path, apre_val=0.005, fractions=None):
+    fractions = FRACTIONS if fractions is None else fractions
     result = {
         'seed': seed_val, 'status': 'started', 'inhib_strength_mV': inhib_mV,
         'gap_scale': gap_scale, 'n_post': N_POST, 'dt_ms': DT_MS, 'chunk_s': CHUNK_S,
         'stable_windows': STABLE_WINDOWS, 'threshold': THRESHOLD, 'recovery_s': RECOVERY_S,
-        'fractions': FRACTIONS, 'max_settle_s': MAX_SETTLE_S, 'method': 'weight_nudge_v2',
+        'fractions': fractions, 'max_settle_s': MAX_SETTLE_S, 'method': 'weight_nudge_v2',
     }
     with open(out_path, 'w') as f:
         json.dump(result, f)
@@ -85,7 +86,7 @@ def run_perturbation_seed_v2(seed_val, inhib_mV, gap_scale, out_path, apre_val=0
         start_scope()
         defaultclock.dt = DT_MS * ms
         rng = np.random.default_rng(seed_val)
-        total_budget_s = MAX_SETTLE_S + len(FRACTIONS) * RECOVERY_S + 4 * CHUNK_S
+        total_budget_s = MAX_SETTLE_S + len(fractions) * RECOVERY_S + 4 * CHUNK_S
         idx, t = build_presynaptic_input(TARGET_RATE, P_SHARE, total_budget_s, rng)
         pre, post, syn, inhib = build_competitive_population_network(
             N_POST, idx, t, apre_val, inhib_mV * mV, gap_scale)
@@ -155,7 +156,7 @@ def run_perturbation_seed_v2(seed_val, inhib_mV, gap_scale, out_path, apre_val=0
         # ---- Phase 2: escalating weight-nudge ladder ----
         ladder = []
         threshold_frac = None
-        for frac in FRACTIONS:
+        for frac in fractions:
             w_before = np.array(syn.w[:])
             corr_w_before = w_before[target_corr_mask]
             w_new = corr_w_before + frac * (WMAX - corr_w_before)
@@ -193,7 +194,7 @@ def run_perturbation_seed_v2(seed_val, inhib_mV, gap_scale, out_path, apre_val=0
 
         result['ladder'] = ladder
         result['threshold_frac'] = threshold_frac
-        result['censored_above'] = None if threshold_frac is not None else FRACTIONS[-1]
+        result['censored_above'] = None if threshold_frac is not None else fractions[-1]
         result['total_spikes'] = int(np.array(spikes.count[:]).sum())
         result['status'] = 'completed'
         result['wall_elapsed'] = time.time() - wall_start
@@ -206,5 +207,11 @@ def run_perturbation_seed_v2(seed_val, inhib_mV, gap_scale, out_path, apre_val=0
 
 
 if __name__ == '__main__':
-    run_perturbation_seed_v2(int(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3]), sys.argv[4])
+    # optional 5th arg: comma-separated fractions ladder override (e.g. for a denser-resolution
+    # rerun in a sub-range), defaults to FRACTIONS above.
+    frac_override = None
+    if len(sys.argv) > 5:
+        frac_override = [float(x) for x in sys.argv[5].split(',')]
+    run_perturbation_seed_v2(int(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3]), sys.argv[4],
+                              fractions=frac_override)
     print(f"perturbation v2 seed {sys.argv[1]} -> {sys.argv[4]}")

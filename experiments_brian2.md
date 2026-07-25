@@ -70,6 +70,60 @@ mechanism and data.
 
 ---
 
+## 2026-07-23 — Perturbation-testing redesign #2, dense-ladder rerun: backwards contrast replicates at finer resolution — candidate (1) (ceiling-saturation resolution artifact) ruled out
+
+**Data:** `notebooks/brian2/perturbation_data/run_validation_batch_v2_dense.py`, 8 new seed JSONs
+(`perturbv2dense_*`, seeds 28000-28013). Per web's read of the round-2 backwards-contrast result:
+before accepting either "ladder-top saturation" or "genuinely different quantity" as the
+explanation, rule out the cheap one first. Same method (`run_perturbation_seed_v2.py`, weight-nudge
+on the target's correlated synapses), same two reference points, same n=4/point, `dt=0.2ms` — only
+change is a denser fraction ladder confined to the lower range web specified (`0.1, 0.2, 0.3, 0.4,
+0.5, 0.6` — six rungs, none at 0.75/1.0) instead of round 2's coarse `0.25/0.5/0.75/1.0`. Added
+`fractions=None` as an optional parameter to `run_perturbation_seed_v2`/its CLI (defaults to the
+original ladder) rather than duplicating the ~200-line script, so both ladders share one
+implementation.
+
+All 8 seeds completed cleanly (0 failures, ~5 min total).
+
+| point | seed | settled at | threshold_frac | censored_above |
+|---|---|---|---|---|
+| strong_tight_gate | 28000 | 750s | 0.5 | - |
+| strong_tight_gate | 28001 | 450s | - | 0.6 |
+| strong_tight_gate | 28002 | 500s | 0.1 | - |
+| strong_tight_gate | 28003 | 400s | - | 0.6 |
+| 13mV/1.5 | 28010 | 350s | - | 0.6 |
+| 13mV/1.5 | 28011 | 300s | 0.1 | - |
+| 13mV/1.5 | 28012 | 400s | 0.6 | - |
+| 13mV/1.5 | 28013 | 300s | 0.2 | - |
+
+**The backwards pattern replicated, not resolved by resolution.** If candidate (1) were right
+(round 2's 0.75-1.0 rungs were just uniformly strong enough to swallow real separation), this denser
+low-range ladder should have shown `strong_tight_gate` flipping readily down here while 13mV/1.5
+stayed robust through 0.6. That's not what happened. `strong_tight_gate` flipped in only 2/4 seeds
+within 0.1-0.6 (at fractions 0.1 and 0.5; the other 2 held all the way to 0.6, unbroken).
+13mV/1.5 flipped in 3/4 seeds within the same range (at fractions 0.1, 0.2, and 0.6) — flipping
+*more* often, at *lower or comparable* magnitudes, than the setting expected to have the shallower
+basin. Same qualitative direction as round 2's coarse ladder, now on a second, independently-seeded
+batch at different resolution.
+
+Combined across both v2 batches (8 seeds/point total, round 2 + this rerun): `strong_tight_gate`
+flipped in 5/8 seeds (fractions 0.1, 0.5, 1.0, 1.0, 1.0), held unbroken through its tested range in
+3/8. 13mV/1.5 flipped in 7/8 seeds (fractions 0.1, 0.2, 0.6, 0.75, 0.75, 0.75, 1.0), held unbroken in
+only 1/8. The presumed-deep-basin setting is the one that breaks more often and at lower magnitude,
+consistently across two independent samples and two ladder resolutions.
+
+**Verdict: candidate (1) is ruled out, not just unconfirmed.** This wasn't a resolution problem —
+finer sampling in exactly the range web specified reproduced the same backwards direction rather
+than revealing hidden separation. That leaves candidate (2) — web's proposed "different quantity"
+explanation (weight-injection sensitivity and spontaneous-drift resistance may just be different
+properties, with stronger inhibition/tighter gap_scale making the system MORE sensitive to a direct
+weight nudge even while making it LESS prone to spontaneous internal drift) — as the leading,
+undisconfirmed account. Still n=4-8/point, so not calling this fully settled, but it's now a
+replicated pattern across independent seed sets rather than a single small-sample result. Reporting
+to web, not redesigning or extending further solo.
+
+---
+
 ## 2026-07-23 — Perturbation-testing redesign #2 (weight-nudge): a genuine graded signal this time, but the expected contrast direction didn't hold — reported, not patched solo
 
 **Data:** `notebooks/brian2/perturbation_data/run_perturbation_seed_v2.py`, `run_validation_batch_v2.py`,
