@@ -105,9 +105,16 @@ points look alike at the population level.
   weights to the ceiling, new-pattern weights to the floor; a few stay near -0.77). At 13mV/1.5 this is 16/16 swaps (exactly one retainer
   every time); at strong_tight_gate 13/16, the other 3 being slots where all three neurons re-learned
   (seeds 30103 and 30107 at swap 1, 30106 at swap 2).
-- **The retainer is not random — it is a member of the previous phase's top tier:** 15/16 (13mV/1.5)
-  and 13/13 (strong_tight_gate) of the single-retainer swaps, against about 9/16 and 7.3/13 expected
-  by chance given tier sizes. The most-entrenched neurons are the ones that do not follow the world.
+- **The retainer is a member of the previous phase's top tier:** 15/16 (13mV/1.5) and 13/13
+  (strong_tight_gate) of the single-retainer swaps, against about 9/16 and 7.3/13 expected by chance
+  given tier sizes. **Correction made after a cleaner check:** that top-tier count is the weaker
+  test where tiers are wide (strong_tight_gate has many near-ties). Comparing previous-phase gaps
+  at swap 1 only (where every neuron starts positive, so the comparison is not biased by the
+  neuron that held the returning pattern): 13mV/1.5 retainers 0.752 vs trackers 0.607 (Mann-Whitney
+  p=0.0004, clear); strong_tight_gate 0.753 vs 0.698 (p=0.34, not distinguishable at n=6 vs 18).
+  So "the most entrenched neuron is the one that does not follow the world" is supported at
+  13mV/1.5 and only suggestive at strong_tight_gate. (`analyze_retainers.py`; the swap-2 version of
+  this comparison is deliberately not reported, it is biased.)
 - Retainers are NOT silenced: late-phase rate ~12-15 Hz vs ~18 Hz for the trackers. They keep firing
   on their old (now uncorrelated) inputs while holding the old weights.
 - **Consequence at the return swap (phase 3):** whenever a retainer existed in phase 2, the returning
@@ -127,11 +134,32 @@ points look alike at the population level.
 - At the neuron level the most-entrenched neuron does lock in, and that is what supplies memory of
   the earlier pattern. Stability and plasticity end up divided between neurons rather than traded
   off within one — nothing in the mechanism was designed to do this.
-- Not established: whether it is exactly one retainer because of lateral inhibition (N=3 makes "one
-  of three" hard to separate from "one slot"), and whether it persists at larger N. Not a savings
-  claim: the instant recovery is retained weights, and the slope-versus-cold-start comparison the
-  plan asked for was not computed. Descriptive at n=8 per point; no test of why a neuron
-  becomes the retainer beyond top-tier membership.
+- Not a savings claim: the instant recovery is retained weights, and the slope-versus-cold-start
+  comparison the plan asked for was not computed. Descriptive at n=8 per point; no test of why a
+  neuron becomes the retainer beyond prior strength.
+
+**N=7 follow-up (13mV/1.5 reference, inhibition scaled with `scale_inhib_for_n` to 4.33 mV
+per connection as in the N-scaling runs; seeds 31000-31007, same 3x1000s protocol, 8/8 completed,
+~9 min).** Question: does "exactly one retainer" hold at larger N, or scale with population?
+- **It is not one, and it does not scale linearly either: 2 or 3 of 7 neurons keep the old pattern
+  at every swap** (7 swaps with 2, 9 with 3, none with 0, 1 or more than 3; mean 2.56 of 7 = 37%,
+  vs 1 of 3 = 33% at N=3). Roughly a constant fraction of the population, not a fixed count of one
+  and not everyone. Tight across seeds.
+- Same selection rule: at swap 1 the retainers were the stronger neurons beforehand (previous-phase
+  gap 0.772 vs 0.661 for the trackers, n=21 vs 35, Mann-Whitney p<0.0001). Same firing signature:
+  retainers ~12.2 Hz vs ~17.9 Hz, active but slower.
+- Instant recovery at the return swap: 2-3 neurons already held the returning pattern in 8/8 seeds,
+  and that number equals the seed's swap-1 retainer count every time. The old pattern is carried
+  intact by the retainers through the whole intervening phase.
+- Re-learning speed: median 84s, similar to N=3 (92s/82s). But the slow tail is much longer at N=7:
+  18/50 re-learners took >=100s and the slowest 977s (nearly the whole phase). It is concentrated at
+  swap 2: all swap-1 re-learners at N=7 finished within 181s, whereas swap-2 re-learners (only 1-2
+  neurons per seed) took 62-977s, median ~210s. The few neurons that must move a second time are the
+  slow ones. (Swap-2 re-learners were also slower at N=3, e.g. 239-374s, but the effect is larger
+  here.)
+- Not established: why the fraction is about a third (e.g. how it depends on the inhibition
+  normalization or on N beyond 3 and 7), and only the 13mV/1.5-equivalent point was run at N=7. The
+  swap-2 slowness is descriptive; nothing here tests its cause. n=8.
 
 ---
 

@@ -27,7 +27,7 @@ from brian2 import SpikeMonitor, StateMonitor, defaultclock, mV, ms, run, second
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
-from src.brian2_stdp.network import build_competitive_population_network
+from src.brian2_stdp.network import build_competitive_population_network, scale_inhib_for_n
 from src.brian2_stdp.spikes import build_phase_switching_input
 
 TARGET_RATE = 20.0
@@ -42,12 +42,17 @@ SPIKE_BIN_S = 1.0
 PROGRESS_EVERY_S = 200.0
 
 
-def run_nonstationary_seed(seed_val, inhib_mV, gap_scale, out_path, apre_val=0.005):
+def run_nonstationary_seed(seed_val, inhib_mV, gap_scale, out_path, apre_val=0.005, n_post=N_POST):
+    """inhib_mV is the N=3 reference value; for n_post != 3 it is converted to the per-connection
+    strength via scale_inhib_for_n (holds total inhibitory drive constant, same as the N-scaling
+    experiment). At n_post=3 the conversion is the identity, so N=3 runs are unchanged."""
     total_s = float(sum(PHASE_DURATIONS_S))
     swap_times = np.cumsum(PHASE_DURATIONS_S)[:-1].tolist()
+    per_connection_mV = scale_inhib_for_n(n_post, reference_inhib_mV=inhib_mV, reference_n_post=3)
     result = {
-        'seed': seed_val, 'status': 'started', 'inhib_strength_mV': inhib_mV, 'gap_scale': gap_scale,
-        'n_post': N_POST, 'dt_ms': DT_MS, 'apre': apre_val, 'p_share': P_SHARE,
+        'seed': seed_val, 'status': 'started', 'inhib_strength_mV': per_connection_mV,
+        'reference_inhib_mV': inhib_mV, 'gap_scale': gap_scale,
+        'n_post': n_post, 'dt_ms': DT_MS, 'apre': apre_val, 'p_share': P_SHARE,
         'phase_durations_s': PHASE_DURATIONS_S, 'phase_corr_blocks': PHASE_CORR_BLOCKS,
         'swap_times_s': swap_times, 'total_s': total_s,
     }
@@ -61,7 +66,7 @@ def run_nonstationary_seed(seed_val, inhib_mV, gap_scale, out_path, apre_val=0.0
         idx, t = build_phase_switching_input(TARGET_RATE, P_SHARE, PHASE_DURATIONS_S,
                                              PHASE_CORR_BLOCKS, rng)
         pre, post, syn, inhib = build_competitive_population_network(
-            N_POST, idx, t, apre_val, inhib_mV * mV, gap_scale)
+            n_post, idx, t, apre_val, per_connection_mV * mV, gap_scale)
         spikes = SpikeMonitor(post)
         r_trace = StateMonitor(post, 'r', record=True, dt=R_TRACE_DT)
         w_total_trace = StateMonitor(post, 'w_total', record=True, dt=WEIGHT_TRACE_DT)
@@ -81,7 +86,7 @@ def run_nonstationary_seed(seed_val, inhib_mV, gap_scale, out_path, apre_val=0.0
         si = np.array(spikes.i[:])
         bin_edges = np.arange(int(np.ceil(total_s / SPIKE_BIN_S)) + 1) * SPIKE_BIN_S
         spike_rate_bins = np.stack([np.histogram(st[si == j], bins=bin_edges)[0] / SPIKE_BIN_S
-                                    for j in range(N_POST)])
+                                    for j in range(n_post)])
         result.update({
             'status': 'completed', 'wall_elapsed': time.time() - wall0,
             'syn_i': syn_i.tolist(), 'syn_j': syn_j.tolist(),
@@ -104,5 +109,7 @@ def run_nonstationary_seed(seed_val, inhib_mV, gap_scale, out_path, apre_val=0.0
 
 
 if __name__ == '__main__':
-    run_nonstationary_seed(int(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3]), sys.argv[4])
+    n_post_arg = int(sys.argv[5]) if len(sys.argv) > 5 else N_POST
+    run_nonstationary_seed(int(sys.argv[1]), float(sys.argv[2]), float(sys.argv[3]), sys.argv[4],
+                           n_post=n_post_arg)
     print(f"nonstationary seed {sys.argv[1]} -> {sys.argv[4]}")
