@@ -339,3 +339,33 @@ def classify_hierarchy(per_neuron_gap, weight_trace_t, late_window_s=100.0, n_su
         'tiers': compute_tiers(late_mean_per_neuron, threshold=tier_threshold),
         'top_tier_sets_per_subwindow': top_tier_sets,
     }
+
+
+def phase_aligned_per_neuron_gap(weight_trace, weight_trace_t, syn_i, syn_j, n_post,
+                                  swap_times_s, phase_corr_blocks, n_corr=10):
+    """Per-neuron corr-minus-uncorr gap measured against whichever block is CURRENTLY correlated,
+    for non-stationary input built by spikes.build_phase_switching_input.
+
+    compute_competitive_metrics hard-codes correlated = presynaptic indices [0, n_corr), which is
+    wrong after a swap. Here the gap is (mean w over the currently-correlated block) - (mean w over
+    the currently-independent block), so it should climb positive in EVERY phase if the network is
+    tracking the input, whichever block that phase makes correlated.
+
+    weight_trace: (n_synapses, n_t), rows in synapse creation order (as compute_competitive_metrics).
+    swap_times_s: phase start times after the first, e.g. [1000, 2000] for three phases. A trace
+      timepoint exactly at a swap time belongs to the NEW phase.
+    phase_corr_blocks: 0/1 per phase (0 = block A [0, n_corr), 1 = block B [n_corr, 2*n_corr)).
+
+    Returns (aligned_gap of shape (n_post, n_t), phase_index of shape (n_t,) int).
+    """
+    weight_trace = np.asarray(weight_trace)
+    t = np.asarray(weight_trace_t)
+    assert len(phase_corr_blocks) == len(swap_times_s) + 1
+    a_minus_b = np.zeros((n_post, weight_trace.shape[1]))
+    for j in range(n_post):
+        mask = syn_j == j
+        w_j = weight_trace[mask][np.argsort(syn_i[mask])]
+        a_minus_b[j] = w_j[:n_corr].mean(axis=0) - w_j[n_corr:2 * n_corr].mean(axis=0)
+    phase_index = np.searchsorted(np.asarray(swap_times_s), t, side='right')
+    sign = np.where(np.asarray(phase_corr_blocks)[phase_index] == 0, 1.0, -1.0)
+    return a_minus_b * sign, phase_index

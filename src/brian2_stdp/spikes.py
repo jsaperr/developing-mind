@@ -96,3 +96,44 @@ def build_population_presynaptic_input(n_post, target_rate_hz, p_share, duration
     combined_t = np.concatenate([arr / second for arr in all_t])
     order = np.argsort(combined_t)
     return combined_idx[order].astype(int), combined_t[order] * second, n_pre_per_neuron
+
+
+def build_phase_switching_input(target_rate_hz, p_share, phase_durations_s, phase_corr_blocks, rng,
+                                 jitter_ms=2.0, n_correlated=10, n_uncorrelated=10,
+                                 boundary_guard_s=0.001):
+    """Non-stationary version of build_presynaptic_input: the correlation structure changes at
+    fixed phase boundaries while the pool, rates and everything else stay identical.
+
+    phase_durations_s: seconds per phase, e.g. [1000, 1000, 1000].
+    phase_corr_blocks: which block is the correlated one in each phase, same length. 0 = block A
+      (presynaptic indices [0, n_correlated)), 1 = block B (indices [n_correlated, n_pre)). The
+      other block is independent Poisson in that phase. Rates are matched across blocks and phases
+      (each segment is built by build_presynaptic_input, which already guarantees that), so only
+      TIMING structure moves at a boundary, never rate.
+
+    Each phase is generated independently and its spike times offset by the phase start, so trains
+    are not continuous across a boundary -- a boundary_guard_s gap is added at each phase start so
+    that no neuron can get two spikes closer than dedup's min_gap across it (which would land in
+    the same simulation timestep). Requires n_correlated == n_uncorrelated so the blocks can swap.
+
+    Returns (indices, times_with_units) ready for SpikeGeneratorGroup, same as
+    build_presynaptic_input.
+    """
+    assert len(phase_durations_s) == len(phase_corr_blocks)
+    assert n_correlated == n_uncorrelated, "block swap needs equal-sized blocks"
+    all_idx, all_t = [], []
+    start = 0.0
+    for dur, block in zip(phase_durations_s, phase_corr_blocks):
+        idx, t = build_presynaptic_input(target_rate_hz, p_share, dur, rng, jitter_ms=jitter_ms,
+                                         n_correlated=n_correlated, n_uncorrelated=n_uncorrelated)
+        idx = np.asarray(idx)
+        if block == 1:
+            idx = np.where(idx < n_correlated, idx + n_correlated, idx - n_correlated)
+        guard = boundary_guard_s if start > 0 else 0.0
+        all_idx.append(idx)
+        all_t.append(np.asarray(t / second) + start + guard)
+        start += dur
+    idx = np.concatenate(all_idx).astype(int)
+    t = np.concatenate(all_t)
+    order = np.argsort(t)
+    return idx[order], t[order] * second

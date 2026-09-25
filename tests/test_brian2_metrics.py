@@ -221,3 +221,29 @@ def test_detect_tier_reentry_never_settled_when_top_tier_keeps_changing():
     result = detect_tier_reentry(per_neuron_gap, t, window_s=50, stable_windows=3)
     assert result['never_settled'] is True
     assert result['reentered'] is False
+
+
+def test_phase_aligned_gap_positive_in_every_phase_when_network_tracks():
+    from src.brian2_stdp.metrics import phase_aligned_per_neuron_gap
+    n_post, n_t = 2, 30
+    syn_i = np.tile(np.arange(20), n_post)
+    syn_j = np.repeat(np.arange(n_post), 20)
+    t = np.arange(n_t, dtype=float)
+    w = np.zeros((40, n_t))
+    for k in range(n_t):
+        a_high = k < 10 or k >= 20        # block A wins in phases 0 and 2, block B in phase 1
+        w[:, k] = np.where((syn_i < 10) == a_high, 0.8, 0.2)
+    gap, phase = phase_aligned_per_neuron_gap(w, t, syn_i, syn_j, n_post, [10.0, 20.0], [0, 1, 0])
+    assert gap.shape == (n_post, n_t)
+    assert list(phase[[0, 9, 10, 19, 20, 29]]) == [0, 0, 1, 1, 2, 2]   # swap-time point -> NEW phase
+    assert np.allclose(gap, 0.6)
+
+
+def test_phase_aligned_gap_goes_negative_when_network_fails_to_track():
+    from src.brian2_stdp.metrics import phase_aligned_per_neuron_gap
+    syn_i = np.arange(20)
+    syn_j = np.zeros(20, dtype=int)
+    t = np.arange(20, dtype=float)
+    w = np.tile(np.where(syn_i < 10, 0.8, 0.2)[:, None], (1, 20))    # block A wins throughout
+    gap, _ = phase_aligned_per_neuron_gap(w, t, syn_i, syn_j, 1, [10.0], [0, 1])
+    assert np.all(gap[0, :10] > 0.5) and np.all(gap[0, 10:] < -0.5)
