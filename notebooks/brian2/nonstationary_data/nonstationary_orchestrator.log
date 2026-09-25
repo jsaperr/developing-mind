@@ -1,0 +1,17 @@
+[1/16] reliable_13_1p5 seed 30000 exit 0 528s
+[2/16] strong_tight_gate seed 30100 exit 0 534s
+[3/16] strong_tight_gate seed 30102 exit 0 534s
+[4/16] reliable_13_1p5 seed 30003 exit 0 534s
+[5/16] strong_tight_gate seed 30103 exit 0 537s
+[6/16] strong_tight_gate seed 30101 exit 0 543s
+[7/16] reliable_13_1p5 seed 30002 exit 0 543s
+[8/16] reliable_13_1p5 seed 30001 exit 0 546s
+[9/16] strong_tight_gate seed 30104 exit 0 516s
+[10/16] reliable_13_1p5 seed 30005 exit 0 516s
+[11/16] strong_tight_gate seed 30105 exit 0 516s
+[12/16] reliable_13_1p5 seed 30004 exit 0 525s
+[13/16] reliable_13_1p5 seed 30006 exit 0 519s
+[14/16] strong_tight_gate seed 30106 exit 0 516s
+[15/16] reliable_13_1p5 seed 30007 exit 0 516s
+[16/16] strong_tight_gate seed 30107 exit 0 513s
+NONSTATIONARY BATCH DONE

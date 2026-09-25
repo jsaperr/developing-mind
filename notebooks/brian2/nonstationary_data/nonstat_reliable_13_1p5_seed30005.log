@@ -1,0 +1,18 @@
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([4.17218744e-04, 9.54809874e-03, 9.86672864e-03, ...,
+       2.99999845e+03, 2.99999865e+03, 2.99999916e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+[t=200s] wall=34s
+[t=400s] wall=68s
+[t=600s] wall=102s
+[t=800s] wall=135s
+[t=1000s] wall=169s
+[t=1200s] wall=203s
+[t=1400s] wall=238s
+[t=1600s] wall=271s
+[t=1800s] wall=306s
+[t=2000s] wall=341s
+[t=2200s] wall=375s
+[t=2400s] wall=409s
+[t=2600s] wall=442s
+[t=2800s] wall=477s
+[t=3000s] wall=510s
+nonstationary seed 30005 -> C:\Users\urawi\OneDrive\Desktop\a wide variety of vscode projects\developing-mind\notebooks\brian2\nonstationary_data\nonstat_reliable_13_1p5_seed30005.json

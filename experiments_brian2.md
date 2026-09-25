@@ -70,6 +70,71 @@ mechanism and data.
 
 ---
 
+## 2026-09-25 — Non-stationary correlation (world swaps A→B→A): the population always tracks, but one neuron keeps the old pattern — and the on-record prediction was not supported
+
+**Data:** `notebooks/brian2/nonstationary_data/` (16 seed JSONs, seeds 30000-30007 at 13mV/1.5 and
+30100-30107 at strong_tight_gate; `run_nonstationary_seed.py`, `run_nonstationary_batch.py`,
+`analyze_nonstationary.py`; figures `nonstationary_*.png`). Per `experiment_plan_nonstationary_stdp.md`.
+New glue in `src/` with tests: `spikes.build_phase_switching_input`,
+`metrics.phase_aligned_per_neuron_gap`. One continuous run per seed, never reset: 3 phases x 1000s,
+correlated block A (presynaptic 0-9) → B (10-19) → A, rates matched across blocks and phases, N=3,
+dt=0.2ms, Cython backend, I_pert=0, everything else identical to prior competitive runs. Full
+per-synapse w(t) at 1s, r(t), w_total(t), 1s spike bins saved. Exploratory: trajectories inspected
+first, claims after. 16/16 completed, 0 failures, ~18 min. n=8 per point, so counts below are
+descriptive, not distributional estimates.
+
+**Prediction on record before running (from the plan): 13mV/1.5 (suppression-based) tracks the
+swap FAST, strong_tight_gate (dominance-based) LAGS. Not supported.** Re-learning latency (first
+time a tracking neuron's phase-aligned gap reaches 0.3 after a swap, excluding neurons that were
+already positive because they retained the returning pattern): median 92s (13mV/1.5, n=24) vs 82s
+(strong_tight_gate, n=29), Mann-Whitney p=0.50. If anything the reliable point had more slow
+re-learners (>=100s: 10/24 vs 5/29, Fisher p=0.069, suggestive at best), the opposite direction
+from the prediction. Worth noting this also does not repeat the perturbation-testing ranking
+(there 13mV/1.5 was the easier one to flip by direct weight injection): under input change the two
+points look alike at the population level.
+
+**What actually happened — a division of labour, in both points, in nearly every swap.**
+- Phase 1: all three neurons learn A within ~100-200s (phase-aligned gap 0.55-0.8; some tier
+  structure, e.g. 0.56 vs 0.75).
+- Each swap: every neuron's phase-aligned gap drops to about -0.6 to -0.8 at once (weights
+  unchanged, world inverted), then within ~50-100s the neurons that re-learn the new pattern climb
+  to ~0.77. Typically two of three do; some are staggered much later (up to 374s at 13mV/1.5, one
+  545s outlier at strong_tight_gate).
+- **Exactly one neuron does not re-learn: it keeps the old pattern and its weights harden toward
+  saturation** (in most cases the aligned gap drifts from about -0.8 toward -1.0, i.e. old-pattern
+  weights to the ceiling, new-pattern weights to the floor; a few stay near -0.77). At 13mV/1.5 this is 16/16 swaps (exactly one retainer
+  every time); at strong_tight_gate 13/16, the other 3 being slots where all three neurons re-learned
+  (seeds 30103 and 30107 at swap 1, 30106 at swap 2).
+- **The retainer is not random — it is a member of the previous phase's top tier:** 15/16 (13mV/1.5)
+  and 13/13 (strong_tight_gate) of the single-retainer swaps, against about 9/16 and 7.3/13 expected
+  by chance given tier sizes. The most-entrenched neurons are the ones that do not follow the world.
+- Retainers are NOT silenced: late-phase rate ~12-15 Hz vs ~18 Hz for the trackers. They keep firing
+  on their old (now uncorrelated) inputs while holding the old weights.
+- **Consequence at the return swap (phase 3):** whenever a retainer existed in phase 2, the returning
+  pattern was already represented, so recovery was instant for that neuron: 8/8 at 13mV/1.5, 6/8 at
+  strong_tight_gate (both misses are the two seeds where no neuron retained A through phase 2). The
+  neuron that tracked B in phase 2 then becomes the new retainer of B. So after two swaps the
+  population holds both patterns at once.
+- Homeostatic scaling survived the swaps: `w_total` stayed within 9.6-10.4 (target 10) in every seed,
+  max deviation 0.40 within 60s of a swap. The swap is not a new failure mode for it.
+
+**What this does and doesn't say.**
+- At the population level the system is NOT locked in: in 16/16 seeds at both points the
+  correlated-input representation was re-acquired after each swap within minutes. The
+  fast-permanent-settling seen at 13mV/1.5 under stationary input (Test A, N-scaling step 4) does not
+  mean it cannot follow a changing world; settling was permanence of a hierarchy under fixed input,
+  not inability to relearn.
+- At the neuron level the most-entrenched neuron does lock in, and that is what supplies memory of
+  the earlier pattern. Stability and plasticity end up divided between neurons rather than traded
+  off within one — nothing in the mechanism was designed to do this.
+- Not established: whether it is exactly one retainer because of lateral inhibition (N=3 makes "one
+  of three" hard to separate from "one slot"), and whether it persists at larger N. Not a savings
+  claim: the instant recovery is retained weights, and the slope-versus-cold-start comparison the
+  plan asked for was not computed. Descriptive at n=8 per point; no test of why a neuron
+  becomes the retainer beyond top-tier membership.
+
+---
+
 ## 2026-09-25 — Simulation performance audit: where the time goes, and why `cpp_standalone` isn't a drop-in
 
 **Data:** `notebooks/brian2/perf_audit/` (profiling scripts, `backend_comparison_results.json`, 96
