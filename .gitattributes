@@ -1,0 +1,8 @@
+# Normalize line endings so `git add` stops warning about LF -> CRLF and diffs stay clean.
+* text=auto
+*.py text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.gz binary
+*.png binary
+*.ipynb text eol=lf
