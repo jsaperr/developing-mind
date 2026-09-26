@@ -65,7 +65,7 @@ def run_cc(stream, arm, gap_scale, eta, gate, allow=None, match_floor=None):
     protos = stream['protos']                                   # numpy float64, exactly as v0 tags
     mem = ConsolidatingEpisodicMemory(dim=Q.shape[1], eta=eta, gate_content=gate, gap_scale=gap_scale,
                                       match_floor=match_floor)
-    tag, born_phase, reported, winner_ids = {}, {}, [], []
+    tag, born_phase, reported, winner_ids, alive_ids = {}, {}, [], [], []
     wins = {}; established = {}; absorbed = set()
     created = 0
     for s in range(len(Q)):
@@ -94,8 +94,9 @@ def run_cc(stream, arm, gap_scale, eta, gate, allow=None, match_floor=None):
         if wid in established and tag[wid] != established[wid]:
             absorbed.add(wid)
         mem.prune_step(s)
+        alive_ids.append(tuple(mem.ids))
     return dict(reported=np.array(reported), winner_ids=winner_ids, born_phase=born_phase,
-                created=created, absorbed=len(absorbed), evicted=len(mem.eviction_log))
+                created=created, absorbed=len(absorbed), evicted=len(mem.eviction_log), alive_ids=alive_ids)
 
 
 def genuine(stream, res, ret_phase, orig_phase):
