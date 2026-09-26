@@ -264,6 +264,10 @@ toy v0 (`experiments_integration.md`):**
     content consolidation, plus a stability gate on creation, gives reliable recognition of a
     returning non-first context. It also showed that the ambiguity gate needs an
     absolute-match condition, since it can't see novelty.
+  - The missing piece for a principled rule is a signal that the world is still changing. The
+    substrate's 60 s weight displacement is one: it's elevated after every change for about
+    200 s and never in settled periods. Gating creation and content consolidation on it is the
+    next candidate experiment.
 - **Q5.** Is the SNN *the* substrate, or a stand-in for the mycelium substrate the framework
   describes?
 

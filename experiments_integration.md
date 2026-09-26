@@ -44,9 +44,11 @@ inspect trajectories before claiming.
 - **Replicated at strong_tight_gate** (the opposite-character operating point): one-back, the
   two-back pass (8/8), rehearsal (8/8 → 1/8 under the lesion) and the horizon rule all hold. The
   memory machinery matters *more* there.
-- **Open, and now central:** there's no reliable signal that the world is still changing. The dip
-  is too brief and the stability gate misses slow drift. It's behind the residual absorption, the
-  two-back capture and creation during transitions.
+- **Open, and now central:** memory has no reliable signal that the world is still changing. The
+  dip is too brief and the stability gate misses slow drift. It's behind the residual absorption,
+  the two-back capture and creation during transitions. **Candidate found:** the substrate's 60 s
+  weight displacement is elevated after 72/72 changes (median about 210-230 s) and never in
+  settled windows. It isn't wired into memory yet.
 - **The first-context weakness is a cold-start artifact** of the contrast readout (phase-1 query
   quality 0.31-0.34 vs 0.87-0.96 afterwards). It's deliberately not being chased.
 - **Open:**
@@ -59,6 +61,39 @@ inspect trajectories before claiming.
     helping. The next refinement is to apply it only to established entries.
 
 ---
+
+## 2026-09-26 — A "still changing" signal exists in the substrate: 60 s weight displacement (per-second weight change doesn't work)
+
+**Code:** `notebooks/integration/two_back_test/analyze_change_signal.py` (analysis only; 13mV v1b
+and strong_tight_gate v1c, 72 changes, with settled mid-phase windows as a null).
+
+**Question:** the residual absorption and the two-back capture both happen during the slow drift
+after a change. The dip marks only the onset, and the stability gate misses slow drift. Does the
+substrate's own plasticity give a label-free "still re-learning" signal? Prediction: elevated for
+≥ 60 s after every change and settled within about 300 s.
+
+**Measure 1, population |dw| per second: REFUTED.** It's flat: 0/72 changes elevated for ≥ 60 s,
+and the mean is essentially constant. In hindsight the standing explanation (arc 01) predicts
+this: individual synapses reverse at a setting-independent rate, so per-second movement is
+dominated by churn whether or not the network is re-learning.
+
+**Measure 2, displacement over the last 60 s (sum |w(t) − w(t−60)|): CONFIRMED for most changes.**
+- **Why this should work:** churn reverses and cancels over the window, while directional
+  re-learning accumulates.
+- **Onset:** elevated at **72/72 changes**, about 12 s after the change.
+- **Mean curve:** baseline 7.3/7.7, rising to 27.6/30.3 at +60 s, 23.0/26.4 at +120 s, 12.2/14.2 at
+  +200 s, and about baseline by +300 s.
+- **Duration** median 206/229 s; ≥ 60 s at 57/72 changes (not every one, as predicted).
+- **Null:** in settled mid-phase windows it's never elevated for 60 s (0/72, longest 28 s).
+- **A metric bug caught first:** the first duration measure took the first time below threshold
+  after 5 s, which returns about 6 s because a lagging window hasn't risen at the change. Corrected
+  to onset plus duration from onset. The mean curves showed the discrepancy.
+
+**What it offers:** a substrate-side, label-free signal spanning the slow post-change drift (about
+the first 200 s) that neither the dip nor the stability gate covers. It ties "the world is still
+changing" to "the substrate is still re-learning". **Not yet wired into memory.** The next
+experiment would gate memory *creation and content consolidation* (not refresh) on it, which
+connects straight to Q4 and possibly to the long-blocked episodic check (b), phase-awareness.
 
 ## 2026-09-26 — Replication at strong_tight_gate: all four predictions hold. Residual absorption traced to "not-departing" mixture queries; settled-only consolidation refuted because the stability gate can't see slow post-change drift
 
