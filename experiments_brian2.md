@@ -48,6 +48,25 @@ before running; save full traces for exploratory runs; inspect trajectories befo
   at `13mV/1.5`, only suggestive at `strong_tight_gate`), stay active (12-15 Hz vs 18 Hz), and mean
   the returning pattern is already held at the return swap. The prediction on record
   (`13mV/1.5` tracks faster) was not supported. Arc 05.
+- **Novel-C (A→B→C, C never seen; 30-input 3-block rig, N=7, `13mV/1.5`): one-back retention.**
+  At a new change, most neurons holding an older pattern release it (28/31) and the neurons that
+  learned the just-departed pattern keep it. Stale neurons stay at about 45% and don't accumulate
+  over 3 phases. A small residue (3 neurons in 3/8 seeds) never releases and hardens: genuine
+  lock-in. The retainer fraction is 55% at the first swap in this rig against about 37% in the
+  20-input rig, so it's rig-dependent, not "a third". Arc 05.
+- **World changes are visible in the substrate's own firing rate:** population rate dips about 3 Hz
+  in the first 10 s after a swap, with no dip at non-swap times (p=4e-6). **The scalar dip doesn't
+  tell a return from a new pattern.** It's smaller at the second swap whether the pattern is
+  returning or new (novel-C control), so the earlier "smaller on return" reading was swap order.
+  **Recognition is per-neuron:** neurons holding a pattern speed up at swap 2 only when that
+  pattern returns (per-seed means +4.7 to +7.7 Hz vs -0.9 to +2.1 Hz, perfect separation,
+  p=0.00016, cross-rig). Arc 05.
+- **Label-free readout (S1, analysis of the N=7 runs):** without experimenter labels, the weight
+  state alone encodes recent history (current plus the just-departed context, failing a lull test
+  in 0/8 seeds), and rates alone encode "now vs just before" without identifying a context.
+  Activity projected through the learned tuning, Σ (r_j − r̄) w_j, carries context identity, with
+  right-signed same-vs-different similarity in 16/16 seeds. Its clean same-rig lull test needs
+  A→B→C→A. Window size (10-200 s) barely matters. Arc 07.
 - **Performance:** runs use the Cython runtime; about 99% of time is the simulation, bound by
   per-object dispatch, so there is no hotspot. About 6 physical cores; 8-9 concurrent jobs is the
   sweet spot. `dt=0.2 ms` is validated (0.5 ms is not). `cpp_standalone` is about 90x faster but
@@ -61,14 +80,22 @@ before running; save full traces for exploratory runs; inspect trajectories befo
 - Apre instability hypotheses (scaling-interval race, jump cap): both rejected.
 
 **Open**
-- Why the retainer fraction is about a third, and whether it depends on inhibition normalization or N
-  beyond 3 and 7. Only the `13mV/1.5`-equivalent point was run at N=7.
+- What sets the retainer fraction. It isn't constant: about 37% in the 20-input rig at N=7, 55%
+  in the 30-input novel-C rig. Candidates are correlated fraction, `n_pre` and inhibition
+  normalization. Only the `13mV/1.5`-equivalent point was run at N=7.
 - The distribution over individual-level regimes (n=7 at `strong_tight_gate` is a typology, not a
   frequency).
 - Whether adding the non-stationary division-of-labour finding to `principles.md` is wanted
   (proposed, not decided).
 - The cause of the `cpp_standalone` mismatch at `strong_tight_gate`.
-- Another session has `notebooks/brian2/novelc_data/` in progress; not yet logged here.
+- One-back retention over longer schedules: does the lock-in residue accumulate across many
+  changes, and is release triggered by the change itself or just slow (more than 1000 s)? It
+  predicts that A→B→C→A should *not* recognize A instantly. **Running:** the v1 world
+  A→B→C→A→C (`notebooks/brian2/v1_schedule_data/`, seeds 33000-33007, predictions in
+  `analyze_v1.py` written before launch). It also gives S1's same-rig lull test for H.
+- Slow commits (up to about 1000 s): in A→B→A they went with how many neurons already held the
+  target, but novel-C shows them with no coverage at all. The cause is open; the ambiguity gate
+  isn't supported by the saved r traces.
 
 
 ## Index of entries
@@ -116,8 +143,14 @@ Each line is the entry's own heading (its conclusion is in the title).
 
 **05 Non-stationary correlation (2026-09-25)**: [`docs/log/brian2/05_nonstationary_correlation.md`](docs/log/brian2/05_nonstationary_correlation.md)
 
+- 2026-09-25 — Novel-C (A→B→C, C never seen): held patterns are released at the next change (one-back retention, a small permanent residue), and recognition lives in which neurons speed up, not in the population dip
+- 2026-09-25 — N=7 follow-up analyses: the slow return is tied to how many neurons already hold the pattern, and the population's firing rate distinguishes a new pattern from a returning one
 - 2026-09-25 — Non-stationary correlation (world swaps A→B→A): the population always tracks, but a subset keeps the old pattern (1 of 3 at N=3, 2-3 of 7 at N=7) — and the on-record prediction was not supported
 
 **06 Performance audit (2026-09-25)**: [`docs/log/brian2/06_performance_audit.md`](docs/log/brian2/06_performance_audit.md)
 
 - 2026-09-25 — Simulation performance audit: where the time goes, and why `cpp_standalone` isn't a drop-in
+
+**07 Interface readout, S1 (2026-09-25)**: [`docs/log/brian2/07_interface_readout.md`](docs/log/brian2/07_interface_readout.md)
+
+- 2026-09-25 — S1: no single label-free readout carries context on its own. Weights alone encode recent history, rates alone encode "now vs just before", and activity projected through tuning carries context identity
