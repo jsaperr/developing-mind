@@ -1,0 +1,15 @@
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([2.55644929e-03, 3.48094938e-03, 7.85040302e-03, ...,
+       2.99999469e+03, 2.99999565e+03, 2.99999871e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+[seed 32006 t=250s] wall=42s
+[seed 32006 t=500s] wall=83s
+[seed 32006 t=750s] wall=124s
+[seed 32006 t=1000s] wall=165s
+[seed 32006 t=1250s] wall=212s
+[seed 32006 t=1500s] wall=258s
+[seed 32006 t=1750s] wall=296s
+[seed 32006 t=2000s] wall=338s
+[seed 32006 t=2250s] wall=377s
+[seed 32006 t=2500s] wall=413s
+[seed 32006 t=2750s] wall=450s
+[seed 32006 t=3000s] wall=487s
+novelc seed 32006 -> novelc_n7_reliable_13_1p5_seed32006.json

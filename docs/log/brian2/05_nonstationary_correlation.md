@@ -2,6 +2,136 @@
 
 Entries moved verbatim from `experiments_brian2.md` on 2026-09-25 (no wording changed). Index: `experiments_brian2.md`.
 
+## 2026-09-25 — Novel-C (A→B→C, C never seen): held patterns are released at the next change (one-back retention, a small permanent residue), and recognition lives in which neurons speed up, not in the population dip
+
+**Data:** `notebooks/brian2/novelc_data/`, seeds 32000-32007, all completed. Scripts:
+`calibrate_novelc.py`, `run_novelc_seed.py`, `run_novelc_batch.py` (32000-32001 sequential,
+32002-32007 in parallel; deterministic per seed), `analyze_novelc.py`, figure
+`novelc_n7_reliable_13_1p5.png`. There are three disjoint presynaptic blocks of 10 (30 inputs),
+one correlated per phase. Phases are A→B→C at 1000 s each; C has never been correlated before.
+`target_total` is held at 10 (w_init=1/3), so total synaptic drive matches the 20-input rig, and
+`gmax` is unchanged. Calibration was checked before the batch against a bar stated in advance
+(3-20 Hz, w_total ~9.5-10.5): 15.0/17.3/16.0 Hz, w_total [9.74, 10.20], pass. N=7, 13mV/1.5
+reference with the same inhibition normalization as the N=7 A→B→A runs, dt=0.2 ms, Cython,
+I_pert=0. **This is not the same rig as A→B→A.** The correlated fraction is 1/3 here, not 1/2, so
+absolute counts aren't directly comparable across the two. Plain `.json` output (written before the
+`results_io` convention was known). `analyze_novelc.py`'s main readout was fixed before any result
+was looked at. Its `post_hoc()` section was added after inspecting the trajectory figure and is
+labeled as such.
+
+**Question.** In A→B→A the held pattern returned, so retention paid off by construction. Does a
+held pattern stay held when it never returns (a capacity tax), or is it released? This run is
+also the control for the previous entry's "smaller dip on return" reading.
+
+**1. Neither pure reading: one-back retention, with a small lock-in residue.** Every seed learns
+A in phase 1 (AAAAAAA in all 8).
+- **Swap 1 (A→B):** 31 of 56 neurons keep A and 25 move to B within 44-148 s (median 65 s). That's
+  55% retaining, against about 37% in the 20-input rig, **so the retainer fraction depends on the
+  rig; "about a third" isn't a constant.**
+- **Holds are flat, not slowly decaying.** The A-holders' A tuned-gap loss across phase 2 has a
+  median of 0.044 (above 0.1 in 8 of 31, max 0.21). It looks like a stable hold with occasional
+  slow erosion (seed 32006 is the clearest), not decay back to uncommitted.
+- **Swap 2 (B→C):** 28 of 31 A-holders release A and commit to C (median 77 s). The neurons that
+  learned B mostly *keep* B. So at the end of phase 3, stale neurons are 3.1 of 7 on average (45%),
+  almost all holding the just-departed B (22 of 56), with the older A mostly gone.
+- **Permanent residue:** 3 neurons in 3 of 8 seeds (32000 n0, 32002 n3, 32007 n0) never release A,
+  across 2000 s of its absence. None of them erode. One hardens further (A gap 0.82 → 0.96). This
+  is genuine lock-in in a minority, about 5% of neurons per additional change.
+- **Reading:** the population holds roughly the *most recently departed* context and releases
+  older ones when the next change comes. Across 3 phases it doesn't accumulate stale patterns,
+  apart from the residue. Two things are untested: whether the residue accumulates over longer
+  schedules, and whether release is triggered by the change or would happen anyway after more than
+  1000 s (that needs a longer phase 2). **One-back has a sharp, testable consequence.** In
+  A→B→C→A, the return to A should *not* be recognized instantly, because A was released at the
+  B→C swap. That's unlike A→B→A.
+
+**2. The on-record swap-signal prediction was refuted for the net dip, as the confound flagged in
+the previous entry predicted.** The swap-2 dip is also smaller when the incoming pattern is new:
+-5.13 Hz at swap 1 vs -2.16 Hz at swap 2 (paired Wilcoxon p=0.008), a ratio of 0.42 against 0.37
+for the return in A→B→A. **So the smaller population dip at the A→B→A return was mostly swap order
+and population state, not familiarity.** At swap 2, only the neurons tuned to the departing pattern
+lose synchronous drive (-6.04 Hz here, -6.33 Hz in A→B→A), and fewer neurons are tuned to it.
+
+**3. The per-neuron recognition signal survives its control.** Per seed, the mean first-10 s rate
+change of neurons holding A at swap 2 is +4.66 to +7.69 Hz when A returns (A→B→A) and -0.91 to
++2.14 Hz when it doesn't (A→B→C). That's perfect separation, Mann-Whitney p=0.00016 (per seed,
+8 vs 8, cross-rig). The trackers' drop is about the same in both rigs, which anchors the scale.
+**Recognition is carried by *which* neurons speed up, a vector, not by the population's summed rate,
+a scalar.** A scalar surprise readout can't tell a return from a new pattern. A per-neuron readout
+can.
+
+**4. The slow tail doesn't need coverage.** Swap-2 commits to C include two at 692 and 722 s
+(seeds 32000 and 32003). Both are A-holders releasing A late, and nobody held C. So "the returned-to
+pattern is already covered" (the previous entry's correlation) can't be the general cause of slow
+commits. That seed-level correlation still stands as a correlation, but its interpretation is
+weakened. An alternative, untested: slow commits come from neurons releasing a long-held pattern.
+
+**5.** Homeostatic scaling held through both swaps at 30 inputs: w_total [9.62, 10.47], target 10.
+
+**What this changes elsewhere.**
+- For `principles.md` (still Jasper's call), the finding is now "one-back retention with a small
+  lock-in residue". That isn't plain "division of labour", and it isn't "capacity tax".
+- For the interface (`system_contract.md` S3/S4), the substrate hands up the previous context,
+  held by about 40-55% of units until the next change, plus a small permanent residue. Its change
+  signal is context-blind as a scalar and context-specific as a vector. Any use of it for episodic
+  check (b) has to read per-neuron activity.
+
+## 2026-09-25 — N=7 follow-up analyses: the slow return is tied to how many neurons already hold the pattern, and the population's firing rate distinguishes a new pattern from a returning one
+
+**Data:** the existing N=7 runs (`nonstat_n7_reliable_13_1p5_*`, seeds 31000-31007). No new
+simulation. Scripts: `analyze_slow_tail.py`, `analyze_swap_signal.py` in
+`notebooks/brian2/nonstationary_data/`. Both are exploratory analyses of data that was already
+saved, with no prediction recorded beforehand, so read them as descriptive at n=8.
+
+**1. The slow swap-2 tail goes with coverage, not with competition among returners.** At swap 2
+(back to A), each neuron is either a *holder* (already on A, a swap-1 retainer), a *returner*
+(on B, climbs back to A's gap 0.3), or a *refuser* (on B, never returns). This reproduces the
+62-977 s tail: 15 returners across 8 seeds. The seed is the honest unit, because returners in one
+seed share its holder count and pooling them is pseudoreplication. Per seed, every seed with 3
+holders has a slower slowest-returner than every seed with 2 (3-holder: 304, 512, 713, 976,
+977 s; 2-holder: 149, 158, 267 s). That's perfect separation, Mann-Whitney p=0.018, the minimum
+possible for 5 vs 3. The alternative, that returners slow each other, gets no support (pooled
+latency vs number of co-returners: Spearman rho=-0.19, p=0.51). **Mechanism not localized:** the
+obvious candidate is the ambiguity-gated inhibition, but the gate readings during each climb
+(g_ij from the saved r traces) don't back it. Returners are slightly *more* rate-close to
+co-returners (mean g 0.63) than to holders (0.56), and the one nominally significant gate
+correlation (latency vs g to co-returners, rho=-0.55, p=0.043, pseudoreplicated) points the wrong
+way for a simple suppression story. So "more of the population already holding the pattern goes
+with a slower return for the rest" is a seed-level fact. That the gate causes it is untested.
+Consequence: the instant phase-3 recovery and the slow tail aren't separate observations. The
+retention that keeps A available coincides with the others being slow to rejoin it.
+
+**2. The substrate emits an observable signal at a world change.** The phase-aligned gap can't
+show this, because it flips sign at a swap by construction (the reference block changes; weights
+are continuous, max |dw| of any synapse across a 4 s window at a swap = 0.106). Firing rate can,
+and the network could in principle read it. Population rate in the first 10 s after a swap drops
+by 3.27 Hz (16.7 to 13.4, sd 1.74, n=16 swaps). It recovers over about 300 s (13.2, 13.8, 14.7,
+15.6 Hz at 10-30, 30-60, 60-120, 120-300 s). The same windows at non-swap times (t=500, 1500,
+2500, n=24) change by -0.13 Hz (sd 1.24): Mann-Whitney p=4e-6. Mechanistically, the inputs are
+rate-matched, so this is lost synchrony. Neurons tuned to the old block keep receiving it at the
+same rate, but no longer as a synchronous volley.
+
+**3. The dip is smaller for a returning pattern than for a new one, and the retainers are why.**
+Paired per seed: first-10 s dip -4.76 Hz at swap 1 (to B, never seen) vs -1.77 Hz at swap 2
+(back to A). The return dip is smaller in 8/8 seeds (Wilcoxon p=0.0078, the minimum for n=8), and
+the 120 s integrated deficit is -439 vs -177 Hz·s. Decomposed at swap 2, every neuron holding A
+*speeds up* (+5.83 Hz, n=21, range +4.4 to +7.8) and every neuron on B slows down (-6.33 Hz,
+n=35, range -9.2 to -3.8), with no overlap. The population response to a change therefore splits
+into a mismatch part (neurons tuned to what just left) and a recognition part (neurons still
+holding what just came back). **Confound, not removed here:** swap 2 is later than swap 1 and hits
+a population that's already split (2-3 neurons still on A), whereas swap 1 hits one committed
+entirely to A. The decomposition shows the smaller dip comes mechanically from the holders. It
+doesn't show that "familiar" in general produces a small dip. The novel-C runs (swap 2 goes to a
+never-seen block, seeds 32000-32007, in progress) are the control. They predict a novel-sized
+dip at swap 2 and no speed-up in the neurons still holding A.
+
+**Why this might matter beyond this arc (a proposal, not a finding).** Episodic check (b) is
+blocked because the memory layer can't tell "abandoned" from "between its periods of relevance".
+Retainers are neurons that keep a pattern through its lull and fire up when it returns. That's a
+candidate context signal generated by the substrate, not designed in. Whether a downstream layer
+can use it is an interface question (see `system_contract.md`), and it's only meaningful if
+novel-C confirms the familiarity reading.
+
 ## 2026-09-25 — Non-stationary correlation (world swaps A→B→A): the population always tracks, but a subset keeps the old pattern (1 of 3 at N=3, 2-3 of 7 at N=7) — and the on-record prediction was not supported
 
 **Data:** `notebooks/brian2/nonstationary_data/` (16 seed JSONs, seeds 30000-30007 at 13mV/1.5 and

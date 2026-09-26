@@ -1,0 +1,37 @@
+=== seed 32000 start (elapsed 0s) ===
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([0.00000000e+00, 5.62316875e-04, 7.01829820e-04, ...,
+       3.00000100e+03, 3.00000100e+03, 3.00000100e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+[seed 32000 t=250s] wall=32s
+[seed 32000 t=500s] wall=63s
+[seed 32000 t=750s] wall=94s
+[seed 32000 t=1000s] wall=125s
+[seed 32000 t=1250s] wall=157s
+[seed 32000 t=1500s] wall=189s
+[seed 32000 t=1750s] wall=225s
+[seed 32000 t=2000s] wall=266s
+[seed 32000 t=2250s] wall=297s
+[seed 32000 t=2500s] wall=330s
+[seed 32000 t=2750s] wall=362s
+[seed 32000 t=3000s] wall=395s
+=== seed 32001 start (elapsed 397s) ===
+WARNING    't' is an internal variable of group 'synapses_1', but also exists in the run namespace with the value array([6.02031087e-04, 1.49836353e-03, 2.99911036e-03, ...,
+       2.99999884e+03, 2.99999931e+03, 2.99999963e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+[seed 32001 t=250s] wall=43s
+[seed 32001 t=500s] wall=75s
+[seed 32001 t=750s] wall=108s
+[seed 32001 t=1000s] wall=139s
+[seed 32001 t=1250s] wall=170s
+[seed 32001 t=1500s] wall=201s
+[seed 32001 t=1750s] wall=232s
+[seed 32001 t=2000s] wall=263s
+[seed 32001 t=2250s] wall=295s
+[seed 32001 t=2500s] wall=327s
+[seed 32001 t=2750s] wall=358s
+[seed 32001 t=3000s] wall=390s
+=== seed 32002 start (elapsed 789s) ===
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([1.80258376e-03, 2.95351246e-03, 5.43747688e-03, ...,
+       2.99998437e+03, 2.99998937e+03, 2.99999801e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+[seed 32002 t=250s] wall=31s
+[seed 32002 t=500s] wall=63s
+[seed 32002 t=750s] wall=95s
+[seed 32002 t=1000s] wall=126s
