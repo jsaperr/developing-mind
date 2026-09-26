@@ -58,9 +58,11 @@ VARIANTS = [("eta=0", 0.0, True), ("gated 0.1", 0.1, True), ("gated 0.03", 0.03,
 ESTABLISHED = 10
 
 
-def run_cc(stream, arm, gap_scale, eta, gate, allow=None, match_floor=None):
+def run_cc(stream, arm, gap_scale, eta, gate, allow=None, match_floor=None, no_refresh=None):
     """allow: optional creation gate allow(step) -> bool (None = always allow; empty memory always may).
-    match_floor: optional absolute-match condition for consolidation (None = off)."""
+    match_floor: optional absolute-match condition for consolidation (None = off).
+    no_refresh: optional no_refresh(step) -> bool. On such steps a win does NOT reset the winner's
+    staleness (it ages like everyone else). This is a causal-test lesion, not a design proposal."""
     Q = torch.tensor(stream['q'][arm], dtype=torch.float32)
     protos = stream['protos']                                   # numpy float64, exactly as v0 tags
     mem = ConsolidatingEpisodicMemory(dim=Q.shape[1], eta=eta, gate_content=gate, gap_scale=gap_scale,
@@ -82,7 +84,10 @@ def run_cc(stream, arm, gap_scale, eta, gate, allow=None, match_floor=None):
             mem.staleness[0] = 0
             wi, g = 0, 0.0
         else:
+            prev_stale = list(mem.staleness)
             wi, _, g = mem.retrieve_and_update(q)
+            if no_refresh is not None and no_refresh(s):
+                mem.staleness[wi] = prev_stale[wi] + 1      # lesion: this win doesn't refresh
         wid = mem.ids[wi]
         reported.append(tag[wid]); winner_ids.append(wid)   # report BEFORE this step's consolidation
         if mem.consolidate(wi, q, g) > 0:

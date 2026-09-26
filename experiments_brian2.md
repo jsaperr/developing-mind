@@ -60,7 +60,9 @@ before running; save full traces for exploratory runs; inspect trajectories befo
   (0, 0, 2, 0, 0), though A's return masks accumulation. In 2 seeds a residue neuron carried A
   through two intervening contexts and recognized its return. The H readout passes the same-rig
   lull test 8/8, which completes S1. Arcs 05, 07. What memory does with this:
-  `experiments_integration.md`.
+  `experiments_integration.md`. v1b (A→B→C→A→B) replicates one-back (0.38 holders at a two-back
+  return). The H readout's weak first context is a cold-start artifact (query quality 0.31-0.34
+  in phase 1 vs 0.87-0.96 after): retention supplies the contrast. Arc 07.
 - **World changes are visible in the substrate's own firing rate:** population rate dips about 3 Hz
   in the first 10 s after a swap, with no dip at non-swap times (p=4e-6). **The scalar dip doesn't
   tell a return from a new pattern.** It's smaller at the second swap whether the pattern is
@@ -162,5 +164,6 @@ Each line is the entry's own heading (its conclusion is in the title).
 
 **07 Interface readout, S1 (2026-09-25)**: [`docs/log/brian2/07_interface_readout.md`](docs/log/brian2/07_interface_readout.md)
 
+- 2026-09-25 — The H readout's first-context weakness is a cold-start artifact; later contexts read at about 0.9 because retention supplies the contrast
 - 2026-09-25 — S1 completed: the H readout passes the same-rig lull test (8/8)
 - 2026-09-25 — S1: no single label-free readout carries context on its own. Weights alone encode recent history, rates alone encode "now vs just before", and activity projected through tuning carries context identity

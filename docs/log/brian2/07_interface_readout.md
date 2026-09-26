@@ -2,6 +2,27 @@
 
 Newest first. Index: `experiments_brian2.md`. Context: `system_contract.md` (S1, section 3).
 
+## 2026-09-25 — The H readout's first-context weakness is a cold-start artifact; later contexts read at about 0.9 because retention supplies the contrast
+
+Diagnosed while running the coupling toy (`experiments_integration.md`, two-back entry). This is
+an analysis of existing runs.
+- **Data:** settled substrate query (H, centered and unit-normalized) cosine to the true-context
+  prototype, by phase. **Phase 1: 0.31 / 0.32 / 0.34** (A→B→A / A→B→C / A→B→C→A→C). **Every later
+  phase: 0.87-0.96.** The per-seed ranges don't overlap (phase 1 at most 0.44, later phases at
+  least 0.84).
+- **Mechanism, from the readout's definition:** H = Σ_j (r_j − r̄)·w_j. When every neuron is tuned
+  to the same pattern, Σ(r_j − r̄) = 0 cancels the shared component. The context then appears only
+  through the weak covariance between rate and tuning strength. That's the situation only before
+  the first change.
+- After the first change, one-back retention (arc 05) keeps 40-55% of neurons on the previous
+  context, so the population is permanently split and the contrast exists.
+- **Retention is what makes the current context readable.** A population that re-learned
+  completely at every change would read like phase 1, at about 0.3.
+- **Consequence:** the first context ever learned gets a poor memory entry (cosine to its
+  prototype 0.29-0.72 against 0.88 for its later settled queries). At its return, memory creates
+  a duplicate instead of recognizing it. This affects exactly one context per lifetime, so it's a
+  boot-up transient. Deliberately not chased with readout knobs.
+
 ## 2026-09-25 — S1 completed: the H readout passes the same-rig lull test (8/8)
 
 The one missing S1 test was a return to a non-adjacent context *in the same rig*. The v1 world

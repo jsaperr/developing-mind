@@ -242,7 +242,12 @@ toy v0 (`experiments_integration.md`):**
   memory's retention horizon is staleness_threshold (150 steps) x the clock. At 10 s per step,
   memory with *perfect* input forgets a context after a 2000 s lull (0/8); at 50 s it keeps it
   (8/8). The substrate is one-back whatever the clock, so memory's horizon must exceed the lulls
-  the system is supposed to bridge, or complementary systems fail by construction.
+  the system is supposed to bridge, or complementary systems fail by construction. **Refined
+  (two-back test + handoff lesion):** the substrate reactivates a context in memory at the moment
+  it releases it, so the horizon only has to cover *release-to-return*, not the whole absence
+  (being tested in v1c). **What remains is a requirement for Jasper:** how long after the
+  substrate lets go should a context still be recognizable? That number x the clock sets
+  staleness_threshold.
 - **Q3.** Does memory feed back into the substrate (top-down bias, replay, consolidation into
   weights)? It's left out of v0 deliberately. The framework doc probably says something.
 - **Q4.** What decides episodic *creation*: a substrate novelty signal (P3), the curiosity layer,

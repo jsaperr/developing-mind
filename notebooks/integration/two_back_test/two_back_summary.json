@@ -1,0 +1,188 @@
+{
+ "W10": {
+  "gap_scale": 0.2927636861801147,
+  "clean": {
+   "A two-back (first context)": {
+    "genuine": 0,
+    "alive": 0,
+    "latency": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "B two-back (not first)": {
+    "genuine": 0,
+    "alive": 0,
+    "latency": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "substrate v0": {
+   "A two-back (first context)": {
+    "genuine": 0,
+    "alive": 0,
+    "latency": [
+     3,
+     5,
+     null,
+     10,
+     0,
+     8,
+     0,
+     7
+    ]
+   },
+   "B two-back (not first)": {
+    "genuine": 0,
+    "alive": 0,
+    "latency": [
+     2,
+     0,
+     null,
+     6,
+     0,
+     0,
+     4,
+     5
+    ]
+   }
+  },
+  "substrate best": {
+   "A two-back (first context)": {
+    "genuine": 1,
+    "alive": 8,
+    "latency": [
+     8,
+     5,
+     3,
+     10,
+     0,
+     5,
+     0,
+     3
+    ]
+   },
+   "B two-back (not first)": {
+    "genuine": 6,
+    "alive": 6,
+    "latency": [
+     0,
+     0,
+     7,
+     6,
+     2,
+     0,
+     6,
+     7
+    ]
+   }
+  }
+ },
+ "W50": {
+  "gap_scale": 0.3637840747833252,
+  "clean": {
+   "A two-back (first context)": {
+    "genuine": 8,
+    "alive": 8,
+    "latency": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "B two-back (not first)": {
+    "genuine": 8,
+    "alive": 8,
+    "latency": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "substrate v0": {
+   "A two-back (first context)": {
+    "genuine": 5,
+    "alive": 8,
+    "latency": [
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     0,
+     0
+    ]
+   },
+   "B two-back (not first)": {
+    "genuine": 7,
+    "alive": 8,
+    "latency": [
+     0,
+     0,
+     1,
+     1,
+     0,
+     0,
+     1,
+     1
+    ]
+   }
+  },
+  "substrate best": {
+   "A two-back (first context)": {
+    "genuine": 4,
+    "alive": 8,
+    "latency": [
+     1,
+     1,
+     0,
+     1,
+     0,
+     1,
+     0,
+     0
+    ]
+   },
+   "B two-back (not first)": {
+    "genuine": 8,
+    "alive": 8,
+    "latency": [
+     0,
+     0,
+     1,
+     0,
+     0,
+     0,
+     1,
+     1
+    ]
+   }
+  }
+ }
+}

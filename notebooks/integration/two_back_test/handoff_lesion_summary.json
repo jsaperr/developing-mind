@@ -1,0 +1,50 @@
+{
+ "W10": {
+  "best": {
+   "acc": 0.9595,
+   "A two-back (first context)": {
+    "genuine": 1,
+    "alive": 8
+   },
+   "B two-back (not first)": {
+    "genuine": 6,
+    "alive": 6
+   }
+  },
+  "best + handoff lesion": {
+   "acc": 0.95225,
+   "A two-back (first context)": {
+    "genuine": 0,
+    "alive": 0
+   },
+   "B two-back (not first)": {
+    "genuine": 1,
+    "alive": 1
+   }
+  }
+ },
+ "W50": {
+  "best": {
+   "acc": 0.9312500000000001,
+   "A two-back (first context)": {
+    "genuine": 4,
+    "alive": 8
+   },
+   "B two-back (not first)": {
+    "genuine": 8,
+    "alive": 8
+   }
+  },
+  "best + handoff lesion": {
+   "acc": 0.9312500000000001,
+   "A two-back (first context)": {
+    "genuine": 4,
+    "alive": 8
+   },
+   "B two-back (not first)": {
+    "genuine": 8,
+    "alive": 8
+   }
+  }
+ }
+}

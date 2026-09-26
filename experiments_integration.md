@@ -19,10 +19,9 @@ inspect trajectories before claiming.
     violation of "strength breaks ties".
   - 1-back returns are reported within one step, via the substrate's recognition signal.
     2-back returns aren't.
-  - **The complementary-systems test fails in the coupled system as built, for two reasons:**
-    1. Memory's validated retention (150 steps) is shorter than a 2-back lull at a 10 s clock.
-    2. Even when memory retains, it stores frozen snapshots of transitional queries, so returns
-       create duplicates instead of reusing the original entry.
+  - ~~The complementary-systems test fails in the coupled system as built~~. That was true of v0
+    memory (a 150-step horizon, frozen snapshots). It's superseded by the entries above: with the
+    best configuration and the handoff, the split works.
 - **Content consolidation (forked memory; `src/` untouched):**
   - Alone, it fixes captured entries (two-back reports fall sharply) but not recognition.
   - Combined with a stability gate on creation, it gives reliable genuine recognition of a
@@ -31,6 +30,13 @@ inspect trajectories before claiming.
     A novel query forced onto the best of bad matches reads as "unambiguous", and consolidation
     runs at full rate (absorption). See the caveat under "strength breaks ties" in
     `principles.md`.
+- **The two-back test passes** (v1b, pre-registered decision rule): substrate-fed memory
+  recognizes a non-first context after the substrate has dropped it, 8/8 at W=50. **The handoff
+  (causal):** at the moment the substrate releases a context, memory reactivates it, which resets
+  its eviction clock. Lesioning that kills survival at W=10 (6/8 → 1/8). Memory therefore has to
+  bridge only release-to-return, not the whole absence (rule under test in v1c).
+- **The first-context weakness is a cold-start artifact** of the contrast readout (phase-1 query
+  quality 0.31-0.34 vs 0.87-0.96 afterwards). It's deliberately not being chased.
 - **Open:**
   - creation rule (contract Q4: the episodic layer never had one; every validated notebook used an
     oracle);
@@ -41,6 +47,84 @@ inspect trajectories before claiming.
     helping. The next refinement is to apply it only to established entries.
 
 ---
+
+## 2026-09-25 — The two-back test passes: memory recognizes a context the substrate has dropped, and the substrate hands its released context to memory (causally tested)
+
+**Data and code:**
+- Substrate world v1b = A→B→C→A→B (`notebooks/brian2/v1b_schedule_data/`, seeds 34000-34007,
+  8/8 completed; v1's frozen runner with only the schedule swapped, verified).
+- Readout `notebooks/integration/two_back_test/run_two_back.py`. Predictions TB-P1..P4 and a
+  decision rule were in its docstring before any v1b data existed. It was dry-run on v1 data
+  first, validating the exact alive-at-swap check against known results.
+- Handoff lesion: `run_handoff_lesion.py`, with predictions before running.
+- Memory: best configuration (stability-gated creation TAU 0.9, gated content consolidation
+  η 0.1, absolute floor THETA), in the fork, with `src/` untouched.
+
+**Why v1b:** it's the unconfounded test of the architecture's central bet (the substrate holds
+one context back, so memory carries older ones). The final return is to B, which is two back
+(C and A intervened) and is *not* the first context. v1's only two-back return was to A,
+confounded with first-context weakness and eviction.
+
+**Predictions and outcomes:**
+- **TB-P1 (the substrate is one-back): CONFIRMED.** Holders of B at its return average 0.38 per
+  seed (residue only). The substrate alone doesn't hold B.
+- **TB-P2 (clock control): CONFIRMED.** Clean-input memory recognizes B 8/8 at W=50 and 0/8 at
+  W=10 (evicted).
+- **TB-P3, the question (substrate-fed best memory at W=50 recognizes B in ≥ 5/8): CONFIRMED,
+  8/8.** By the decision rule stated in advance, the substrate/memory split works in principle.
+- **TB-P4 (best beats v0 at W=50): technically confirmed, but marginal:** 8/8 vs 7/8. At a 50 s
+  clock plain memory nearly suffices. The machinery matters at 10 s.
+
+**Unpredicted, then tested causally: the handoff.**
+- At W=10, clean-input memory *evicts* B (0/8 alive), yet substrate-fed best memory keeps B's
+  original entry alive in 6/8 and recognizes it in 6/8.
+- **Timing:** every one of B's 33 lull-period wins falls within 100 s after a world change
+  (median 20 s), and none fall in settled periods.
+- **Concordance:** survival matches reactivation at the C→A change exactly (8/8).
+- **Proposed mechanism:** at C→A the substrate releases its one-back hold on B. For a moment its
+  query points at B, because the C-tracking neurons lose drive and the B-holders are relatively
+  active. With creation blocked by the stability gate, memory retrieves B's existing entry, and
+  that resets its eviction clock.
+- **Lesion test** (predictions before running): the identical run, except that wins on
+  transitional steps (stability gate closed, label-free) don't reset staleness.
+
+  | | W=10 B alive / genuine | W=10 A alive | W=50 B alive / genuine |
+  |---|---|---|---|
+  | best | 6/8 / 6/8 | 8/8 | 8/8 / 8/8 |
+  | best + handoff lesion | **1/8 / 1/8** | **0/8** | 8/8 / 8/8 |
+
+  HO-P1 (the lesion kills survival at W=10), HO-P2 (no effect at W=50, where eviction isn't in
+  play) and HO-P3 (accuracy change at most 0.02; observed 0.008) are **all confirmed. The handoff
+  is causal.**
+- **It's the same mechanism as the two-back capture failure** (toy v0). At a change, the query
+  points at the context the substrate is holding. Brief, with creation blocked, it's a rehearsal
+  that keeps the memory alive. When memory *creates* an entry from it, or it persists, it's a
+  capture. The stability gate is what turns one into the other, which gives that gate a principled
+  job beyond "avoid junk entries".
+- **Design consequence (the rule being tested in v1c):** memory has to bridge only the time from
+  the substrate *releasing* a context to its return, not its whole absence. The requirement
+  becomes staleness_threshold x clock ≥ release-to-return interval.
+
+**The first context is a cold-start artifact, not an ongoing limitation.** It was diagnosed on v1
+first. With the best configuration, A's original entry is *alive* at its two-back return in 8/8
+seeds but wins in only 1-2/8. The entry is a poor A prototype (cosine 0.29-0.72 to A), while the
+returning settled A queries sit at about 0.88. So creation fires and a duplicate wins.
+- The cause is in the readout. Settled query quality against the true context prototype is
+  **0.31-0.34 in phase 1 in every world, against 0.87-0.96 in every later phase.**
+- H = Σ(r_j − r̄)·w_j is a contrast. Before the first change the whole population learns the same
+  pattern, so the centered rates cancel what everyone shares, and the context shows up only
+  through a weak second-order covariance.
+- After the first change, one-back retention keeps the population split permanently, so contrast
+  is always available.
+- **So retention is the price of a readable code.** The 40-55% of neurons holding the previous
+  context supply the contrast the readout needs.
+- The first-context weakness affects exactly one context in a lifetime, the first. It's
+  deliberately **not being chased** with readout knobs.
+
+**Net:** the complementary-systems split works in principle, with the substrate one-back and
+memory carrying older contexts. It works via a handoff at release, and it's limited by memory's
+horizon from release to return. What's left for the clock is a requirement Jasper sets (how long
+after release should a context stay recognizable?), not a mechanism question.
 
 ## 2026-09-25 — Absolute-match gate: absorption eliminated and first-context recognition restored, at a small cost where low-match drift had been helping
 
