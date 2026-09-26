@@ -252,7 +252,10 @@ toy v0 (`experiments_integration.md`):**
   - Every failure the toy found traces to *when and from what* memory creates an entry.
   - The dip gate (P3) doesn't work in its simple form, since it flags only about 2% of steps.
   - A strict stability gate helps but is fragile.
-  - Related: entry *content* never consolidates, only strength does.
+  - Related: entry *content* never consolidates, only strength does. A forked memory with gated
+    content consolidation, plus a stability gate on creation, gives reliable recognition of a
+    returning non-first context. It also showed that the ambiguity gate needs an
+    absolute-match condition, since it can't see novelty.
 - **Q5.** Is the SNN *the* substrate, or a stand-in for the mycelium substrate the framework
   describes?
 

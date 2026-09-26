@@ -23,11 +23,90 @@ inspect trajectories before claiming.
     1. Memory's validated retention (150 steps) is shorter than a 2-back lull at a 10 s clock.
     2. Even when memory retains, it stores frozen snapshots of transitional queries, so returns
        create duplicates instead of reusing the original entry.
-- **Open:** creation rule (contract Q4: the episodic layer never had one; every validated notebook
-  used an oracle); the clock mapping (Q2 now has a hard constraint); content consolidation of
-  memory entries (next hypothesis); readout choice for the first context.
+- **Content consolidation (forked memory; `src/` untouched):**
+  - Alone, it fixes captured entries (two-back reports fall sharply) but not recognition.
+  - Combined with a stability gate on creation, it gives reliable genuine recognition of a
+    returning non-first context: 8/8 at 50 s steps.
+  - It exposed that **the validated top1-top2 ambiguity gate is relative and can't see novelty.**
+    A novel query forced onto the best of bad matches reads as "unambiguous", and consolidation
+    runs at full rate (absorption). See the caveat under "strength breaks ties" in
+    `principles.md`.
+- **Open:**
+  - creation rule (contract Q4: the episodic layer never had one; every validated notebook used an
+    oracle);
+  - the clock mapping (Q2 now has a hard constraint);
+  - the first context (still not recognized under any variant);
+  - an absolute-match-quality gate (next hypothesis).
 
 ---
+
+## 2026-09-25 — Content consolidation (forked memory): fixes captured entries; combined with a creation gate it gives reliable recognition of a returning non-first context, and exposes that the ambiguity gate is blind to novelty
+
+**Code:** `notebooks/integration/content_consolidation/`. The memory fork is
+`episodic_content_fork.py`, a `ConsolidatingEpisodicMemory` subclass. **`src/hopfield/` is
+untouched** (Jasper: "distinctly fork it"). The experiments are `run_content_consolidation.py` and
+`run_combined.py`, with predictions in each docstring before its first run; outputs go to
+`*_summary.json`.
+
+**The fork:** after each step the winner's content moves toward the query, p ← unit(p + α(q − p)).
+In the gated variant α = η(1 − g), using the same top1-top2 ambiguity gate that already governs
+strength. In the ungated variant α = η. Everything else is inherited unchanged. **Sanity check:**
+at η=0 the fork reproduced v0 exactly (winner ids, reports, creations) on every seed of all three
+worlds at both clocks. The script asserts this before running anything else.
+
+**Content consolidation alone. Predictions and outcomes:**
+- **CC-P1 (genuine recognition rises): REFUTED.** A→B→A return 1/8 → 0/8; v1 C return (W=50)
+  2/8 → 3/8; v1 A return 2/8 → 1/8. Checking what wins the return phase shows why. The first
+  transitional query of a return spawns a *new* entry before the query settles, and that
+  duplicate wins the return phase (A's return: 8/8 seeds at W=10, 7/8 at W=50, even though at
+  W=50 the original is still alive).
+- **CC-P2 (two-back reports cut to at most 40 at W=10): SPLIT.** v1 115 → 34 (confirmed), A→B→C
+  126 → 77 (refuted). At W=50 the cut is large (47 → 15, 62 → 11), and accuracy rises (e.g. v1
+  W=50 0.868 → 0.958). Captured "not-old" entries drift to the real context.
+- **CC-P3 (ungated produces more absorption than gated): REFUTED.** Zero absorption in every
+  variant alone, and ungated is as accurate or slightly more so. On its own in these worlds, the
+  gate makes no difference.
+- **CC-P4 (the clock problem is untouched): CONFIRMED.** Clean arm, v1, W=10: A two-back 0/8
+  (evicted).
+
+**Combined: stability gate (TAU=0.9) plus gated consolidation (η=0.1).**
+- **COMBO-P1: SPLIT.**
+  - Recognition of a returning *non-first* context becomes reliable: **v1 C one-back 8/8 at
+    W=50 and 6/8 at W=10.** That's up from 3/8 and 4/8 with consolidation alone, and 6/8 and 3/8
+    with the gate alone. It's the first reliable genuine recognition in the coupled system.
+  - The *first* context still fails: A→B→A return 1/8 (the gate alone gave 5/8); v1 A two-back
+    2/8 at W=50.
+- **COMBO-P2 (no worse than consolidation alone on two-back): mostly.** A→B→C W=10 is 21 against
+  77; v1 W=10 is 39 against 34, a marginal miss.
+- **COMBO-P3 (v1 W=10 A two-back stays at most 2/8): CONFIRMED,** 1/8.
+
+**New failure, found only in the combination: absorption (1, 6 and 3 events at W=10) is the
+failure CC-P3 predicted, and the mechanism was checked directly.**
+- In every event in A→B→C (16 steps), the query did *not* match the entry being consolidated.
+  Best-match cosine ranged from −0.37 to +0.41, against a median of 0.99 over all consolidation
+  steps. Yet the ambiguity gate read low (g 0.00-0.41), so consolidation ran at 59-100% of full
+  rate.
+- **The top1-top2 gate is relative, so it can't see novelty.** When a novel query arrives and the
+  creation gate forces memory to retrieve anyway, the best of several bad matches looks
+  "unambiguous". Several events occurred with a single entry in memory, where the toy sets g=0
+  (my convention). The two-entry events show the same pattern, so it isn't only that convention.
+- The validated retrieval gate never met this: with oracle creation a true match always existed.
+- The same blindness applies to the validated *strength* bias. Nothing here has shown it
+  mattering there yet (strength-off didn't change the two-back capture), but it's the same gate.
+- Also explains, at least in part, why the combination *hurt* A→B→A first-context recognition
+  (5/8 → 1/8). Early in phase 2, memory holds only the A entry, the gate forces its retrieval, and
+  it's consolidated toward B.
+
+**Net:**
+- Content consolidation plus delayed creation gives reliable recognition of returning contexts,
+  except the first one.
+- Every remaining failure traces to three things:
+  1. the first context being learned while the substrate is still forming it;
+  2. the clock/eviction horizon;
+  3. an ambiguity gate that can't tell "unambiguous" from "novel".
+- **Next hypothesis (not run):** gate content (and strength) by *absolute* match quality as well
+  as relative ambiguity, e.g. no consolidation unless best-match cosine is at least THETA. It
+  should remove absorption without losing the recognition gains.
 
 ## 2026-09-25 — Creation gates: a strict stability gate helps, the dip gate doesn't fire enough; two of three predictions refuted
 
