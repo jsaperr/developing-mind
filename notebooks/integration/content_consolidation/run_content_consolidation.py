@@ -58,11 +58,13 @@ VARIANTS = [("eta=0", 0.0, True), ("gated 0.1", 0.1, True), ("gated 0.03", 0.03,
 ESTABLISHED = 10
 
 
-def run_cc(stream, arm, gap_scale, eta, gate, allow=None):
-    """allow: optional creation gate allow(step) -> bool (None = always allow; empty memory always may)."""
+def run_cc(stream, arm, gap_scale, eta, gate, allow=None, match_floor=None):
+    """allow: optional creation gate allow(step) -> bool (None = always allow; empty memory always may).
+    match_floor: optional absolute-match condition for consolidation (None = off)."""
     Q = torch.tensor(stream['q'][arm], dtype=torch.float32)
     protos = stream['protos']                                   # numpy float64, exactly as v0 tags
-    mem = ConsolidatingEpisodicMemory(dim=Q.shape[1], eta=eta, gate_content=gate, gap_scale=gap_scale)
+    mem = ConsolidatingEpisodicMemory(dim=Q.shape[1], eta=eta, gate_content=gate, gap_scale=gap_scale,
+                                      match_floor=match_floor)
     tag, born_phase, reported, winner_ids = {}, {}, [], []
     wins = {}; established = {}; absorbed = set()
     created = 0

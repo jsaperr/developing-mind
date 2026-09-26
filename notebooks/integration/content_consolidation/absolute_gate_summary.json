@@ -1,0 +1,170 @@
+{
+ "ABA_W10": {
+  "combined": {
+   "acc": 0.9837499999999999,
+   "two_back": 0,
+   "genuine": {
+    "ret2": 1
+   },
+   "created": 3.0,
+   "absorbed": 1
+  },
+  "combined + abs gate": {
+   "acc": 0.9845833333333334,
+   "two_back": 0,
+   "genuine": {
+    "ret2": 5
+   },
+   "created": 3.125,
+   "absorbed": 0
+  },
+  "consol only + abs gate": {
+   "acc": 0.9995833333333333,
+   "two_back": 0,
+   "genuine": {
+    "ret2": 0
+   },
+   "created": 6.375,
+   "absorbed": 0
+  }
+ },
+ "ABA_W50": {
+  "combined": {
+   "acc": 0.95,
+   "two_back": 0,
+   "genuine": {
+    "ret2": 3
+   },
+   "created": 3.0,
+   "absorbed": 0
+  },
+  "combined + abs gate": {
+   "acc": 0.95,
+   "two_back": 0,
+   "genuine": {
+    "ret2": 4
+   },
+   "created": 3.125,
+   "absorbed": 0
+  },
+  "consol only + abs gate": {
+   "acc": 1.0,
+   "two_back": 0,
+   "genuine": {
+    "ret2": 4
+   },
+   "created": 3.625,
+   "absorbed": 0
+  }
+ },
+ "ABC_W10": {
+  "combined": {
+   "acc": 0.9550000000000001,
+   "two_back": 21,
+   "genuine": {},
+   "created": 3.0,
+   "absorbed": 6
+  },
+  "combined + abs gate": {
+   "acc": 0.9520833333333334,
+   "two_back": 36,
+   "genuine": {},
+   "created": 3.375,
+   "absorbed": 0
+  },
+  "consol only + abs gate": {
+   "acc": 0.9566666666666667,
+   "two_back": 77,
+   "genuine": {},
+   "created": 6.0,
+   "absorbed": 0
+  }
+ },
+ "ABC_W50": {
+  "combined": {
+   "acc": 0.8999999999999999,
+   "two_back": 17,
+   "genuine": {},
+   "created": 3.375,
+   "absorbed": 0
+  },
+  "combined + abs gate": {
+   "acc": 0.8999999999999999,
+   "two_back": 18,
+   "genuine": {},
+   "created": 3.375,
+   "absorbed": 0
+  },
+  "consol only + abs gate": {
+   "acc": 0.96875,
+   "two_back": 15,
+   "genuine": {},
+   "created": 4.0,
+   "absorbed": 0
+  }
+ },
+ "ABCAC_W10": {
+  "combined": {
+   "acc": 0.967,
+   "two_back": 39,
+   "genuine": {
+    "ret3": 1,
+    "ret4": 6
+   },
+   "created": 4.25,
+   "absorbed": 3
+  },
+  "combined + abs gate": {
+   "acc": 0.96675,
+   "two_back": 42,
+   "genuine": {
+    "ret3": 1,
+    "ret4": 4
+   },
+   "created": 5.0,
+   "absorbed": 0
+  },
+  "consol only + abs gate": {
+   "acc": 0.97375,
+   "two_back": 34,
+   "genuine": {
+    "ret3": 0,
+    "ret4": 4
+   },
+   "created": 8.5,
+   "absorbed": 0
+  }
+ },
+ "ABCAC_W50": {
+  "combined": {
+   "acc": 0.93125,
+   "two_back": 23,
+   "genuine": {
+    "ret3": 2,
+    "ret4": 8
+   },
+   "created": 4.25,
+   "absorbed": 0
+  },
+  "combined + abs gate": {
+   "acc": 0.9299999999999999,
+   "two_back": 23,
+   "genuine": {
+    "ret3": 2,
+    "ret4": 8
+   },
+   "created": 4.25,
+   "absorbed": 0
+  },
+  "consol only + abs gate": {
+   "acc": 0.9575,
+   "two_back": 11,
+   "genuine": {
+    "ret3": 1,
+    "ret4": 3
+   },
+   "created": 6.125,
+   "absorbed": 0
+  }
+ }
+}

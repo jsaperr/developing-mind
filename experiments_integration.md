@@ -36,9 +36,50 @@ inspect trajectories before claiming.
     oracle);
   - the clock mapping (Q2 now has a hard constraint);
   - the first context (still not recognized under any variant);
-  - an absolute-match-quality gate (next hypothesis).
+  - an absolute-match-quality gate: **tested.** It eliminates absorption and restores
+    first-context 1-back recognition (1/8 → 5/8), at a small cost where low-match drift had been
+    helping. The next refinement is to apply it only to established entries.
 
 ---
+
+## 2026-09-25 — Absolute-match gate: absorption eliminated and first-context recognition restored, at a small cost where low-match drift had been helping
+
+**Code:** `notebooks/integration/content_consolidation/run_absolute_gate.py` (predictions in the
+docstring before the first run); `absolute_gate_summary.json`. The fork gained an optional
+`match_floor`: consolidate only if the winner's current content has cosine ≥ match_floor with the
+query. It's additive, default off. The "combined" row reproduced the committed
+`combined_summary.json` exactly, so the earlier results are unchanged. **No new parameter:**
+match_floor = THETA = 0.5, the same line the creation rule uses for "novel".
+
+**Predictions and outcomes (combined = stability gate TAU 0.9 + gated consolidation η 0.1; "+ abs"
+adds the floor):**
+- **AMG-P1 (absorption → 0 everywhere): CONFIRMED.** 0 in all 3 worlds x 2 clocks (combined alone
+  had 1 / 6 / 3 at W=10).
+- **AMG-P2 (v1 C one-back genuine ≥ 7/8 at W=50 and ≥ 5/8 at W=10): SPLIT.** 8/8 at W=50 (held);
+  4/8 at W=10 (combined alone had 6/8).
+- **AMG-P3 (A→B→A first-context recognition back to ≥ 5/8 at W=10): CONFIRMED,** 1/8 → 5/8. The
+  lone A entry is no longer consolidated toward B queries early in phase 2, which is exactly the
+  mechanism the previous entry proposed.
+- **AMG-P4 (two-back no worse than 1.5x combined): 3 of 4 worlds.** A→B→C W=10 is 36 vs 21, 1.7x,
+  a miss. The others are within 10%.
+
+**Reading:** the floor removes the harmful case, where an *established* memory gets dragged toward
+a query it doesn't match. But it also blocks some helpful low-match drift, where fresh
+transitional entries get reshaped into the real context. That's where the two misses come from.
+
+**Best configuration so far** (stability-gated creation + ambiguity-gated content consolidation +
+absolute floor):
+- no absorption;
+- first-context 1-back recognition 5/8 (W=10);
+- non-first-context 1-back recognition 8/8 (W=50) and 4/8 (W=10);
+- the first context at two back is still not recognized (1-2/8), since at W=10 the clock/eviction
+  limit also applies.
+
+**Not run (next candidates):**
+- apply the floor only to *established* entries, so unproven entries drift freely (mirrors how
+  strength earns protection);
+- the same absolute condition on the *strength* bias in retrieval (untested; strength-off didn't
+  change the two-back capture, so lower priority).
 
 ## 2026-09-25 — Content consolidation (forked memory): fixes captured entries; combined with a creation gate it gives reliable recognition of a returning non-first context, and exposes that the ambiguity gate is blind to novelty
 

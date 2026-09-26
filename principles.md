@@ -56,6 +56,11 @@ established memories (`experiments_integration.md`). Wherever this gate
 is reused on input that can be novel, pair it with an **absolute**
 match-quality condition. "Can't decide between candidates" and "no
 candidate fits" are different situations, and only the first is a tie.
+Tested for *content* consolidation in the same toy: requiring cosine ≥
+the creation threshold before consolidating removed absorption in every
+world and clock and restored first-context recognition (1/8 → 5/8),
+at a small cost where low-match drift of unproven entries had been
+helping. It hasn't been tested for the strength bias in retrieval.
 
 ## Named decision: what "stability" means for the STDP layer (2026-07-20)
 

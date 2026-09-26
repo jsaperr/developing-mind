@@ -37,14 +37,22 @@ def _unit(v):
 
 
 class ConsolidatingEpisodicMemory(EpisodicMemory):
-    def __init__(self, dim, eta=0.0, gate_content=True, **kwargs):
+    """match_floor (added after the absorption finding, default None = off, so earlier runs are
+    unchanged): consolidate only if the winner's CURRENT content actually matches the query,
+    cosine >= match_floor. The top1-top2 gate g is relative and can't see novelty. This is the
+    absolute condition the principles.md caveat calls for."""
+
+    def __init__(self, dim, eta=0.0, gate_content=True, match_floor=None, **kwargs):
         super().__init__(dim, **kwargs)
         self.eta = eta
         self.gate_content = gate_content
+        self.match_floor = match_floor
 
     def consolidate(self, winner, query, g):
         """Move the winner's stored content toward the query. No-op when eta == 0."""
         if self.eta == 0.0:
+            return 0.0
+        if self.match_floor is not None and float(self.patterns[winner] @ query) < self.match_floor:
             return 0.0
         alpha = self.eta * (1.0 - g) if self.gate_content else self.eta
         if alpha > 0:
