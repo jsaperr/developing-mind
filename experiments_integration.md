@@ -41,6 +41,12 @@ inspect trajectories before claiming.
   rehearsed (in practice, the substrate's release of it) to its return. **Confirmed in v1c:** with a 2000 s
   release-to-return against a 1500 s horizon, survival drops to 2/8 (v1b: 6/8 at 1000 s).
   The result holds at all 7 neighbouring parameter settings.
+- **Replicated at strong_tight_gate** (the opposite-character operating point): one-back, the
+  two-back pass (8/8), rehearsal (8/8 → 1/8 under the lesion) and the horizon rule all hold. The
+  memory machinery matters *more* there.
+- **Open, and now central:** there's no reliable signal that the world is still changing. The dip
+  is too brief and the stability gate misses slow drift. It's behind the residual absorption, the
+  two-back capture and creation during transitions.
 - **The first-context weakness is a cold-start artifact** of the contrast readout (phase-1 query
   quality 0.31-0.34 vs 0.87-0.96 afterwards). It's deliberately not being chased.
 - **Open:**
@@ -53,6 +59,74 @@ inspect trajectories before claiming.
     helping. The next refinement is to apply it only to established entries.
 
 ---
+
+## 2026-09-26 — Replication at strong_tight_gate: all four predictions hold. Residual absorption traced to "not-departing" mixture queries; settled-only consolidation refuted because the stability gate can't see slow post-change drift
+
+**Data:** `notebooks/brian2/stg_replication_data/`: v1b schedule (seeds 36000-36007) and v1c
+schedule (37000-37007) at strong_tight_gate (10mV reference / gap_scale 1.0), 16/16 completed
+(2070 s wall, 8 concurrent). The 30-input rig was calibration-checked there first against a bar
+stated in advance (16.9-18.3 Hz, w_total 9.69-10.24, PASS). Readout
+`notebooks/integration/two_back_test/run_stg_replication.py`, predictions STG-P1..P4 written
+while the batch ran.
+
+**Why this point:** it's the opposite character to 13mV/1.5. It's bistable at N=3 (about half
+the seeds never differentiate), it's the only point with genuine ongoing identity churn, and its
+reliability is dominance-based rather than suppression-based. Surviving it means the findings
+belong to the architecture, not to one tidy operating point.
+
+**Predictions and outcomes (all CONFIRMED):**
+- **STG-P1, one-back:** 0-0.12 holders at every two-back return, and 2.12 at v1c's one-back
+  return (speeding up +4.6 Hz).
+- **STG-P2, the two-back pass:** v1b B genuine at W=50 is **8/8**.
+- **STG-P3, rehearsal:** v1b B alive at W=10 is **8/8, falling to 1/8 under the lesion.** That's
+  stronger than at 13mV/1.5 (6/8 → 1/8).
+- **STG-P4, horizon rule:** v1c B (2000 s release-to-return) alive at W=10 is 2/8, and genuine at
+  W=50 is 8/8.
+
+**Descriptive:**
+- The flagged risk (non-differentiating seeds degrading the readout) didn't materialize. Readout
+  quality is 0.86-0.88 in every phase after the first. The cold start is starker here: phase 1
+  reads 0.20-0.24, with some seeds near 0.
+- **The machinery matters much more at this point.** Plain v0 memory drops to 0.74-0.79 accuracy
+  at W=50 and recognizes v1c's B in 1/8 (best: 8/8). At 13mV/1.5 v0 had nearly kept up.
+
+**Residual absorption, diagnosed:**
+- The best configuration still shows 8 absorption events in stg v1c at W=10, despite the absolute
+  floor. All happen right after a change.
+- The queries genuinely match the entries (cos 0.80-0.86), and each flipped entry ends up on a
+  boundary between two contexts (top-2 prototype cosines about 0.51 / 0.47).
+- 6/8 of those entries had been *created* from an earlier transitional "not-C" query (birth cosine
+  0.48-0.74). A later change away from C produced a similar query that pulled them across.
+- 2/8 (one seed) were well-formed entries (0.76, 0.85 at birth) pulled across by such a query.
+- **None were cold-start entries.** My first guess was wrong and was checked (0/8).
+- Rerunning every world (below) shows the floor's "zero absorption" also doesn't hold for 13mV
+  v1c (2 events). The earlier claim covered only the three worlds that existed then. It's
+  corrected in `principles.md`.
+
+**Settled-only consolidation** (`content_consolidation/run_settled_consolidation.py`, predictions
+before running; all 7 worlds x 2 clocks):
+- **Idea:** keep refresh on every step, but consolidate content only while the stability gate is
+  open.
+- **SC-P1 (absorption → 0 everywhere): REFUTED.** stg v1c W=10 is unchanged at 8.
+- **SC-P2 (no key recognition drops by more than 1 seed): mostly held.** One miss: stg v1c W=50 B
+  went 8 → 6.
+- **Why it failed:** my diagnostic had labelled those steps "transitional" using the S1 definition
+  (the first 300 s of a phase). The stability gate only closes when the query *jumps*, and the
+  post-change mixture drifts slowly enough to pass as steady (the same reason TAU 0.9 didn't stop
+  the capture on novel-C). The fix targeted the wrong signal. **Not adopted.**
+
+**The common gap:** several failures now trace to one missing signal, *that the world is still
+changing*:
+- the two-back capture;
+- the residual absorption;
+- creation during transitions (Q4);
+- the old episodic check (b), which was blocked on phase-awareness.
+
+Neither candidate works as built: the swap dip fires on only about 2% of steps, and the stability
+gate misses slow drift. **Candidate for next (not run):** a substrate-side "still re-learning"
+signal, e.g. population weight-change rate. The re-learning neurons' weights move during the
+first 60-150 s after a change and are nearly still once settled. That would tie memory's
+commitment to the substrate's own plasticity.
 
 ## 2026-09-25 — The handoff horizon rule holds: memory must cover release-to-return (v1c)
 

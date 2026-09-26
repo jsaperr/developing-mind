@@ -1,0 +1,27 @@
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([1.69235065e-03, 2.97711262e-03, 4.55255891e-03, ...,
+       5.99997952e+03, 5.99997959e+03, 6.00000019e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+[seed 37006 t=250s] wall=45s
+[seed 37006 t=500s] wall=88s
+[seed 37006 t=750s] wall=131s
+[seed 37006 t=1000s] wall=175s
+[seed 37006 t=1250s] wall=218s
+[seed 37006 t=1500s] wall=262s
+[seed 37006 t=1750s] wall=305s
+[seed 37006 t=2000s] wall=348s
+[seed 37006 t=2250s] wall=392s
+[seed 37006 t=2500s] wall=435s
+[seed 37006 t=2750s] wall=479s
+[seed 37006 t=3000s] wall=522s
+[seed 37006 t=3250s] wall=565s
+[seed 37006 t=3500s] wall=609s
+[seed 37006 t=3750s] wall=654s
+[seed 37006 t=4000s] wall=699s
+[seed 37006 t=4250s] wall=742s
+[seed 37006 t=4500s] wall=785s
+[seed 37006 t=4750s] wall=829s
+[seed 37006 t=5000s] wall=872s
+[seed 37006 t=5250s] wall=917s
+[seed 37006 t=5500s] wall=961s
+[seed 37006 t=5750s] wall=1005s
+[seed 37006 t=6000s] wall=1046s
+stg v1c seed 37006 -> C:\Users\urawi\OneDrive\Desktop\a wide variety of vscode projects\developing-mind\notebooks\brian2\stg_replication_data\stg_v1c_n7_seed37006.json.gz

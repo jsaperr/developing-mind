@@ -1,0 +1,362 @@
+{
+ "v1b": {
+  "readout_quality": [
+   [
+    0.24292806992356789,
+    0.8605598422502729,
+    0.8755218016093175,
+    0.8733682151359219,
+    0.8444851971496526
+   ],
+   [
+    0.2804181121596425,
+    0.8732069501363714,
+    0.8682072580803833,
+    0.8855134227459964,
+    0.8734168877240938
+   ],
+   [
+    0.2141059827612983,
+    0.8803607382191326,
+    0.8655358689705367,
+    0.866358452743059,
+    0.8531751826739242
+   ],
+   [
+    0.2688603597191355,
+    0.8930368078544156,
+    0.8673720601483592,
+    0.8478036780808421,
+    0.8730602966359691
+   ],
+   [
+    0.15865558317518844,
+    0.8674799642710993,
+    0.829867233463684,
+    0.8608328082013234,
+    0.8765156106894627
+   ],
+   [
+    0.2178760090603217,
+    0.867019436863456,
+    0.871758895893615,
+    0.8631170870605112,
+    0.8701518060065584
+   ],
+   [
+    0.18658534424671913,
+    0.8721641959715917,
+    0.8720520731097835,
+    0.8535925940050694,
+    0.8687579440931323
+   ],
+   [
+    0.004477403975755206,
+    0.8665991220446845,
+    0.8701906509072656,
+    0.8591215161986714,
+    0.8791633850807202
+   ]
+  ],
+  "W10": {
+   "clean": {
+    "acc": 1.0,
+    "absorbed": 0,
+    "A two-back (first ctx)": {
+     "genuine": 0,
+     "alive": 0
+    },
+    "B two-back (not first)": {
+     "genuine": 0,
+     "alive": 0
+    }
+   },
+   "substrate v0": {
+    "acc": 0.877,
+    "absorbed": 0,
+    "A two-back (first ctx)": {
+     "genuine": 2,
+     "alive": 2
+    },
+    "B two-back (not first)": {
+     "genuine": 0,
+     "alive": 0
+    }
+   },
+   "substrate best": {
+    "acc": 0.9390000000000001,
+    "absorbed": 1,
+    "A two-back (first ctx)": {
+     "genuine": 1,
+     "alive": 8
+    },
+    "B two-back (not first)": {
+     "genuine": 8,
+     "alive": 8
+    }
+   },
+   "best + handoff lesion": {
+    "acc": 0.9285,
+    "absorbed": 1,
+    "A two-back (first ctx)": {
+     "genuine": 0,
+     "alive": 0
+    },
+    "B two-back (not first)": {
+     "genuine": 1,
+     "alive": 1
+    }
+   }
+  },
+  "W50": {
+   "clean": {
+    "acc": 1.0,
+    "absorbed": 0,
+    "A two-back (first ctx)": {
+     "genuine": 8,
+     "alive": 8
+    },
+    "B two-back (not first)": {
+     "genuine": 8,
+     "alive": 8
+    }
+   },
+   "substrate v0": {
+    "acc": 0.7375,
+    "absorbed": 0,
+    "A two-back (first ctx)": {
+     "genuine": 1,
+     "alive": 8
+    },
+    "B two-back (not first)": {
+     "genuine": 8,
+     "alive": 8
+    }
+   },
+   "substrate best": {
+    "acc": 0.9087500000000001,
+    "absorbed": 1,
+    "A two-back (first ctx)": {
+     "genuine": 2,
+     "alive": 8
+    },
+    "B two-back (not first)": {
+     "genuine": 8,
+     "alive": 8
+    }
+   },
+   "best + handoff lesion": {
+    "acc": 0.9087500000000001,
+    "absorbed": 1,
+    "A two-back (first ctx)": {
+     "genuine": 2,
+     "alive": 8
+    },
+    "B two-back (not first)": {
+     "genuine": 8,
+     "alive": 8
+    }
+   }
+  }
+ },
+ "v1c": {
+  "readout_quality": [
+   [
+    0.21945320326360113,
+    0.8647752227945428,
+    0.8636707893442918,
+    0.9276595700246412,
+    0.9316481170885248,
+    0.845522481246557
+   ],
+   [
+    0.2719200913848472,
+    0.8538716097390984,
+    0.8814945454649761,
+    0.8600725550372896,
+    0.879876745078953,
+    0.8700949246567843
+   ],
+   [
+    0.30728645526426557,
+    0.8798125089690748,
+    0.8724030894462582,
+    0.8767167073121233,
+    0.869008212714381,
+    0.8718831242364923
+   ],
+   [
+    0.005448156235186818,
+    0.8395472233362216,
+    0.864421782045801,
+    0.8639986790157544,
+    0.8793788464396103,
+    0.8617008028406969
+   ],
+   [
+    0.2690311908791115,
+    0.8691063907178173,
+    0.8771491974970893,
+    0.873984897489769,
+    0.8620624643153677,
+    0.8734867902598471
+   ],
+   [
+    0.2880982712088066,
+    0.8922359023955703,
+    0.8793261894909494,
+    0.8719796052476483,
+    0.8850361588274351,
+    0.8471247281428939
+   ],
+   [
+    0.324417364245117,
+    0.8773457226692939,
+    0.8205112374977551,
+    0.8679427609694267,
+    0.8694001959823279,
+    0.8391036014045643
+   ],
+   [
+    0.21433972782701183,
+    0.8682125876145379,
+    0.8599350173135512,
+    0.8670833102948158,
+    0.8778877956360808,
+    0.8595191652660492
+   ]
+  ],
+  "W10": {
+   "clean": {
+    "acc": 1.0,
+    "absorbed": 0,
+    "A two-back (first ctx)": {
+     "genuine": 0,
+     "alive": 0
+    },
+    "C one-back": {
+     "genuine": 8,
+     "alive": 8
+    },
+    "B release-to-return 2000 s": {
+     "genuine": 0,
+     "alive": 0
+    }
+   },
+   "substrate v0": {
+    "acc": 0.87125,
+    "absorbed": 0,
+    "A two-back (first ctx)": {
+     "genuine": 0,
+     "alive": 1
+    },
+    "C one-back": {
+     "genuine": 3,
+     "alive": 8
+    },
+    "B release-to-return 2000 s": {
+     "genuine": 0,
+     "alive": 0
+    }
+   },
+   "substrate best": {
+    "acc": 0.929375,
+    "absorbed": 8,
+    "A two-back (first ctx)": {
+     "genuine": 0,
+     "alive": 8
+    },
+    "C one-back": {
+     "genuine": 4,
+     "alive": 8
+    },
+    "B release-to-return 2000 s": {
+     "genuine": 0,
+     "alive": 2
+    }
+   },
+   "best + handoff lesion": {
+    "acc": 0.930625,
+    "absorbed": 8,
+    "A two-back (first ctx)": {
+     "genuine": 0,
+     "alive": 0
+    },
+    "C one-back": {
+     "genuine": 5,
+     "alive": 8
+    },
+    "B release-to-return 2000 s": {
+     "genuine": 0,
+     "alive": 1
+    }
+   }
+  },
+  "W50": {
+   "clean": {
+    "acc": 1.0,
+    "absorbed": 0,
+    "A two-back (first ctx)": {
+     "genuine": 8,
+     "alive": 8
+    },
+    "C one-back": {
+     "genuine": 8,
+     "alive": 8
+    },
+    "B release-to-return 2000 s": {
+     "genuine": 8,
+     "alive": 8
+    }
+   },
+   "substrate v0": {
+    "acc": 0.7916666666666666,
+    "absorbed": 0,
+    "A two-back (first ctx)": {
+     "genuine": 1,
+     "alive": 8
+    },
+    "C one-back": {
+     "genuine": 1,
+     "alive": 8
+    },
+    "B release-to-return 2000 s": {
+     "genuine": 1,
+     "alive": 8
+    }
+   },
+   "substrate best": {
+    "acc": 0.8947916666666667,
+    "absorbed": 1,
+    "A two-back (first ctx)": {
+     "genuine": 0,
+     "alive": 8
+    },
+    "C one-back": {
+     "genuine": 6,
+     "alive": 8
+    },
+    "B release-to-return 2000 s": {
+     "genuine": 8,
+     "alive": 8
+    }
+   },
+   "best + handoff lesion": {
+    "acc": 0.8947916666666667,
+    "absorbed": 1,
+    "A two-back (first ctx)": {
+     "genuine": 0,
+     "alive": 8
+    },
+    "C one-back": {
+     "genuine": 6,
+     "alive": 8
+    },
+    "B release-to-return 2000 s": {
+     "genuine": 8,
+     "alive": 8
+    }
+   }
+  }
+ }
+}

@@ -57,10 +57,16 @@ is reused on input that can be novel, pair it with an **absolute**
 match-quality condition. "Can't decide between candidates" and "no
 candidate fits" are different situations, and only the first is a tie.
 Tested for *content* consolidation in the same toy: requiring cosine ≥
-the creation threshold before consolidating removed absorption in every
-world and clock and restored first-context recognition (1/8 → 5/8),
-at a small cost where low-match drift of unproven entries had been
-helping. It hasn't been tested for the strength bias in retrieval.
+the creation threshold before consolidating removed absorption in the
+three worlds it was first tested on and restored first-context
+recognition (1/8 → 5/8). **Scope correction (2026-09-26):** later worlds
+(v1c at both operating points, strong_tight_gate v1b) still show 1-8
+events of a different kind. Right after a change the query reads
+"not-departing", which genuinely overlaps several contexts (match
+0.80-0.86), so no match floor can block it. That hazard needs a signal
+that the world is still changing, which the system doesn't yet have
+(`experiments_integration.md`). It hasn't been tested for the strength
+bias in retrieval.
 
 ## Named decision: what "stability" means for the STDP layer (2026-07-20)
 

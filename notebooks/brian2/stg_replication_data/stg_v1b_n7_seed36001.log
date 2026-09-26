@@ -1,0 +1,23 @@
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([2.58462265e-03, 5.09729341e-03, 6.13314471e-03, ...,
+       4.99999593e+03, 4.99999593e+03, 4.99999644e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+[seed 36001 t=250s] wall=49s
+[seed 36001 t=500s] wall=95s
+[seed 36001 t=750s] wall=151s
+[seed 36001 t=1000s] wall=196s
+[seed 36001 t=1250s] wall=242s
+[seed 36001 t=1500s] wall=288s
+[seed 36001 t=1750s] wall=334s
+[seed 36001 t=2000s] wall=384s
+[seed 36001 t=2250s] wall=435s
+[seed 36001 t=2500s] wall=487s
+[seed 36001 t=2750s] wall=533s
+[seed 36001 t=3000s] wall=577s
+[seed 36001 t=3250s] wall=623s
+[seed 36001 t=3500s] wall=671s
+[seed 36001 t=3750s] wall=721s
+[seed 36001 t=4000s] wall=770s
+[seed 36001 t=4250s] wall=815s
+[seed 36001 t=4500s] wall=860s
+[seed 36001 t=4750s] wall=903s
+[seed 36001 t=5000s] wall=947s
+stg v1b seed 36001 -> C:\Users\urawi\OneDrive\Desktop\a wide variety of vscode projects\developing-mind\notebooks\brian2\stg_replication_data\stg_v1b_n7_seed36001.json.gz
