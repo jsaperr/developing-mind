@@ -60,8 +60,8 @@ before running; save full traces for exploratory runs; inspect trajectories befo
   (0, 0, 2, 0, 0), though A's return masks accumulation. In 2 seeds a residue neuron carried A
   through two intervening contexts and recognized its return. The H readout passes the same-rig
   lull test 8/8, which completes S1. Arcs 05, 07. What memory does with this:
-  `experiments_integration.md`. v1b (A→B→C→A→B) replicates one-back (0.38 holders at a two-back
-  return). The H readout's weak first context is a cold-start artifact (query quality 0.31-0.34
+  `experiments_integration.md`. v1b (A→B→C→A→B) and v1c (A→B→C→A→C→B) replicate one-back: 0-0.38
+  holders at two-back returns, against 3.0 at a one-back return. The H readout's weak first context is a cold-start artifact (query quality 0.31-0.34
   in phase 1 vs 0.87-0.96 after): retention supplies the contrast. Arc 07.
 - **World changes are visible in the substrate's own firing rate:** population rate dips about 3 Hz
   in the first 10 s after a swap, with no dip at non-swap times (p=4e-6). **The scalar dip doesn't
