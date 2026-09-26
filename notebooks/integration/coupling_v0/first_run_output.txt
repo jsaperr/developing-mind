@@ -1,0 +1,37 @@
+FIRST RUN of run_coupling_v0.py (2026-09-25), kept for the record. Superseded: this scoring had a
+label leak (entries tagged with the TRUE context at creation) and the clean/blended controls had
+i.i.d. noise calibrated to the wrong statistic. See "REVISIONS AFTER THE FIRST RUN" in the script.
+The run crashed while saving JSON (numpy bool), after printing the tables below. v1 (ABCAC) wasn't
+complete yet and was skipped.
+
+===== ABA_W10: gap median 0.532 -> gap_scale 0.3194 (old 0.1534); substrate settled cos to true prototype 0.74
+  substrate acc 1.000  created 8.1  evicted 6.0  alive max/end 7.2/2.1
+  clean     acc 1.000  created 14.1  evicted 4.4  alive max/end 11.6/9.8
+  blended   acc 1.000  created 14.5  evicted 4.0  alive max/end 12.1/10.5
+  swap 1 A->B (novel):  substrate lat [1, 0, 0, 0, 0, 0, 0, 0] stale med 0  clean lat [0, 0, 0, 0, 0, 0, 0, 0] stale med 0  blended lat [0, 0, 0, 0, 0, 0, 0, 0] stale med 0
+  swap 2 B->A (return):  substrate lat [0, 0, 0, 0, 0, 0, 0, 0] stale med 0 reuse 2/8  clean lat [0, 0, 0, 0, 0, 0, 0, 0] stale med 0 reuse 8/8  blended lat [0, 0, 0, 0, 0, 0, 0, 0] stale med 0 reuse 7/8
+  theta sensitivity (substrate): theta=0.3: acc 0.999 created 4.6  theta=0.7: acc 1.000 created 12.0
+
+===== ABA_W50: gap median 0.630 -> gap_scale 0.3779 (old 0.1534); substrate settled cos to true prototype 0.74
+  substrate acc 1.000  created 3.8  evicted 0.0  alive max/end 3.8/3.8
+  clean     acc 1.000  created 8.1  evicted 0.0  alive max/end 8.1/8.1
+  blended   acc 1.000  created 7.6  evicted 0.0  alive max/end 7.6/7.6
+  swap 1 A->B (novel):  substrate lat [0, 0, 0, 0, 0, 0, 0, 0] stale med 0  clean lat [0, 0, 0, 0, 0, 0, 0, 0] stale med 0  blended lat [0, 0, 0, 0, 0, 0, 0, 0] stale med 0
+  swap 2 B->A (return):  substrate lat [0, 0, 0, 0, 0, 0, 0, 0] stale med 0 reuse 6/8  clean lat [0, 0, 0, 0, 0, 0, 0, 0] stale med 0 reuse 8/8  blended lat [0, 0, 0, 0, 0, 0, 0, 0] stale med 0 reuse 8/8
+  theta sensitivity (substrate): theta=0.3: acc 0.998 created 3.1  theta=0.7: acc 1.000 created 6.1
+
+===== ABC_W10: gap median 0.515 -> gap_scale 0.3090 (old 0.1534); substrate settled cos to true prototype 0.71
+  substrate acc 0.990  created 8.0  evicted 4.9  alive max/end 6.8/3.1
+  clean     acc 1.000  created 26.9  evicted 9.2  alive max/end 21.0/17.6
+  blended   acc 0.993  created 25.8  evicted 9.4  alive max/end 20.4/16.4
+  swap 1 A->B (novel):  substrate lat [2, 3, 1, 0, 0, 0, 0, 3] stale med 0  clean lat [0, 0, 0, 0, 0, 0, 0, 0] stale med 0  blended lat [1, 3, 2, 2, 3, 2, 0, 2] stale med 1
+  swap 2 B->C (novel):  substrate lat [6, 1, 1, 4, 6, 0, 2, 5] stale med 2  clean lat [0, 0, 0, 0, 0, 0, 0, 0] stale med 0  blended lat [1, 1, 1, 0, 6, 0, 0, 2] stale med 1
+  theta sensitivity (substrate): theta=0.3: acc 0.986 created 6.1  theta=0.7: acc 0.994 created 12.6
+
+===== ABC_W50: gap median 0.576 -> gap_scale 0.3458 (old 0.1534); substrate settled cos to true prototype 0.71
+  substrate acc 1.000  created 4.8  evicted 0.0  alive max/end 4.8/4.8
+  clean     acc 1.000  created 12.0  evicted 0.0  alive max/end 12.0/12.0
+  blended   acc 1.000  created 12.9  evicted 0.0  alive max/end 12.9/12.9
+  swap 1 A->B (novel):  substrate lat [0, 0, 0, 0, 0, 0, 0, 0] stale med 0  clean lat [0, 0, 0, 0, 0, 0, 0, 0] stale med 0  blended lat [0, 0, 0, 0, 0, 0, 0, 0] stale med 0
+  swap 2 B->C (novel):  substrate lat [0, 0, 0, 0, 0, 0, 0, 0] stale med 0  clean lat [0, 0, 0, 0, 0, 0, 0, 0] stale med 0  blended lat [0, 0, 0, 0, 0, 0, 0, 0] stale med 0
+  theta sensitivity (substrate): theta=0.3: acc 0.992 created 3.6  theta=0.7: acc 1.000 created 7.0

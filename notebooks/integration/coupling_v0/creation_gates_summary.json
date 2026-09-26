@@ -1,0 +1,3736 @@
+{
+ "ABA_W10": {
+  "ungated": {
+   "acc": 0.9995833333333333,
+   "other_total": 0,
+   "other_per_seed": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "novel_latency_median": 0.0,
+   "novel_latency_never": 0,
+   "created": 8.125,
+   "swaps": [
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 1,
+      "stale": 1,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": false
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": false
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": false
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": false
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": false
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": false
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ]
+   ]
+  },
+  "G-stable tau=0.9": {
+   "acc": 0.9845833333333334,
+   "other_total": 0,
+   "other_per_seed": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "novel_latency_median": 5.0,
+   "novel_latency_never": 0,
+   "created": 3.75,
+   "swaps": [
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 7,
+      "stale": 7,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 4,
+      "stale": 4,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 2,
+      "stale": 2,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 4,
+      "stale": 4,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ]
+   ]
+  },
+  "G-stable tau=0.8": {
+   "acc": 0.9874999999999999,
+   "other_total": 0,
+   "other_per_seed": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "novel_latency_median": 4.0,
+   "novel_latency_never": 0,
+   "created": 5.25,
+   "swaps": [
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 2,
+      "stale": 2,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 2,
+      "stale": 2,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 4,
+      "stale": 4,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 3,
+      "stale": 3,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 4,
+      "stale": 4,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ]
+   ]
+  },
+  "G-stable tau=0.95": {
+   "acc": 0.9824999999999999,
+   "other_total": 0,
+   "other_per_seed": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "novel_latency_median": 6.0,
+   "novel_latency_never": 0,
+   "created": 3.5,
+   "swaps": [
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 7,
+      "stale": 7,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 6,
+      "stale": 6,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 4,
+      "stale": 4,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 2,
+      "stale": 2,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 6,
+      "stale": 6,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 4,
+      "stale": 4,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 6,
+      "stale": 6,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 7,
+      "stale": 7,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ]
+   ]
+  },
+  "G-dip": {
+   "acc": 0.98875,
+   "other_total": 0,
+   "other_per_seed": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "novel_latency_median": 4.0,
+   "novel_latency_never": 0,
+   "created": 6.625,
+   "swaps": [
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": false
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 3,
+      "stale": 3,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 1,
+      "stale": 1,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 1,
+      "stale": 1,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": false
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": false
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 7,
+      "stale": 7,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ]
+   ],
+   "flagged_fraction": 0.01625
+  }
+ },
+ "ABC_W10": {
+  "ungated": {
+   "acc": 0.9358333333333334,
+   "other_total": 126,
+   "other_per_seed": [
+    2,
+    10,
+    10,
+    1,
+    1,
+    101,
+    1,
+    0
+   ],
+   "novel_latency_median": 3.0,
+   "novel_latency_never": 1,
+   "created": 8.0,
+   "swaps": [
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 2,
+      "stale": 2,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 8,
+      "stale": 4,
+      "other": 2,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 3,
+      "stale": 2,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 6,
+      "stale": 1,
+      "other": 10,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 2,
+      "stale": 2,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 11,
+      "stale": 1,
+      "other": 10,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 2,
+      "stale": 1,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 4,
+      "stale": 1,
+      "other": 1,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 1,
+      "stale": 1,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 6,
+      "stale": 4,
+      "other": 1,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 3,
+      "stale": 1,
+      "other": 1,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": null,
+      "stale": 0,
+      "other": 100,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 3,
+      "stale": 0,
+      "other": 1,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 2,
+      "stale": 2,
+      "other": 0,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 3,
+      "stale": 3,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 5,
+      "stale": 3,
+      "other": 0,
+      "reuse": null
+     }
+    ]
+   ]
+  },
+  "G-stable tau=0.9": {
+   "acc": 0.9141666666666667,
+   "other_total": 126,
+   "other_per_seed": [
+    4,
+    7,
+    2,
+    3,
+    4,
+    100,
+    5,
+    1
+   ],
+   "novel_latency_median": 7.0,
+   "novel_latency_never": 1,
+   "created": 4.625,
+   "swaps": [
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 6,
+      "stale": 6,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 10,
+      "stale": 6,
+      "other": 4,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 9,
+      "stale": 2,
+      "other": 7,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 7,
+      "stale": 7,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 3,
+      "stale": 1,
+      "other": 2,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 7,
+      "stale": 7,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 7,
+      "stale": 4,
+      "other": 3,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 6,
+      "stale": 6,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 8,
+      "stale": 4,
+      "other": 4,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": null,
+      "stale": 0,
+      "other": 100,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 7,
+      "stale": 7,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 10,
+      "stale": 5,
+      "other": 5,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 7,
+      "stale": 7,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 9,
+      "stale": 8,
+      "other": 1,
+      "reuse": null
+     }
+    ]
+   ]
+  },
+  "G-stable tau=0.8": {
+   "acc": 0.9199999999999999,
+   "other_total": 122,
+   "other_per_seed": [
+    3,
+    5,
+    2,
+    3,
+    4,
+    100,
+    4,
+    1
+   ],
+   "novel_latency_median": 5.0,
+   "novel_latency_never": 1,
+   "created": 5.125,
+   "swaps": [
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 4,
+      "stale": 4,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 9,
+      "stale": 6,
+      "other": 3,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 6,
+      "stale": 1,
+      "other": 5,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 3,
+      "stale": 1,
+      "other": 2,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 4,
+      "stale": 4,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 7,
+      "stale": 4,
+      "other": 3,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 8,
+      "stale": 4,
+      "other": 4,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": null,
+      "stale": 0,
+      "other": 100,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 10,
+      "stale": 6,
+      "other": 4,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 7,
+      "stale": 7,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 9,
+      "stale": 8,
+      "other": 1,
+      "reuse": null
+     }
+    ]
+   ]
+  },
+  "G-stable tau=0.95": {
+   "acc": 0.9495833333333332,
+   "other_total": 38,
+   "other_per_seed": [
+    4,
+    7,
+    6,
+    5,
+    4,
+    6,
+    5,
+    1
+   ],
+   "novel_latency_median": 7.0,
+   "novel_latency_never": 0,
+   "created": 4.375,
+   "swaps": [
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 6,
+      "stale": 6,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 10,
+      "stale": 6,
+      "other": 4,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 6,
+      "stale": 6,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 9,
+      "stale": 2,
+      "other": 7,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 7,
+      "stale": 7,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 7,
+      "stale": 1,
+      "other": 6,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 7,
+      "stale": 7,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 9,
+      "stale": 4,
+      "other": 5,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 7,
+      "stale": 7,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 8,
+      "stale": 4,
+      "other": 4,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 6,
+      "stale": 6,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 6,
+      "stale": 0,
+      "other": 6,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 7,
+      "stale": 7,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 10,
+      "stale": 5,
+      "other": 5,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 7,
+      "stale": 7,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 9,
+      "stale": 8,
+      "other": 1,
+      "reuse": null
+     }
+    ]
+   ]
+  },
+  "G-dip": {
+   "acc": 0.9208333333333334,
+   "other_total": 127,
+   "other_per_seed": [
+    2,
+    10,
+    10,
+    4,
+    1,
+    100,
+    0,
+    0
+   ],
+   "novel_latency_median": 6.0,
+   "novel_latency_never": 1,
+   "created": 6.375,
+   "swaps": [
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 8,
+      "stale": 8,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 8,
+      "stale": 4,
+      "other": 2,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 6,
+      "stale": 1,
+      "other": 10,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 11,
+      "stale": 1,
+      "other": 10,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 6,
+      "stale": 6,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 5,
+      "stale": 1,
+      "other": 4,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 3,
+      "stale": 3,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 6,
+      "stale": 4,
+      "other": 1,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 7,
+      "stale": 7,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": null,
+      "stale": 0,
+      "other": 100,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 6,
+      "stale": 6,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 2,
+      "stale": 2,
+      "other": 0,
+      "reuse": null
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 7,
+      "stale": 7,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 5,
+      "stale": 3,
+      "other": 0,
+      "reuse": null
+     }
+    ]
+   ],
+   "flagged_fraction": 0.02291666666666667
+  }
+ },
+ "ABCAC_W10": {
+  "ungated": {
+   "acc": 0.9325,
+   "other_total": 115,
+   "other_per_seed": [
+    92,
+    3,
+    2,
+    3,
+    5,
+    3,
+    0,
+    7
+   ],
+   "novel_latency_median": 3.0,
+   "novel_latency_never": 0,
+   "created": 10.875,
+   "swaps": [
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 3,
+      "stale": 3,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 14,
+      "stale": 1,
+      "other": 92,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 6,
+      "stale": 0,
+      "other": 4,
+      "reuse": false
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": false
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 4,
+      "stale": 0,
+      "other": 3,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 8,
+      "stale": 5,
+      "other": 2,
+      "reuse": true
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 3,
+      "stale": 1,
+      "other": 2,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 3,
+      "stale": 3,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 6,
+      "stale": 3,
+      "other": 3,
+      "reuse": false
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 3,
+      "stale": 0,
+      "other": 3,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 4,
+      "stale": 3,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 9,
+      "stale": 1,
+      "other": 8,
+      "reuse": false
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": false
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 2,
+      "stale": 2,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 7,
+      "stale": 2,
+      "other": 5,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": false
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 3,
+      "stale": 3,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 5,
+      "stale": 0,
+      "other": 3,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": false
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 3,
+      "stale": 3,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": null,
+      "stale": 0,
+      "other": 99,
+      "reuse": null
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 4,
+      "stale": 3,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 8,
+      "stale": 1,
+      "other": 7,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 5,
+      "stale": 2,
+      "other": 3,
+      "reuse": true
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": false
+     }
+    ]
+   ]
+  },
+  "G-stable tau=0.9": {
+   "acc": 0.9595,
+   "other_total": 58,
+   "other_per_seed": [
+    6,
+    6,
+    6,
+    3,
+    22,
+    6,
+    4,
+    5
+   ],
+   "novel_latency_median": 6.0,
+   "novel_latency_never": 0,
+   "created": 6.25,
+   "swaps": [
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 6,
+      "stale": 6,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 8,
+      "stale": 2,
+      "other": 6,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 3,
+      "stale": 2,
+      "other": 0,
+      "reuse": true
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 7,
+      "stale": 7,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 7,
+      "stale": 1,
+      "other": 6,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 9,
+      "stale": 7,
+      "other": 2,
+      "reuse": true
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 2,
+      "stale": 0,
+      "other": 2,
+      "reuse": false
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 9,
+      "stale": 3,
+      "other": 6,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 5,
+      "stale": 2,
+      "other": 3,
+      "reuse": true
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 6,
+      "stale": 3,
+      "other": 3,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 4,
+      "stale": 1,
+      "other": 3,
+      "reuse": true
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 2,
+      "stale": 0,
+      "other": 2,
+      "reuse": false
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 24,
+      "stale": 2,
+      "other": 22,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 7,
+      "stale": 7,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 6,
+      "stale": 0,
+      "other": 6,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 4,
+      "stale": 2,
+      "other": 0,
+      "reuse": true
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 10,
+      "stale": 6,
+      "other": 4,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 4,
+      "stale": 1,
+      "other": 3,
+      "reuse": false
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 4,
+      "stale": 0,
+      "other": 4,
+      "reuse": false
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 6,
+      "stale": 6,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 6,
+      "stale": 1,
+      "other": 5,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 3,
+      "stale": 3,
+      "other": 1,
+      "reuse": true
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 2,
+      "stale": 0,
+      "other": 2,
+      "reuse": false
+     }
+    ]
+   ]
+  },
+  "G-stable tau=0.8": {
+   "acc": 0.96075,
+   "other_total": 55,
+   "other_per_seed": [
+    6,
+    6,
+    3,
+    3,
+    22,
+    6,
+    4,
+    5
+   ],
+   "novel_latency_median": 6.0,
+   "novel_latency_never": 0,
+   "created": 6.875,
+   "swaps": [
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 6,
+      "stale": 6,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 8,
+      "stale": 2,
+      "other": 6,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 5,
+      "stale": 2,
+      "other": 3,
+      "reuse": true
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 6,
+      "stale": 6,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 7,
+      "stale": 1,
+      "other": 6,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 9,
+      "stale": 7,
+      "other": 2,
+      "reuse": true
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 1,
+      "stale": 0,
+      "other": 1,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 7,
+      "stale": 3,
+      "other": 3,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 5,
+      "stale": 2,
+      "other": 3,
+      "reuse": true
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 6,
+      "stale": 3,
+      "other": 3,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 4,
+      "stale": 1,
+      "other": 3,
+      "reuse": false
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 2,
+      "stale": 0,
+      "other": 2,
+      "reuse": false
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 4,
+      "stale": 4,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 24,
+      "stale": 2,
+      "other": 22,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 7,
+      "stale": 7,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 6,
+      "stale": 0,
+      "other": 6,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 10,
+      "stale": 6,
+      "other": 4,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 4,
+      "stale": 1,
+      "other": 3,
+      "reuse": false
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 4,
+      "stale": 0,
+      "other": 4,
+      "reuse": false
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 6,
+      "stale": 6,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 6,
+      "stale": 1,
+      "other": 5,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 3,
+      "stale": 3,
+      "other": 1,
+      "reuse": true
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 2,
+      "stale": 0,
+      "other": 2,
+      "reuse": false
+     }
+    ]
+   ]
+  },
+  "G-stable tau=0.95": {
+   "acc": 0.959,
+   "other_total": 59,
+   "other_per_seed": [
+    6,
+    6,
+    6,
+    3,
+    22,
+    7,
+    4,
+    5
+   ],
+   "novel_latency_median": 7.0,
+   "novel_latency_never": 0,
+   "created": 5.125,
+   "swaps": [
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 7,
+      "stale": 7,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 8,
+      "stale": 2,
+      "other": 6,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 3,
+      "stale": 2,
+      "other": 0,
+      "reuse": true
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 7,
+      "stale": 7,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 7,
+      "stale": 1,
+      "other": 6,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 8,
+      "stale": 5,
+      "other": 2,
+      "reuse": true
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 2,
+      "stale": 0,
+      "other": 2,
+      "reuse": false
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 6,
+      "stale": 6,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 9,
+      "stale": 3,
+      "other": 6,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 5,
+      "stale": 2,
+      "other": 3,
+      "reuse": true
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 7,
+      "stale": 7,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 6,
+      "stale": 3,
+      "other": 3,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 4,
+      "stale": 1,
+      "other": 3,
+      "reuse": true
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 2,
+      "stale": 0,
+      "other": 2,
+      "reuse": false
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 24,
+      "stale": 2,
+      "other": 22,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 7,
+      "stale": 7,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 7,
+      "stale": 0,
+      "other": 7,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 3,
+      "stale": 1,
+      "other": 0,
+      "reuse": true
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 10,
+      "stale": 6,
+      "other": 4,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 4,
+      "stale": 1,
+      "other": 3,
+      "reuse": true
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 4,
+      "stale": 0,
+      "other": 4,
+      "reuse": false
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 6,
+      "stale": 6,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 6,
+      "stale": 1,
+      "other": 5,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 3,
+      "stale": 3,
+      "other": 1,
+      "reuse": true
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 2,
+      "stale": 0,
+      "other": 2,
+      "reuse": false
+     }
+    ]
+   ]
+  },
+  "G-dip": {
+   "acc": 0.954,
+   "other_total": 80,
+   "other_per_seed": [
+    62,
+    3,
+    0,
+    0,
+    5,
+    3,
+    0,
+    7
+   ],
+   "novel_latency_median": 5.5,
+   "novel_latency_never": 0,
+   "created": 8.375,
+   "swaps": [
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 8,
+      "stale": 8,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 14,
+      "stale": 1,
+      "other": 62,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 5,
+      "stale": 2,
+      "other": 3,
+      "reuse": false
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 4,
+      "stale": 0,
+      "other": 3,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 8,
+      "stale": 4,
+      "other": 2,
+      "reuse": true
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 6,
+      "stale": 6,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 3,
+      "stale": 3,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 6,
+      "stale": 3,
+      "other": 3,
+      "reuse": false
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 4,
+      "stale": 2,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 9,
+      "stale": 1,
+      "other": 8,
+      "reuse": false
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": false
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 8,
+      "stale": 8,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 7,
+      "stale": 2,
+      "other": 5,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": false
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 7,
+      "stale": 7,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 5,
+      "stale": 0,
+      "other": 3,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": false
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 10,
+      "stale": 10,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 3,
+      "stale": 3,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 4,
+      "stale": 1,
+      "other": 3,
+      "reuse": false
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": true
+     }
+    ],
+    [
+     {
+      "swap": 1,
+      "frm": 0,
+      "to": 1,
+      "returning": false,
+      "latency": 5,
+      "stale": 5,
+      "other": 0,
+      "reuse": null
+     },
+     {
+      "swap": 2,
+      "frm": 1,
+      "to": 2,
+      "returning": false,
+      "latency": 8,
+      "stale": 1,
+      "other": 7,
+      "reuse": null
+     },
+     {
+      "swap": 3,
+      "frm": 2,
+      "to": 0,
+      "returning": true,
+      "latency": 8,
+      "stale": 2,
+      "other": 6,
+      "reuse": true
+     },
+     {
+      "swap": 4,
+      "frm": 0,
+      "to": 2,
+      "returning": true,
+      "latency": 0,
+      "stale": 0,
+      "other": 0,
+      "reuse": false
+     }
+    ]
+   ],
+   "flagged_fraction": 0.02325
+  }
+ }
+}

@@ -160,7 +160,7 @@ try two (Q2).
 
 | # | property | status |
 |---|---|---|
-| S1 | A label-free readout, and its stability under churn | **Answered provisionally (arc 07).** All three readouts are stable within a context (≥0.95) at 10, 50 and 200 s windows. Weights alone are a *history* code (current + just-departed context). Rates alone say "now vs just before" but can't identify a context. Activity projected through tuning (H) carries context identity, with right-signed same/different similarity in 16/16 seeds. The clean same-rig lull test for H needs A→B→C→A (v1). |
+| S1 | A label-free readout, and its stability under churn | **Answered (arc 07; same-rig lull test passed 8/8 in v1).** All three readouts are stable within a context (≥0.95) at 10, 50 and 200 s windows. Weights alone are a *history* code (current + just-departed context). Rates alone say "now vs just before" but can't identify a context. Activity projected through tuning (H) carries context identity, with right-signed same/different similarity in 16/16 seeds. The clean same-rig lull test for H needs A→B→C→A (v1). |
 | S2 | Tracking latency after a change | **Known** (one operating point, n=8). |
 | S3 | Whether old patterns persist, and how many units they cost | **Known for 3 phases (novel-C).** One-back retention: the just-departed context is held by about 40-55% of units (rig-dependent), older ones are released at the next change, and a small lock-in residue (~5% of units per extra change) never releases. Whether the residue accumulates over long schedules is **unknown**. |
 | S4 | A change / recognition signal | **Known, and it has to be read as a vector.** The scalar population dip marks *that* the world changed but can't tell a return from a new pattern. Recognition is per-neuron: holders speed up only when their pattern returns (p=0.00016). |
@@ -184,7 +184,15 @@ thing. It isn't closed, and it reopens whenever the toy raises a substrate quest
 
 ## 7. Predictions the coupling toy can test that neither layer can alone
 
-These come from combining existing findings. They're hypotheses, not findings.
+These come from combining existing findings. They were hypotheses when written. **Outcomes from
+toy v0 (`experiments_integration.md`):**
+- **P1:** confirmed in shape, but the mechanism differs. It isn't strength-driven: after a
+  second novel change, memory captures a transitional "not-old" query and reports the *two-back*
+  context, and that happens with strength switched off too.
+- **P2:** confirmed. 1-back returns are reported within one step, 2-back returns aren't. But
+  reusing the *original* entry mostly fails.
+- **P3:** the dip-as-creation-gate version doesn't work as built.
+- **P4, P5:** not tested yet.
 
 - **P1: stale retrieval compounds across layers after a *novel* change.** Right after a swap, the
   substrate is mixed: retainers still tuned to the old pattern, trackers mid-relearn. The query it
@@ -230,11 +238,21 @@ These come from combining existing findings. They're hypotheses, not findings.
   square with "Hopfield attractor layer as emergent self" (`CLAUDE.md`)? Is the PyTorch Hopfield
   layer the thing itself, or a stand-in for attractor dynamics?
 - **Q2.** How many simulated seconds is one memory step? Or should memory run on its own event
-  clock (one step per readout window, per detected change)?
+  clock (one step per readout window, per detected change)? **Now constrained (toy v0):**
+  memory's retention horizon is staleness_threshold (150 steps) x the clock. At 10 s per step,
+  memory with *perfect* input forgets a context after a 2000 s lull (0/8); at 50 s it keeps it
+  (8/8). The substrate is one-back whatever the clock, so memory's horizon must exceed the lulls
+  the system is supposed to bridge, or complementary systems fail by construction.
 - **Q3.** Does memory feed back into the substrate (top-down bias, replay, consolidation into
   weights)? It's left out of v0 deliberately. The framework doc probably says something.
 - **Q4.** What decides episodic *creation*: a substrate novelty signal (P3), the curiosity layer,
-  or something else? If it's curiosity, check (b) waits on a layer that's out of scope.
+  or something else? If it's curiosity, check (b) waits on a layer that's out of scope. **Now the
+  central open question (toy v0):**
+  - The episodic layer never had a creation rule; every validated notebook used an oracle.
+  - Every failure the toy found traces to *when and from what* memory creates an entry.
+  - The dip gate (P3) doesn't work in its simple form, since it flags only about 2% of steps.
+  - A strict stability gate helps but is fragile.
+  - Related: entry *content* never consolidates, only strength does.
 - **Q5.** Is the SNN *the* substrate, or a stand-in for the mycelium substrate the framework
   describes?
 
@@ -248,7 +266,8 @@ These come from combining existing findings. They're hypotheses, not findings.
    code; rates alone are a now-vs-before contrast.
 3. ~~Read novel-C~~ **Done** (arc 05). One-back retention, a small lock-in residue, per-neuron
    recognition.
-4. **Coupling toy v0.** This needs Jasper's explicit go: `CLAUDE.md` says no cross-substrate
+4. **Coupling toy v0: DONE** (go given 2026-09-25; `experiments_integration.md`). What follows is
+   the original plan, kept for reference. This needs Jasper's explicit go: `CLAUDE.md` says no cross-substrate
    building unless asked, and this draft doesn't count as asking.
    - It can be **offline**: replay the saved substrate runs into the existing `two_layer` +
      `episodic` memory. No new sims, and no live Brian2↔PyTorch coupling until feedback (Q3)
@@ -259,7 +278,10 @@ These come from combining existing findings. They're hypotheses, not findings.
    - Re-ground `beta`/`gap_scale` from the new query statistics first, the same way the original
      `gap_scale` was grounded in an empirical gap median.
    - Report B1-B5 descriptively, and P1/P2 separately for novel and returning transitions.
-5. **v1 world: A→B→C→A (then →B), new substrate runs.** This one schedule gives:
+5. **v1 world: DONE**, run as A→B→C→A→C so that swaps 3 and 4 contrast a 2-back and a 1-back
+   return (arc 05). The complementary-systems test fails as built: clock/eviction plus
+   frozen-snapshot entries (`experiments_integration.md`). Original plan below. This one schedule
+   gives:
    - the same-rig lull test for H;
    - the one-back prediction (the substrate should *not* instantly recognize A);
    - whether the lock-in residue accumulates;
