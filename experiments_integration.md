@@ -31,10 +31,14 @@ inspect trajectories before claiming.
     runs at full rate (absorption). See the caveat under "strength breaks ties" in
     `principles.md`.
 - **The two-back test passes** (v1b, pre-registered decision rule): substrate-fed memory
-  recognizes a non-first context after the substrate has dropped it, 8/8 at W=50. **The handoff
-  (causal):** at the moment the substrate releases a context, memory reactivates it, which resets
-  its eviction clock. Lesioning that kills survival at W=10 (6/8 → 1/8). Memory therefore has to
-  bridge only release-to-return, not the whole absence. **Confirmed in v1c:** with a 2000 s
+  recognizes a non-first context after the substrate has dropped it, 8/8 at W=50. **Transitional
+  rehearsal (causal):** after each world change, while the query is unsettled and creation is
+  blocked, retrieval sweeps across stored entries and resets each winner's eviction clock. A
+  context survived a long lull in exactly the seeds where it won a step of such a window (6/8).
+  The lesion kills survival at W=10 (6/8 → 1/8). This was first described as a "handoff" of the
+  released context; a direct check showed the query points at "not-departing", not at the
+  released context specifically. So memory has to bridge only from the last change where it was
+  rehearsed (in practice, the substrate's release of it) to its return. **Confirmed in v1c:** with a 2000 s
   release-to-return against a 1500 s horizon, survival drops to 2/8 (v1b: 6/8 at 1000 s).
   The result holds at all 7 neighbouring parameter settings.
 - **The first-context weakness is a cold-start artifact** of the contrast readout (phase-1 query
@@ -87,7 +91,7 @@ least the release-to-return interval the system should bridge.
 - The one-back return C is recognized 8/8 at W=50.
 - The first context A behaves as the cold-start account predicts: 5/8 at W=50, 0/8 at W=10.
 
-## 2026-09-25 — The two-back test passes: memory recognizes a context the substrate has dropped, and the substrate hands its released context to memory (causally tested)
+## 2026-09-25 — The two-back test passes: memory recognizes a context the substrate has dropped, and each world change opens a rehearsal window for memory (causally tested)
 
 **Data and code:**
 - Substrate world v1b = A→B→C→A→B (`notebooks/brian2/v1b_schedule_data/`, seeds 34000-34007,
@@ -135,6 +139,18 @@ confounded with first-context weakness and eviction.
   HO-P1 (the lesion kills survival at W=10), HO-P2 (no effect at W=50, where eviction isn't in
   play) and HO-P3 (accuracy change at most 0.02; observed 0.008) are **all confirmed. The handoff
   is causal.**
+- **CORRECTION (2026-09-26, direct check, `experiments_integration.md` author):** "the query
+  points at B" overstates it. Measured directly at the C→A change (v1b, W=10), the query reads
+  mostly "not-C" (C projection −0.42 to −0.59). A (incoming) and B (released) are both positive,
+  and B is the largest in only 4/8 seeds. What actually happens: **in the first 100 s after a
+  change, retrieval sweeps across several existing entries.** Original entries of A, B and C win
+  20 / 16 / 12 steps, plus 32 for new entries. Every winner's eviction clock resets. **B's
+  original won at least one of those steps in exactly the 6/8 seeds where it survived.** The two
+  without a B win (34004, 34006) are the two that died. So each change opens a *rehearsal window*
+  over stored memories, and the substrate's part is the unsettled "not-departing" query that
+  partly overlaps several stored contexts, the released one included. The lesion result is
+  unaffected: blocking transitional refresh kills survival. "Handoff of the released context" is
+  the specific case, and "rehearsal window at every change" is the accurate general statement.
 - **It's the same mechanism as the two-back capture failure** (toy v0). At a change, the query
   points at the context the substrate is holding. Brief, with creation blocked, it's a rehearsal
   that keeps the memory alive. When memory *creates* an entry from it, or it persists, it's a

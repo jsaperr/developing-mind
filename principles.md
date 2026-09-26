@@ -224,12 +224,18 @@ built for. **The split works in principle (coupling toy, `experiments_integratio
 tested with a pre-registered two-back test: substrate-fed memory recognized a non-first context
 the substrate had already dropped, 8/8 at a 50 s clock. Two things make it work:
 
-- **The substrate hands off what it releases.** At the change where it drops its one-back hold,
-  the substrate's query briefly points at the released context, and memory reactivates that
-  context's entry. This resets its eviction clock, and was causally tested: lesioning it takes
-  survival at a 10 s clock from 6/8 to 1/8. The handoff only works if memory *retrieves* rather
-  than *creates* on transitional queries. Otherwise the same moment produces a spurious entry,
-  the "two-back capture".
+- **Every world change opens a rehearsal window for memory.** While the substrate's query is
+  unsettled after a change, it reflects the departing context's *absence*, a mixture partly
+  overlapping several stored contexts, including the one the substrate is releasing. If memory
+  *retrieves* rather than *creates* during that window, retrieval sweeps across existing entries
+  and resets each winner's eviction clock.
+  - A context survived a long lull in exactly the seeds where it won at least one step of such a
+    window (6/8).
+  - Lesioning the refresh drops survival at a 10 s clock from 6/8 to 1/8.
+  - An earlier version of this entry said the query "points at the released context". A direct
+    check showed that's the special case, not the rule.
+  - If memory *creates* during the window instead, the same moment produces a spurious entry: the
+    "two-back capture".
 - **Memory's horizon (staleness_threshold x clock) has to cover the time from release to return,
   not the whole absence.** Confirmed in v1c: with release-to-return 2000 s against a 1500 s
   horizon, survival drops from 6/8 (at 1000 s, v1b) to 2/8. The two survivors were also rescued

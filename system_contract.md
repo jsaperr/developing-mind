@@ -243,8 +243,10 @@ toy v0 (`experiments_integration.md`):**
   memory with *perfect* input forgets a context after a 2000 s lull (0/8); at 50 s it keeps it
   (8/8). The substrate is one-back whatever the clock, so memory's horizon must exceed the lulls
   the system is supposed to bridge, or complementary systems fail by construction. **Refined
-  (two-back test + handoff lesion):** the substrate reactivates a context in memory at the moment
-  it releases it, so the horizon only has to cover *release-to-return*, not the whole absence
+  (two-back test + rehearsal lesion):** each world change opens a rehearsal window. While
+  creation is blocked, retrieval sweeps stored entries and refreshes the winners, and the
+  substrate's release of a context is typically one such window for it. So the horizon only has to
+  cover the time from the last rehearsal (in practice, *release*) to return, not the whole absence
   (confirmed in v1c: 2000 s release-to-return against a 1500 s horizon gives 2/8 survival, vs 6/8
   at 1000 s). **What remains is a requirement for Jasper:** how long after the
   substrate lets go should a context still be recognizable? That number x the clock sets
