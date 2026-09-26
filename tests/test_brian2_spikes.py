@@ -3,7 +3,7 @@
 import numpy as np
 from brian2 import second
 
-from src.brian2_stdp.spikes import build_phase_switching_input
+from src.brian2_stdp.spikes import build_multiblock_phase_input, build_phase_switching_input
 
 
 def _coincidence(idx, t, a, b, lo, hi, window_s=0.005):
@@ -32,6 +32,37 @@ def test_phase_switching_input_moves_the_correlated_block_and_keeps_rates_matche
         for n in range(20):
             rate = ((idx == n) & (t >= lo) & (t < hi)).sum() / (hi - lo)
             assert 14 < rate < 26, (p, n, rate)
+
+
+def test_multiblock_input_puts_the_correlation_on_the_named_block_each_phase_and_keeps_rates_matched():
+    durs, blocks = [60.0, 60.0, 60.0, 60.0], [0, 1, 2, 0]
+    idx, t = build_multiblock_phase_input(20.0, 0.9, durs, blocks, np.random.default_rng(0))
+    t = np.asarray(t / second)
+    assert np.all(np.diff(t) >= 0)
+    assert set(np.unique(idx)) == set(range(30))
+    for p, block in enumerate(blocks):
+        lo, hi = 60.0 * p + 0.01, 60.0 * (p + 1)
+        for b in range(3):
+            c = _coincidence(idx, t, 10 * b, 10 * b + 1, lo, hi)
+            assert (c > 0.5) if b == block else (c < 0.35), (p, b, c)
+        for n in range(30):
+            rate = ((idx == n) & (t >= lo) & (t < hi)).sum() / (hi - lo)
+            assert 14 < rate < 26, (p, n, rate)
+
+
+def test_multiblock_input_matches_the_novelc_local_builder_bit_for_bit():
+    """The promoted builder must reproduce novel-C's inputs exactly (same rng stream)."""
+    import importlib.util
+    from pathlib import Path
+    path = Path(__file__).resolve().parents[1] / "notebooks/brian2/novelc_data/run_novelc_seed.py"
+    spec = importlib.util.spec_from_file_location("run_novelc_seed", path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    durs, blocks = [20.0, 20.0, 20.0], [0, 1, 2]
+    a_idx, a_t = mod.build_phase_switching_multiblock(durs, blocks, np.random.default_rng(7))
+    b_idx, b_t = build_multiblock_phase_input(20.0, 0.9, durs, blocks, np.random.default_rng(7))
+    assert np.array_equal(a_idx, b_idx)
+    assert np.array_equal(np.asarray(a_t / second), np.asarray(b_t / second))
 
 
 def test_phase_switching_input_never_puts_two_spikes_of_one_neuron_in_the_same_step():

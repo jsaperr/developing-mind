@@ -68,6 +68,42 @@ def build_presynaptic_input(target_rate_hz, p_share, duration_s, rng, jitter_ms=
     return all_idx[order], all_t[order] * second
 
 
+def build_multiblock_phase_input(target_rate_hz, p_share, phase_durations_s, phase_corr_blocks, rng,
+                                 n_blocks=3, block_size=10, jitter_ms=2.0, boundary_guard_s=0.001):
+    """Non-stationary input with n_blocks disjoint presynaptic blocks of block_size (block b =
+    indices [b*block_size, (b+1)*block_size)). Exactly one block is correlated in each phase; every
+    other block is independent Poisson. Rates are matched across all blocks and phases, so only
+    timing structure changes at a boundary.
+
+    Generalizes build_phase_switching_input (which is fixed at two blocks that swap) so a world can
+    contain patterns that are novel, returning, or several contexts back -- first used by the
+    novel-C runs (A->B->C, where it lived locally in novelc_data/run_novelc_seed.py) and promoted
+    here once a second experiment needed it. Same construction as that local copy, so novel-C is
+    reproducible with either. Each phase is generated independently and offset by its start time,
+    with a boundary_guard_s gap at each phase start (as in build_phase_switching_input).
+
+    Returns (indices, times_with_units) for SpikeGeneratorGroup(n_blocks * block_size, ...).
+    """
+    assert len(phase_durations_s) == len(phase_corr_blocks)
+    assert all(0 <= b < n_blocks for b in phase_corr_blocks)
+    all_idx, all_t = [], []
+    start = 0.0
+    for dur, corr_block in zip(phase_durations_s, phase_corr_blocks):
+        guard = boundary_guard_s if start > 0 else 0.0
+        for b in range(n_blocks):
+            if b == corr_block:
+                gi, gt = generate_correlated_group(block_size, target_rate_hz, p_share, dur, jitter_ms, rng)
+            else:
+                gi, gt = generate_uncorrelated_group(block_size, target_rate_hz, dur, rng)
+            all_idx.append(np.asarray(gi) + b * block_size)
+            all_t.append(np.asarray(gt) + start + guard)
+        start += dur
+    idx = np.concatenate(all_idx).astype(int)
+    t = np.concatenate(all_t)
+    order = np.argsort(t)
+    return idx[order], t[order] * second
+
+
 def build_population_presynaptic_input(n_post, target_rate_hz, p_share, duration_s, rng,
                                         jitter_ms=2.0, n_correlated=10, n_uncorrelated=10):
     """n_post independent presynaptic blocks (each its own build_presynaptic_input draw, same
