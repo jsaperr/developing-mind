@@ -55,8 +55,11 @@ inspect trajectories before claiming.
   change.
 - **The first-context weakness is a cold-start artifact** of the contrast readout (phase-1 query
   quality 0.31-0.34 vs 0.87-0.96 afterwards). It's deliberately not being chased.
+- **Adopted and in `src/` (Jasper, 2026-09-26):** the commit rule, the TRANSITIONAL output, and
+  `GatedEpisodicMemory` in `src/hopfield/episodic_consolidating.py` (tested to reproduce the toy
+  exactly; `episodic.py` unchanged).
 - **Open:**
-  - creation rule (contract Q4: the episodic layer never had one; every validated notebook used an
+  - ~~creation rule~~ adopted (see above). Originally: creation rule (contract Q4: the episodic layer never had one; every validated notebook used an
     oracle);
   - the clock mapping (Q2 now has a hard constraint);
   - the first context (still not recognized under any variant);
@@ -65,6 +68,34 @@ inspect trajectories before claiming.
     helping. The next refinement is to apply it only to established entries.
 
 ---
+
+## 2026-09-26 — Adopted and promoted: the commit rule, the transitional output, and the memory module in `src/`
+
+**Jasper's decisions (2026-09-26):**
+1. Adopt the commit rule: create only when the query is novel AND steady AND the substrate isn't
+   re-learning; consolidate content only when it isn't re-learning; rehearse on every step.
+2. While the substrate re-learns, the system reports **TRANSITIONAL** instead of a stale context.
+3. Promote the memory into `src/` as a separate module next to the validated original.
+
+**Code:**
+- `src/integration/interface.py`: `h_readout`, `steady_flags`, `changing_per_second`,
+  `window_any`. These are the label-free, causal substrate signals.
+- `src/hopfield/episodic_consolidating.py`: `ConsolidatingEpisodicMemory`, plus
+  `GatedEpisodicMemory` with the adopted rule and the TRANSITIONAL output. It handles the
+  single-stored-pattern case that `retrieve_gated` can't.
+- **`src/hopfield/episodic.py` and `two_layer.py` are unchanged.**
+- The fork in `notebooks/integration/content_consolidation/` stays as the experiments' record.
+
+**Verification** (`tests/test_integration_promoted.py`, 6 tests; full suite 73 passed):
+- The promoted interface signals equal the toy's exactly.
+- `GatedEpisodicMemory` reproduces the toy's adopted configuration exactly (winner ids, creations,
+  transitional steps) on real v1b data at both clocks.
+- With every new feature off, it reduces to the validated `EpisodicMemory` path.
+
+**What the transitional output does to the numbers:** it removes the adopted rule's accuracy
+cost. Accuracy on *committed* reports equals the unflagged accuracy already measured
+(`displacement_gate_summary.json`): 0.98-1.00 across all 14 world/clock cells. About 18-26% of
+steps report TRANSITIONAL, roughly the first 200 s after each change.
 
 ## 2026-09-26 — Displacement gate: "don't commit while the substrate is re-learning" removes absorption everywhere, keeps every recognition, and complements (doesn't replace) the stability gate
 

@@ -272,7 +272,9 @@ toy v0 (`experiments_integration.md`):**
     stopped re-learning (60 s displacement below its causal trailing threshold). Rehearsal continues
     throughout. The rule is label-free, removes absorption everywhere and keeps every key
     recognition across 7 worlds and 2 operating points. Its cost is a ~200 s stale-report period
-    after each change. Adopting it is Jasper's call.
+    after each change. **ADOPTED by Jasper 2026-09-26**, with a TRANSITIONAL output during the
+    re-learning window (which removes the stale-report cost) and promoted to
+    `src/hopfield/episodic_consolidating.py` + `src/integration/interface.py`.
 - **Q5.** Is the SNN *the* substrate, or a stand-in for the mycelium substrate the framework
   describes?
 
