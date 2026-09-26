@@ -2,6 +2,15 @@
 
 Newest first. Index: `experiments_brian2.md`. Context: `system_contract.md` (S1, section 3).
 
+## 2026-09-25 — S1 completed: the H readout passes the same-rig lull test (8/8)
+
+The one missing S1 test was a return to a non-adjacent context *in the same rig*. The v1 world
+(A→B→C→A→C, arc 05) provides it. With phase-mean settled H readouts, A4 is closest to A1 (rather
+than B2 or C3) in 8/8 seeds (+0.24 to +0.47), and C5 is closest to C3 in 8/8 (+0.66 mean). Both
+were predicted before launch (V1-P3 in `analyze_v1.py`). The first-context weakness persists
+(A4-A1 +0.33 vs C5-C3 +0.66). By `system_contract.md`'s section-6 checklist, every property the
+interface needs from the substrate is now characterized.
+
 ## 2026-09-25 — S1: no single label-free readout carries context on its own. Weights alone encode recent history, rates alone encode "now vs just before", and activity projected through tuning carries context identity
 
 **Data:** existing runs only, no new simulation. A→B→A N=7 13mV/1.5

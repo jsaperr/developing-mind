@@ -2,6 +2,52 @@
 
 Entries moved verbatim from `experiments_brian2.md` on 2026-09-25 (no wording changed). Index: `experiments_brian2.md`.
 
+## 2026-09-25 — v1 world (A→B→C→A→C): one-back retention confirmed within seeds, the residue doesn't grow over four changes, and a residue neuron recognizes a 2-back return
+
+**Data:** `notebooks/brian2/v1_schedule_data/`, seeds 33000-33007, 8/8 completed (1280 s wall,
+8 concurrent). `.json.gz` via `results_io`. Scripts: `run_v1_seed.py`, `run_v1_batch.py`,
+`analyze_v1.py`; figure `v1_tuned_gaps.png`. Same 30-input 3-block rig as novel-C (N=7, 13mV/1.5
+reference, target_total 10), 5 phases x 1000 s, correlated block A→B→C→A→C. Input from
+`spikes.build_multiblock_phase_input` (tested bit-identical to novel-C's builder). The predictions
+were in `analyze_v1.py` before launch.
+
+**Why this schedule:** swap 3 (C→A) returns to a context two back and swap 4 (A→C) to one back,
+so one-back retention predicts recognition at swap 4 and not at swap 3 in the *same seeds*. It
+also gives S1's same-rig lull test (arc 07).
+
+**Predictions on record, and outcomes:**
+- **V1-P1 (at swap 3, at most 1 neuron per seed already holds A; at swap 4, 2-4 hold C): CONFIRMED.**
+  Holders of the incoming pattern: 0.25 per seed at swap 3 (1 neuron in each of 2 seeds) vs 3.0 at
+  swap 4 (2-4 in every seed). Higher at swap 4 in 8/8. The trajectories match the novel-C reading
+  at every change. The neurons holding the *older* pattern release it and learn the new one (e.g.
+  the B-holders drop B at the C→A swap), while the just-departed pattern is kept.
+- **V1-P2 (holders speed up +4 to +8 Hz at swap 4): CONFIRMED.** +4.67 to +8.28 Hz, all 8 seeds.
+  The scalar dip is -0.60 Hz at swap 4 vs -3.27 Hz at swap 3.
+- **V1-P3 (H lull test, same rig: A4 closest to A1, C5 closest to C3, each in at least 6/8):
+  CONFIRMED, 8/8 and 8/8.** Mean H similarity A4-A1 is +0.33 (per seed +0.24 to +0.47) against
+  -0.44/-0.55 to B2/C3. C5-C3 is +0.66. The first context is still the weakest match, as arc 07
+  found.
+
+**Descriptive:**
+- **The lock-in residue doesn't accumulate over four changes.** Neurons holding neither the
+  current nor the previous context at each phase end: 0, 0, 2, 0, 0 (2 neurons in 2/8 seeds at
+  the end of phase 3, both holding A). **Caveat:** A came back in phase 4, which turns A-holders
+  back into "current", so this schedule can't test accumulation without returns. That needs a
+  schedule of all-novel contexts (more blocks).
+- **The residue isn't pure dead weight.** In the two seeds with an A-holding residue neuron
+  (33004, 33005), that neuron hardened (about 0.95) through B and C, sped up at A's two-back
+  return (+5.5, +6.2 Hz), and made A instantly available. It's n=2, so a lead, not a finding. But it
+  is the only route to 2-back recognition the substrate has shown.
+- Commit latency to the incoming pattern (non-holders): 65 / 77 / 88 / 138 s median at swaps 1-4.
+  The 2144 s maximum after swap 2 is a neuron that never took C in phase 3 and took it only when C
+  returned in phase 5. The latency window isn't bounded by the phase end.
+- w_total [9.51, 10.42], healthy through four swaps.
+
+**Net:** one-back retention is now shown within seeds, not just across rigs. The substrate keeps
+the just-departed context and releases older ones, with a small, so far non-accumulating residue
+that can occasionally carry an older context. Anything older than one back has to be held
+elsewhere. For what the memory layer does with this, see `experiments_integration.md`.
+
 ## 2026-09-25 — Novel-C (A→B→C, C never seen): held patterns are released at the next change (one-back retention, a small permanent residue), and recognition lives in which neurons speed up, not in the population dip
 
 **Data:** `notebooks/brian2/novelc_data/`, seeds 32000-32007, all completed. Scripts:

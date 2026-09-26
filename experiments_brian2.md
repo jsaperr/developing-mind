@@ -54,6 +54,13 @@ before running; save full traces for exploratory runs; inspect trajectories befo
   over 3 phases. A small residue (3 neurons in 3/8 seeds) never releases and hardens: genuine
   lock-in. The retainer fraction is 55% at the first swap in this rig against about 37% in the
   20-input rig, so it's rig-dependent, not "a third". Arc 05.
+- **v1 (A→B→C→A→C) confirms one-back retention within seeds:** at a 2-back return about 0.25
+  neurons per seed already hold the pattern, against 3.0 at a 1-back return (8/8). Holders speed
+  up +4.7 to +8.3 Hz at the 1-back return. The residue doesn't accumulate over four changes
+  (0, 0, 2, 0, 0), though A's return masks accumulation. In 2 seeds a residue neuron carried A
+  through two intervening contexts and recognized its return. The H readout passes the same-rig
+  lull test 8/8, which completes S1. Arcs 05, 07. What memory does with this:
+  `experiments_integration.md`.
 - **World changes are visible in the substrate's own firing rate:** population rate dips about 3 Hz
   in the first 10 s after a swap, with no dip at non-swap times (p=4e-6). **The scalar dip doesn't
   tell a return from a new pattern.** It's smaller at the second swap whether the pattern is
@@ -85,14 +92,15 @@ before running; save full traces for exploratory runs; inspect trajectories befo
   normalization. Only the `13mV/1.5`-equivalent point was run at N=7.
 - The distribution over individual-level regimes (n=7 at `strong_tight_gate` is a typology, not a
   frequency).
-- Whether adding the non-stationary division-of-labour finding to `principles.md` is wanted
-  (proposed, not decided).
+- ~~Whether to add the non-stationary finding to `principles.md`~~ Done 2026-09-25 (Jasper's
+  go): named finding "the substrate retains exactly one context back; anything older has to live
+  in memory".
 - The cause of the `cpp_standalone` mismatch at `strong_tight_gate`.
 - One-back retention over longer schedules: does the lock-in residue accumulate across many
   changes, and is release triggered by the change itself or just slow (more than 1000 s)? It
-  predicts that A→B→C→A should *not* recognize A instantly. **Running:** the v1 world
-  A→B→C→A→C (`notebooks/brian2/v1_schedule_data/`, seeds 33000-33007, predictions in
-  `analyze_v1.py` written before launch). It also gives S1's same-rig lull test for H.
+  predicted that A→B→C→A should *not* recognize A instantly, and v1 confirmed that. Still open:
+  whether the residue accumulates when contexts never return (needs an all-novel schedule with
+  more blocks), and whether release is triggered by the change or just slow.
 - Slow commits (up to about 1000 s): in A→B→A they went with how many neurons already held the
   target, but novel-C shows them with no coverage at all. The cause is open; the ambiguity gate
   isn't supported by the saved r traces.
@@ -143,6 +151,7 @@ Each line is the entry's own heading (its conclusion is in the title).
 
 **05 Non-stationary correlation (2026-09-25)**: [`docs/log/brian2/05_nonstationary_correlation.md`](docs/log/brian2/05_nonstationary_correlation.md)
 
+- 2026-09-25 — v1 world (A→B→C→A→C): one-back retention confirmed within seeds, the residue doesn't grow over four changes, and a residue neuron recognizes a 2-back return
 - 2026-09-25 — Novel-C (A→B→C, C never seen): held patterns are released at the next change (one-back retention, a small permanent residue), and recognition lives in which neurons speed up, not in the population dip
 - 2026-09-25 — N=7 follow-up analyses: the slow return is tied to how many neurons already hold the pattern, and the population's firing rate distinguishes a new pattern from a returning one
 - 2026-09-25 — Non-stationary correlation (world swaps A→B→A): the population always tracks, but a subset keeps the old pattern (1 of 3 at N=3, 2-3 of 7 at N=7) — and the on-record prediction was not supported
@@ -153,4 +162,5 @@ Each line is the entry's own heading (its conclusion is in the title).
 
 **07 Interface readout, S1 (2026-09-25)**: [`docs/log/brian2/07_interface_readout.md`](docs/log/brian2/07_interface_readout.md)
 
+- 2026-09-25 — S1 completed: the H readout passes the same-rig lull test (8/8)
 - 2026-09-25 — S1: no single label-free readout carries context on its own. Weights alone encode recent history, rates alone encode "now vs just before", and activity projected through tuning carries context identity
