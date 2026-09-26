@@ -34,7 +34,9 @@ inspect trajectories before claiming.
   recognizes a non-first context after the substrate has dropped it, 8/8 at W=50. **The handoff
   (causal):** at the moment the substrate releases a context, memory reactivates it, which resets
   its eviction clock. Lesioning that kills survival at W=10 (6/8 → 1/8). Memory therefore has to
-  bridge only release-to-return, not the whole absence (rule under test in v1c).
+  bridge only release-to-return, not the whole absence. **Confirmed in v1c:** with a 2000 s
+  release-to-return against a 1500 s horizon, survival drops to 2/8 (v1b: 6/8 at 1000 s).
+  The result holds at all 7 neighbouring parameter settings.
 - **The first-context weakness is a cold-start artifact** of the contrast readout (phase-1 query
   quality 0.31-0.34 vs 0.87-0.96 afterwards). It's deliberately not being chased.
 - **Open:**
@@ -47,6 +49,43 @@ inspect trajectories before claiming.
     helping. The next refinement is to apply it only to established entries.
 
 ---
+
+## 2026-09-25 — The handoff horizon rule holds: memory must cover release-to-return (v1c)
+
+**Data and code:**
+- Substrate world v1c = A→B→C→A→C→B (`notebooks/brian2/v1c_schedule_data/`, seeds
+  35000-35007, 8/8 completed, 6 x 1000 s; v1's frozen runner with the schedule and durations
+  swapped).
+- Readout `notebooks/integration/two_back_test/run_v1c_readout.py`, with predictions written
+  while the batch ran, before any v1c result existed.
+
+**Why:** the rule from the handoff lesion says memory has to bridge only the time from the
+substrate *releasing* a context to its return. In v1c, B is released at C→A (refreshed then) and
+returns only after A and C, so release-to-return is 2000 s, beyond the 1500 s horizon at W=10. In
+v1b the same interval was 1000 s.
+
+**Predictions and outcomes:**
+- **V1C-P1 (the substrate holds nothing of B at its return): CONFIRMED.** 0 holders in 8/8.
+  One-back replicates again: 3.0 holders at the one-back A→C return, speeding up +5.9 Hz, and 0 at
+  the two-back C→A return.
+- **V1C-P2, the rule (best config at W=10: B alive and recognized in ≤ 2/8): CONFIRMED, 2/8 and
+  2/8,** against 6/8 in v1b. The only difference between the two is the release-to-return
+  interval.
+- **V1C-P3 (W=50: B alive 8/8, genuine ≥ 6/8): CONFIRMED,** 8/8 and 8/8.
+- **V1C-P4 (at W=10 the handoff lesion changes B by ≤ 1 seed): marginally REFUTED.** 2/8 → 0/8.
+  The two survivors were *also* kept alive by transitional reactivation, but at a change *after*
+  the release, not at it.
+
+**Refined rule:** a memory entry survives if some transitional reactivation happens within its
+horizon before the context returns. The substrate's release is the reliable reactivation; later
+changes occasionally provide another. So the Q2 requirement is to set staleness x clock to at
+least the release-to-return interval the system should bridge.
+
+**Also:**
+- At W=50 with the longer interval, plain v0 memory recognizes B in only 3/8, against 8/8 for the
+  best configuration. In v1b it was 7/8 vs 8/8, so the machinery matters more as gaps grow.
+- The one-back return C is recognized 8/8 at W=50.
+- The first context A behaves as the cold-start account predicts: 5/8 at W=50, 0/8 at W=10.
 
 ## 2026-09-25 — The two-back test passes: memory recognizes a context the substrate has dropped, and the substrate hands its released context to memory (causally tested)
 

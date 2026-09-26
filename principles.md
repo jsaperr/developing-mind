@@ -231,7 +231,9 @@ the substrate had already dropped, 8/8 at a 50 s clock. Two things make it work:
   than *creates* on transitional queries. Otherwise the same moment produces a spurious entry,
   the "two-back capture".
 - **Memory's horizon (staleness_threshold x clock) has to cover the time from release to return,
-  not the whole absence.** This rule is being tested directly in v1c.
+  not the whole absence.** Confirmed in v1c: with release-to-return 2000 s against a 1500 s
+  horizon, survival drops from 6/8 (at 1000 s, v1b) to 2/8. The two survivors were also rescued
+  by a later transitional reactivation.
 
 Don't assume the substrate "remembers" a context it left two changes ago, and don't pick a clock
 mapping without checking memory's horizon against the release-to-return intervals that matter. (The

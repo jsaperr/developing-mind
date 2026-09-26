@@ -1,0 +1,126 @@
+{
+ "W10": {
+  "clean": {
+   "acc": 1.0,
+   "A two-back (first ctx)": {
+    "genuine": 0,
+    "alive": 0
+   },
+   "C one-back": {
+    "genuine": 8,
+    "alive": 8
+   },
+   "B release-to-return 2000 s": {
+    "genuine": 0,
+    "alive": 0
+   }
+  },
+  "substrate v0": {
+   "acc": 0.8877083333333333,
+   "A two-back (first ctx)": {
+    "genuine": 0,
+    "alive": 0
+   },
+   "C one-back": {
+    "genuine": 2,
+    "alive": 8
+   },
+   "B release-to-return 2000 s": {
+    "genuine": 0,
+    "alive": 0
+   }
+  },
+  "substrate best": {
+   "acc": 0.9516666666666667,
+   "A two-back (first ctx)": {
+    "genuine": 0,
+    "alive": 8
+   },
+   "C one-back": {
+    "genuine": 4,
+    "alive": 8
+   },
+   "B release-to-return 2000 s": {
+    "genuine": 2,
+    "alive": 2
+   }
+  },
+  "best + handoff lesion": {
+   "acc": 0.9452083333333333,
+   "A two-back (first ctx)": {
+    "genuine": 0,
+    "alive": 0
+   },
+   "C one-back": {
+    "genuine": 3,
+    "alive": 8
+   },
+   "B release-to-return 2000 s": {
+    "genuine": 0,
+    "alive": 0
+   }
+  }
+ },
+ "W50": {
+  "clean": {
+   "acc": 1.0,
+   "A two-back (first ctx)": {
+    "genuine": 8,
+    "alive": 8
+   },
+   "C one-back": {
+    "genuine": 8,
+    "alive": 8
+   },
+   "B release-to-return 2000 s": {
+    "genuine": 8,
+    "alive": 8
+   }
+  },
+  "substrate v0": {
+   "acc": 0.9395833333333333,
+   "A two-back (first ctx)": {
+    "genuine": 5,
+    "alive": 8
+   },
+   "C one-back": {
+    "genuine": 3,
+    "alive": 8
+   },
+   "B release-to-return 2000 s": {
+    "genuine": 3,
+    "alive": 8
+   }
+  },
+  "substrate best": {
+   "acc": 0.9375,
+   "A two-back (first ctx)": {
+    "genuine": 5,
+    "alive": 8
+   },
+   "C one-back": {
+    "genuine": 8,
+    "alive": 8
+   },
+   "B release-to-return 2000 s": {
+    "genuine": 8,
+    "alive": 8
+   }
+  },
+  "best + handoff lesion": {
+   "acc": 0.9375,
+   "A two-back (first ctx)": {
+    "genuine": 5,
+    "alive": 8
+   },
+   "C one-back": {
+    "genuine": 8,
+    "alive": 8
+   },
+   "B release-to-return 2000 s": {
+    "genuine": 8,
+    "alive": 8
+   }
+  }
+ }
+}

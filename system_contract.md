@@ -245,7 +245,8 @@ toy v0 (`experiments_integration.md`):**
   the system is supposed to bridge, or complementary systems fail by construction. **Refined
   (two-back test + handoff lesion):** the substrate reactivates a context in memory at the moment
   it releases it, so the horizon only has to cover *release-to-return*, not the whole absence
-  (being tested in v1c). **What remains is a requirement for Jasper:** how long after the
+  (confirmed in v1c: 2000 s release-to-return against a 1500 s horizon gives 2/8 survival, vs 6/8
+  at 1000 s). **What remains is a requirement for Jasper:** how long after the
   substrate lets go should a context still be recognizable? That number x the clock sets
   staleness_threshold.
 - **Q3.** Does memory feed back into the substrate (top-down bias, replay, consolidation into
