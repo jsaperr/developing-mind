@@ -3,7 +3,8 @@
 import numpy as np
 from brian2 import second
 
-from src.brian2_stdp.spikes import build_multiblock_phase_input, build_phase_switching_input
+from src.brian2_stdp.spikes import (build_multiblock_phase_input, build_phase_switching_input,
+                                    build_set_phase_input)
 
 
 def _coincidence(idx, t, a, b, lo, hi, window_s=0.005):
@@ -70,3 +71,20 @@ def test_phase_switching_input_never_puts_two_spikes_of_one_neuron_in_the_same_s
     t = np.asarray(t / second)
     for n in range(20):
         assert np.diff(np.sort(t[idx == n])).min() >= 0.0002 - 1e-12
+
+
+def test_set_input_correlates_exactly_the_named_overlapping_set_and_keeps_rates_matched():
+    sets = [list(range(0, 10)), list(range(5, 15))]          # 50% overlap
+    idx, t = build_set_phase_input(20.0, 0.9, [60.0, 60.0], sets, 30, np.random.default_rng(3))
+    t = np.asarray(t / second)
+    assert np.all(np.diff(t) >= 0) and set(np.unique(idx)) == set(range(30))
+    for p, cs in enumerate(sets):
+        lo, hi = 60.0 * p + 0.01, 60.0 * (p + 1)
+        a, b = cs[0], cs[-1]                                   # two members of this phase's set
+        assert _coincidence(idx, t, a, b, lo, hi) > 0.5, (p, a, b)
+        out = [i for i in range(30) if i not in cs]
+        assert _coincidence(idx, t, out[0], out[-1], lo, hi) < 0.35
+        assert _coincidence(idx, t, a, out[0], lo, hi) < 0.35
+        for n in range(30):
+            rate = ((idx == n) & (t >= lo) & (t < hi)).sum() / (hi - lo)
+            assert 14 < rate < 26, (p, n, rate)
