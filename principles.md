@@ -220,11 +220,21 @@ Stability and plasticity are split across neurons, but the stable part only reac
 back. It's the same wall as "stability-plasticity is structural, not tunable", met again at the
 substrate level. **Design consequence:** the substrate can't be the long-range store. Context older
 than one back has to be carried by the memory layer, which is what the slow `w_char` layer was
-built for. The coupling toy (`experiments_integration.md`) found that this split fails as
-currently wired. Memory's retention horizon is staleness_threshold x the substrate-to-memory clock,
-and it has to be *longer* than the lulls the system is supposed to bridge. It currently isn't at a
-10 s clock. Don't assume the substrate "remembers" a context it left two changes ago, and don't
-pick a clock mapping without checking memory's horizon against the lulls that matter. (The
+built for. **The split works in principle (coupling toy, `experiments_integration.md`).** It was
+tested with a pre-registered two-back test: substrate-fed memory recognized a non-first context
+the substrate had already dropped, 8/8 at a 50 s clock. Two things make it work:
+
+- **The substrate hands off what it releases.** At the change where it drops its one-back hold,
+  the substrate's query briefly points at the released context, and memory reactivates that
+  context's entry. This resets its eviction clock, and was causally tested: lesioning it takes
+  survival at a 10 s clock from 6/8 to 1/8. The handoff only works if memory *retrieves* rather
+  than *creates* on transitional queries. Otherwise the same moment produces a spurious entry,
+  the "two-back capture".
+- **Memory's horizon (staleness_threshold x clock) has to cover the time from release to return,
+  not the whole absence.** This rule is being tested directly in v1c.
+
+Don't assume the substrate "remembers" a context it left two changes ago, and don't pick a clock
+mapping without checking memory's horizon against the release-to-return intervals that matter. (The
 resemblance to complementary learning systems is motivation, not evidence. The timescales here
 aren't biological.)
 
