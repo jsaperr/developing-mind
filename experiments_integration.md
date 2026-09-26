@@ -121,6 +121,17 @@ returning settled A queries sit at about 0.88. So creation fires and a duplicate
 - The first-context weakness affects exactly one context in a lifetime, the first. It's
   deliberately **not being chased** with readout knobs.
 
+**Robustness** (`run_two_back_sensitivity.py`, predictions before running): each best-config
+setting was varied one at a time (TAU 0.8/0.95, η 0.03/0.3, floor 0.4/0.6).
+- **SENS-P1 (B two-back genuine ≥ 6/8 at W=50 at every neighbour): CONFIRMED, 8/8 at all 7
+  settings.**
+- **SENS-P2 (W=10 survival varies more across neighbours): REFUTED.** It's 6/8 at every setting,
+  so the handoff is insensitive to these parameters.
+- Absorption reappears only where the absolute-floor account says it should: floor 0.4 (1 event)
+  and η 0.3 (2 events).
+- First-context recognition moves 2-5/8 across settings at W=50, still weak, as expected from the
+  cold start.
+
 **Net:** the complementary-systems split works in principle, with the substrate one-back and
 memory carrying older contexts. It works via a handoff at release, and it's limited by memory's
 horizon from release to return. What's left for the clock is a requirement Jasper sets (how long
