@@ -42,6 +42,21 @@ principle to matter again anywhere else strength-like signals get
 added — episodic write/prune decisions, thalamus gating, sub-brain
 resonance activation.
 
+*Caveat found 2026-09-25 (coupling toy, one experiment; a warning, not
+yet a fix):* the gate as implemented, g = 1/(1 + (top1 − top2)/gap_scale),
+measures **relative** ambiguity between the two best candidates. It
+can't see **novelty**: a query that matches *nothing* well but whose
+best (bad) match is clearly ahead of the second reads as "unambiguous",
+and strength or content influence goes to full. It was validated with
+oracle-created patterns, where a true match always existed. Fed by a
+real substrate, with a creation gate forcing retrieval during
+transitions, it consolidated entries toward queries they didn't match at
+all (best-match cosine −0.37 to +0.41 at full rate) and absorbed
+established memories (`experiments_integration.md`). Wherever this gate
+is reused on input that can be novel, pair it with an **absolute**
+match-quality condition. "Can't decide between candidates" and "no
+candidate fits" are different situations, and only the first is a tie.
+
 ## Named decision: what "stability" means for the STDP layer (2026-07-20)
 
 **Status: (b) is now directly tested at the multi-neuron scale across a real sample, not just
