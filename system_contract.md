@@ -267,7 +267,12 @@ toy v0 (`experiments_integration.md`):**
   - The missing piece for a principled rule is a signal that the world is still changing. The
     substrate's 60 s weight displacement is one: it's elevated after every change for about
     200 s and never in settled periods. Gating creation and content consolidation on it is the
-    next candidate experiment.
+    next candidate experiment. **Done (2026-09-26):** a recommended creation rule is to commit
+    (create, or move content) only when the query is steady (stability gate) AND the substrate has
+    stopped re-learning (60 s displacement below its causal trailing threshold). Rehearsal continues
+    throughout. The rule is label-free, removes absorption everywhere and keeps every key
+    recognition across 7 worlds and 2 operating points. Its cost is a ~200 s stale-report period
+    after each change. Adopting it is Jasper's call.
 - **Q5.** Is the SNN *the* substrate, or a stand-in for the mycelium substrate the framework
   describes?
 

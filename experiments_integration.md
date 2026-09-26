@@ -46,9 +46,13 @@ inspect trajectories before claiming.
   memory machinery matters *more* there.
 - **Open, and now central:** memory has no reliable signal that the world is still changing. The
   dip is too brief and the stability gate misses slow drift. It's behind the residual absorption,
-  the two-back capture and creation during transitions. **Candidate found:** the substrate's 60 s
-  weight displacement is elevated after 72/72 changes (median about 210-230 s) and never in
-  settled windows. It isn't wired into memory yet.
+  the two-back capture and creation during transitions. **Resolved (2026-09-26):** the substrate's
+  60 s weight displacement is that signal. Used causally and label-free to block memory *commits*
+  (not rehearsal), it removes absorption in all 14 world/clock cells and keeps every key
+  recognition. It complements the stability gate: stability catches the abrupt onset, displacement
+  the slow drift. **Recommended creation rule (Q4):** commit only when the query is steady *and*
+  the substrate has stopped re-learning. The cost is a ~200 s "not sure yet" period after each
+  change.
 - **The first-context weakness is a cold-start artifact** of the contrast readout (phase-1 query
   quality 0.31-0.34 vs 0.87-0.96 afterwards). It's deliberately not being chased.
 - **Open:**
@@ -61,6 +65,57 @@ inspect trajectories before claiming.
     helping. The next refinement is to apply it only to established entries.
 
 ---
+
+## 2026-09-26 — Displacement gate: "don't commit while the substrate is re-learning" removes absorption everywhere, keeps every recognition, and complements (doesn't replace) the stability gate
+
+**Code:** `notebooks/integration/content_consolidation/run_displacement_gate.py` (predictions in
+the docstring before the first run); `displacement_gate_summary.json`. All 7 worlds (13mV:
+A→B→A, A→B→C, v1, v1b, v1c; strong_tight_gate: v1b, v1c) at both clocks. Forked memory, `src/`
+untouched.
+
+**The gate:**
+- D(t) = sum |w(t) − w(t−60)|.
+- flag(t) = D(t) > trailing median + 3 x robust SD, computed over [t−900, t−60] s. It's on while
+  there's less than 100 s of history.
+- It's **causal and label-free**: no knowledge of when changes happen. The parameters were fixed a
+  priori to match the signal analysis, not tuned.
+- It flags 18-26% of steps.
+- On flagged steps memory neither *creates* nor *consolidates content*. Retrieval and the
+  staleness refresh (rehearsal) continue.
+
+**Predictions and outcomes (primary = best + disp):**
+- **DG-P1 (absorption = 0 everywhere): CONFIRMED.** 0 in all 14 world/clock cells (best had 1, 1,
+  2 and 8).
+- **DG-P2 (two-back reports on unflagged steps at most 5 per world at W=10): mostly REFUTED,**
+  3/7 over (8, 6, 17). But the counts are *identical* to best's in 6/7 worlds. The small residual
+  isn't commit-related, and the large persistent capture from v0 (124 steps) had already been
+  removed by the best configuration. The prediction targeted a problem that no longer existed.
+- **DG-P3 (key recognitions drop by at most 1 seed): CONFIRMED.** The v1b two-back pass is 8/8 at
+  both points; survival is 6/8 (13mV) and 7/8 (stg, from 8); v1c B at W=50 is 8/8 at both; v1's C
+  one-back is 8/8.
+- **DG-P4 (the expected cost): CONFIRMED.** Overall accuracy at W=10 is 4-9 points below best,
+  because memory reports something stale during flagged steps. It can't have an entry for a
+  brand-new context yet. Accuracy on *unflagged* steps is ≥ best's in 6/7 worlds.
+
+**Unpredicted:**
+- **First-context recognition improves.** A→B→A 5 → 6/8 (W=10) and 4 → 6/8 (W=50); v1 two-back A
+  1 → 2/8 (W=10) and 2 → 4/8 (W=50). Deferring commits until initial learning settles gives the
+  cold-start entry a better shape.
+- **The displacement gate can't replace the stability gate.** "disp only" creates about 2x the
+  entries, and two-back survival at W=10 collapses (13mV 6 → 2, stg 8 → 2).
+  - Checked directly (stg v1b W=10): without the stability gate, 24 entries are created in the
+    first 20 s after changes, before the lagging 60 s displacement has risen, against 2 with both
+    gates. There are also 35 vs 15 during initial learning.
+  - **The two signals cover two timescales:** stability catches the abrupt onset, and
+    displacement covers the ~200 s of slow drift.
+
+**Net: a principled creation rule (contract Q4).** Memory commits (creates, or moves content) only
+when the query is steady *and* the substrate has stopped re-learning. It keeps rehearsing
+throughout. It's label-free and causal, and it holds across 7 worlds, 2 operating points and both
+clocks. Its cost is a "not sure yet" period of about 200 s after each change, during which reports
+are stale. The system can *know* it's in that period (the flag is its own), so a system-level
+output could say "transitional" instead of reporting a stale context. That's a design choice for
+Jasper, not a memory flaw.
 
 ## 2026-09-26 — A "still changing" signal exists in the substrate: 60 s weight displacement (per-second weight change doesn't work)
 
