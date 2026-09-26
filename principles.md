@@ -178,6 +178,36 @@ property and must not be treated as interchangeable evidence for each other anyw
 mechanism gets reused.** See experiments_brian2.md's perturbation-testing entries (all three
 rounds) for the full mechanistic trail and data.
 
+**Named finding: under a changing world the substrate retains exactly one context back; anything
+older has to live in memory (2026-09-25, via the non-stationary arc).** This was established
+across three worlds and two rigs (A→B→A at N=3 and N=7, A→B→C novel-C, A→B→C→A→C v1; 8 seeds
+each at N=7, 13mV/1.5), with the one-back prediction confirmed *within* seeds in v1. See
+`docs/log/brian2/05_nonstationary_correlation.md`.
+
+- **What happens:** at every change, the population re-tracks the new correlation within minutes.
+  The neurons most entrenched in the *just-departed* pattern keep it and harden (about 37-55% of
+  units, rig-dependent). Neurons still holding an *older* pattern release it at that change and
+  learn the new one.
+- **Recognition:** when the just-departed pattern returns, its holders speed up at once (+5 to
+  +8 Hz). That per-neuron response, not the summed population rate, is the substrate's
+  recognition signal.
+- **The residue:** a few neurons (about 2-3 per 8 seeds per change) never release and keep
+  hardening. Over four changes this residue didn't accumulate, but that schedule's returns
+  can mask accumulation.
+
+This is not "division of labour" in the strong sense, and it isn't a capacity tax either.
+Stability and plasticity are split across neurons, but the stable part only reaches one context
+back. It's the same wall as "stability-plasticity is structural, not tunable", met again at the
+substrate level. **Design consequence:** the substrate can't be the long-range store. Context older
+than one back has to be carried by the memory layer, which is what the slow `w_char` layer was
+built for. The coupling toy (`experiments_integration.md`) found that this split fails as
+currently wired. Memory's retention horizon is staleness_threshold x the substrate-to-memory clock,
+and it has to be *longer* than the lulls the system is supposed to bridge. It currently isn't at a
+10 s clock. Don't assume the substrate "remembers" a context it left two changes ago, and don't
+pick a clock mapping without checking memory's horizon against the lulls that matter. (The
+resemblance to complementary learning systems is motivation, not evidence. The timescales here
+aren't biological.)
+
 ## How to fail correctly
 
 Negative results are real data, not something to route around or
