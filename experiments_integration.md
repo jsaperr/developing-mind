@@ -110,6 +110,26 @@ clocks; gap_scale re-grounded per readout; predictions before running):
   overlap the transitional query favours the incoming context's entry over the released one,
   so rehearsal doesn't land on B.
 
+**Follow-up diagnosis, ov50 at W=10 with H+ (analysis only):** the adopted memory keeps B alive
+1/8, while plain memory keeps it 6/8. A knock-out of the adopted components:
+
+| variant | B alive at return | merged seeds | absorbed |
+|---|---|---|---|
+| adopted (gates + consolidation) | 1/8 | 4/8 | 5 |
+| gates, no consolidation | 0/8 | 0/8 | 0 |
+| consolidation, no gates | 6/8 | 3/8 | 0 |
+| plain | 6/8 | 3/8 | 0 |
+
+- My bet (consolidation causes the loss) was half right. Consolidation causes the merging and
+  absorption, but the survival difference comes from the *gates*.
+- Checked: plain memory's B entry wins **14% of the settled A-phase steps** (A and B share half
+  their inputs) and 0% of C-phase steps. Those are misretrievals, and they happen to refresh B
+  before its return. So plain memory's "survival" is partly mistaken identity.
+- The gated memory keeps overlapping contexts separate. B's entry then goes unrehearsed for
+  2000 s and falls to the horizon rule (Q2, the clock), which is correct behaviour. At W=50 the
+  adopted memory is perfect.
+- **Open: content consolidation under overlap at the fast clock merges contexts (4/8 seeds).**
+
 **Correction:** arc 07 and this log said "retention is the price of a readable code". That was
 true *of H*, which needs a split population for contrast. H+ reads phase 1 at 0.96 with no
 retention, so the claim is readout-specific. "The first context is deliberately not chased" is
