@@ -5,7 +5,13 @@ their past, never knowledge of which input block is correlated or when the world
 Lineage: notebooks/integration/ (coupling_v0, content_consolidation, two_back_test) and
 notebooks/brian2/interface_readout/ (S1). See experiments_integration.md and docs/log/brian2/07.
 
-  h_readout             the query memory sees: activity projected through learned tuning,
+  readout(kind=...)     the query memory sees. DEFAULT is "rectified" (h_readout_rectified, Jasper
+                        2026-09-26). "contrast" (h_readout) is kept on purpose: running both is
+                        standing practice, so any result can be checked against the other.
+  h_readout_rectified   sum_j max(r_j - mean r, 0) w_j: what the DRIVEN neurons are tuned to.
+                        Reads settled contexts at ~0.96-0.97 with or without input overlap, leaks
+                        ~none of the previous context, and has no cold start.
+  h_readout             the original contrast readout, activity projected through learned tuning,
                         sum_j (r_j - mean r) w_j, centered and unit-normalized. S1: rates alone say
                         "now vs just before", weights alone are a history code, and this carries
                         context identity. Weak before the first world change (cold start: the
@@ -41,15 +47,23 @@ def h_readout(rates, weights):
 def h_readout_rectified(rates, weights):
     """H+: what the DRIVEN neurons are tuned to, sum_j max(r_j - mean r, 0) w_j, centered and
     unit-normalized. Quieter neurons get weight 0 instead of negative weight, so it doesn't subtract
-    the previous context the retainers hold. Candidate replacement for h_readout (the default switch
-    is pending Jasper's call), from notebooks/integration/set_worlds/compare_readouts.py and
-    run_rectified_memory.py:
+    the previous context the retainers hold. The DEFAULT readout (Jasper, 2026-09-26). Evidence:
+    notebooks/integration/set_worlds/compare_readouts.py and run_rectified_memory.py:
       settled quality: 0.97 disjoint, 0.96 at 50% overlap (h_readout 0.87-0.90 / 0.46)
       previous-context leakage about 0 (h_readout about -0.7: it subtracts it)
       cold start fixed: phase-1 quality 0.96 (h_readout 0.2-0.34), first context recognized 8/8
     Weak spot left: 50% overlap at a 10 s clock (rehearsal survival 1/8; 5 absorption events)."""
     rates = np.asarray(rates, dtype=float)
     return unit(np.clip(rates - rates.mean(), 0, None) @ np.asarray(weights, dtype=float))
+
+
+READOUTS = {"rectified": h_readout_rectified, "contrast": h_readout}
+DEFAULT_READOUT = "rectified"
+
+
+def readout(rates, weights, kind=DEFAULT_READOUT):
+    """The substrate -> memory query. kind: "rectified" (default) or "contrast" (the original H)."""
+    return READOUTS[kind](rates, weights)
 
 
 def steady_flags(queries, tau=0.9):

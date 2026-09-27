@@ -102,6 +102,14 @@ def test_rectified_readout_ignores_quieter_neurons_and_keeps_a_shared_tuning():
     assert np.allclose(I.h_readout_rectified(r, w2), I.unit(np.r_[np.ones(3), np.zeros(3)]))
 
 
+def test_readout_default_is_rectified_and_contrast_stays_available():
+    rng = np.random.default_rng(0)
+    r, w = rng.uniform(5, 20, 7), rng.uniform(0, 1, (7, 30))
+    assert I.DEFAULT_READOUT == "rectified"
+    assert np.allclose(I.readout(r, w), I.h_readout_rectified(r, w))
+    assert np.allclose(I.readout(r, w, kind="contrast"), I.h_readout(r, w))
+
+
 def test_single_pattern_and_transitional_output():
     torch.manual_seed(1)
     m = GatedEpisodicMemory(dim=8, gap_scale=0.3)
