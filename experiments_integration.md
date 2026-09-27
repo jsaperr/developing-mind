@@ -43,13 +43,70 @@ substrate runs are replayed into memory, with no feedback yet.
 - **Content consolidation under input overlap at the fast clock** merges contexts (50% overlap,
   W=10: 4/8 seeds). Gated creation alone keeps overlapping contexts separate. At W=50 there's no
   merging.
-- **PENDING (running at the time of writing):** 70% overlap (contexts more similar than memory's
-  novelty threshold) and the integrated episodic check (b) (cores + never-returning fillers:
-  primacy/recency ordering, survival through churn).
+- **Memory's overlap limit** (70% overlap, predicted): contexts more similar than memory's novelty
+  threshold get merged, even with perfect input. That's a memory-mechanism question (a finer or
+  adaptive novelty criterion, or pattern separation).
+- **Integrated check (b):** the original failure doesn't recur (W=50, rectified: A recognized 8/8,
+  cores alive 7/8), and primacy holds. **Recency ordering fails in every arm** (C > B 0/8); the
+  hypothesis, untested, is consolidation lag at the 50 s clock, which would make it a Q2 question.
 - Not yet done: live/feedback coupling, network sizes other than N=7, worlds with more than a
   handful of contexts, curiosity/metacog (out of scope by dependency order).
 
 ---
+
+## 2026-09-26 — Set worlds: at 70% overlap memory merges contexts even with perfect input (a memory-side limit); the integrated check (b)'s original failure doesn't recur
+
+**Data:** `notebooks/brian2/set_worlds_data/`: ov50 (38000-38007), ov70 (39000-39007), checkb
+(40000-40007), all 24 completed. The batch was paused once for Jasper and resumed; runs are
+deterministic per seed. Readout: `notebooks/integration/set_worlds/readout_set_worlds.py`.
+- Predictions OV-P1..P4 and CB-P1..P4 were written before any set-world data existed, for the
+  contrast readout, and are judged on it.
+- The rectified readout (now the default) is reported alongside.
+- The memory under test is the promoted `GatedEpisodicMemory` (adopted rule).
+
+**Overlap** (v1b schedule; prototype cosine between contexts 0.25 at 50%, 0.55 at 70%, against
+memory's novelty threshold of 0.5):
+- **OV-P1 (the substrate stays one-back): CONFIRMED.** 0-0.25 holders at two-back returns, at
+  both overlaps.
+- **OV-P2 (contrast quality ≥ 0.8 at 50%, lower at 70%): first half REFUTED** (0.45-0.48,
+  already known), second half confirmed (0.35-0.44). Rectified: 0.95-0.97 at both.
+- **OV-P3, the stress test (W=50 B genuine: ≥ 5/8 at 50%, ≤ 3/8 at 70%): CONFIRMED.** Contrast
+  gives 6/8 and 3/8; rectified gives 8/8 and 0/8.
+- **OV-P4 (merging at W=50: ≥ 5/8 seeds at 70%, ≤ 2/8 at 50%): contrast SPLIT** (2/8 and 1/8).
+  Rectified gives 8/8 and 0/8, as predicted.
+- **The 70% failure is a memory-side limit, not the substrate's or the readout's.** The *clean*
+  arm, fed perfect prototypes, also merges (7-8/8 seeds), with committed accuracy 0.44-0.63. When
+  contexts are more similar than memory's novelty threshold, memory can't hold them apart,
+  whatever it's fed. That was the principled reason for the prediction.
+- Fixing it needs a memory mechanism change: e.g. a finer or adaptive novelty criterion, or
+  pattern separation before storage. It's open. (Rectified v0 shows 6/8 "genuine" at 70% alongside
+  7/8 merged seeds, which is recognition through a merged entry. Not counted as a success.)
+
+**Integrated check (b)** (A(1000) F1(300) B(1000) F2(300) C(1000) F3(300) A(1000) s; cores are
+disjoint blocks; fillers are random 10-subsets that never return):
+- **CB-P1 (W=50: all three core entries alive at the end 8/8; A recognized ≥ 6/8).**
+  - Rectified: cores alive **7/8** (narrow miss) and A recognized **8/8**.
+  - Contrast: FAILS (0/8 cores alive, A 4/8). Under contrast the core queries (quality 0.78-0.85)
+    match filler entries, so cores get represented by entries born elsewhere. Another point for
+    the new default.
+  - **The original July failure, a core evicted before its return, does not recur.**
+- **CB-P2, the original question, graded primacy/recency (W=50: A highest ≥ 6/8, C > B ≥ 5/8):
+  HALF.** Primacy holds (rectified A highest 7/8; clean 8/8). **Recency REFUTED: C > B in 0/8
+  seeds in every arm, including clean input**, so it isn't a substrate effect.
+  - *Hypothesis, untested:* at W=50 a phase is only 20 memory steps, shorter than w_fast's ~50-step
+    time constant. w_char keeps consolidating long after a phase ends, so the most recent core (C)
+    hasn't finished consolidating by the end of the run while B has had longer.
+  - The original fixed-X result used 400-step phases, where consolidation completes within a phase.
+    If this holds, it's another consequence of Q2 (the clock).
+- **CB-P3 (W=10: A recognized ≤ 3/8, the horizon-rule baseline): contrast CONFIRMED (1/8); rectified
+  REFUTED (5/8), in the direction the stated caveat anticipated.** The fillers add changes, which
+  add rehearsal windows, which keep A alive past the nominal 1500 s horizon.
+- **CB-P4 (bounded memory at W=10, ≤ 6 entries): CONFIRMED** (3.8-4.1).
+
+**Net:** the architecture handles churn from never-returning fillers, and its primacy holds, but
+recency ordering and overlap tolerance have limits. Recency may be a clock effect. The overlap
+limit is set by memory's novelty threshold, so it's a memory-mechanism question, not an
+integration one.
 
 ## 2026-09-26 — A rectified readout (H+) fixes both the overlap problem and the cold start; one weak spot left (overlap at a 10 s clock)
 

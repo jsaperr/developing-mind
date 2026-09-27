@@ -1,0 +1,23 @@
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([2.04145599e-03, 2.53268202e-03, 3.49554003e-03, ...,
+       4.99999835e+03, 5.00000050e+03, 5.00000082e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+[seed 39004 t=250s] wall=52s
+[seed 39004 t=500s] wall=103s
+[seed 39004 t=750s] wall=153s
+[seed 39004 t=1000s] wall=204s
+[seed 39004 t=1250s] wall=254s
+[seed 39004 t=1500s] wall=304s
+[seed 39004 t=1750s] wall=352s
+[seed 39004 t=2000s] wall=403s
+[seed 39004 t=2250s] wall=451s
+[seed 39004 t=2500s] wall=497s
+[seed 39004 t=2750s] wall=541s
+[seed 39004 t=3000s] wall=585s
+[seed 39004 t=3250s] wall=630s
+[seed 39004 t=3500s] wall=675s
+[seed 39004 t=3750s] wall=719s
+[seed 39004 t=4000s] wall=764s
+[seed 39004 t=4250s] wall=809s
+[seed 39004 t=4500s] wall=854s
+[seed 39004 t=4750s] wall=898s
+[seed 39004 t=5000s] wall=942s
+set world ov70 seed 39004 -> C:\Users\urawi\OneDrive\Desktop\a wide variety of vscode projects\developing-mind\notebooks\brian2\set_worlds_data\ov70_n7_seed39004.json.gz (completed)

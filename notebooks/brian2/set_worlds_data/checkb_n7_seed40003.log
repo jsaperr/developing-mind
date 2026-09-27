@@ -1,0 +1,23 @@
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([1.04580223e-03, 1.88004416e-03, 2.69414224e-03, ...,
+       4.89999282e+03, 4.89999294e+03, 4.89999506e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+[seed 40003 t=250s] wall=43s
+[seed 40003 t=500s] wall=87s
+[seed 40003 t=750s] wall=132s
+[seed 40003 t=1000s] wall=177s
+[seed 40003 t=1250s] wall=221s
+[seed 40003 t=1500s] wall=265s
+[seed 40003 t=1750s] wall=310s
+[seed 40003 t=2000s] wall=355s
+[seed 40003 t=2250s] wall=399s
+[seed 40003 t=2500s] wall=443s
+[seed 40003 t=2750s] wall=488s
+[seed 40003 t=3000s] wall=532s
+[seed 40003 t=3250s] wall=576s
+[seed 40003 t=3500s] wall=621s
+[seed 40003 t=3750s] wall=665s
+[seed 40003 t=4000s] wall=709s
+[seed 40003 t=4250s] wall=753s
+[seed 40003 t=4500s] wall=798s
+[seed 40003 t=4750s] wall=842s
+[seed 40003 t=4900s] wall=869s
+set world checkb seed 40003 -> C:\Users\urawi\OneDrive\Desktop\a wide variety of vscode projects\developing-mind\notebooks\brian2\set_worlds_data\checkb_n7_seed40003.json.gz (completed)
