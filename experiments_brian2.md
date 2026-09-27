@@ -164,6 +164,7 @@ Each line is the entry's own heading (its conclusion is in the title).
 
 **07 Interface readout, S1 (2026-09-25)**: [`docs/log/brian2/07_interface_readout.md`](docs/log/brian2/07_interface_readout.md)
 
+- 2026-09-26 — Correction: the cold start and the overlap weakness belong to the contrast readout H, and a rectified readout H+ fixes both
 - 2026-09-25 — The H readout's first-context weakness is a cold-start artifact; later contexts read at about 0.9 because retention supplies the contrast
 - 2026-09-25 — S1 completed: the H readout passes the same-rig lull test (8/8)
 - 2026-09-25 — S1: no single label-free readout carries context on its own. Weights alone encode recent history, rates alone encode "now vs just before", and activity projected through tuning carries context identity

@@ -1,0 +1,318 @@
+{
+ "13mV A->B->A W10": {
+  "H": {
+   "acc_committed": 0.996802825569898,
+   "absorbed": 0,
+   "A return (first ctx)": {
+    "genuine": 6,
+    "alive": 8
+   }
+  },
+  "H+": {
+   "acc_committed": 0.996802825569898,
+   "absorbed": 0,
+   "A return (first ctx)": {
+    "genuine": 8,
+    "alive": 8
+   }
+  }
+ },
+ "13mV A->B->A W50": {
+  "H": {
+   "acc_committed": 1.0,
+   "absorbed": 0,
+   "A return (first ctx)": {
+    "genuine": 6,
+    "alive": 8
+   }
+  },
+  "H+": {
+   "acc_committed": 1.0,
+   "absorbed": 0,
+   "A return (first ctx)": {
+    "genuine": 8,
+    "alive": 8
+   }
+  }
+ },
+ "13mV v1 W10": {
+  "H": {
+   "acc_committed": 0.9905024884660087,
+   "absorbed": 0,
+   "A two-back (first)": {
+    "genuine": 2,
+    "alive": 8
+   },
+   "C one-back": {
+    "genuine": 6,
+    "alive": 8
+   }
+  },
+  "H+": {
+   "acc_committed": 0.9898949469789715,
+   "absorbed": 0,
+   "A two-back (first)": {
+    "genuine": 8,
+    "alive": 8
+   },
+   "C one-back": {
+    "genuine": 8,
+    "alive": 8
+   }
+  }
+ },
+ "13mV v1 W50": {
+  "H": {
+   "acc_committed": 1.0,
+   "absorbed": 0,
+   "A two-back (first)": {
+    "genuine": 4,
+    "alive": 8
+   },
+   "C one-back": {
+    "genuine": 8,
+    "alive": 8
+   }
+  },
+  "H+": {
+   "acc_committed": 1.0,
+   "absorbed": 0,
+   "A two-back (first)": {
+    "genuine": 8,
+    "alive": 8
+   },
+   "C one-back": {
+    "genuine": 8,
+    "alive": 8
+   }
+  }
+ },
+ "13mV v1b W10": {
+  "H": {
+   "acc_committed": 0.9868963286358781,
+   "absorbed": 0,
+   "A two-back (first)": {
+    "genuine": 1,
+    "alive": 8
+   },
+   "B two-back": {
+    "genuine": 6,
+    "alive": 6
+   }
+  },
+  "H+": {
+   "acc_committed": 0.987217753240665,
+   "absorbed": 0,
+   "A two-back (first)": {
+    "genuine": 8,
+    "alive": 8
+   },
+   "B two-back": {
+    "genuine": 6,
+    "alive": 6
+   }
+  }
+ },
+ "13mV v1b W50": {
+  "H": {
+   "acc_committed": 1.0,
+   "absorbed": 0,
+   "A two-back (first)": {
+    "genuine": 3,
+    "alive": 8
+   },
+   "B two-back": {
+    "genuine": 8,
+    "alive": 8
+   }
+  },
+  "H+": {
+   "acc_committed": 1.0,
+   "absorbed": 0,
+   "A two-back (first)": {
+    "genuine": 8,
+    "alive": 8
+   },
+   "B two-back": {
+    "genuine": 8,
+    "alive": 8
+   }
+  }
+ },
+ "13mV v1c W10": {
+  "H": {
+   "acc_committed": 0.9883954107607332,
+   "absorbed": 0,
+   "B rel-to-ret 2000s": {
+    "genuine": 1,
+    "alive": 1
+   }
+  },
+  "H+": {
+   "acc_committed": 0.98864705165761,
+   "absorbed": 0,
+   "B rel-to-ret 2000s": {
+    "genuine": 0,
+    "alive": 0
+   }
+  }
+ },
+ "13mV v1c W50": {
+  "H": {
+   "acc_committed": 0.9986559139784946,
+   "absorbed": 0,
+   "B rel-to-ret 2000s": {
+    "genuine": 8,
+    "alive": 8
+   }
+  },
+  "H+": {
+   "acc_committed": 1.0,
+   "absorbed": 0,
+   "B rel-to-ret 2000s": {
+    "genuine": 8,
+    "alive": 8
+   }
+  }
+ },
+ "stg v1b W10": {
+  "H": {
+   "acc_committed": 0.9821035949610766,
+   "absorbed": 0,
+   "A two-back (first)": {
+    "genuine": 5,
+    "alive": 8
+   },
+   "B two-back": {
+    "genuine": 7,
+    "alive": 7
+   }
+  },
+  "H+": {
+   "acc_committed": 0.9818042621409727,
+   "absorbed": 0,
+   "A two-back (first)": {
+    "genuine": 8,
+    "alive": 8
+   },
+   "B two-back": {
+    "genuine": 7,
+    "alive": 7
+   }
+  }
+ },
+ "stg v1b W50": {
+  "H": {
+   "acc_committed": 1.0,
+   "absorbed": 0,
+   "A two-back (first)": {
+    "genuine": 2,
+    "alive": 8
+   },
+   "B two-back": {
+    "genuine": 8,
+    "alive": 8
+   }
+  },
+  "H+": {
+   "acc_committed": 1.0,
+   "absorbed": 0,
+   "A two-back (first)": {
+    "genuine": 8,
+    "alive": 8
+   },
+   "B two-back": {
+    "genuine": 8,
+    "alive": 8
+   }
+  }
+ },
+ "stg v1c W10": {
+  "H": {
+   "acc_committed": 0.9859605535957705,
+   "absorbed": 0,
+   "B rel-to-ret 2000s": {
+    "genuine": 2,
+    "alive": 2
+   }
+  },
+  "H+": {
+   "acc_committed": 0.9854386238285577,
+   "absorbed": 0,
+   "B rel-to-ret 2000s": {
+    "genuine": 1,
+    "alive": 1
+   }
+  }
+ },
+ "stg v1c W50": {
+  "H": {
+   "acc_committed": 1.0,
+   "absorbed": 0,
+   "B rel-to-ret 2000s": {
+    "genuine": 8,
+    "alive": 8
+   }
+  },
+  "H+": {
+   "acc_committed": 1.0,
+   "absorbed": 0,
+   "B rel-to-ret 2000s": {
+    "genuine": 8,
+    "alive": 8
+   }
+  }
+ },
+ "ov50 W10": {
+  "H": {
+   "acc_committed": 0.9799574320468336,
+   "absorbed": 1,
+   "A two-back (first)": {
+    "genuine": 0,
+    "alive": 8
+   },
+   "B two-back": {
+    "genuine": 0,
+    "alive": 1
+   }
+  },
+  "H+": {
+   "acc_committed": 0.9534890583034643,
+   "absorbed": 5,
+   "A two-back (first)": {
+    "genuine": 4,
+    "alive": 5
+   },
+   "B two-back": {
+    "genuine": 1,
+    "alive": 1
+   }
+  }
+ },
+ "ov50 W50": {
+  "H": {
+   "acc_committed": 0.9634442134442134,
+   "absorbed": 0,
+   "A two-back (first)": {
+    "genuine": 1,
+    "alive": 8
+   },
+   "B two-back": {
+    "genuine": 6,
+    "alive": 8
+   }
+  },
+  "H+": {
+   "acc_committed": 1.0,
+   "absorbed": 0,
+   "A two-back (first)": {
+    "genuine": 8,
+    "alive": 8
+   },
+   "B two-back": {
+    "genuine": 8,
+    "alive": 8
+   }
+  }
+ }
+}

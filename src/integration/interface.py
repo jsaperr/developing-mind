@@ -38,6 +38,20 @@ def h_readout(rates, weights):
     return unit((rates - rates.mean()) @ np.asarray(weights, dtype=float))
 
 
+def h_readout_rectified(rates, weights):
+    """H+: what the DRIVEN neurons are tuned to, sum_j max(r_j - mean r, 0) w_j, centered and
+    unit-normalized. Quieter neurons get weight 0 instead of negative weight, so it doesn't subtract
+    the previous context the retainers hold. Candidate replacement for h_readout (the default switch
+    is pending Jasper's call), from notebooks/integration/set_worlds/compare_readouts.py and
+    run_rectified_memory.py:
+      settled quality: 0.97 disjoint, 0.96 at 50% overlap (h_readout 0.87-0.90 / 0.46)
+      previous-context leakage about 0 (h_readout about -0.7: it subtracts it)
+      cold start fixed: phase-1 quality 0.96 (h_readout 0.2-0.34), first context recognized 8/8
+    Weak spot left: 50% overlap at a 10 s clock (rehearsal survival 1/8; 5 absorption events)."""
+    rates = np.asarray(rates, dtype=float)
+    return unit(np.clip(rates - rates.mean(), 0, None) @ np.asarray(weights, dtype=float))
+
+
 def steady_flags(queries, tau=0.9):
     """queries: (n_steps, dim), each already unit(). Step s is steady if s >= 2 and the two most
     recent consecutive cosines are both >= tau."""

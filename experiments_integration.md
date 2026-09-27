@@ -69,6 +69,56 @@ inspect trajectories before claiming.
 
 ---
 
+## 2026-09-26 — A rectified readout (H+) fixes both the overlap problem and the cold start; one weak spot left (overlap at a 10 s clock)
+
+**Context:** the ov50 world (50% overlapping contexts; the first finished set world, while the
+ov70/checkb runs are paused and resumable) dropped settled readout quality to ~0.46 (disjoint:
+~0.9). Diagnosis: H = Σ(r_j − r̄)w_j subtracts what the quieter neurons (retainers of the previous
+context) are tuned to. Shared inputs are strong in both groups and cancel, so H reads roughly
+"what's different from the last context". That also makes it predecessor-dependent. Caveat: in
+the v1b schedule B returns after the *same* predecessor (A) it first followed, so ov50's positive
+recognition result couldn't expose that.
+
+**Offline comparison** (`notebooks/integration/set_worlds/compare_readouts.py`, analysis only,
+predictions before running). Three readouts: H; the rectified H+ = Σ max(r_j − r̄, 0) w_j (quieter
+neurons get 0, not negative, weight; no new parameter); and the absolute U = Σ r_j w_j as a
+reference.
+
+| readout | settled quality, disjoint | settled quality, ov50 | phase-1 quality (cold start) | previous-context leakage |
+|---|---|---|---|---|
+| H | 0.87-0.90 | **0.46** | **0.20-0.34** | −0.70 to −0.78 (subtracts it) |
+| **H+** | **0.97** | **0.96** | **0.96-0.97** | **−0.01 to +0.06** |
+| U | 0.76-0.81 | 0.96 | 0.97-0.98 | +0.15 to +0.50 (leaks it in) |
+
+- RD-P1 (H+ restores ov50 quality and keeps the disjoint worlds ≥ 0.85) and RD-P2 (H+ leakage
+  within ±0.2) are **confirmed**.
+- **RD-P3 (H+ won't fix the cold start) is REFUTED, in the good direction.** With every neuron
+  tuned to A, H subtracts below-average A-neurons from above-average ones and cancels. H+ only
+  sums the above-average ones, so A survives.
+
+**Memory replay** (`run_rectified_memory.py`; adopted memory, promoted `src` module; 7 worlds x 2
+clocks; gap_scale re-grounded per readout; predictions before running):
+- **HP-P1 (first context recognized): CONFIRMED.** It's 8/8 in every world at both clocks with
+  H+ (H: 0-6/8). E.g. A→B→A return 6 → 8; v1 two-back A 2 → 8 at W=10 and 4 → 8 at W=50.
+- **HP-P2 (no key non-first recognition drops): CONFIRMED.** Every one held or improved. ov50 B
+  two-back at W=50 went 6 → 8, and committed accuracy is 0.98-1.00.
+- **HP-P3 (ov50 rehearsal survival at W=10 ≥ 4/8): REFUTED.** It's 1/8 with either readout.
+- **HP-P4 (absorption 0 everywhere): REFUTED in one cell.** ov50 at W=10 with H+ has 5 events
+  (H: 1). Every other cell is 0.
+- **The weak spot left is overlap x the fast clock.** At W=50, ov50 with H+ is perfect: 8/8 and
+  8/8, accuracy 1.000, 0 absorption. The mechanism at W=10 is untested. A guess is that under
+  overlap the transitional query favours the incoming context's entry over the released one,
+  so rehearsal doesn't land on B.
+
+**Correction:** arc 07 and this log said "retention is the price of a readable code". That was
+true *of H*, which needs a split population for contrast. H+ reads phase 1 at 0.96 with no
+retention, so the claim is readout-specific. "The first context is deliberately not chased" is
+also superseded: H+ fixes it for free.
+
+**Code:** `src/integration/interface.py` gains `h_readout_rectified` (additive, tested).
+**Switching the default from `h_readout` to it is Jasper's call**, since it changes the interface
+he adopted.
+
 ## 2026-09-26 — Adopted and promoted: the commit rule, the transitional output, and the memory module in `src/`
 
 **Jasper's decisions (2026-09-26):**

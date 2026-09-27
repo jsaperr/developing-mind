@@ -92,6 +92,16 @@ def test_all_new_features_off_reduces_to_the_validated_episodic_path(runs):
     assert winners == ref['winner_ids']
 
 
+def test_rectified_readout_ignores_quieter_neurons_and_keeps_a_shared_tuning():
+    w = np.zeros((4, 6)); w[:, :3] = 1.0                        # every neuron tuned to inputs 0-2 (cold start)
+    r = np.array([10.0, 12.0, 14.0, 16.0])
+    assert np.allclose(I.h_readout(r, w), 0.0)                  # contrast cancels a shared tuning entirely
+    q = I.h_readout_rectified(r, w)
+    assert q[:3].min() > 0 and np.allclose(q, I.unit(np.r_[np.ones(3), np.zeros(3)]))
+    w2 = w.copy(); w2[:2] = 0; w2[:2, 3:] = 1.0                 # quieter neurons hold another context
+    assert np.allclose(I.h_readout_rectified(r, w2), I.unit(np.r_[np.ones(3), np.zeros(3)]))
+
+
 def test_single_pattern_and_transitional_output():
     torch.manual_seed(1)
     m = GatedEpisodicMemory(dim=8, gap_scale=0.3)

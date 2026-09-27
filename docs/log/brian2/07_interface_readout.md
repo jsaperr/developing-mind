@@ -2,6 +2,15 @@
 
 Newest first. Index: `experiments_brian2.md`. Context: `system_contract.md` (S1, section 3).
 
+## 2026-09-26 — Correction: the cold start and the overlap weakness belong to the contrast readout H, and a rectified readout H+ fixes both
+
+`notebooks/integration/set_worlds/compare_readouts.py` (see `experiments_integration.md`).
+H+ = Σ max(r_j − r̄, 0) w_j reads phase 1 at 0.96-0.97 (H: 0.20-0.34). It reads 50% overlapping
+contexts at 0.96 (H: 0.46) and leaks ~0 of the previous context (H: about −0.7). So the entry
+below ("retention supplies the contrast; retention is the price of a readable code") holds only
+for H, and "not chased" is superseded. The one-back retention finding itself (arc 05) is
+unaffected.
+
 ## 2026-09-25 — The H readout's first-context weakness is a cold-start artifact; later contexts read at about 0.9 because retention supplies the contrast
 
 Diagnosed while running the coupling toy (`experiments_integration.md`, two-back entry). This is
