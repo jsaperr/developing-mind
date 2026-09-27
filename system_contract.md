@@ -1,5 +1,13 @@
 # System contract — what the whole thing has to do (DRAFT v0, 2026-09-25)
 
+**Status (2026-09-26):** most of this draft's questions now have answers from experiments; see
+`experiments_integration.md` "Current state". Answered: S1 (label-free readout; the rectified
+readout is now the default), S3/S4, Q4 (the commit rule, adopted), P1-P3, and the two-back /
+complementary-systems test. Still open: **Q2** (the clock: how long after release a context must
+stay recognizable, a requirement for Jasper), Q1's deeper version (reading III, attractors inside
+the substrate), Q3 (feedback), Q5 (mycelium). The sections below are kept as written, with inline
+updates.
+
 **Status:** draft for Jasper to correct. Written from `principles.md`, `CLAUDE.md`, the three logs
 and the code in `src/`. The framework doc (`developing_mind_framework_v5.docx`) was *not*
 consulted, so anywhere this has to guess how pieces connect, it says so and lists the options in
