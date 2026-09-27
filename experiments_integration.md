@@ -6,66 +6,48 @@ and the ESN in `experiments_esn.md`. The design spec for this phase is `system_c
 Entries are newest first. State predictions before running, keep contaminated runs on record,
 inspect trajectories before claiming.
 
-## Current state (2026-09-25)
+## Current state (2026-09-26): semi-wrapped
 
-- **Coupling toy v0 is built** (offline, one-way: saved substrate runs replayed into the unchanged
-  `src/hopfield` memory). Jasper gave the explicit go.
-- **Established:**
-  - Right after a *novel* change, the substrate's first signal is the old context's absence, not
-    the new one's presence. Memory can file that transitional "not-old" query as an entry, which
-    then captures later queries: it reports the two-back context, in one seed for a whole phase.
-    This is specific to the substrate (the blended control shows none of it) and independent of
-    strength (unchanged with the strength bias off). It's a *creation-rule* failure, not a
-    violation of "strength breaks ties".
-  - 1-back returns are reported within one step, via the substrate's recognition signal.
-    2-back returns aren't.
-  - ~~The complementary-systems test fails in the coupled system as built~~. That was true of v0
-    memory (a 150-step horizon, frozen snapshots). It's superseded by the entries above: with the
-    best configuration and the handoff, the split works.
-- **Content consolidation (forked memory; `src/` untouched):**
-  - Alone, it fixes captured entries (two-back reports fall sharply) but not recognition.
-  - Combined with a stability gate on creation, it gives reliable genuine recognition of a
-    returning non-first context: 8/8 at 50 s steps.
-  - It exposed that **the validated top1-top2 ambiguity gate is relative and can't see novelty.**
-    A novel query forced onto the best of bad matches reads as "unambiguous", and consolidation
-    runs at full rate (absorption). See the caveat under "strength breaks ties" in
-    `principles.md`.
-- **The two-back test passes** (v1b, pre-registered decision rule): substrate-fed memory
-  recognizes a non-first context after the substrate has dropped it, 8/8 at W=50. **Transitional
-  rehearsal (causal):** after each world change, while the query is unsettled and creation is
-  blocked, retrieval sweeps across stored entries and resets each winner's eviction clock. A
-  context survived a long lull in exactly the seeds where it won a step of such a window (6/8).
-  The lesion kills survival at W=10 (6/8 → 1/8). This was first described as a "handoff" of the
-  released context; a direct check showed the query points at "not-departing", not at the
-  released context specifically. So memory has to bridge only from the last change where it was
-  rehearsed (in practice, the substrate's release of it) to its return. **Confirmed in v1c:** with a 2000 s
-  release-to-return against a 1500 s horizon, survival drops to 2/8 (v1b: 6/8 at 1000 s).
-  The result holds at all 7 neighbouring parameter settings.
-- **Replicated at strong_tight_gate** (the opposite-character operating point): one-back, the
-  two-back pass (8/8), rehearsal (8/8 → 1/8 under the lesion) and the horizon rule all hold. The
-  memory machinery matters *more* there.
-- **Open, and now central:** memory has no reliable signal that the world is still changing. The
-  dip is too brief and the stability gate misses slow drift. It's behind the residual absorption,
-  the two-back capture and creation during transitions. **Resolved (2026-09-26):** the substrate's
-  60 s weight displacement is that signal. Used causally and label-free to block memory *commits*
-  (not rehearsal), it removes absorption in all 14 world/clock cells and keeps every key
-  recognition. It complements the stability gate: stability catches the abrupt onset, displacement
-  the slow drift. **Recommended creation rule (Q4):** commit only when the query is steady *and*
-  the substrate has stopped re-learning. The cost is a ~200 s "not sure yet" period after each
-  change.
-- **The first-context weakness is a cold-start artifact** of the contrast readout (phase-1 query
-  quality 0.31-0.34 vs 0.87-0.96 afterwards). It's deliberately not being chased.
-- **Adopted and in `src/` (Jasper, 2026-09-26):** the commit rule, the TRANSITIONAL output, and
-  `GatedEpisodicMemory` in `src/hopfield/episodic_consolidating.py` (tested to reproduce the toy
-  exactly; `episodic.py` unchanged).
-- **Open:**
-  - ~~creation rule~~ adopted (see above). Originally: creation rule (contract Q4: the episodic layer never had one; every validated notebook used an
-    oracle);
-  - the clock mapping (Q2 now has a hard constraint);
-  - the first context (still not recognized under any variant);
-  - an absolute-match-quality gate: **tested.** It eliminates absorption and restores
-    first-context 1-back recognition (1/8 → 5/8), at a small cost where low-match drift had been
-    helping. The next refinement is to apply it only to established entries.
+**What the system is now.** A spiking substrate (STDP, homeostatic scaling, lateral inhibition)
+feeds an episodic memory through a label-free interface. It's offline and one-way: saved
+substrate runs are replayed into memory, with no feedback yet.
+- Interface: `src/integration/interface.py`. The default readout is `rectified`; `contrast` is kept
+  alongside.
+- Memory: `src/hopfield/episodic_consolidating.GatedEpisodicMemory`, with the adopted commit
+  rule. `src/hopfield/episodic.py` is unchanged.
+
+**Established** (each with predictions stated before the run; details in the entries below):
+- **The core split works.** The substrate holds exactly one context back
+  (`principles.md`, named finding), and memory carries older ones. A context the substrate has
+  dropped is recognized by its original memory: 8/8 at W=50, replicated at the opposite-character
+  operating point, robust across 7 neighbouring parameter settings.
+- **Transitional rehearsal (causal).** Every world change opens a window where memory retrieves
+  (it can't create) and each winning entry's eviction clock resets. A lesion kills survival.
+  Memory therefore has to bridge only from the last rehearsal (in practice, the substrate's
+  release of the context) to its return (the horizon rule, confirmed in v1c).
+- **The commit rule** (adopted): create only when the query is novel AND steady AND the substrate
+  isn't re-learning (60 s weight displacement, causal, label-free); consolidate content only when
+  it isn't re-learning; rehearse always; report TRANSITIONAL while it re-learns. Absorption is 0
+  in all 14 disjoint-world cells, and committed accuracy is 0.98-1.00.
+- **The rectified readout H+** reads contexts at 0.96-0.97 with or without 50% input overlap,
+  leaks ~none of the previous context, reads a context the same after any predecessor
+  (0.94-0.99), and removes the cold start. The first context is recognized 8/8 everywhere (it
+  was 0-6/8).
+- Two principle-level lessons (in `principles.md`): the ambiguity gate is relative and can't see
+  novelty (pair it with an absolute match condition); and the one-back finding.
+
+**Open:**
+- **Q2, the clock (Jasper's requirement).** How long after the substrate releases a context
+  should it stay recognizable? That number sets staleness x clock. At W=10 memory's horizon is
+  1500 s, and anything beyond that is lost, correctly, by the rule. At W=50 it's 7500 s.
+- **Content consolidation under input overlap at the fast clock** merges contexts (50% overlap,
+  W=10: 4/8 seeds). Gated creation alone keeps overlapping contexts separate. At W=50 there's no
+  merging.
+- **PENDING (running at the time of writing):** 70% overlap (contexts more similar than memory's
+  novelty threshold) and the integrated episodic check (b) (cores + never-returning fillers:
+  primacy/recency ordering, survival through churn).
+- Not yet done: live/feedback coupling, network sizes other than N=7, worlds with more than a
+  handful of contexts, curiosity/metacog (out of scope by dependency order).
 
 ---
 
