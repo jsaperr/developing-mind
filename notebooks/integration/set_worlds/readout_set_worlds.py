@@ -40,6 +40,11 @@ PREDICTIONS ON RECORD (written while the batch ran, before any set-world result 
         could keep A alive longer.
   CB-P4 bounded memory (adopted, W=10 s): alive entries at the end <= 6 per seed on average.
 
+ADDED 2026-09-26 (after ov50, before ov70/checkb finished): every world and clock is also run with
+the RECTIFIED readout (now the src default), alongside the contrast readout the predictions above
+were written for. Running both is standing practice. The predictions are judged on the contrast
+readout, as written; the rectified results are reported next to them.
+
 Usage: readout_set_worlds.py   (conda env; writes set_worlds_summary.json)
 """
 import glob
@@ -76,7 +81,7 @@ def load(world):
     return runs
 
 
-def stream(d, wm, r, W, rng):
+def stream(d, wm, r, W, rng, kind="contrast"):
     ps = [0.0] + list(d['swap_times_s']); ids = d['phase_corr_blocks']
     protos = np.array([I.unit(np.isin(np.arange(30), s).astype(float)) for s in d['context_sets']])
     starts, ph, q = [], [], []
@@ -85,7 +90,7 @@ def stream(d, wm, r, W, rng):
         if p + 1 < len(ps) and a + W > ps[p + 1]:
             continue
         starts.append(a); ph.append(p)
-        q.append(I.h_readout(r[:, a:a + W].mean(axis=1), wm[:, :, a:a + W].mean(axis=2)))
+        q.append(I.readout(r[:, a:a + W].mean(axis=1), wm[:, :, a:a + W].mean(axis=2), kind=kind))
     ph = np.array(ph); q = np.array(q)
     true = np.array([ids[p] for p in ph]); prev = np.array([ids[p - 1] if p else -1 for p in ph])
     settled = np.array([a - ps[p] >= SETTLE for a, p in zip(starts, ph)])
@@ -173,6 +178,15 @@ def substrate_part(runs):
 
 def main():
     out = {}
+    for kind in ("contrast", "rectified"):
+        print()
+        print("==================== readout: " + kind + " ====================")
+        out[kind] = one_readout(kind)
+    json.dump(out, open(HERE / "set_worlds_summary.json", "w"), indent=1)
+
+
+def one_readout(kind):
+    out = {}
     for world in ("ov50", "ov70", "checkb"):
         runs = load(world)
         print(f"\n################ {world}: {len(runs)} completed seeds")
@@ -182,7 +196,7 @@ def main():
         out[world] = {}
         for W in CLOCKS:
             rng = np.random.default_rng(0); torch.manual_seed(0)
-            streams = [stream(d, wm, r, W, rng) for d, wm, r in runs]
+            streams = [stream(d, wm, r, W, rng, kind) for d, wm, r in runs]
             if W == 10:
                 nph = max(s['ph'].max() for s in streams) + 1
                 qual = [[np.mean([s['q'][i] @ s['protos'][s['true'][i]] for i in range(len(s['ph']))
@@ -226,7 +240,7 @@ def main():
                             f"w_char A highest {order_A}/8, C>B {order_CB}/8")
                 out[world][f"W{W}"][arm] = row
                 print(txt)
-    json.dump(out, open(HERE / "set_worlds_summary.json", "w"), indent=1)
+    return out
 
 
 if __name__ == '__main__':
