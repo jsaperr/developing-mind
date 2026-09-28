@@ -1,0 +1,112 @@
+
+##### 13mV v1b (8 seeds) geometry H+: within median 0.998 (5th pct 0.990) | between mean -0.485 max -0.436
+  W=10 r0.5           acc 0.987 abs 0 merged 0/8 created/occ 0.65 alive-end 2.8 | A two-back 8/8 | B two-back 6/8
+  W=10 r0.6           acc 0.987 abs 0 merged 0/8 created/occ 0.65 alive-end 2.8 | A two-back 8/8 | B two-back 6/8
+  W=10 r0.7           acc 0.987 abs 0 merged 0/8 created/occ 0.65 alive-end 2.8 | A two-back 8/8 | B two-back 6/8
+  W=10 r0.8           acc 0.987 abs 0 merged 0/8 created/occ 0.67 alive-end 2.8 | A two-back 8/8 | B two-back 6/8
+  W=10 r0.9           acc 0.987 abs 0 merged 0/8 created/occ 0.88 alive-end 2.9 | A two-back 8/8 | B two-back 6/8
+  W=10 theta0.8 only  acc 0.987 abs 0 merged 0/8 created/occ 0.67 alive-end 2.8 | A two-back 8/8 | B two-back 6/8
+  W=10 floor0.8 only  acc 0.987 abs 0 merged 0/8 created/occ 0.65 alive-end 2.8 | A two-back 8/8 | B two-back 6/8
+  W=50 r0.5           acc 1.000 abs 0 merged 0/8 created/occ 0.60 alive-end 3.0 | A two-back 8/8 | B two-back 8/8
+  W=50 r0.6           acc 1.000 abs 0 merged 0/8 created/occ 0.60 alive-end 3.0 | A two-back 8/8 | B two-back 8/8
+  W=50 r0.7           acc 1.000 abs 0 merged 0/8 created/occ 0.60 alive-end 3.0 | A two-back 8/8 | B two-back 8/8
+  W=50 r0.8           acc 1.000 abs 0 merged 0/8 created/occ 0.60 alive-end 3.0 | A two-back 8/8 | B two-back 8/8
+  W=50 r0.9           acc 1.000 abs 0 merged 0/8 created/occ 0.62 alive-end 3.1 | A two-back 8/8 | B two-back 8/8
+  W=50 theta0.8 only  acc 1.000 abs 0 merged 0/8 created/occ 0.60 alive-end 3.0 | A two-back 8/8 | B two-back 8/8
+  W=50 floor0.8 only  acc 1.000 abs 0 merged 0/8 created/occ 0.60 alive-end 3.0 | A two-back 8/8 | B two-back 8/8
+
+##### 13mV v1c (8 seeds) geometry H+: within median 0.998 (5th pct 0.989) | between mean -0.487 max -0.441
+  W=10 r0.5           acc 0.989 abs 0 merged 0/8 created/occ 0.67 alive-end 3.0 | B 2000s 0/8
+  W=10 r0.6           acc 0.989 abs 0 merged 0/8 created/occ 0.67 alive-end 3.0 | B 2000s 0/8
+  W=10 r0.7           acc 0.989 abs 0 merged 0/8 created/occ 0.67 alive-end 3.0 | B 2000s 0/8
+  W=10 r0.8           acc 0.989 abs 0 merged 0/8 created/occ 0.69 alive-end 3.0 | B 2000s 0/8
+  W=10 r0.9           acc 0.989 abs 0 merged 0/8 created/occ 0.90 alive-end 3.1 | B 2000s 0/8
+  W=10 theta0.8 only  acc 0.989 abs 0 merged 0/8 created/occ 0.69 alive-end 3.0 | B 2000s 0/8
+  W=10 floor0.8 only  acc 0.989 abs 0 merged 0/8 created/occ 0.67 alive-end 3.0 | B 2000s 0/8
+  W=50 r0.5           acc 1.000 abs 0 merged 0/8 created/occ 0.50 alive-end 3.0 | B 2000s 8/8
+  W=50 r0.6           acc 1.000 abs 0 merged 0/8 created/occ 0.50 alive-end 3.0 | B 2000s 8/8
+  W=50 r0.7           acc 1.000 abs 0 merged 0/8 created/occ 0.50 alive-end 3.0 | B 2000s 8/8
+  W=50 r0.8           acc 1.000 abs 0 merged 0/8 created/occ 0.50 alive-end 3.0 | B 2000s 8/8
+  W=50 r0.9           acc 1.000 abs 0 merged 0/8 created/occ 0.50 alive-end 3.0 | B 2000s 8/8
+  W=50 theta0.8 only  acc 1.000 abs 0 merged 0/8 created/occ 0.50 alive-end 3.0 | B 2000s 8/8
+  W=50 floor0.8 only  acc 1.000 abs 0 merged 0/8 created/occ 0.50 alive-end 3.0 | B 2000s 8/8
+
+##### stg v1b (8 seeds) geometry H+: within median 0.997 (5th pct 0.960) | between mean -0.485 max -0.447
+  W=10 r0.5           acc 0.982 abs 0 merged 0/8 created/occ 0.62 alive-end 2.9 | A two-back 8/8 | B two-back 7/8
+  W=10 r0.6           acc 0.982 abs 0 merged 0/8 created/occ 0.62 alive-end 2.9 | A two-back 8/8 | B two-back 7/8
+  W=10 r0.7           acc 0.982 abs 0 merged 0/8 created/occ 0.65 alive-end 2.9 | A two-back 8/8 | B two-back 7/8
+  W=10 r0.8           acc 0.982 abs 0 merged 0/8 created/occ 0.72 alive-end 2.9 | A two-back 8/8 | B two-back 7/8
+  W=10 r0.9           acc 0.982 abs 0 merged 0/8 created/occ 0.85 alive-end 2.9 | A two-back 8/8 | B two-back 7/8
+  W=10 theta0.8 only  acc 0.982 abs 0 merged 0/8 created/occ 0.72 alive-end 2.9 | A two-back 8/8 | B two-back 7/8
+  W=10 floor0.8 only  acc 0.982 abs 0 merged 0/8 created/occ 0.62 alive-end 2.9 | A two-back 8/8 | B two-back 7/8
+  W=50 r0.5           acc 1.000 abs 0 merged 0/8 created/occ 0.60 alive-end 3.0 | A two-back 8/8 | B two-back 8/8
+  W=50 r0.6           acc 1.000 abs 0 merged 0/8 created/occ 0.60 alive-end 3.0 | A two-back 8/8 | B two-back 8/8
+  W=50 r0.7           acc 1.000 abs 0 merged 0/8 created/occ 0.60 alive-end 3.0 | A two-back 8/8 | B two-back 8/8
+  W=50 r0.8           acc 1.000 abs 0 merged 0/8 created/occ 0.60 alive-end 3.0 | A two-back 8/8 | B two-back 8/8
+  W=50 r0.9           acc 1.000 abs 0 merged 0/8 created/occ 0.62 alive-end 3.1 | A two-back 8/8 | B two-back 8/8
+  W=50 theta0.8 only  acc 1.000 abs 0 merged 0/8 created/occ 0.60 alive-end 3.0 | A two-back 8/8 | B two-back 8/8
+  W=50 floor0.8 only  acc 1.000 abs 0 merged 0/8 created/occ 0.60 alive-end 3.0 | A two-back 8/8 | B two-back 8/8
+
+##### stg v1c (8 seeds) geometry H+: within median 0.997 (5th pct 0.967) | between mean -0.486 max -0.445
+  W=10 r0.5           acc 0.985 abs 0 merged 0/8 created/occ 0.65 alive-end 3.0 | B 2000s 1/8
+  W=10 r0.6           acc 0.985 abs 0 merged 0/8 created/occ 0.65 alive-end 3.0 | B 2000s 1/8
+  W=10 r0.7           acc 0.985 abs 0 merged 0/8 created/occ 0.65 alive-end 3.0 | B 2000s 1/8
+  W=10 r0.8           acc 0.985 abs 0 merged 0/8 created/occ 0.69 alive-end 3.0 | B 2000s 1/8
+  W=10 r0.9           acc 0.985 abs 0 merged 0/8 created/occ 0.85 alive-end 3.1 | B 2000s 1/8
+  W=10 theta0.8 only  acc 0.985 abs 0 merged 0/8 created/occ 0.69 alive-end 3.0 | B 2000s 1/8
+  W=10 floor0.8 only  acc 0.985 abs 0 merged 0/8 created/occ 0.65 alive-end 3.0 | B 2000s 1/8
+  W=50 r0.5           acc 1.000 abs 0 merged 0/8 created/occ 0.50 alive-end 3.0 | B 2000s 8/8
+  W=50 r0.6           acc 1.000 abs 0 merged 0/8 created/occ 0.50 alive-end 3.0 | B 2000s 8/8
+  W=50 r0.7           acc 1.000 abs 0 merged 0/8 created/occ 0.50 alive-end 3.0 | B 2000s 8/8
+  W=50 r0.8           acc 1.000 abs 0 merged 0/8 created/occ 0.50 alive-end 3.0 | B 2000s 8/8
+  W=50 r0.9           acc 1.000 abs 0 merged 0/8 created/occ 0.50 alive-end 3.0 | B 2000s 8/8
+  W=50 theta0.8 only  acc 1.000 abs 0 merged 0/8 created/occ 0.50 alive-end 3.0 | B 2000s 8/8
+  W=50 floor0.8 only  acc 1.000 abs 0 merged 0/8 created/occ 0.50 alive-end 3.0 | B 2000s 8/8
+
+##### ov50 (8 seeds) geometry H+: within median 0.993 (5th pct 0.968) | between mean 0.290 max 0.385
+  W=10 r0.5           acc 0.953 abs 5 merged 4/8 created/occ 0.70 alive-end 1.9 | A two-back 4/8 | B two-back 1/8
+  W=10 r0.6           acc 0.979 abs 0 merged 0/8 created/occ 0.88 alive-end 2.1 | A two-back 4/8 | B two-back 1/8
+  W=10 r0.7           acc 0.978 abs 0 merged 0/8 created/occ 0.88 alive-end 2.1 | A two-back 4/8 | B two-back 1/8
+  W=10 r0.8           acc 0.979 abs 0 merged 0/8 created/occ 0.93 alive-end 2.2 | A two-back 5/8 | B two-back 1/8
+  W=10 r0.9           acc 0.978 abs 0 merged 0/8 created/occ 1.42 alive-end 2.9 | A two-back 3/8 | B two-back 0/8
+  W=10 theta0.8 only  acc 0.973 abs 1 merged 1/8 created/occ 0.95 alive-end 2.2 | A two-back 4/8 | B two-back 1/8
+  W=10 floor0.8 only  acc 0.978 abs 0 merged 0/8 created/occ 0.83 alive-end 2.0 | A two-back 6/8 | B two-back 1/8
+  W=50 r0.5           acc 1.000 abs 0 merged 0/8 created/occ 0.60 alive-end 3.0 | A two-back 8/8 | B two-back 8/8
+  W=50 r0.6           acc 1.000 abs 0 merged 0/8 created/occ 0.60 alive-end 3.0 | A two-back 8/8 | B two-back 8/8
+  W=50 r0.7           acc 1.000 abs 0 merged 0/8 created/occ 0.60 alive-end 3.0 | A two-back 8/8 | B two-back 8/8
+  W=50 r0.8           acc 1.000 abs 0 merged 0/8 created/occ 0.60 alive-end 3.0 | A two-back 8/8 | B two-back 8/8
+  W=50 r0.9           acc 1.000 abs 0 merged 0/8 created/occ 0.67 alive-end 3.4 | A two-back 8/8 | B two-back 8/8
+  W=50 theta0.8 only  acc 1.000 abs 0 merged 0/8 created/occ 0.60 alive-end 3.0 | A two-back 8/8 | B two-back 8/8
+  W=50 floor0.8 only  acc 1.000 abs 0 merged 0/8 created/occ 0.60 alive-end 3.0 | A two-back 8/8 | B two-back 8/8
+
+##### ov70 (8 seeds) geometry H+: within median 0.992 (5th pct 0.964) | between mean 0.614 max 0.753
+  W=10 r0.5           acc 0.878 abs 8 merged 8/8 created/occ 0.20 alive-end 1.0 | A two-back 8/8 | B two-back 0/8
+  W=10 r0.6           acc 0.877 abs 8 merged 8/8 created/occ 0.23 alive-end 1.0 | A two-back 8/8 | B two-back 0/8
+  W=10 r0.7           acc 0.883 abs 8 merged 8/8 created/occ 0.38 alive-end 1.0 | A two-back 7/8 | B two-back 1/8
+  W=10 r0.8           acc 0.900 abs 6 merged 6/8 created/occ 0.65 alive-end 1.5 | A two-back 4/8 | B two-back 3/8
+  W=10 r0.9           acc 0.812 abs 0 merged 4/8 created/occ 1.50 alive-end 3.0 | A two-back 4/8 | B two-back 2/8
+  W=10 theta0.8 only  acc 0.856 abs 8 merged 8/8 created/occ 0.70 alive-end 1.4 | A two-back 5/8 | B two-back 3/8
+  W=10 floor0.8 only  acc 0.656 abs 6 merged 8/8 created/occ 0.30 alive-end 1.2 | A two-back 7/8 | B two-back 1/8
+  W=50 r0.5           acc 0.603 abs 8 merged 8/8 created/occ 0.20 alive-end 1.0 | A two-back 8/8 | B two-back 0/8
+  W=50 r0.6           acc 0.718 abs 4 merged 7/8 created/occ 0.33 alive-end 1.6 | A two-back 8/8 | B two-back 4/8
+  W=50 r0.7           acc 0.865 abs 2 merged 3/8 created/occ 0.50 alive-end 2.5 | A two-back 8/8 | B two-back 6/8
+  W=50 r0.8           acc 0.976 abs 0 merged 0/8 created/occ 0.60 alive-end 3.0 | A two-back 8/8 | B two-back 8/8
+  W=50 r0.9           acc 0.988 abs 0 merged 0/8 created/occ 0.70 alive-end 3.5 | A two-back 8/8 | B two-back 8/8
+  W=50 theta0.8 only  acc 0.962 abs 0 merged 1/8 created/occ 0.60 alive-end 3.0 | A two-back 8/8 | B two-back 8/8
+  W=50 floor0.8 only  acc 0.498 abs 2 merged 8/8 created/occ 0.30 alive-end 1.5 | A two-back 8/8 | B two-back 2/8
+
+##### checkb (8 seeds) geometry H+: within median 0.995 (5th pct 0.971) | between mean -0.484 max -0.423
+  W=10 r0.5           acc 0.943 abs 0 merged 0/8 created/occ 0.79 alive-end 3.8 | A return 5/8
+  W=10 r0.6           acc 0.965 abs 0 merged 0/8 created/occ 0.88 alive-end 3.9 | A return 5/8
+  W=10 r0.7           acc 0.970 abs 0 merged 0/8 created/occ 0.89 alive-end 4.0 | A return 5/8
+  W=10 r0.8           acc 0.970 abs 0 merged 0/8 created/occ 0.89 alive-end 4.0 | A return 5/8
+  W=10 r0.9           acc 0.970 abs 0 merged 0/8 created/occ 1.11 alive-end 4.1 | A return 4/8
+  W=10 theta0.8 only  acc 0.970 abs 0 merged 0/8 created/occ 0.89 alive-end 4.0 | A return 5/8
+  W=10 floor0.8 only  acc 0.955 abs 0 merged 0/8 created/occ 0.89 alive-end 4.0 | A return 5/8
+  W=50 r0.5           acc 0.976 abs 0 merged 0/8 created/occ 0.71 alive-end 5.0 | A return 8/8
+  W=50 r0.6           acc 0.998 abs 0 merged 0/8 created/occ 0.73 alive-end 5.1 | A return 8/8
+  W=50 r0.7           acc 0.998 abs 0 merged 0/8 created/occ 0.73 alive-end 5.1 | A return 8/8
+  W=50 r0.8           acc 0.998 abs 0 merged 0/8 created/occ 0.73 alive-end 5.1 | A return 8/8
+  W=50 r0.9           acc 0.998 abs 0 merged 0/8 created/occ 0.75 alive-end 5.2 | A return 8/8
+  W=50 theta0.8 only  acc 0.998 abs 0 merged 0/8 created/occ 0.73 alive-end 5.1 | A return 8/8
+  W=50 floor0.8 only  acc 0.996 abs 0 merged 0/8 created/occ 0.73 alive-end 5.1 | A return 8/8

@@ -6,7 +6,19 @@ and the ESN in `experiments_esn.md`. The design spec for this phase is `system_c
 Entries are newest first. State predictions before running, keep contaminated runs on record,
 inspect trajectories before claiming.
 
-## Current state (2026-09-26): semi-wrapped
+## Current state (2026-09-26, updated 2026-09-28): semi-wrapped
+
+**Update 2026-09-28** (entries below; the lists further down are from 2026-09-26):
+- **Memory's overlap limit is solved at the slow clock by one similarity radius** (novelty threshold =
+  consolidation floor = 0.8). It fixes ov70 at W=50 (B 0/8 → 8/8), removes the ov50 fast-clock
+  merging, and costs nothing elsewhere. Recommended as the default, not yet adopted (`src`
+  unchanged). ov70 at W=10 still merges (6/8).
+- **Recency is not a clock question.** Recency in w_char and survival under eviction can't coexist:
+  w_char needs ~2000 steps of age difference to order entries, and eviction removes anything
+  unrehearsed after ~150. No clock choice fixes that. Flagged as an architectural question: should
+  recency live in w_char at all? Staleness already records it exactly.
+- **So Q2 can stay open.** With the radius, the clock's only remaining consequence is the horizon
+  (plus the ov70 W=10 case).
 
 **What the system is now.** A spiking substrate (STDP, homeostatic scaling, lateral inhibition)
 feeds an episodic memory through a label-free interface. It's offline and one-way: saved
@@ -51,6 +63,101 @@ substrate runs are replayed into memory, with no feedback yet.
   hypothesis, untested, is consolidation lag at the 50 s clock, which would make it a Q2 question.
 - Not yet done: live/feedback coupling, network sizes other than N=7, worlds with more than a
   handful of contexts, curiosity/metacog (out of scope by dependency order).
+
+---
+
+## 2026-09-28 — A single similarity radius of 0.8 (novelty threshold = consolidation floor) removes memory's overlap limit at the slow clock and the fast-clock merging at 50% overlap, at no cost elsewhere
+
+**Script:** `notebooks/integration/memory_limits/similarity_radius.py` (output
+`similarity_radius_output.txt`, summary JSON). Replay only, rectified readout, adopted memory
+(promoted `GatedEpisodicMemory`, overridden via `functools.partial`, `src` untouched), 7 worlds x 2
+clocks. Sweep of one radius r (theta = match_floor = r) plus two split arms. Predictions SR-P1..P5
+in the docstring, written before the first run.
+
+**Geometry** (settled H+ queries): within-context consecutive cosine has a median of 0.99-1.00 in
+every world, with the 5th percentile at 0.96-0.99. Between contexts: disjoint about −0.49, ov50 0.29
+(max 0.39), **ov70 0.61 (max 0.75)**. The readout separates even 70%-overlapping contexts
+cleanly; the 0.5 threshold is what didn't.
+
+**Key cells** (merged seeds / key recognition, genuine, of 8):
+
+| world, clock | r=0.5 (adopted) | r=0.8 | r=0.9 |
+|---|---|---|---|
+| ov70 W=50 | 8 merged / B 0 | **0 / B 8** (acc 0.60 → 0.98) | 0 / B 8, entries 3.5 |
+| ov70 W=10 | 8 / B 0 | 6 / B 3 (still open) | 4 / B 2, acc 0.81 |
+| ov50 W=10 | 4 / A 4, B 1, absorbed 5 | **0** / A 5, B 1, absorbed 0 | 0 / A 3, B 0, created/occ 1.42 |
+| disjoint (v1b, v1c, stg x2), checkb, ov50 W=50 | 0 | 0, every recognition identical | small duplication at W=10 |
+
+- **SR-P1 (the readout separates ov70): CONFIRMED** on the mean (between 0.61 vs within 0.99). The max,
+  0.753, just touches the stated 0.75 bound.
+- **SR-P2 (r=0.8 fixes ov70 at W=50 and ov50 merging at W=10): CONFIRMED.** ov70 W=50 goes from merged
+  8/8 and B 0/8 to 0/8 and 8/8. ov50 W=10 merging goes 4/8 → 0/8 (already at r=0.6), and
+  absorption goes 5 → 0.
+- **SR-P3 (no cost elsewhere): CONFIRMED.** At r=0.8 every key recognition in the disjoint worlds,
+  stg and checkb is identical to r=0.5, absorption is 0, and committed accuracy is 0.97-1.00
+  (checkb even improves, 0.94 → 0.97 at W=10).
+- **SR-P4 (a ceiling at 0.9): CONFIRMED.** At the fast clock, 0.9 starts splitting contexts into
+  duplicates (created per occurrence 0.93 → 1.42 at ov50, 0.89 → 1.11 at checkb), and recognitions
+  drop (ov50 A 5 → 3, checkb A 5 → 4). The working range is about 0.6-0.8 for the fast-clock
+  merging and 0.8 for ov70.
+- **SR-P5 (the split arms): HALF.** The floor alone fixes ov50 W=10 (0/8) and doesn't fix ov70
+  (8/8, accuracy 0.50, worse than the adopted rule), as predicted. But theta alone *also* mostly
+  fixes ov50 W=10 (1/8): with a stricter creation threshold B gets its own entry, so there's less
+  for consolidation to pull across. The two knobs are cleanest together, as one radius.
+- **Still open: ov70 at the 10 s clock** (6/8 merged at r=0.8). Not diagnosed. The obvious suspect is
+  that 10 s windows are noisier (within 5th percentile 0.96 at W=10) around the 0.75 inter-context
+  similarity, so some queries land inside the other context's radius.
+- **Why one number:** the novelty threshold and the consolidation floor answer the same question,
+  "is this query the same thing as that entry?" Setting them apart is what left room for merging.
+- **Grounding:** 0.8 sits between the largest between-context similarity seen (0.75) and the smallest
+  within-context 5th percentile (0.96). A label-free grounding (e.g. from consecutive steady-query
+  similarity, like gap_scale's) wasn't tried.
+- **Not adopted.** `src` is unchanged (`ADOPTED` still has theta = match_floor = 0.5). Recommended as a
+  new default, kept alongside 0.5 like the two readouts. It's Jasper's call.
+
+---
+
+## 2026-09-28 — Recency in w_char and survival under eviction are structurally incompatible (not a clock effect)
+
+**Script:** `notebooks/integration/memory_limits/recency_toy.py`. Memory only, no substrate: clean
+prototype queries with the substrate's jitter, on the check (b) schedule A F1 B F2 C F3 A. Phase
+length L is in memory steps (W=50 s is L=20, W=10 s is L=100, the July fixed-X original was
+L=400). Arms: the real memory (eviction on), eviction off (a positive control, fixed-X-like), and
+each followed by 300 steps of the two-layer update with no retrieval ("+relax", which removes
+consolidation lag). Predictions RC-P1..P4 are in the docstring, written before the first run.
+
+| L (steps) | evict: cores alive / C>B | evict+relax | no-evict | no-evict+relax |
+|---|---|---|---|---|
+| 20 (W=50) | 8/8, 0/8 | 8/8, 2/8 | 8/8, 0/8 (C−B −0.15) | 8/8, 2/8 (−0.02) |
+| 50 | 8/8, 0/8 | 8/8, 4/8 | 8/8, 0/8 | 8/8, 4/8 |
+| 100 (W=10) | **0/8** | 0/8 | 3/8 | 6/8 |
+| 200 | **0/8** | 0/8 | 8/8 (+0.42) | 8/8 |
+| 400 (July) | **0/8** | 0/8 | **8/8 (+1.19)** | 8/8 |
+
+- **RC-P1 (lag is part of it): CONFIRMED.** At L=20, C's final w_char trails B's by 0.15 because C
+  hasn't finished consolidating. Relaxing closes it to −0.02.
+- **RC-P2 (lag isn't all of it): CONFIRMED.** Even after relaxing, C > B only 2/8. B and C end up
+  *equal*, not ordered. w_char's only way down is decay_char = 0.0005/step (time constant 2000
+  steps), so an age difference of tens of steps can't order them.
+- **RC-P3 (positive control): CONFIRMED.** Without eviction, L=400 gives C > B 8/8, the July shape.
+  The metric and the memory can produce recency.
+- **RC-P4 (the structural conflict): CONFIRMED.** With eviction there's no phase length where the
+  cores survive *and* C > B. When phases are short (L ≤ 50), all cores survive but they're too
+  close in age to order. When phases are long (L ≥ 100), B has been out of play longer than the
+  eviction horizon (~150-170 steps since its last win) and is gone.
+- **Why:** recency in w_char needs an age difference comparable to decay_char's 2000-step constant.
+  Anything that old is 10x past the eviction horizon, and in a pure-phase world an off-phase
+  entry gets no wins to reset it. The July recency existed only because fixed-X evicted nothing
+  (and its 70/30 mixed phases gave off-phase patterns occasional wins).
+- **Consequence: this is NOT a Q2 (clock) question.** No clock fixes it; the clock only picks which
+  of the two failures you get. The CB-P2 recency miss in the set worlds is this conflict, not
+  substrate noise (clean input failed identically).
+- **Architectural flag (for Jasper, not fixed):** where is recency supposed to live? Options, not
+  tried: (a) not in w_char at all, since memory already knows recency exactly (staleness =
+  steps since the last win) and w_char is the *character* layer; (b) decay_char fast enough to
+  order entries within the eviction horizon, which erodes primacy (the reason decay_char is slow);
+  (c) off-phase rehearsal (occasional wins), as July's mixed phases had. (a) costs nothing and
+  matches the fast/slow split; it's a framework question, so it's flagged, not chosen.
 
 ---
 

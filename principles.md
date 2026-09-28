@@ -28,6 +28,16 @@ number. If a future mechanism hits an analogous wall — one knob being
 asked to do two incompatible jobs — the fix is probably splitting the
 mechanism, not searching harder for the right value.
 
+*Instance found 2026-09-28 (memory toy, `experiments_integration.md`):*
+w_char was being asked to carry both primacy and recency under eviction.
+Recency in w_char needs an age difference comparable to its decay
+constant (~2000 steps), and eviction removes an unrehearsed entry after
+~150. So short phases leave B and C unordered, and long phases evict B.
+No clock or phase length fixes that. The same logic as above applies: the
+likely fix is carrying recency in a different variable (staleness
+already records it exactly), not a better decay_char. That's flagged as
+a framework question, not chosen.
+
 **Strength breaks ties, never overrides matches.** Any mechanism where
 accumulated strength (basin depth, consolidation weight, resonance)
 can influence a retrieval or write decision has a specific failure
