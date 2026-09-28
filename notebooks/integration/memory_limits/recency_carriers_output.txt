@@ -1,0 +1,15 @@
+L=  20 opt1 evict     scorable 8/8  C more recent by staleness 8/8  by w_fast 8/8
+L=  20 opt1 no-evict  scorable 8/8  C more recent by staleness 8/8  by w_fast 8/8
+L=  20 opt2 store     core records 8/8  A highest 8/8  C>B 0/8  mean C-B -0.150
+L=  50 opt1 evict     scorable 8/8  C more recent by staleness 8/8  by w_fast 8/8
+L=  50 opt1 no-evict  scorable 8/8  C more recent by staleness 8/8  by w_fast 8/8
+L=  50 opt2 store     core records 8/8  A highest 8/8  C>B 0/8  mean C-B -0.201
+L= 100 opt1 evict     scorable 0/8  C more recent by staleness 0/0  by w_fast 0/0
+L= 100 opt1 no-evict  scorable 8/8  C more recent by staleness 8/8  by w_fast 8/8
+L= 100 opt2 store     core records 8/8  A highest 8/8  C>B 7/8  mean C-B +0.084
+L= 200 opt1 evict     scorable 0/8  C more recent by staleness 0/0  by w_fast 0/0
+L= 200 opt1 no-evict  scorable 8/8  C more recent by staleness 8/8  by w_fast 8/8
+L= 200 opt2 store     core records 8/8  A highest 8/8  C>B 8/8  mean C-B +0.595
+L= 400 opt1 evict     scorable 0/8  C more recent by staleness 0/0  by w_fast 0/0
+L= 400 opt1 no-evict  scorable 8/8  C more recent by staleness 8/8  by w_fast 7/8
+L= 400 opt2 store     core records 8/8  A highest 8/8  C>B 8/8  mean C-B +1.354

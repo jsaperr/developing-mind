@@ -1,0 +1,92 @@
+{
+ "20": {
+  "opt1 evict": {
+   "scorable": 8,
+   "C_recent_staleness": 8,
+   "C_over_B_wfast": 8
+  },
+  "opt1 no-evict": {
+   "scorable": 8,
+   "C_recent_staleness": 8,
+   "C_over_B_wfast": 8
+  },
+  "opt2 store": {
+   "records": 8,
+   "A_highest": 8,
+   "C_over_B": 0,
+   "mean_C_minus_B": -0.1498202085494995
+  }
+ },
+ "50": {
+  "opt1 evict": {
+   "scorable": 8,
+   "C_recent_staleness": 8,
+   "C_over_B_wfast": 8
+  },
+  "opt1 no-evict": {
+   "scorable": 8,
+   "C_recent_staleness": 8,
+   "C_over_B_wfast": 8
+  },
+  "opt2 store": {
+   "records": 8,
+   "A_highest": 8,
+   "C_over_B": 0,
+   "mean_C_minus_B": -0.20109927654266357
+  }
+ },
+ "100": {
+  "opt1 evict": {
+   "scorable": 0,
+   "C_recent_staleness": 0,
+   "C_over_B_wfast": 0
+  },
+  "opt1 no-evict": {
+   "scorable": 8,
+   "C_recent_staleness": 8,
+   "C_over_B_wfast": 8
+  },
+  "opt2 store": {
+   "records": 8,
+   "A_highest": 8,
+   "C_over_B": 7,
+   "mean_C_minus_B": 0.0840295148908719
+  }
+ },
+ "200": {
+  "opt1 evict": {
+   "scorable": 0,
+   "C_recent_staleness": 0,
+   "C_over_B_wfast": 0
+  },
+  "opt1 no-evict": {
+   "scorable": 8,
+   "C_recent_staleness": 8,
+   "C_over_B_wfast": 8
+  },
+  "opt2 store": {
+   "records": 8,
+   "A_highest": 8,
+   "C_over_B": 8,
+   "mean_C_minus_B": 0.5946022471725753
+  }
+ },
+ "400": {
+  "opt1 evict": {
+   "scorable": 0,
+   "C_recent_staleness": 0,
+   "C_over_B_wfast": 0
+  },
+  "opt1 no-evict": {
+   "scorable": 8,
+   "C_recent_staleness": 8,
+   "C_over_B_wfast": 7
+  },
+  "opt2 store": {
+   "records": 8,
+   "A_highest": 8,
+   "C_over_B": 8,
+   "mean_C_minus_B": 1.3542844224668134
+  }
+ }
+}

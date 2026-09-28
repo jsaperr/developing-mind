@@ -17,6 +17,10 @@ inspect trajectories before claiming.
   w_char needs ~2000 steps of age difference to order entries, and eviction removes anything
   unrehearsed after ~150. No clock choice fixes that. Flagged as an architectural question: should
   recency live in w_char at all? Staleness already records it exactly.
+- **Where recency lives** (follow-up): timing variables (staleness, w_fast) order B and C 8/8 while both
+  are remembered, but nothing is left to order once B is evicted. A toy persistent character store
+  (records outlive episodes) restores C > B 7-8/8 on long phases with primacy intact. Jasper leans
+  toward the store (option 2); its risks (unbounded growth, misattribution, drift) are untested.
 - **So Q2 can stay open.** With the radius, the clock's only remaining consequence is the horizon
   (plus the ov70 W=10 case).
 
@@ -63,6 +67,43 @@ substrate runs are replayed into memory, with no feedback yet.
   hypothesis, untested, is consolidation lag at the 50 s clock, which would make it a Q2 question.
 - Not yet done: live/feedback coupling, network sizes other than N=7, worlds with more than a
   handful of contexts, curiosity/metacog (out of scope by dependency order).
+
+---
+
+## 2026-09-28 — Where recency can live: timing variables carry it for what's still remembered; a persistent character store carries it on character's own timescale
+
+**Script:** `notebooks/integration/memory_limits/recency_carriers.py` (output
+`recency_carriers_output.txt`). Same schedule, queries and memory as `recency_toy.py`. Predictions
+RK-P1..P4 are in the docstring, written before the first run.
+- Option 1, "recency is timing": re-score the runs with staleness and w_fast.
+- Option 2, "character outlives episodes": a notebook-only toy. Each content gets a character
+  record that mirrors its episode's w_char while the episode is alive. After eviction the record
+  only decays (decay_char). A new episode matching a record (cosine ≥ 0.8) links to it and starts
+  at its w_char. `src` is untouched.
+
+| L (steps) | opt 1, eviction on: C more recent (staleness / w_fast) | opt 2 store: A highest / C > B (mean C−B) |
+|---|---|---|
+| 20 | 8/8 / 8/8 | 8/8 / 0/8 (−0.15) |
+| 50 | 8/8 / 8/8 | 8/8 / 0/8 (−0.20) |
+| 100 | **unscorable (B evicted, 0/8)** | 8/8 / **7/8** (+0.08) |
+| 200 | unscorable | 8/8 / **8/8** (+0.60) |
+| 400 | unscorable | 8/8 / **8/8** (+1.35) |
+
+- **RK-P1 (option 1 carries recency wherever both are remembered): CONFIRMED.** Staleness 8/8
+  everywhere scorable; w_fast 8/8 (7/8 at L=400 without eviction). **Its limit:** once B is
+  evicted there's nothing to compare. Option 1's recency only covers what's still in memory.
+- **RK-P2 (option 2 restores recency on long phases): CONFIRMED.** Core records exist 8/8 at every
+  L; C > B 7/8, 8/8, 8/8 at L = 100, 200, 400. This is the July shape, under eviction.
+- **RK-P3 (short phases stay unordered under option 2): CONFIRMED** (0/8 at L = 20, 50). Character
+  recency exists only on character's own timescale; the store doesn't create it faster.
+- **RK-P4 (primacy intact): CONFIRMED** (A highest 8/8 at every L; A's return relinks to its record).
+- **What this doesn't test** (option 2's known risks): the store never forgets, so it grows without
+  bound. Linking is trivially right here because the cores are disjoint on clean input, so
+  misattribution (a similar context inheriting another's history) and records going stale while
+  the substrate drifts are untested. A pass shows recency *can* live in a persistent character
+  store, not that this store is the design.
+- Direction (Jasper, 2026-09-28): option 2 is the more faithful reading of the two-layer idea. Not
+  built into `src`. It's a framework-level change, and its open risks come first.
 
 ---
 
