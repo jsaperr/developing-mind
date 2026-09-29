@@ -56,7 +56,8 @@ def holders(wm, c, t):
 
 
 def main():
-    runs = {b: R.load(HERE / f"fork_{b}_n7_seed*.json.gz") for b in BR}
+    PREFIX = sys.argv[1] if len(sys.argv) > 1 else "fork"
+    runs = {b: R.load(HERE / f"{PREFIX}_{b}_n7_seed*.json.gz") for b in BR}
     seeds = [d['seed'] for d, *_ in runs['twin1']]
     assert all([d['seed'] for d, *_ in runs[b]] == seeds for b in BR), "branch/seed mismatch"
     print(f"fork seeds: {len(seeds)}")
@@ -133,7 +134,7 @@ def main():
                                         f"{res[b]['first_A_named_s']:.0f} s, named A {res[b]['A_named_settled']:.0%} of settled" for b in BR))
         out[f"W{Wc}"] = {b: res[b] for b in BR}
     print("FK-P5 (W=50): detour C character 8/8 and twins 0/8?")
-    json.dump(out, open(HERE / "fork_summary.json", "w"), indent=1, default=float)
+    json.dump(out, open(HERE / f"{PREFIX}_summary.json", "w"), indent=1, default=float)
 
 
 if __name__ == '__main__':

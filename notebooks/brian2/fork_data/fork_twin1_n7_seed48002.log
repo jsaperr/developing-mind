@@ -1,0 +1,23 @@
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([1.21255553e-03, 8.37624639e-03, 1.17976350e-02, ...,
+       5.00000100e+03, 5.00000100e+03, 5.00000100e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+[seed 48002 t=250s] wall=49s
+[seed 48002 t=500s] wall=93s
+[seed 48002 t=750s] wall=141s
+[seed 48002 t=1000s] wall=186s
+[seed 48002 t=1250s] wall=230s
+[seed 48002 t=1500s] wall=274s
+[seed 48002 t=1750s] wall=317s
+[seed 48002 t=2000s] wall=361s
+[seed 48002 t=2250s] wall=405s
+[seed 48002 t=2500s] wall=449s
+[seed 48002 t=2750s] wall=493s
+[seed 48002 t=3000s] wall=538s
+[seed 48002 t=3250s] wall=582s
+[seed 48002 t=3500s] wall=626s
+[seed 48002 t=3750s] wall=668s
+[seed 48002 t=4000s] wall=712s
+[seed 48002 t=4250s] wall=756s
+[seed 48002 t=4500s] wall=800s
+[seed 48002 t=4750s] wall=844s
+[seed 48002 t=5000s] wall=887s
+fork seed 48002 twin1 -> C:\Users\urawi\OneDrive\Desktop\a wide variety of vscode projects\developing-mind\notebooks\brian2\fork_data\fork_twin1_n7_seed48002.json.gz (completed)
