@@ -1,0 +1,130 @@
+{
+ "13mV v1b W10": {
+  "acc_named_before": 0.987217753240665,
+  "acc_named_after": 0.9926073737732779,
+  "good_reports_lost": 0.0003205128205128205,
+  "novel_frac_settled": 0.00036443148688046647,
+  "wrong_settled": 1,
+  "wrong_caught": 1.0
+ },
+ "13mV v1b W50": {
+  "acc_named_before": 1.0,
+  "acc_named_after": 1.0,
+  "good_reports_lost": 0.0,
+  "novel_frac_settled": 0.0,
+  "wrong_settled": 0,
+  "wrong_caught": null
+ },
+ "13mV v1c W10": {
+  "acc_named_before": 0.98864705165761,
+  "acc_named_after": 0.9922358414444048,
+  "good_reports_lost": 0.0,
+  "novel_frac_settled": 0.0002983293556085919,
+  "wrong_settled": 1,
+  "wrong_caught": 1.0
+ },
+ "13mV v1c W50": {
+  "acc_named_before": 1.0,
+  "acc_named_after": 1.0,
+  "good_reports_lost": 0.0,
+  "novel_frac_settled": 0.0,
+  "wrong_settled": 0,
+  "wrong_caught": null
+ },
+ "stg v1b W10": {
+  "acc_named_before": 0.9818042621409727,
+  "acc_named_after": 0.9862077736043704,
+  "good_reports_lost": 0.0012896351272132327,
+  "novel_frac_settled": 0.001798393913778529,
+  "wrong_settled": 4,
+  "wrong_caught": 0.5
+ },
+ "stg v1b W50": {
+  "acc_named_before": 1.0,
+  "acc_named_after": 1.0,
+  "good_reports_lost": 0.0,
+  "novel_frac_settled": 0.0,
+  "wrong_settled": 0,
+  "wrong_caught": null
+ },
+ "stg v1c W10": {
+  "acc_named_before": 0.9854386238285577,
+  "acc_named_after": 0.9906895951149272,
+  "good_reports_lost": 0.0018594577610198402,
+  "novel_frac_settled": 0.0035757246510761762,
+  "wrong_settled": 7,
+  "wrong_caught": 0.7
+ },
+ "stg v1c W50": {
+  "acc_named_before": 1.0,
+  "acc_named_after": 1.0,
+  "good_reports_lost": 0.0,
+  "novel_frac_settled": 0.0,
+  "wrong_settled": 0,
+  "wrong_caught": null
+ },
+ "ov50 W10": {
+  "acc_named_before": 0.9791255642310802,
+  "acc_named_after": 0.9834602199829315,
+  "good_reports_lost": 0.0,
+  "novel_frac_settled": 0.00035714285714285714,
+  "wrong_settled": 1,
+  "wrong_caught": 1.0
+ },
+ "ov50 W50": {
+  "acc_named_before": 1.0,
+  "acc_named_after": 1.0,
+  "good_reports_lost": 0.0,
+  "novel_frac_settled": 0.0,
+  "wrong_settled": 0,
+  "wrong_caught": null
+ },
+ "ov70 W10": {
+  "acc_named_before": 0.8147482589163355,
+  "acc_named_after": 0.9155102810043263,
+  "good_reports_lost": 0.0009191176470588235,
+  "novel_frac_settled": 0.0897584936553418,
+  "wrong_settled": 347,
+  "wrong_caught": 0.8121399176954732
+ },
+ "ov70 W50": {
+  "acc_named_before": 0.9771365785064349,
+  "acc_named_after": 0.9859782486056351,
+  "good_reports_lost": 0.0,
+  "novel_frac_settled": 0.007142857142857143,
+  "wrong_settled": 4,
+  "wrong_caught": 1.0
+ },
+ "checkb W10": {
+  "acc_named_before": 0.9700656486208092,
+  "acc_named_after": 0.9781848392920872,
+  "good_reports_lost": 0.0010613790485114014,
+  "novel_frac_settled": 0.002232142857142857,
+  "wrong_settled": 3,
+  "wrong_caught": 1.0
+ },
+ "checkb W50": {
+  "acc_named_before": 0.9981617647058824,
+  "acc_named_after": 0.9981617647058824,
+  "good_reports_lost": 0.0,
+  "novel_frac_settled": 0.0,
+  "wrong_settled": 0,
+  "wrong_caught": null
+ },
+ "long world W10": {
+  "acc_named_before": 0.9531376082932217,
+  "acc_named_after": 0.9843445883039104,
+  "good_reports_lost": 7.921419518377693e-05,
+  "novel_frac_settled": 0.01983813460732737,
+  "wrong_settled": 279,
+  "wrong_caught": 0.9036544850498338
+ },
+ "long world W50": {
+  "acc_named_before": 0.9971508919794057,
+  "acc_named_after": 0.9995967741935484,
+  "good_reports_lost": 0.0,
+  "novel_frac_settled": 0.0004512635379061372,
+  "wrong_settled": 1,
+  "wrong_caught": 1.0
+ }
+}

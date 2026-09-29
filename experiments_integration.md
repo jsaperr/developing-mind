@@ -45,7 +45,10 @@ inspect trajectories before claiming.
   - Most remaining fast-clock overlap errors are memory naming a context whose match is below its
     own novelty radius. A NOVEL report would remove them without touching any correct report
     (counted, not yet run as its own test).
-  - Nothing adopted: anchoring, dormant entries and the NOVEL report are Jasper's calls.
+  - **Then adopted and built (Jasper's go):** `src/hopfield/episodic_dormant.DormantGatedMemory` =
+    commit rule + radius 0.8 + anchoring + dormant entries + NOVEL report (on by default; it passed
+    all four predictions). It reproduces the notebook toys exactly (tests). It's the new default
+    memory; `GatedEpisodicMemory` (radius 0.5) stays alongside.
 - **So Q2 can stay open.** With the radius, the clock's only remaining consequence is the horizon
   (plus the ov70 W=10 case).
 
@@ -92,6 +95,51 @@ substrate runs are replayed into memory, with no feedback yet.
   hypothesis, untested, is consolidation lag at the 50 s clock, which would make it a Q2 question.
 - Not yet done: live/feedback coupling, network sizes other than N=7, worlds with more than a
   handful of contexts, curiosity/metacog (out of scope by dependency order).
+
+---
+
+## 2026-09-28 — NOVEL report passes (all four predictions), and dormant entries + anchoring + NOVEL are built into `src` as `episodic_dormant.py`
+
+**Decision (Jasper, 2026-09-28):** build dormant entries with anchoring; add a NOVEL output if its
+own test passes; adopt the 0.8 radius "as long as we aren't losing anything". On the data we have,
+0.8 costs nothing: every recognition is equal or better, and accuracy is equal or higher. The one
+future risk is a noisier substrate eating into the 0.96-0.99 within-context margin; the
+generalization plan's readout check would show it.
+
+**NOVEL test** (`notebooks/integration/memory_limits/novel_report.py`, predictions committed before the
+first run; anchored memory, radius 0.8, all 8 worlds, both clocks). When the winner matches the
+query below the radius, report NOVEL instead of naming it. Only the report changes.
+- **NV-P1 (named-report accuracy up ≥ 0.05 in ov70 W=10, ≥ 0.015 in the long world W=10, down
+  nowhere): CONFIRMED.** ov70 W=10 0.815 → 0.916; long world W=10 0.953 → 0.984; every other cell equal
+  or up.
+- **NV-P2 (≤ 0.5% of correct reports lost): CONFIRMED** (max 0.19%, stg v1c W=10).
+- **NV-P3 (≤ 1% NOVEL on settled steps in the disjoint worlds): CONFIRMED** (max 0.36%).
+- **NV-P4 (≥ 60% of settled wrong reports caught): CONFIRMED** (ov70 W=10 81%, long world W=10 90%).
+
+**Built: `src/hopfield/episodic_dormant.py`.** `episodic.py` and `episodic_consolidating.py` are
+unchanged. `DormantGatedMemory` = the adopted commit rule plus:
+- one radius (0.8) for novelty, the consolidation floor, the anchor and relinking;
+- anchored consolidation;
+- dormant entries (demote on eviction; decay; prune at w_char - 1 < 0.05; reawaken a matching one
+  on creation, inheriting its w_char);
+- the NOVEL report, **on by default** (`novel_report=False` for the plain report).
+
+`character()` lists every entry that still carries character, live or dormant.
+
+**Tests** (`tests/test_episodic_dormant.py`, full suite 81 passed):
+- **Exact reproduction:** on two long-world seeds (W=10, where relinking happens), the module
+  reproduces the notebook store step for step. Every step's live ids and w_char values, winners and
+  creations are identical, and the link counts match.
+- **Reduction:** with anchoring disabled and before any relink, it is the adopted memory at that
+  radius.
+- **Unit tests:** anchoring stops a slow slide that plain consolidation follows; eviction demotes, and
+  a return reawakens with the old character; dormant entries are pruned once they carry no
+  character; NOVEL names nothing when nothing fits (TRANSITIONAL still wins while re-learning, and a
+  real match is still named).
+
+**Not done:** a real-substrate end-to-end run of the `src` class beyond the reproduction seeds (the
+notebook runs are that evidence); live or feedback coupling; misattribution under noisier or bigger
+substrates (the generalization plan).
 
 ---
 

@@ -1,0 +1,16 @@
+13mV v1b   W=10  accuracy of named reports 0.987 -> 0.993 | good reports lost 0.03% | NOVEL on settled steps 0.04% | settled wrong 1, caught as NOVEL 100%
+13mV v1b   W=50  accuracy of named reports 1.000 -> 1.000 | good reports lost 0.00% | NOVEL on settled steps 0.00% | settled wrong 0, caught as NOVEL -
+13mV v1c   W=10  accuracy of named reports 0.989 -> 0.992 | good reports lost 0.00% | NOVEL on settled steps 0.03% | settled wrong 1, caught as NOVEL 100%
+13mV v1c   W=50  accuracy of named reports 1.000 -> 1.000 | good reports lost 0.00% | NOVEL on settled steps 0.00% | settled wrong 0, caught as NOVEL -
+stg v1b    W=10  accuracy of named reports 0.982 -> 0.986 | good reports lost 0.13% | NOVEL on settled steps 0.18% | settled wrong 4, caught as NOVEL 50%
+stg v1b    W=50  accuracy of named reports 1.000 -> 1.000 | good reports lost 0.00% | NOVEL on settled steps 0.00% | settled wrong 0, caught as NOVEL -
+stg v1c    W=10  accuracy of named reports 0.985 -> 0.991 | good reports lost 0.19% | NOVEL on settled steps 0.36% | settled wrong 7, caught as NOVEL 70%
+stg v1c    W=50  accuracy of named reports 1.000 -> 1.000 | good reports lost 0.00% | NOVEL on settled steps 0.00% | settled wrong 0, caught as NOVEL -
+ov50       W=10  accuracy of named reports 0.979 -> 0.983 | good reports lost 0.00% | NOVEL on settled steps 0.04% | settled wrong 1, caught as NOVEL 100%
+ov50       W=50  accuracy of named reports 1.000 -> 1.000 | good reports lost 0.00% | NOVEL on settled steps 0.00% | settled wrong 0, caught as NOVEL -
+ov70       W=10  accuracy of named reports 0.815 -> 0.916 | good reports lost 0.09% | NOVEL on settled steps 8.98% | settled wrong 347, caught as NOVEL 81%
+ov70       W=50  accuracy of named reports 0.977 -> 0.986 | good reports lost 0.00% | NOVEL on settled steps 0.71% | settled wrong 4, caught as NOVEL 100%
+checkb     W=10  accuracy of named reports 0.970 -> 0.978 | good reports lost 0.11% | NOVEL on settled steps 0.22% | settled wrong 3, caught as NOVEL 100%
+checkb     W=50  accuracy of named reports 0.998 -> 0.998 | good reports lost 0.00% | NOVEL on settled steps 0.00% | settled wrong 0, caught as NOVEL -
+long world W=10  accuracy of named reports 0.953 -> 0.984 | good reports lost 0.01% | NOVEL on settled steps 1.98% | settled wrong 279, caught as NOVEL 90%
+long world W=50  accuracy of named reports 0.997 -> 1.000 | good reports lost 0.00% | NOVEL on settled steps 0.05% | settled wrong 1, caught as NOVEL 100%
