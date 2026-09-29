@@ -6,6 +6,14 @@ Distances between weight states (7 neurons x 30 inputs) are neuron-matched: rows
 algorithm to minimize total distance, since different seeds can learn the same thing on different neurons.
 Memory is the default src DormantGatedMemory on the rectified readout.
 
+ADDED 2026-09-29, before any fork result existed (committed while the batch ran): FK-P2b, a functional
+comparison. Raw weights can differ while what the network represents stays the same (principles.md: stability
+is a population readout that tolerates synapse churn). During the test all branches get IDENTICAL clicks, so
+compare the twins' rectified fingerprints window by window (10 s):
+  FK-P2b twins represent the same thing: the median cosine between twin1's and twin2's fingerprints over the
+         settled test windows is >= 0.9, whatever the raw weight distance does. The same statistic between
+         independent seeds (same world schedule, different history noise) is reported as the reference.
+
 Usage: analyze_fork.py   (conda env; writes fork_summary.json)
 """
 import json
@@ -83,6 +91,17 @@ def main():
                 max(dist(W(runs['twin1'][k][1], 5000), W(runs['twin2'][k][1], 5000)), 1e-9) for k in range(len(seeds))]
     print(f"FK-P4: at 5000 s detour-twin1 {end[2]:.3f} vs twin1-twin2 {end[1]:.3f} -> ratio {end[2] / end[1]:.2f} (<= 1.5?); "
           f"per seed ratios {[round(x, 2) for x in per_seed]}")
+    def fingerprints(run):
+        d, wm, r, ch = run
+        return {a: I.readout(r[:, a:a + 10].mean(1), wm[:, :, a:a + 10].mean(2), kind="rectified")
+                for a in list(range(3300, 4000, 10)) + list(range(4300, 5000, 10))}
+    fp = {b: [fingerprints(run) for run in runs[b]] for b in BR}
+    tw_cos = [np.median([fp['twin1'][k][a] @ fp['twin2'][k][a] for a in fp['twin1'][k]]) for k in range(len(seeds))]
+    de_cos = [np.median([fp['detour'][k][a] @ fp['twin1'][k][a] for a in fp['twin1'][k]]) for k in range(len(seeds))]
+    ind_cos = [np.median([fp['twin1'][a][t] @ fp['twin1'][b][t] for t in fp['twin1'][a]]) for a, b in combinations(range(len(seeds)), 2)]
+    print(f"FK-P2b: fingerprint cosine over the settled test (identical clicks): twin1-twin2 median {np.median(tw_cos):.3f} "
+          f"(>= 0.9?; per seed {[round(float(x), 2) for x in tw_cos]}), detour-twin1 {np.median(de_cos):.3f}, independent seeds {np.median(ind_cos):.3f}")
+    out['functional'] = dict(twin_cos=[float(x) for x in tw_cos], detour_cos=[float(x) for x in de_cos], independent_cos=float(np.median(ind_cos)))
     out['substrate'] = dict(max_prefix_diff=mx, distances=rows, A_at_test=[a_tw, a_de], end_ratio_per_seed=per_seed)
 
     for Wc in (50, 10):
