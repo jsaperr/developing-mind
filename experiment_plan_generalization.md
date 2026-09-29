@@ -50,6 +50,15 @@ Any re-tuned number gets logged as "re-grounded at setting X", never silently ch
 
 ## Step 0: free, on existing data (do first; no runs)
 
+**DONE 2026-09-28** (`docs/log/brian2/05_nonstationary_correlation.md`, top entry). Re-assignment is
+change-triggered (never between changes). No residue build-up and no readout drift over the 20-phase
+long world. But "exactly one back" is schedule-dependent: after a short, overlapping filler, the
+filler is dropped and older core residue kept. That makes step 1 sharper: it has to separate phase
+length from overlap. Suggested amendment for step 1: add a 300 s-phase *disjoint* v1b arm (phase
+length alone) alongside the 3000 s one, and compare it with checkb (short + overlapping).
+
+Original step 0 text:
+
 - **Change-triggered or slow release?** checkb has 300 s filler phases. Does a core's holder count
   (e.g. B's) drop at the *first* following change, even when that phase is only 300 s? If B is
   released at F2's start, release is triggered by the change. If B is still held through a 300 s

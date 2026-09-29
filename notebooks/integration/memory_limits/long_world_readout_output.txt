@@ -1,0 +1,7 @@
+long world: 8 completed seeds
+  substrate: holders at >1-back returns mean 0.82 (first half 1.30, second half 0.57); at 1-back returns nan
+  drift (4th visit vs 1st, settled H+ cosine): A 0.962  B 0.959  C 0.956  D 0.958  E 0.960
+  W10 no store   acc 0.930  links 0  WRONG 0  missed/seed 0.00 | all 5 contexts have character at end 0/8, recency rho>0 0/0 (mean +nan)
+  W10 store      acc 0.931  links 74  WRONG 7  missed/seed 1.38 | all 5 contexts have character at end 5/8, recency rho>0 0/5 (mean -0.30)
+  W50 no store   acc 0.997  links 0  WRONG 0  missed/seed 0.00 | all 5 contexts have character at end 8/8, recency rho>0 0/8 (mean -0.50)
+  W50 store      acc 0.997  links 8  WRONG 0  missed/seed 0.00 | all 5 contexts have character at end 8/8, recency rho>0 0/8 (mean -0.70)

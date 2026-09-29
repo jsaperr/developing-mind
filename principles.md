@@ -231,6 +231,17 @@ each at N=7, 13mV/1.5), with the one-back prediction confirmed *within* seeds in
   hardening. Over four changes this residue didn't accumulate, but that schedule's returns
   can mask accumulation.
 
+*Scope caveat, 2026-09-28 (generalization step 0, arc 05):* "exactly one back" holds for long
+(1000 s) phases of disjoint or 50%-overlapping contexts, including a 20-phase world with no residue
+build-up. It is **not** a general law.
+- **What happens after short fillers:** in check (b), fillers are 300 s long and partly overlap the
+  cores. Each takes 5-6 of 7 neurons, and the next core recruits back from the *filler*, so the
+  just-departed filler is dropped and older core residue survives.
+- **What does generalize so far:** re-assignment is triggered by the change (never between changes).
+  What decides *which* context loses neurons (phase length, overlap, group sizes) is open.
+- **For memory's design this changes little:** memory carries whatever the substrate doesn't, and
+  rehearsal is keyed to changes.
+
 This is not "division of labour" in the strong sense, and it isn't a capacity tax either.
 Stability and plasticity are split across neurons, but the stable part only reaches one context
 back. It's the same wall as "stability-plasticity is structural, not tunable", met again at the

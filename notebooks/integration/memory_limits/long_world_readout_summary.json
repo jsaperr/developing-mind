@@ -1,0 +1,166 @@
+{
+ "substrate": {
+  "rows": [
+   {
+    "swap": 1,
+    "incoming": 4,
+    "back": null,
+    "holders": 0.0
+   },
+   {
+    "swap": 2,
+    "incoming": 0,
+    "back": 2,
+    "holders": 0.375
+   },
+   {
+    "swap": 3,
+    "incoming": 1,
+    "back": null,
+    "holders": 0.0
+   },
+   {
+    "swap": 4,
+    "incoming": 3,
+    "back": null,
+    "holders": 0.25
+   },
+   {
+    "swap": 5,
+    "incoming": 1,
+    "back": 2,
+    "holders": 3.625
+   },
+   {
+    "swap": 6,
+    "incoming": 2,
+    "back": null,
+    "holders": 0.0
+   },
+   {
+    "swap": 7,
+    "incoming": 0,
+    "back": 5,
+    "holders": 0.0
+   },
+   {
+    "swap": 8,
+    "incoming": 2,
+    "back": 2,
+    "holders": 2.5
+   },
+   {
+    "swap": 9,
+    "incoming": 3,
+    "back": 5,
+    "holders": 0.0
+   },
+   {
+    "swap": 10,
+    "incoming": 1,
+    "back": 5,
+    "holders": 0.125
+   },
+   {
+    "swap": 11,
+    "incoming": 4,
+    "back": 10,
+    "holders": 0.0
+   },
+   {
+    "swap": 12,
+    "incoming": 3,
+    "back": 3,
+    "holders": 1.0
+   },
+   {
+    "swap": 13,
+    "incoming": 2,
+    "back": 5,
+    "holders": 0.0
+   },
+   {
+    "swap": 14,
+    "incoming": 4,
+    "back": 3,
+    "holders": 0.75
+   },
+   {
+    "swap": 15,
+    "incoming": 2,
+    "back": 2,
+    "holders": 3.875
+   },
+   {
+    "swap": 16,
+    "incoming": 0,
+    "back": 9,
+    "holders": 0.0
+   },
+   {
+    "swap": 17,
+    "incoming": 4,
+    "back": 3,
+    "holders": 0.0
+   },
+   {
+    "swap": 18,
+    "incoming": 3,
+    "back": 6,
+    "holders": 0.0
+   },
+   {
+    "swap": 19,
+    "incoming": 1,
+    "back": 9,
+    "holders": 0.0
+   }
+  ],
+  "far_mean": 0.8166666666666667,
+  "first_half": 1.3,
+  "second_half": 0.575
+ },
+ "drift": {
+  "A": 0.9618739159431007,
+  "B": 0.9586427807009561,
+  "C": 0.9561686422915991,
+  "D": 0.9581429039282302,
+  "E": 0.9602330989849939
+ },
+ "W10 no store": {
+  "acc": 0.9303848949307572,
+  "links": 0,
+  "wrong": 0,
+  "missed_per_seed": 0.0,
+  "seeds_all5": 0,
+  "rho_pos": 0,
+  "rho_mean": null
+ },
+ "W10 store": {
+  "acc": 0.9306075855839442,
+  "links": 74,
+  "wrong": 7,
+  "missed_per_seed": 1.375,
+  "seeds_all5": 5,
+  "rho_pos": 0,
+  "rho_mean": -0.3
+ },
+ "W50 no store": {
+  "acc": 0.9971508919794057,
+  "links": 0,
+  "wrong": 0,
+  "missed_per_seed": 0.0,
+  "seeds_all5": 8,
+  "rho_pos": 0,
+  "rho_mean": -0.49999999999999994
+ },
+ "W50 store": {
+  "acc": 0.9971508919794057,
+  "links": 8,
+  "wrong": 0,
+  "missed_per_seed": 0.0,
+  "seeds_all5": 8,
+  "rho_pos": 0,
+  "rho_mean": -0.7
+ }
+}

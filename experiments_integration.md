@@ -84,6 +84,48 @@ substrate runs are replayed into memory, with no feedback yet.
 
 ---
 
+## 2026-09-28 — The long world, real input: the store's wrong links are inherited from memory's own drift (A's entry drifting into D), not a new failure; no substrate drift; character recency is weak even with equal exposure
+
+**Data:** `notebooks/brian2/long_world_data/` (20 x 1000 s; A, B, C disjoint; D 70% overlap with A;
+E 50% with A and B; 4 visits each; seeds 42000-42007). **Script:** `long_world_readout.py`
+(predictions LW/LR-P* written before any result; `post_hoc()` labelled, added after), outputs
+`long_world_readout_output.txt` and `long_world_posthoc_output.txt`. Rectified readout, adopted
+rule at radius 0.8, the notebook-only dormant store (link radius 0.8, pruning at baseline). The
+substrate half (LW-P1 one-back and no residue build-up, LW-P2 no drift: both confirmed) is in
+`docs/log/brian2/05_...`.
+
+| | acc (committed) | links | wrong | missed / seed |
+|---|---|---|---|---|
+| W=10 no store / store | 0.930 / 0.931 | - / 74 | - / **7** | - / 1.38 |
+| W=50 no store / store | 0.997 / 0.997 | - / 8 | - / 0 | - / 0.00 |
+
+- **LR-P1 (0 wrong at W=50, ≤ 2 at W=10): HALF.** W=50 has 0. **W=10 has 7**: six are A's record linking a
+  new D episode, and one C's record linking D. Link cosines are 0.92-0.98.
+- **Diagnosis (post-hoc):** the substrate reads D cleanly (settled D queries: cosine 0.97 to D,
+  0.55 to A, never closer to A). But even *without* the store, **25% of settled D steps are reported
+  through an entry born in A** (556/2240). An A-born entry's content drifted into D in memory (step
+  by step, each query just inside the 0.8 floor). The record mirrors its episode's pattern, so it
+  followed. When a fresh D episode was later created, it matched that record at 0.95.
+- **So the store faithfully inherited a merge that memory made on its own.** This is the known open
+  item (70% overlap at the 10 s clock), not a store-specific misattribution. It does expose a real
+  option-2 risk: **if an entry's identity drifts, its record carries the old history onto the new
+  content.** Mirroring the pattern is what propagates it; freezing it would turn these into missed
+  links instead. The fix belongs on memory's side.
+- **LR-P2 (≥ 5 links per seed at W=10): CONFIRMED** (9.3). **LR-P3 (missed ≤ 1 per seed): narrowly
+  REFUTED** (1.38). **LR-P4 (no behavioural cost): CONFIRMED** (accuracy within 0.001).
+- **LR-P5 (character recency with equal exposure; Spearman of final w_char vs last visit > 0 in ≥ 6/8
+  at W=10): REFUTED** (0/5, mean −0.30).
+  - The ordering is dominated by early exposure: A (first, and visited twice in the first three
+    phases) is highest everywhere.
+  - Post-hoc, after 300 steps of relaxation (which removes consolidation lag, as in `recency_toy.py`):
+    W=10 gives 5/5 positive but weak (mean +0.20); W=50 gives 1/8 (mean 0.00).
+  - Consistent with the toy: character recency needs age differences comparable to w_char's
+    ~2000-step decay. A W=10 long world is ~2000 steps (weak recency); W=50 is ~400 (none).
+- **No substrate drift** (LW-P2, 0.96 over ~15,000 s) is the drift requirement for the store, met on
+  this span.
+
+---
+
 ## 2026-09-28 — Dormant entries under heavy exposure (memory only): the store misattributes only where memory itself can't tell contexts apart, and pruning at baseline bounds it
 
 **Script:** `notebooks/integration/memory_limits/dormant_long_toy.py` (output `..._output.txt`).

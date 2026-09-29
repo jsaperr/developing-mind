@@ -90,7 +90,7 @@ def run(s, gs, store):
     mem = m.mem
     records, link, reports = [], {}, []
     links = wrong = missed = 0
-    tag = {}
+    tag, pairs = {}, []
     for i, x in enumerate(torch.tensor(s['q'], dtype=torch.float32)):
         o = m.step(x, steady=bool(s['steady'][i]), changing=bool(s['changing'][i]))
         true = int(s['true'][i])
@@ -102,6 +102,8 @@ def run(s, gs, store):
                 if sims and max(sims) >= LINK:
                     ri = int(np.argmax(sims)); mem.w_char[k] = records[ri]['w_char']; links += 1
                     wrong += records[ri]['label'] != true
+                    if records[ri]['label'] != true:
+                        pairs.append(("ABCDE"[records[ri]['label']], "ABCDE"[true], round(max(sims), 3)))
                 else:
                     missed += any(r is not None and r['label'] == true for r in records)
                     records.append(dict(pattern=p.clone(), w_char=1.0, label=true)); ri = len(records) - 1
@@ -133,7 +135,17 @@ def run(s, gs, store):
         final = {}
         for k, e in enumerate(mem.ids):
             final[tag[e]] = max(final.get(tag[e], 0), mem.w_char[k])
-    return dict(acc=acc, links=links, wrong=wrong, missed=missed, final=final)
+    relaxed = {}
+    if store:
+        wf, wc = torch.tensor(mem.w_fast), torch.tensor(mem.w_char)
+        for _ in range(300):
+            wf, wc = mem._update_fn(wf, wc, torch.zeros(len(mem.ids)))
+        alive = {link[e]: k for k, e in enumerate(mem.ids) if e in link}
+        for ri, r in enumerate(records):
+            if r is not None:
+                v = float(wc[alive[ri]]) if ri in alive else 1 + (r['w_char'] - 1) * (1 - CONSTANTS.decay_char) ** 300
+                relaxed[r['label']] = max(relaxed.get(r['label'], 0), v)
+    return dict(acc=acc, links=links, wrong=wrong, missed=missed, final=final, pairs=pairs, relaxed=relaxed)
 
 
 def main():
@@ -169,5 +181,31 @@ def main():
     json.dump(out, open(HERE / "long_world_readout_summary.json", "w"), indent=1)
 
 
+def post_hoc():
+    """POST-HOC (added after seeing the results; not predicted): which pairs the wrong links were, the
+    final record w_char values, and the recency correlation after 300 steps of retrieval-free relaxation
+    (removes consolidation lag, as in recency_toy.py)."""
+    runs = R.load(PAT)
+    ids = runs[0][0]['phase_corr_blocks']
+    last_visit = [max(i for i, x in enumerate(ids) if x == c) for c in range(5)]
+    print("POST-HOC: last-visit phase per context A-E:", last_visit)
+    for W in (10, 50):
+        rng = np.random.default_rng(0); torch.manual_seed(0)
+        streams = [R.build(d, wm, r, chg, W, "H+", rng) for d, wm, r, chg in runs]
+        gs = RS.ground_gap_scale(streams)
+        res = [run(s, gs, True) for s in streams]
+        print(f"  W={W}: wrong-link pairs (record, true, link cosine): {[p for x in res for p in x['pairs']]}")
+        rel = []
+        for x in res:
+            print("    final w_char " + " ".join(f"{'ABCDE'[c]} {x['final'].get(c, float('nan')):.2f}" for c in range(5))
+                  + " | relaxed " + " ".join(f"{'ABCDE'[c]} {x['relaxed'].get(c, float('nan')):.2f}" for c in range(5)))
+            if all(c in x['relaxed'] for c in range(5)):
+                rel.append(spearman([x['relaxed'][c] for c in range(5)], last_visit))
+        print(f"  W={W}: relaxed recency rho>0 {sum(v > 0 for v in rel)}/{len(rel)} (mean {np.mean(rel):+.2f})")
+
+
 if __name__ == '__main__':
-    main()
+    if len(sys.argv) > 1 and sys.argv[1] == 'posthoc':
+        post_hoc()
+    else:
+        main()

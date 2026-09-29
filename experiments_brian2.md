@@ -98,6 +98,11 @@ before running; save full traces for exploratory runs; inspect trajectories befo
   go): named finding "the substrate retains exactly one context back; anything older has to live
   in memory".
 - The cause of the `cpp_standalone` mismatch at `strong_tight_gate`.
+- **Updated 2026-09-28 (step 0 + long world, arc 05):** re-assignment is change-triggered (all within
+  ~150 s of a change, flat between changes). The residue doesn't accumulate over 20 phases with
+  returns. The readout doesn't drift over 4 visits. But "exactly one back" is schedule-dependent:
+  after a short (300 s), partly overlapping filler, the substrate drops the filler and keeps older
+  core residue. Why (phase length, overlap, group sizes) is open. That's the plan's step 1.
 - One-back retention over longer schedules: does the lock-in residue accumulate across many
   changes, and is release triggered by the change itself or just slow (more than 1000 s)? It
   predicted that A→B→C→A should *not* recognize A instantly, and v1 confirmed that. Still open:
@@ -153,6 +158,7 @@ Each line is the entry's own heading (its conclusion is in the title).
 
 **05 Non-stationary correlation (2026-09-25)**: [`docs/log/brian2/05_nonstationary_correlation.md`](docs/log/brian2/05_nonstationary_correlation.md)
 
+- 2026-09-28 — Generalization step 0 + the long world: re-assignment is change-triggered (never between changes), but "exactly one back" is schedule-dependent: after a short, overlapping filler the substrate drops the just-departed filler and keeps the older core's residue; no drift and no residue build-up over 20 phases
 - 2026-09-25 — v1 world (A→B→C→A→C): one-back retention confirmed within seeds, the residue doesn't grow over four changes, and a residue neuron recognizes a 2-back return
 - 2026-09-25 — Novel-C (A→B→C, C never seen): held patterns are released at the next change (one-back retention, a small permanent residue), and recognition lives in which neurons speed up, not in the population dip
 - 2026-09-25 — N=7 follow-up analyses: the slow return is tied to how many neurons already hold the pattern, and the population's firing rate distinguishes a new pattern from a returning one

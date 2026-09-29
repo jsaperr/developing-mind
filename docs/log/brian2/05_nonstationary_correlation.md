@@ -2,6 +2,55 @@
 
 Entries moved verbatim from `experiments_brian2.md` on 2026-09-25 (no wording changed). Index: `experiments_brian2.md`.
 
+## 2026-09-28 — Generalization step 0 + the long world: re-assignment is change-triggered (never between changes), but "exactly one back" is schedule-dependent: after a short, overlapping filler the substrate drops the just-departed filler and keeps the older core's residue; no drift and no residue build-up over 20 phases
+
+**Why:** `experiment_plan_generalization.md`, step 0. Every earlier one-back measurement used 1000 s
+phases, where "the next change" and "1000 s after departure" coincide. checkb's 300 s fillers
+break that tie. Holders of X at t = neurons whose 50 s mean weight vector is closest to X's
+prototype (among all the world's contexts). Script: `notebooks/brian2/set_worlds_data/analyze_release_timing.py`
+(predictions RT-P1/P2 in its docstring before the first run; `post_hoc()` is labelled and was added
+after), output `release_timing_output.txt`.
+
+**Pre-registered (checkb cores, 300 s fillers): both REFUTED.**
+- **RT-P2 (a core keeps >= 60% of its holders through the 300 s filler):** it keeps only **12-33%**
+  (A 7.0 -> 0.9, B 6.0 -> 1.5, C 5.8 -> 1.9). In v1b's 1000 s disjoint phases, A keeps 52% (7.0 -> 3.6).
+- **RT-P1 (the rest released within 300 s of becoming two back):** there's no further drop
+  (83-100% of the remainder stays, then persists to the end of the run).
+
+**What happens instead (post-hoc, who holds what around each change):**
+- **All re-assignment happens within ~150 s of a change, and holder counts are flat between changes,
+  in both worlds.** Release is triggered by the change, not slow. This part of step 0's question is
+  answered, and it's what the rehearsal and horizon logic needs.
+- **Which context loses neurons isn't "the older one" in general.**
+  - v1b (1000 s, disjoint): the new context recruits the older context's retainers (A 3.6 -> 0.4
+    at C's arrival) and the just-departed keeps its own. That's one-back.
+  - checkb: each filler takes 5-6 of 7 neurons within 150 s. The next core then recruits almost
+    entirely from the filler's learners (F1 6.1 -> 0.8 at B's arrival), while the older core's
+    ~1-2 residue neurons survive every later change.
+  - So after a short, overlapping filler, the substrate drops the just-departed context and keeps
+    older residue.
+- **Candidate causes, not separated:** the filler's short phase (300 s learners haven't hardened);
+  its partial overlap with the cores (each shares 3-5 inputs with a core, so core-tuned neurons are
+  the easiest to recruit); how many neurons each group holds when the next change arrives.
+- **Consequence:** "exactly one context back" is what this substrate does under long, disjoint phases,
+  not a general law. `principles.md` gets a scope caveat. For memory it changes little: memory
+  already carries whatever the substrate doesn't, and rehearsal is keyed to changes, which *are*
+  what triggers re-assignment.
+
+**The long world** (`notebooks/brian2/long_world_data/`, seeds 42000-42007, 8/8 completed, 3735 s
+wall. 20 x 1000 s phases, contexts A, B, C disjoint, D 70% overlap with A, E 50% with A and B, each
+visited 4 times. Readout: `notebooks/integration/memory_limits/long_world_readout.py`, predictions
+written before any result):
+- **LW-P1 (one-back holds and the residue doesn't accumulate): CONFIRMED.** At returns more than one
+  back: 0.82 holders per seed, 1.30 in the first half and 0.57 in the second (declining, not
+  accumulating). This answers the open item for a 20-phase schedule with returns. An all-novel
+  schedule is still untested. (This schedule has no one-back returns; there are no immediate
+  repeats.)
+- **LW-P2 (no drift): CONFIRMED.** The settled rectified readout at a context's 4th visit vs its 1st
+  (~15,000 s apart) has cosine 0.956-0.962 for all five contexts. The substrate's picture of a
+  context doesn't drift over this span. That's the drift requirement for the dormant character
+  store, met here.
+
 ## 2026-09-25 — v1 world (A→B→C→A→C): one-back retention confirmed within seeds, the residue doesn't grow over four changes, and a residue neuron recognizes a 2-back return
 
 **Data:** `notebooks/brian2/v1_schedule_data/`, seeds 33000-33007, 8/8 completed (1280 s wall,
