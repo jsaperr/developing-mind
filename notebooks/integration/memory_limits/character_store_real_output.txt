@@ -1,0 +1,30 @@
+
+##### 13mV v1b
+  W=10 r=0.5  links   2  WRONG 0 (0/8 seeds)  dup records 0  records/context 1.00 | recognition A two-back: 8->8  B two-back: 6->6
+  W=10 r=0.8  links   2  WRONG 0 (0/8 seeds)  dup records 1  records/context 1.04 | recognition A two-back: 8->8  B two-back: 6->6
+  W=50 r=0.5  links   0  WRONG 0 (0/8 seeds)  dup records 0  records/context 1.00 | recognition A two-back: 8->8  B two-back: 8->8
+  W=50 r=0.8  links   0  WRONG 0 (0/8 seeds)  dup records 0  records/context 1.00 | recognition A two-back: 8->8  B two-back: 8->8
+
+##### 13mV v1c
+  W=10 r=0.5  links   8  WRONG 0 (0/8 seeds)  dup records 0  records/context 1.00 | recognition B 2000s: 0->0
+  W=10 r=0.8  links   8  WRONG 0 (0/8 seeds)  dup records 1  records/context 1.04 | recognition B 2000s: 0->0
+  W=50 r=0.5  links   0  WRONG 0 (0/8 seeds)  dup records 0  records/context 1.00 | recognition B 2000s: 8->8
+  W=50 r=0.8  links   0  WRONG 0 (0/8 seeds)  dup records 0  records/context 1.00 | recognition B 2000s: 8->8
+
+##### ov50
+  W=10 r=0.5  links   6  WRONG 0 (0/8 seeds)  dup records 0  records/context 0.92 | recognition A two-back: 4->4  B two-back: 1->1
+  W=10 r=0.8  links  10  WRONG 0 (0/8 seeds)  dup records 3  records/context 1.12 | recognition A two-back: 5->5  B two-back: 1->1
+  W=50 r=0.5  links   0  WRONG 0 (0/8 seeds)  dup records 0  records/context 1.00 | recognition A two-back: 8->8  B two-back: 8->8
+  W=50 r=0.8  links   0  WRONG 0 (0/8 seeds)  dup records 0  records/context 1.00 | recognition A two-back: 8->8  B two-back: 8->8
+
+##### ov70
+  W=10 r=0.5  links   0  WRONG 0 (0/8 seeds)  dup records 0  records/context 0.33 | recognition A two-back: 8->8  B two-back: 0->0
+  W=10 r=0.8  links   2  WRONG 0 (0/8 seeds)  dup records 5  records/context 1.00 | recognition A two-back: 4->4  B two-back: 3->3
+  W=50 r=0.5  links   0  WRONG 0 (0/8 seeds)  dup records 0  records/context 0.33 | recognition A two-back: 8->8  B two-back: 0->0
+  W=50 r=0.8  links   0  WRONG 0 (0/8 seeds)  dup records 0  records/context 1.00 | recognition A two-back: 8->8  B two-back: 8->8
+
+##### checkb
+  W=10 r=0.5  links   1  WRONG 0 (0/8 seeds)  dup records 1  records/context 0.90 | recognition A return: 5->5
+  W=10 r=0.8  links   3  WRONG 0 (0/8 seeds)  dup records 1  records/context 0.98 | recognition A return: 5->5
+  W=50 r=0.5  links   0  WRONG 0 (0/8 seeds)  dup records 0  records/context 0.83 | recognition A return: 8->8
+  W=50 r=0.8  links   0  WRONG 0 (0/8 seeds)  dup records 0  records/context 0.85 | recognition A return: 8->8

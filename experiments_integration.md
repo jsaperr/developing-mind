@@ -20,7 +20,9 @@ inspect trajectories before claiming.
 - **Where recency lives** (follow-up): timing variables (staleness, w_fast) order B and C 8/8 while both
   are remembered, but nothing is left to order once B is evicted. A toy persistent character store
   (records outlive episodes) restores C > B 7-8/8 on long phases with primacy intact. Jasper leans
-  toward the store (option 2); its risks (unbounded growth, misattribution, drift) are untested.
+  toward the store (option 2). On real runs: 0 wrong links in 31, but the store is barely exercised
+  (no links at W=50) and its only errors are missed links. Design notes on each downside are in that
+  entry; the real test needs long worlds with many returns after eviction.
 - **So Q2 can stay open.** With the radius, the clock's only remaining consequence is the horizon
   (plus the ov70 W=10 case).
 
@@ -67,6 +69,63 @@ substrate runs are replayed into memory, with no feedback yet.
   hypothesis, untested, is consolidation lag at the 50 s clock, which would make it a Q2 question.
 - Not yet done: live/feedback coupling, network sizes other than N=7, worlds with more than a
   handful of contexts, curiosity/metacog (out of scope by dependency order).
+
+---
+
+## 2026-09-28 — Character store on real runs: no misattribution in 31 links, but the store is barely exercised; its only errors are missed links (duplicate records)
+
+**Script:** `notebooks/integration/memory_limits/character_store_real.py` (output `..._output.txt`).
+The option-2 toy store on real substrate runs (rectified, adopted commit rule), 5 worlds x 2 clocks x
+memory radius 0.5/0.8, with the store on vs off. Link radius 0.8. Records mirror their live
+episode's w_char and pattern, and freeze and decay after eviction. Predictions MA-P1..P5 in the
+docstring, written before the first run.
+
+- **Wrong links: 0 of 31, in every world, clock and radius**, including ov70 (between-context
+  similarity up to 0.75) and checkb's fillers.
+  - MA-P2 (ov50: 0 wrong) is CONFIRMED.
+  - **MA-P3 (wrong links in ov70 at W=10) is REFUTED**, but on thin exposure: only 0-2 links
+    happened in ov70 at all.
+- **The error that did show up is the opposite one: duplicate records** (a context starting a second
+  record instead of finding its own).
+  - Counts: 0-1 per cell in the disjoint worlds and checkb, 3 in ov50 W=10 and 5 in ov70 W=10, almost
+    all at radius 0.8.
+  - MA-P1 is HALF: 0 wrong links, but 1 duplicate each in v1b/v1c at r=0.8.
+  - The metric doesn't separate a failed relink from memory fragmenting a context into two live
+    episodes (r=0.8 creates more readily at W=10). Not diagnosed.
+- **MA-P4 (the store is barely exercised at the slow clock): CONFIRMED.** There are 0 links at W=50
+  anywhere, because nothing gets evicted within these runs. All 31 links are at W=10.
+- **MA-P5 (no behavioural cost): CONFIRMED.** Every key recognition is identical with the store on
+  and off, in all 20 cells.
+- **Reading:** on this data, with a conservative link radius, the store errs toward *missing* its own
+  history rather than inheriting someone else's. A missed link falls back to today's behaviour
+  (start fresh), so it's the benign direction. But 31 links is too few to call misattribution
+  solved. The real test needs long worlds with many returns after eviction.
+
+**Design notes on option 2's downsides** (thinking, NOT tested; for Jasper's framework decision):
+1. **Unbounded growth → prune records at baseline.** A record decays toward w_char = 1, and at 1 it
+   carries no character. Deleting it then changes nothing, so the store is bounded by its own
+   decay (lifetime ~ a few x 2000 steps) without a new forgetting rule. That also means primacy is
+   slow, not permanent, consistent with July calling permanent primacy a bug.
+2. **Misattribution → same radius, same two-condition rule, err toward missing.**
+   - Linking asks memory's existing question ("is this the same thing?"), so it should use the
+     same radius. Splitting thresholds is what caused merging before.
+   - Link only when the match is good in absolute terms AND unambiguous (one clear record): the
+     absolute-floor + relative-gate lesson again.
+   - A missed link is option 1's behaviour, a wrong link is confident wrongness, so bias toward
+     missing. This run's errors were already in that direction.
+3. **Drift → a requirement on the substrate, not a mechanism.** A record only needs to stay matchable
+   for as long as it carries character, and records follow their context while it recurs. So the
+   store needs character's lifetime to be shorter than the time the substrate's representation of
+   a context takes to drift. That's measurable: a readout-stability test over long schedules,
+   which ties to the open Brian2 question of whether lock-in residue accumulates.
+4. **Unearned protection → mostly already contained, and it's also savings.** An inherited w_char's
+   retrieval bias and eviction protection are both ambiguity-gated (strength breaks ties). The
+   ungated part is the learning-rate multiplier, which means relearning a forgotten context is
+   faster. That's the July savings effect, for real this time. It's a testable upside.
+5. **Cost → one structure, two states.** Instead of a separate store, eviction could *demote* an
+   entry to dormant (keeps pattern + w_char, no retrieval, decays, pruned at baseline), and creation
+   *reawakens* a matching dormant entry. Framing that fits: active entries = recollection, dormant
+   entries = familiarity without recollection, a known distinction in human memory.
 
 ---
 
