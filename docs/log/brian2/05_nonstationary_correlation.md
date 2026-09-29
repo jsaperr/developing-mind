@@ -2,6 +2,32 @@
 
 Entries moved verbatim from `experiments_brian2.md` on 2026-09-25 (no wording changed). Index: `experiments_brian2.md`.
 
+## 2026-09-29 — Ambiguity (both contexts at once): the substrate holds both readings with zero switching, and the two groups' activity jitters around a tie as white noise, with no rivalry
+
+**Data:** `notebooks/brian2/ambiguity_data/`, seeds 47000-47007, 8/8 completed (935 s wall).
+- **World:** A(1000) B(1000) AB(2000) A(1000) s, disjoint 30-input rig, N=7, 13mV/1.5.
+- **AB:** wires 1-10 synced to one hidden rhythm and wires 11-20 to a second, independent one, both at
+  full strength. The builder is local (checked: within-group sync 0.61-0.64, between groups 0.09,
+  i.e. chance; rates matched).
+- **Code:** predictions AM-P1..P6 were in `run_ambig_seed.py` and the scorer `analyze_ambig.py` was
+  committed, both before any result. The post-hoc checks are labelled in the same file. Outputs
+  `ambig_output.txt`, `ambig_posthoc_output.txt`.
+
+- **AM-P1 (coexistence, no capture): CONFIRMED, exactly.** A 3.00 and B 4.00 holders from AB's start
+  to its end, with zero change.
+- **AM-P2 (no rivalry in tuning): CONFIRMED.** 0 preference switches per seed in 1700 s of settled AB.
+  With no fatigue mechanism, nothing drives a Necker-style flip.
+- **AM-P3 (AB onset is a small event): CONFIRMED.** The displacement peak is 1.16 vs 3.95 after B's
+  arrival (8/8).
+- **Post-hoc, activity rather than tuning:**
+  - In 76% of settled 10 s windows, the neurons firing above average all belong to ONE of the two
+    groups. The groups compete in activity even though their tuning never moves.
+  - That competition is white noise, not rivalry. The A-minus-B activity difference has an
+    autocorrelation time of 1 s and "dominance episodes" of 4.9 s, the same as a control (two
+    random halves of the neurons during pure A: 1 s, 4.8 s).
+  - Real perceptual rivalry needs something like adaptation to produce episodes. This substrate
+    doesn't have it, the same ingredient the MNIST plan flags (adaptive threshold).
+
 ## 2026-09-29 — Rest: with no synchrony at all for 3000 s, the substrate holds its tuning exactly (zero re-assignment), barely blurs, and doesn't register rest as a change
 
 **Data:** `notebooks/brian2/rest_data/`, seeds 46000-46007, 8/8 completed (1315 s wall).

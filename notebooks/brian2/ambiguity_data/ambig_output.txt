@@ -1,0 +1,14 @@
+ambiguity seeds: 8
+mean holders per context (A B C):
+  end of B (AB starts)   3.00  4.00  0.00
+  AB +300                3.00  4.00  0.00
+  AB +1000               3.00  4.00  0.00
+  end of AB              3.00  4.00  0.00
+  A back +150            3.50  3.50  0.00
+  end                    3.50  3.50  0.00
+AM-P1: change end of B -> end of AB: A 0.00, B 0.00 (both <= 0.5?)
+AM-P2: A<->B preference switches per seed during AB (after +300 s): mean 0.00, per seed [0, 0, 0, 0, 0, 0, 0, 0] (mean <= 1?)
+AM-P3: displacement peak after B's arrival 3.952, at AB onset 1.159; AB smaller in 8/8 (>= 6?)
+W=10: settled AB fingerprint cosine to A median 0.51, to B median 0.35 | memory during settled AB: A 44%  B 42%  C 0%  AB 0%  N 4%  T 10% | blend memory stored 0/8 | A<->B flips in named reports per seed [83, 72, 72, 73, 67, 77, 52, 79] | A named on return 8/8
+W=50: settled AB fingerprint cosine to A median 0.82, to B median -0.05 | memory during settled AB: A 39%  B 29%  C 0%  AB 0%  N 3%  T 29% | blend memory stored 0/8 | A<->B flips in named reports per seed [13, 11, 11, 14, 8, 10, 10, 14] | A named on return 8/8
+AM-P4 (W=10): both medians in 0.5-0.8?  AM-P5 (W=10): NOVEL >= 40% and blend memory >= 5/8?  AM-P6: A back 8/8?

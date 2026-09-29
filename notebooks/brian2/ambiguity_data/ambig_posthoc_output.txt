@@ -1,0 +1,5 @@
+POST-HOC (1): settled AB 10 s windows where the above-average neurons all hold ONE of A/B: 76%
+POST-HOC (2) readout H+: settled AB cosine to A median 0.51, to B 0.35 | reports A 44%  B 42%  C 0%  AB 0%  N 4%  T 10% | blend memory stored 0/8 | (3) dominance run length: mean 2.01 checks, P(run=1) 51%
+POST-HOC (2) readout H : settled AB cosine to A median 0.65, to B -0.59 | reports A 42%  B 40%  C 0%  AB 0%  N 8%  T 10% | blend memory stored 0/8 | (3) dominance run length: mean 2.09 checks, P(run=1) 51%
+POST-HOC (4): A-vs-B activity difference in AB: autocorrelation time median 1.0 s, mean dominance episode 4.9 s | control (random halves, pure A): 1.0 s, 4.8 s
+POST-HOC (5): unnormalized H+ magnitude, median: pure 8.09, ambiguous 4.11 (ratio 0.51); AB windows below the 5th percentile of pure windows: 47%

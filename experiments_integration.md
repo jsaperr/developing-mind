@@ -56,6 +56,10 @@ runs are replayed into memory, with no feedback yet.
   checks), and those ghost recognitions are what keep an unvisited episode live through the rest
   (causal, via an idle-memory control). A primitive analogue of sleep replay; also a source of false
   recognitions a metacognitive layer would need to discount.
+- **Ambiguity (2026-09-29):** with two contexts present at once, the substrate holds both (no switching)
+  and memory flickers between naming each (no blend memory, no NOVEL). The readout normalizes away how
+  close the call was; the unnormalized fingerprint magnitude halves under ambiguity. That's a free
+  confidence signal, logged as a candidate.
 - **Recency has two timescales.** Episode timing (staleness) is exact. Character recency needs age
   differences of about w_char's 2000-step constant, so it's absent in short runs and weak in the
   long world.
@@ -78,6 +82,49 @@ runs are replayed into memory, with no feedback yet.
   the doc itself is unchanged.
 - Not yet done: live/feedback coupling, other N, many-context worlds, curiosity/metacog (out of
   scope by dependency order).
+
+---
+
+## 2026-09-29 — Ambiguity: memory doesn't see a blend. It flickers between naming A and B, because the readout normalizes away how close the call was; the fingerprint's size carries the ambiguity and is thrown away
+
+**Data:** `notebooks/brian2/ambiguity_data/` (A B AB A, 8 seeds; substrate side in
+`docs/log/brian2/05_...`). Default `DormantGatedMemory`, rectified readout. Predictions AM-P4..P6 in
+`run_ambig_seed.py` before launch; post-hoc checks labelled in `analyze_ambig.py`.
+
+| clock | fingerprint cosine to A / B (median, settled AB) | memory reports in settled AB | A ↔ B flips per seed | blend memory stored |
+|---|---|---|---|---|
+| W=10 | 0.51 / 0.35 | A 44%, B 42%, NOVEL 4%, still changing 10% | 52-83 | 0/8 |
+| W=50 | 0.82 / −0.05 | A 39%, B 29%, NOVEL 3%, still changing 29% | 8-14 | 0/8 |
+
+- **AM-P4 (the fingerprint is a blend, both cosines 0.5-0.8): REFUTED.** Each window's fingerprint
+  is mostly one side or the other, not a mix.
+- **AM-P5 (NOVEL ≥ 40%, then a new blend memory in ≥ 5/8): REFUTED.** NOVEL is 3-4% and no blend
+  memory forms in any seed. Memory commits to A or B and **flickers**: at W=10 it switches every ~2
+  checks.
+- **AM-P6 (the blend doesn't hijack A afterwards): CONFIRMED** (A named 8/8 on return, both clocks).
+- **Mechanism (post-hoc):**
+  - My first guess was the rectified readout's "above-average neurons only" rule. It's refuted: the
+    unrectified contrast readout flickers identically (A 42%, B 40%, same run lengths).
+  - The real cause is that **both readouts normalize the fingerprint to unit length.** The
+    substrate's A-minus-B activity difference is small noise around a tie (substrate log). But
+    normalization turns even a tiny difference into a full-strength fingerprint pointing at
+    whichever group is ahead, so a coin-flip looks exactly as confident as a clear context.
+  - Longer windows don't average it out for the same reason: the *sign* of a small average
+    difference still decides the whole fingerprint.
+- **The information exists before normalization:** the unnormalized H+ magnitude is **half** as large
+  in AB (median 4.11) as in pure contexts (8.09). 47% of AB windows fall below the 5th percentile of
+  pure windows, so a simple threshold would flag about half the ambiguous windows at a 5% false-alarm
+  rate. The readout currently discards a free confidence signal.
+- **Reading:**
+  - No invented category and no Necker rivalry, but a clean finding about the interface. The
+    fingerprint says *what*, never *how decisively*.
+  - That's the gap framework v5 IX points at (settling confidently vs wandering) and a direct
+    input a metacognitive layer would need.
+  - It's also why ambiguity produces confident flicker instead of NOVEL.
+- **Candidate (logged, not built):** carry the magnitude alongside the fingerprint as a confidence
+  signal. For example, report AMBIGUOUS (or treat it as NOVEL) when the magnitude is low, and test
+  it on this world and on the rest world. It's a self-set threshold from the system's own
+  statistics, in the spirit of the thalamus item in `framework_drift.md`.
 
 ---
 

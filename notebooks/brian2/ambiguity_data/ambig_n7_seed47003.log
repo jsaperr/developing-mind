@@ -1,0 +1,23 @@
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([9.30494564e-04, 2.20369002e-03, 2.69917868e-03, ...,
+       4.99999539e+03, 4.99999876e+03, 4.99999965e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+[seed 47003 t=250s] wall=52s
+[seed 47003 t=500s] wall=97s
+[seed 47003 t=750s] wall=142s
+[seed 47003 t=1000s] wall=187s
+[seed 47003 t=1250s] wall=233s
+[seed 47003 t=1500s] wall=279s
+[seed 47003 t=1750s] wall=324s
+[seed 47003 t=2000s] wall=369s
+[seed 47003 t=2250s] wall=414s
+[seed 47003 t=2500s] wall=459s
+[seed 47003 t=2750s] wall=503s
+[seed 47003 t=3000s] wall=547s
+[seed 47003 t=3250s] wall=591s
+[seed 47003 t=3500s] wall=635s
+[seed 47003 t=3750s] wall=679s
+[seed 47003 t=4000s] wall=722s
+[seed 47003 t=4250s] wall=766s
+[seed 47003 t=4500s] wall=810s
+[seed 47003 t=4750s] wall=854s
+[seed 47003 t=5000s] wall=897s
+ambiguity seed 47003 -> C:\Users\urawi\OneDrive\Desktop\a wide variety of vscode projects\developing-mind\notebooks\brian2\ambiguity_data\ambig_n7_seed47003.json.gz (completed)

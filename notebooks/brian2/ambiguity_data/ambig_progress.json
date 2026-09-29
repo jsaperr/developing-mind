@@ -1,0 +1,70 @@
+{
+ "done": [
+  {
+   "job": [
+    "ambig",
+    47001
+   ],
+   "returncode": 0,
+   "elapsed_s": 905
+  },
+  {
+   "job": [
+    "ambig",
+    47005
+   ],
+   "returncode": 0,
+   "elapsed_s": 910
+  },
+  {
+   "job": [
+    "ambig",
+    47007
+   ],
+   "returncode": 0,
+   "elapsed_s": 910
+  },
+  {
+   "job": [
+    "ambig",
+    47000
+   ],
+   "returncode": 0,
+   "elapsed_s": 920
+  },
+  {
+   "job": [
+    "ambig",
+    47003
+   ],
+   "returncode": 0,
+   "elapsed_s": 920
+  },
+  {
+   "job": [
+    "ambig",
+    47004
+   ],
+   "returncode": 0,
+   "elapsed_s": 920
+  },
+  {
+   "job": [
+    "ambig",
+    47006
+   ],
+   "returncode": 0,
+   "elapsed_s": 925
+  },
+  {
+   "job": [
+    "ambig",
+    47002
+   ],
+   "returncode": 0,
+   "elapsed_s": 930
+  }
+ ],
+ "running": [],
+ "pending": []
+}
