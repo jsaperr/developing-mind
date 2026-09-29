@@ -1,0 +1,70 @@
+{
+ "done": [
+  {
+   "job": [
+    "long20",
+    42004
+   ],
+   "returncode": 0,
+   "elapsed_s": 3630
+  },
+  {
+   "job": [
+    "long20",
+    42001
+   ],
+   "returncode": 0,
+   "elapsed_s": 3635
+  },
+  {
+   "job": [
+    "long20",
+    42005
+   ],
+   "returncode": 0,
+   "elapsed_s": 3645
+  },
+  {
+   "job": [
+    "long20",
+    42006
+   ],
+   "returncode": 0,
+   "elapsed_s": 3655
+  },
+  {
+   "job": [
+    "long20",
+    42003
+   ],
+   "returncode": 0,
+   "elapsed_s": 3665
+  },
+  {
+   "job": [
+    "long20",
+    42007
+   ],
+   "returncode": 0,
+   "elapsed_s": 3675
+  },
+  {
+   "job": [
+    "long20",
+    42000
+   ],
+   "returncode": 0,
+   "elapsed_s": 3720
+  },
+  {
+   "job": [
+    "long20",
+    42002
+   ],
+   "returncode": 0,
+   "elapsed_s": 3730
+  }
+ ],
+ "running": [],
+ "pending": []
+}
