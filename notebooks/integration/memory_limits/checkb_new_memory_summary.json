@@ -1,0 +1,34 @@
+{
+ "W10 old (gated, r0.5)": {
+  "A_recognized": 6,
+  "cores_with_character": 8,
+  "A_highest": 5,
+  "C_over_B": 0,
+  "acc": 0.7927672141070963,
+  "novel_settled": 0.0
+ },
+ "W10 new (dormant, r0.8)": {
+  "A_recognized": 8,
+  "cores_with_character": 8,
+  "A_highest": 8,
+  "C_over_B": 0,
+  "acc": 0.9781848392920872,
+  "novel_settled": 0.002232142857142857
+ },
+ "W50 old (gated, r0.5)": {
+  "A_recognized": 8,
+  "cores_with_character": 8,
+  "A_highest": 8,
+  "C_over_B": 0,
+  "acc": 0.9669117647058824,
+  "novel_settled": 0.0
+ },
+ "W50 new (dormant, r0.8)": {
+  "A_recognized": 8,
+  "cores_with_character": 8,
+  "A_highest": 8,
+  "C_over_B": 0,
+  "acc": 0.9981617647058824,
+  "novel_settled": 0.0
+ }
+}

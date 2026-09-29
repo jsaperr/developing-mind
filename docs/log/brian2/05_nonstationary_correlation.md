@@ -2,6 +2,35 @@
 
 Entries moved verbatim from `experiments_brian2.md` on 2026-09-25 (no wording changed). Index: `experiments_brian2.md`.
 
+## 2026-09-28 — Generalization step 1, short-phase arm: with 300 s disjoint phases the substrate is one-back, almost exactly as at 1000 s, so step 0's deviation came from overlap, not phase length
+
+**Data:** `notebooks/brian2/short_phase_data/`, seeds 43000-43007, 8/8 completed (305 s wall). v1b
+schedule A B C A B, 300 s phases, the same 30-input disjoint 3-block rig, N=7, 13mV/1.5 (v1's frozen
+runner, durations overridden). Predictions SP-P1/P2 were in `run_short_seed.py` before launch.
+Scored by `analyze_short_phase.py` (step 0's holder metric), output `short_phase_output.txt`.
+
+| holders (A B C) | 300 s phases | 1000 s (v1b) |
+|---|---|---|
+| swap 2 (→C), before | 3.50 3.50 0.00 | 3.62 3.38 0.00 |
+| swap 2, +150 s | **0.88** 3.00 3.12 | 0.38 3.25 3.38 |
+| swap 3 (→A, two back), before | 0.50 2.88 3.62 | 0.25 3.25 3.50 |
+| swap 4 (→B, two back), before | 4.00 0.75 2.25 | 4.25 0.38 2.38 |
+
+- **SP-P1 (one-back holds with short disjoint phases): CONFIRMED on 2 of 3 parts.**
+  - B (just departed) keeps 86% of its holders at C's arrival.
+  - The incoming context has 0.50 and 0.75 holders at the two-back returns (≤ 1).
+  - The third part missed: A's release is slightly slower, 0.88 holders at +150 s against the stated
+    ≤ 0.5 (v1b: 0.38). It's down to 0.50 by +300 s.
+- **SP-P2 (each phase's own context holds ≥ 4 of 7 by its end): REFUTED, but the threshold was
+  mis-set.** Under one-back a new context gets about half the population by design (the rest keep
+  the just-departed one). 300 s phases reach 3.4-4.0, the same as 1000 s phases (3.4-4.3). Every
+  phase is learned to the 1000 s level within 300 s.
+- **Reading:** phase length (300 vs 1000 s) barely changes anything for disjoint contexts. Step 0's
+  deviation (checkb: the just-departed filler dropped, older core residue kept) came from what
+  differs there: **input overlap**, with fillers sharing 3-5 inputs with the cores. Which part of
+  overlap matters (the shared inputs themselves, or overlap with *several* cores at once) is open.
+  That's the natural next arm: v1b at 300 s with 50% overlap, a direct comparison to ov50 at 1000 s.
+
 ## 2026-09-28 — Generalization step 0 + the long world: re-assignment is change-triggered (never between changes), but "exactly one back" is schedule-dependent: after a short, overlapping filler the substrate drops the just-departed filler and keeps the older core's residue; no drift and no residue build-up over 20 phases
 
 **Why:** `experiment_plan_generalization.md`, step 0. Every earlier one-back measurement used 1000 s

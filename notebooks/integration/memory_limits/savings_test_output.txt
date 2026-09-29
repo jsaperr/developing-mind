@@ -1,0 +1,3 @@
+reawakened return phases: recognition paired n=71, OFF-ON steps median 0.0, mean 0.13
+  w_fast at +20 steps: paired n=71, ON/OFF median ratio 1.86, share >= 1.5x 94%
+  named-report accuracy ON 0.9843  OFF 0.9843

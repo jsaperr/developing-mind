@@ -1,0 +1,10 @@
+{
+ "paired_phases_recognition": 71,
+ "recog_diff_median": 0.0,
+ "recog_diff_mean": 0.1267605633802817,
+ "paired_phases_wfast": 71,
+ "wfast_ratio_median": 1.8636078786778412,
+ "wfast_ratio_ge_1p5": 0.9436619718309859,
+ "acc_on": 0.9843096965926825,
+ "acc_off": 0.9843445883039104
+}

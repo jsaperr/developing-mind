@@ -1,0 +1,26 @@
+short-phase seeds: 8
+
+SHORT 300 s disjoint: mean holders per context (A B C)
+  swap 1 ->B before  7.00  0.00  0.00
+  swap 1 ->B +150    3.75  3.25  0.00
+  swap 2 ->C before  3.50  3.50  0.00
+  swap 2 ->C +150    0.88  3.00  3.12
+  swap 3 ->A before  0.50  2.88  3.62
+  swap 3 ->A +150    3.75  0.88  2.38
+  swap 4 ->B before  4.00  0.75  2.25
+  swap 4 ->B +150    2.62  3.38  1.00
+  end of run         2.62  3.38  1.00
+
+v1b 1000 s disjoint (reference): mean holders per context (A B C)
+  swap 1 ->B before  7.00  0.00  0.00
+  swap 1 ->B +150    3.88  3.12  0.00
+  swap 2 ->C before  3.62  3.38  0.00
+  swap 2 ->C +150    0.38  3.25  3.38
+  swap 3 ->A before  0.25  3.25  3.50
+  swap 3 ->A +150    3.62  0.75  2.62
+  swap 4 ->B before  4.25  0.38  2.38
+  swap 4 ->B +150    3.00  3.50  0.50
+  end of run         2.88  3.75  0.38
+
+SP-P1: at C's arrival, A holders at +150 = 0.88 (<= 0.5?), B keeps 86% (>= 60%?); incoming holders just before two-back returns: swap 3 (A) 0.50, swap 4 (B) 0.75 (<= 1?)
+SP-P2: own-context holders at the end of each phase: 7.00  3.50  3.62  4.00  3.38  (all >= 4?)

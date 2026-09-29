@@ -98,6 +98,53 @@ substrate runs are replayed into memory, with no feedback yet.
 
 ---
 
+## 2026-09-28 — Savings is real with dormant entries (strength regained ~1.9x faster, recognition time unchanged, as predicted); check (b) with the new memory: A recognized 8/8, primacy 8/8, accuracy up
+
+**Scripts:** `notebooks/integration/memory_limits/savings_test.py` and `checkb_new_memory.py`
+(predictions committed before the first run), outputs `..._output.txt`. The memory is the src
+`DormantGatedMemory` (radius 0.8, anchoring, dormant entries, NOVEL), rectified readout.
+
+**Savings** (long world, W=10; dormant ON vs OFF, where OFF means evicted entries are pruned at
+once; paired over the 71 return phases where ON reawakened a dormant entry):
+- **SV-P1 (recognition time NOT faster): CONFIRMED.** Median paired difference 0 steps (mean 0.13).
+  Recognition needs an entry, and creation waits for the substrate to settle. Strength only breaks
+  ties, so it can't speed up a clear content match.
+- **SV-P2 (strength regained ≥ 1.5x faster in ≥ 80% of phases): CONFIRMED.** w_fast 20 steps after
+  creation is **1.86x** higher (median), ≥ 1.5x in 94% of phases. The inherited w_char raises the
+  learning multiplier.
+- **SV-P3 (no accuracy cost): CONFIRMED** (0.9843 both).
+- **Reading:** this is the framework's "forgetting as raised threshold rather than deletion", in the
+  form the principles allow. A forgotten context isn't *recognized* sooner, but it *re-strengthens*
+  much faster. That's genuine savings in the slope sense the July work asked for, and it comes
+  without the content-fidelity cost July found. Here it's a by-product of dormant character, not a
+  separate rate-modulation hack.
+
+**Check (b) with the new memory** (checkb, 8 seeds; old = `GatedEpisodicMemory` r0.5, new = the
+dormant memory):
+
+| clock | memory | A recognized (report level) | all 3 cores carry character | A highest | C > B | named accuracy |
+|---|---|---|---|---|---|---|
+| W=10 | old | 6/8 | 8/8 | 5/8 | 0/8 | 0.793 |
+| W=10 | **new** | **8/8** | 8/8 | **8/8** | 0/8 | **0.978** |
+| W=50 | old | 8/8 | 8/8 | 8/8 | 0/8 | 0.967 |
+| W=50 | new | 8/8 | 8/8 | 8/8 | 0/8 | **0.998** |
+
+- **CN-P1 (all three cores carry character 8/8 with the new memory, both clocks): CONFIRMED.** But the
+  contrast stated in its parenthesis doesn't show. With this metric (content-nearest entry, any
+  birth) the old memory also scores 8/8, because re-created or merged entries stand in for evicted
+  cores. The earlier "2/8" counted only entries born in the core's own first phase.
+- **CN-P2 (A recognized, new ≥ old): CONFIRMED** (8/8 vs 6/8 at W=10; 8/8 both at W=50).
+- **CN-P3 (primacy ≥ 6/8, no recency): CONFIRMED** (A highest 8/8 at both clocks; C > B 0/8, as the
+  timescale argument predicts for runs this short).
+- **CN-P4 (accuracy new ≥ old − 0.005): CONFIRMED,** with a large gain at W=10 (0.793 → 0.978). The
+  accuracy here uses each entry's creation-time tag, so the old memory's content drift shows up as
+  error. That's the drift anchoring removes.
+- **Net for the July question:** with the new memory, the integrated check (b) keeps every core's
+  character, recognizes the first context 8/8 at both clocks, and shows clean primacy. Recency, as
+  established, is a long-timescale property, and these runs are too short for it.
+
+---
+
 ## 2026-09-28 — NOVEL report passes (all four predictions), and dormant entries + anchoring + NOVEL are built into `src` as `episodic_dormant.py`
 
 **Decision (Jasper, 2026-09-28):** build dormant entries with anchoring; add a NOVEL output if its

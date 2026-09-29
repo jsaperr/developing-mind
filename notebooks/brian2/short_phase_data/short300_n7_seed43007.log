@@ -1,0 +1,9 @@
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([1.74686959e-03, 8.12217709e-03, 1.01152850e-02, ...,
+       1.49999796e+03, 1.49999805e+03, 1.49999910e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+[seed 43007 t=250s] wall=48s
+[seed 43007 t=500s] wall=101s
+[seed 43007 t=750s] wall=147s
+[seed 43007 t=1000s] wall=192s
+[seed 43007 t=1250s] wall=239s
+[seed 43007 t=1500s] wall=284s
+short-phase seed 43007 -> C:\Users\urawi\OneDrive\Desktop\a wide variety of vscode projects\developing-mind\notebooks\brian2\short_phase_data\short300_n7_seed43007.json.gz (completed)

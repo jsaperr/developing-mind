@@ -1,0 +1,4 @@
+W10 old (gated, r0.5)      A recognized 6/8 | all 3 cores carry character 8/8 | A highest 5/8 C>B 0/8 | acc 0.793 | NOVEL 0.0%
+W10 new (dormant, r0.8)    A recognized 8/8 | all 3 cores carry character 8/8 | A highest 8/8 C>B 0/8 | acc 0.978 | NOVEL 0.2%
+W50 old (gated, r0.5)      A recognized 8/8 | all 3 cores carry character 8/8 | A highest 8/8 C>B 0/8 | acc 0.967 | NOVEL 0.0%
+W50 new (dormant, r0.8)    A recognized 8/8 | all 3 cores carry character 8/8 | A highest 8/8 C>B 0/8 | acc 0.998 | NOVEL 0.0%
