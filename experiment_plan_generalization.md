@@ -48,6 +48,10 @@ For each new setting, run the same pipeline used so far, and score:
 
 Any re-tuned number gets logged as "re-grounded at setting X", never silently changed.
 
+**Tripwire (2026-09-28, `framework_drift.md` item 10):** if any gate number (radius 0.8, the 60 s / 900 s
+change window, stability tau 0.9, k=3) has to be re-tuned by hand for a new setting, flag it. That's evidence
+we're routing around the thalamus. The fix is to make that number self-set from the system's own statistics.
+
 ## Step 0: free, on existing data (do first; no runs)
 
 **DONE 2026-09-28** (`docs/log/brian2/05_nonstationary_correlation.md`, top entry). Re-assignment is
