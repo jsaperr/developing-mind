@@ -1,19 +1,34 @@
-# Experiment Plan: does the integration story generalize beyond the one rig?
+# Experiment Plan: does the integration story generalize beyond the one rig, and onto real data?
 
-**Status:** PLANNED, not run. Written 2026-09-28 at Jasper's request, while the long world ran.
-Nothing here has been launched.
-**Phase:** Brian2 substrate + integration replay. It re-runs existing pipelines on new substrate
-settings; no new mechanism.
+**Status:** IN PROGRESS. Step 0 and step 1's 300 s arms are done (2026-09-28). Steps 1 (3000 s), 2, 3
+and 4 (MNIST) are planned, not run. Written 2026-09-28; MNIST folded in as step 4 on 2026-09-29.
+**Phase:** Brian2 substrate + integration replay. Steps 0-3 re-run existing pipelines on new
+synthetic settings. Step 4 is the first real data (MNIST), and needs a few new input and substrate
+pieces (listed there).
 
 ---
 
 ## One-line question
 
 Do the two substrate findings the whole integration layer rests on hold outside the rig they
-were found in?
+were found in, and does the substrate + memory system do something meaningful on real data?
 - **One-back retention:** the substrate holds exactly the just-departed context.
 - **The re-learning window:** a label-free, detectable ~200 s of weight change after every world
   change.
+
+## Why this order
+
+Each step changes one thing, so when something breaks we know what broke it. MNIST changes
+everything at once (rate coding, natural overlap, ten classes, a hundred times the connections), so
+it comes last, after the synthetic steps have told us which variable does what.
+
+| step | what changes | isolates |
+|---|---|---|
+| 0 | nothing (existing data) | change-triggered vs slow release |
+| 1 | phase length | timescale |
+| 2 | network size N | capacity |
+| 3 | number of contexts and inputs | more contexts than neurons can each own |
+| 4 | real data (MNIST) | rate coding, natural overlap, 10 classes, scale |
 
 ## Why now
 
@@ -28,7 +43,9 @@ numbers change:
 - the clock and the horizon.
 
 The plan's job is to find out which results are **logic** (should survive) and which are
-**numbers** (may need re-grounding), before building live coupling on top.
+**numbers** (may need re-grounding), before building live coupling on top. MNIST then asks the
+question the framework (v5, XII) sets for the substrate: does structure precipitate from real
+experience through local plasticity alone?
 
 ## What counts as "generalizes" (fixed now, before any data)
 
@@ -36,78 +53,130 @@ For each new setting, run the same pipeline used so far, and score:
 
 1. **Retention depth k:** holders of the incoming context at 1-, 2-, 3-back returns (the v1b-style
    metric). *Generalizes* = k is small, sharp and consistent across seeds (≥ 7/8 agree). k ≠ 1 is
-   not a failure: it changes memory's job size, and gets recorded as the new number.
+   not a failure: it changes memory's job size, and gets recorded as the new number. (Step 1 showed
+   overlap gives less than one back; that's also a valid k.)
 2. **Change signal:** 60 s weight displacement above its causal trailing threshold. *Generalizes* = it
    fires after ≥ 90% of changes and in < 5% of settled windows, at the same k=3 robust-SD rule. If
    the window is much shorter or longer, re-ground L and trail from the data, and flag it.
 3. **Readout:** settled H+ cosine to the true prototype ≥ 0.9; between-context cosine below 0.8
    (the radius) for disjoint contexts.
-4. **End to end:** the promoted `GatedEpisodicMemory` (adopted rule) with label-free grounding
-   (gap_scale procedure), unchanged. Two-back genuine recognition at W=50 ≥ 7/8 (the v1b result),
-   absorption 0.
+4. **End to end:** the default memory (`DormantGatedMemory`, radius 0.8), unchanged, with the
+   previous `GatedEpisodicMemory` run alongside. Label-free grounding (gap_scale procedure).
+   Two-back genuine recognition at W=50 ≥ 7/8 (the v1b result), absorption 0.
 
 Any re-tuned number gets logged as "re-grounded at setting X", never silently changed.
 
 **Tripwire (2026-09-28, `framework_drift.md` item 10):** if any gate number (radius 0.8, the 60 s / 900 s
 change window, stability tau 0.9, k=3) has to be re-tuned by hand for a new setting, flag it. That's evidence
 we're routing around the thalamus. The fix is to make that number self-set from the system's own statistics.
+Step 4 is the most likely place for it to fire; expect it and treat it as information.
 
-## Step 0: free, on existing data (do first; no runs)
+## Step 0: free, on existing data
 
-**DONE 2026-09-28** (`docs/log/brian2/05_nonstationary_correlation.md`, top entry). Re-assignment is
+**DONE 2026-09-28** (`docs/log/brian2/05_nonstationary_correlation.md`). Re-assignment is
 change-triggered (never between changes). No residue build-up and no readout drift over the 20-phase
-long world. But "exactly one back" is schedule-dependent: after a short, overlapping filler, the
-filler is dropped and older core residue kept. That makes step 1 sharper: it has to separate phase
-length from overlap. Suggested amendment for step 1: add a 300 s-phase *disjoint* v1b arm (phase
-length alone) alongside the 3000 s one, and compare it with checkb (short + overlapping).
+long world. "Exactly one back" turned out to be schedule-dependent, which step 1 then traced to
+overlap.
 
-Original step 0 text:
+## Step 1: phase length
 
-- **Change-triggered or slow release?** checkb has 300 s filler phases. Does a core's holder count
-  (e.g. B's) drop at the *first* following change, even when that phase is only 300 s? If B is
-  released at F2's start, release is triggered by the change. If B is still held through a 300 s
-  filler, release is slow, and a short-phase world would hold more than one back. This is an open
-  Brian2 item and it decides what step 1 is really testing.
-- **Residue accumulation over 20 phases:** the long world (running now) answers it directly (LW-P1).
-- **Retainer fraction vs rig:** already known to be rig-dependent (37% in the 20-input rig, 55% in
-  the 30-input rig at N=7). Step 2 extends this; nothing new to mine.
+**300 s arms DONE 2026-09-28** (arc 05 log):
+- disjoint contexts at 300 s give one-back, just like 1000 s;
+- at 50% overlap, a new context captures most of the population and the just-departed keeps ~37%
+  (disjoint: 86-96%), the same at 300 and 1000 s.
+- So overlap, not phase length, sets the split.
 
-## Step 1: phase length (highest priority)
-
-**Short arm DONE 2026-09-28:** 300 s disjoint phases give one-back like 1000 s, so step 0's
-deviation was overlap, not phase length (arc 05 log). The 300 s 50%-overlap arm is also DONE (same day): overlap, not phase length, sets the split
-(the just-departed keeps ~37% at 50% overlap vs 86-96% disjoint, at 300 and 1000 s). Still to run:
-the 3000 s arm, then steps 2-3.
-
-- **Why:** one-back could be "the change releases the older context" or "1000 s happens to be the
-  release time". Those predict different things at other phase lengths, and the horizon/rehearsal
-  logic depends on which it is.
-- **Design:** v1b schedule (A B C A B), same rig, N=7, 13mV/1.5. Phase lengths 300 s and 3000 s
-  (1000 s exists).
-- **Watch:** at 300 s, is the substrate settled before the change? Substrate settling is ~300 s, so
-  read "settled" carefully.
-- **Cost:** 300 s is 1500 s total (~5 min per batch); 3000 s is 15,000 s total (~50 min for 8 seeds
-  in parallel).
+**Still to run: the 3000 s arm** (disjoint, v1b schedule, N=7, 13mV/1.5). It checks the other
+direction: does a long phase harden the retainers so much that the next change can't release them?
+- **Cost:** 15,000 s total, ~50 min for 8 seeds in parallel.
 
 ## Step 2: network size
 
-- **Design:** v1b schedule, same rig, N ∈ {5, 10, 15} (7 exists), inhibition via
-  `scale_inhib_for_n` (as in arc 03).
+- **Design:** v1b schedule, same 30-input rig, N ∈ {5, 10, 15, 30} (7 exists), inhibition via
+  `scale_inhib_for_n` (as in arc 03). N=30 is added as the bridge to step 4, whose pilot needs
+  20-30 neurons.
 - **Question:** does retention depth grow with N (more neurons, room to keep more contexts), and does
   the retainer fraction stay put?
 - **Watch:** arc 03 found a non-monotonic hierarchy with its minimum at N=7, so N=7 may be atypical.
 - **Cost:** about 16 min per batch at N=7; bigger N is somewhat slower (dispatch-bound). Roughly
-  1 hour for all three.
+  1-1.5 hours for all four.
 
-## Step 3: more inputs, more contexts
+## Step 3: more contexts, more inputs (the synthetic control for step 4)
 
-- **Design:** 60 inputs, 6 disjoint blocks of 10, N=7 and N=15. A schedule with 1-, 2-, 3- and 4-back
+- **Design:** 60 inputs, 6 disjoint blocks of 10, N=7 and N=30. A schedule with 1-, 2-, 3- and 4-back
   returns.
 - **Question:** with more contexts than neurons can each own, does one-back still hold, and does the
   readout still separate contexts?
+- **Why keep it now that MNIST is in the plan:** it separates "more contexts" from "real data". If
+  step 4 breaks and step 3 doesn't, the cause is rate coding or natural overlap, not the context
+  count.
 - **Needs a calibration step first** (target_total and w_init for 60 inputs, as `calibrate_novelc.py`
   did for 30).
 - **Cost:** calibration ~10 min plus a batch ~30-60 min.
+
+## Step 4: MNIST, the first real data
+
+**Why MNIST:**
+- The framework names it as the calibration step (v5, XII): unsupervised STDP, no labels, no loss.
+- There's a published baseline with the same ingredients as our substrate (Diehl & Cook 2015: STDP,
+  weight normalization, lateral inhibition): neurons' weights come to look like digits, with 82-95%
+  accuracy depending on size.
+- Digits share many pixels, so it's natural overlap. That's exactly where our substrate holds less
+  than one back and memory had its weakest case (70% overlap).
+- The split schedule is our two-back test on real data, and it's close to split-MNIST, the standard
+  continual-learning benchmark.
+
+**What's new (hand-built rules, not hand-set numbers):**
+- **Rate-coded input:** each pixel is a wire whose Poisson click rate follows its brightness
+  (max ~64 Hz, as in Diehl & Cook). Each image is shown for ~350 ms, then ~150 ms of rest. The
+  information is in rates, not synchrony. H+ uses rates and weights, so it should carry over.
+- **Adaptive threshold:** each neuron's firing threshold rises a little every time it fires and
+  slowly relaxes. Diehl & Cook needed it so a few neurons don't win every image. It's a homeostatic
+  rule, in the same family as our weight budget. Add it only if the pilot shows a few neurons
+  monopolizing, and log it.
+- **What a "context" is:** a set of digit classes shown together. The memory still only sees
+  fingerprints; labels are used only for scoring.
+
+**4a. Pilot (an afternoon; laptop).**
+- **Setup:** 14×14 images (196 inputs), 4 digit classes, N=20-30, a few hundred images per class.
+- **Questions:**
+  - Do neurons specialize by digit without labels (scored afterwards by the class each neuron
+    responds to most)?
+  - Do their weights look like digits?
+  - Does the H+ fingerprint separate the classes (within-class vs between-class cosine)?
+
+**4b. Split-MNIST two-back (the headline experiment).**
+- **Schedule:** {0,1} → {2,3} → {4,5} → {0,1} → {2,3}, 14×14, N≈30.
+- **Substrate:** how much of {0,1} is still held at its two-back return (expected: little, given
+  natural overlap).
+- **Memory:** replayed into the default memory and the previous one. Is {0,1} recognized at its
+  return, with NOVEL and TRANSITIONAL doing their jobs?
+- **Scored against the synthetic results.**
+
+**4c. Full MNIST (cluster).**
+- **Setup:** 28×28 (784 inputs), N=100-400, the full training set.
+- **Scoring:** the standard label-assignment classification score, to compare with the literature.
+  This is a calibration of the substrate, not a goal in itself.
+
+**Pass criteria for step 4 (fixed now, before any MNIST run; refined in each script's docstring
+before launch):**
+- Pilot: ≥ 60% of neurons respond most to one class (by a clear margin); within-class fingerprint
+  cosine above between-class cosine for every class pair.
+- Split-MNIST: the returning {0,1} is named correctly in more than half of its settled checks in
+  ≥ 6/8 seeds (default memory, W=50), with absorption 0.
+- Full MNIST: a classification score in the published range for its size (a sanity check, not a
+  pass/fail on the architecture).
+
+**Practicalities:**
+- **Data:** MNIST isn't on this machine. It would be downloaded through torchvision (installed) from
+  the standard mirror, ~11 MB. **Ask Jasper before downloading.**
+- **Backend:** MNIST is a new thread with nothing earlier to match, so `cpp_standalone` (~90x
+  faster) is allowed there. Run one small pilot seed in both backends first and log the comparison
+  (arc 06 found they diverge at `strong_tight_gate`).
+- **Compute:**
+  - 4a and 4b run on the laptop, at 196 inputs × 30 neurons ≈ 5,900 connections.
+  - 4c goes to the WWU HTCondor cluster: 784 × 100+ ≈ 78,000+ connections, and full MNIST is
+    ~30,000 simulated seconds per pass.
 
 ## Optional, only if 1-3 hold
 
@@ -116,19 +185,30 @@ the 3000 s arm, then steps 2-3.
 
 ## Order, cost, and where to run
 
-Step 0 (free) → 1 → 2 → 3. That's about 3-4 hours of laptop time in total, at 8 concurrent jobs.
-Steps 2-3 at larger N are the natural first use of the WWU HTCondor cluster if the laptop gets
-tight.
+Step 1 (3000 s) → 2 → 3 → 4a → 4b → 4c.
+- Steps 1-3: about 3 hours of laptop time at 8 concurrent jobs.
+- 4a-4b: an afternoon each, including building the input encoder and (if needed) the adaptive
+  threshold.
+- 4c: the natural first use of the cluster.
+
+**Shortcut if MNIST is the priority:** 4a only needs step 2's N=30 arm to show the substrate behaves
+at that size, so the minimum path is step 2 (N=30) → 4a → 4b. Steps 1 (3000 s) and 3 can run
+alongside or after.
 
 ## Conventions (as for every run so far)
 
 - New `run_*_seed.py` / `run_*_batch.py` reusing the frozen v1 runner via module-attribute
-  overrides. Old scripts untouched.
-- `.json.gz` via `results_io`, seeds in fresh ranges (43000+), manifest rows in
-  `notebooks/brian2/README.md`.
+  overrides, where possible. MNIST needs its own runner (new input builder and, if needed, the
+  adaptive threshold); it goes in its own `notebooks/brian2/mnist_*` directory and `src` stays
+  untouched until something is promoted with tests.
+- `.json.gz` via `results_io`, seeds in fresh ranges (45000+ for steps 1-3, 50000+ for MNIST),
+  manifest rows in `notebooks/brian2/README.md`.
 - **Predictions go in each script's docstring before launch.** Current leanings (not yet
   predictions):
-  - release is change-triggered, so one-back holds at 300 s and 3000 s;
+  - one-back holds at 3000 s;
   - k stays 1 at larger N, but with more retainers per context;
-  - the change-signal window shortens with shorter phases only if settling does.
-- Results go to `docs/log/brian2/` (substrate) and `experiments_integration.md` (end to end).
+  - on MNIST, neurons specialize and weights look like digits, but the substrate holds little of
+    old classes (natural overlap), so memory does most of the carrying, and the 0.8 radius
+    probably needs re-grounding (tripwire).
+- Results go to `docs/log/brian2/` (substrate) and `experiments_integration.md` (end to end). MNIST
+  likely gets its own arc file (`08_mnist.md`).
