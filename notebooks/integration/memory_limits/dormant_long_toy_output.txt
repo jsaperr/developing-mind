@@ -1,0 +1,4 @@
+sigma0.032 no-prune  links  601  WRONG  75 {'C-G': 75}  missed/seed 0.00  C&G shared 8/8  records every 1500 steps: [9.8, 15.8, 20.8, 25.1, 29.8, 35.4, 39.2, 43.8, 49.5, 53.9]
+sigma0.032 prune     links  601  WRONG  75 {'C-G': 75}  missed/seed 0.00  C&G shared 8/8  records every 1500 steps: [9.8, 15.8, 20.8, 25.1, 29.8, 33.2, 31.2, 32.0, 32.9, 33.2]
+sigma0.06 no-prune   links  611  WRONG  48 {'C-G': 48}  missed/seed 1.25  C&G shared 7/8  records every 1500 steps: [10.5, 16.6, 21.9, 26.2, 30.9, 36.6, 40.5, 45.1, 51.1, 55.6]
+sigma0.06 prune      links  608  WRONG  60 {'C-G': 60}  missed/seed 1.62  C&G shared 7/8  records every 1500 steps: [10.5, 16.5, 21.8, 25.9, 30.5, 33.9, 32.1, 32.9, 34.0, 34.4]

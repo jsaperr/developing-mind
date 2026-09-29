@@ -84,6 +84,44 @@ substrate runs are replayed into memory, with no feedback yet.
 
 ---
 
+## 2026-09-28 — Dormant entries under heavy exposure (memory only): the store misattributes only where memory itself can't tell contexts apart, and pruning at baseline bounds it
+
+**Script:** `notebooks/integration/memory_limits/dormant_long_toy.py` (output `..._output.txt`).
+- **World:** synthetic queries, 150 phases x 100 steps, seven returning contexts with graded
+  similarity (the hardest pairs: A-D 0.55, B-F 0.70, C-G 0.85), and fillers that never return (30%
+  of phases). Each phase starts with a 20-step ramp flagged as changing.
+- **Memory:** the adopted rule at radius 0.8, plus the notebook-only dormant store (link radius 0.8).
+- **Arms:** jitter 0.032 / 0.06, and pruning at baseline off / on.
+- Predictions LM-P1..P5 are in the docstring, written before the first run.
+
+| arm | links | wrong links | missed links / seed | records at 1500 / 7500 / 15000 steps |
+|---|---|---|---|---|
+| jitter 0.032, no prune | 601 | 75, **all C-G** | 0.00 | 9.8 / 29.8 / 53.9 |
+| jitter 0.032, prune | 601 | 75, all C-G | 0.00 | 9.8 / 29.8 / **33.2** (flat from ~9000) |
+| jitter 0.06, no prune | 611 | 48, all C-G | 1.25 | 10.5 / 30.9 / 55.6 |
+| jitter 0.06, prune | 608 | 60, all C-G | 1.62 | 10.5 / 30.5 / **34.4** |
+
+- **LM-P1 (no misattribution at cosine ≤ 0.55): CONFIRMED.** 0 wrong links among A, B, C, D, E or
+  the fillers, at both noise levels, over about 600 links.
+- **LM-P2 (the 0.70 pair, B-F: ≤ 2 wrong at 0.032, more at 0.06): better than predicted.** 0 at
+  both noise levels.
+- **LM-P3 (the 0.85 pair, C-G, is one thing at this resolution): CONFIRMED** (shared 8/8, 7/8).
+  Every wrong link is C-G, a pair above the 0.8 radius that memory already treats as one context.
+  **So the store adds no misattribution beyond memory's own resolution limit.** Whatever separates
+  contexts for memory separates them for the store, and whatever doesn't, doesn't. One radius, one
+  limit.
+- **LM-P4 (pruning bounds the store; pruned final ≤ half of unpruned): HALF.** Pruning makes growth
+  flat (about 33 records from step ~9000 on), while without it records grow linearly to ~54. But
+  33 is 61% of 54, not ≤ 50%. The plateau is set by filler rate x record lifetime (a record takes
+  ~7000 steps to decay to baseline), so it's bounded at a level set by how much *significant*
+  one-off experience arrives per character lifetime.
+- **LM-P5 (missed links rare at 0.032): CONFIRMED** (0 per seed). At 0.06 it's 1.3-1.6 per seed,
+  the benign direction again.
+- **Limits:** synthetic input with a linear ramp is not the substrate's transition. The real-input
+  version is the long-world substrate run (`notebooks/brian2/long_world_data/`, launched 2026-09-28).
+
+---
+
 ## 2026-09-28 — Character store on real runs: no misattribution in 31 links, but the store is barely exercised; its only errors are missed links (duplicate records)
 
 **Script:** `notebooks/integration/memory_limits/character_store_real.py` (output `..._output.txt`).

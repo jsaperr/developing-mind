@@ -1,0 +1,90 @@
+{
+ "sigma0.032 no-prune": {
+  "gap_scale": 0.5225144147872924,
+  "links": 601,
+  "wrong": 75,
+  "wrong_pairs": {
+   "C-G": 75
+  },
+  "missed_per_seed": 0.0,
+  "shared_CG_seeds": 8,
+  "records_over_time": [
+   9.75,
+   15.75,
+   20.75,
+   25.125,
+   29.75,
+   35.375,
+   39.25,
+   43.75,
+   49.5,
+   53.875
+  ]
+ },
+ "sigma0.032 prune": {
+  "gap_scale": 0.5225144147872924,
+  "links": 601,
+  "wrong": 75,
+  "wrong_pairs": {
+   "C-G": 75
+  },
+  "missed_per_seed": 0.0,
+  "shared_CG_seeds": 8,
+  "records_over_time": [
+   9.75,
+   15.75,
+   20.75,
+   25.125,
+   29.75,
+   33.25,
+   31.25,
+   32.0,
+   32.875,
+   33.25
+  ]
+ },
+ "sigma0.06 no-prune": {
+  "gap_scale": 0.4846315741539001,
+  "links": 611,
+  "wrong": 48,
+  "wrong_pairs": {
+   "C-G": 48
+  },
+  "missed_per_seed": 1.25,
+  "shared_CG_seeds": 7,
+  "records_over_time": [
+   10.5,
+   16.625,
+   21.875,
+   26.25,
+   30.875,
+   36.625,
+   40.5,
+   45.125,
+   51.125,
+   55.625
+  ]
+ },
+ "sigma0.06 prune": {
+  "gap_scale": 0.4846315741539001,
+  "links": 608,
+  "wrong": 60,
+  "wrong_pairs": {
+   "C-G": 60
+  },
+  "missed_per_seed": 1.625,
+  "shared_CG_seeds": 7,
+  "records_over_time": [
+   10.5,
+   16.5,
+   21.75,
+   25.875,
+   30.5,
+   33.875,
+   32.125,
+   32.875,
+   34.0,
+   34.375
+  ]
+ }
+}
