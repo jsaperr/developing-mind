@@ -2,6 +2,33 @@
 
 Entries moved verbatim from `experiments_brian2.md` on 2026-09-25 (no wording changed). Index: `experiments_brian2.md`.
 
+## 2026-09-29 — Generalization step 1, 3000 s arm: one-back holds after 3000 s holds too; 300, 1000 and 3000 s phases are near-identical, and nothing moves between changes over 2700 s of stable world
+
+**Data:** `notebooks/brian2/long_phase_data/`, seeds 45000-45007, 8/8 completed (2755 s wall). v1b
+schedule A B C A B, 3000 s phases, the same disjoint 30-input rig, N=7, 13mV/1.5 (v1's frozen runner,
+durations overridden). Predictions LP-P1/P2 were in `run_long3000_seed.py`, and the scorer
+`analyze_long3000.py` was committed, both before any result. Output `long3000_output.txt`.
+
+| holders (A B C) | 300 s | 1000 s | **3000 s** |
+|---|---|---|---|
+| swap 2 (→C), before | 3.50 3.50 0.00 | 3.62 3.38 0.00 | 3.50 3.38 0.12 |
+| swap 2, +150 s | 0.88 3.00 3.12 | 0.38 3.25 3.38 | 0.75 3.12 3.12 |
+| swap 3 (→A, two back), before | 0.50 2.88 3.62 | 0.25 3.25 3.50 | 0.38 2.88 3.75 |
+| swap 4 (→B, two back), before | 4.00 0.75 2.25 | 4.25 0.38 2.38 | 3.88 0.12 3.00 |
+
+- **LP-P1 (one-back holds at 3000 s): CONFIRMED.**
+  - B keeps 93% of its holders at C's arrival.
+  - A, held through 3000 s of B, is down to 0.50 by +300 s.
+  - Incoming holders at the two-back returns are 0.38 and 0.12.
+  - Long holds don't harden retainers against release.
+- **LP-P2 (nothing moves between changes): CONFIRMED.** Over each 2700 s stable stretch (from +300 s to
+  the next swap), no context's mean holder count changes by more than 0.38. That's the quiet the
+  re-learning signal relies on.
+- **Reading:** across a 10x range of phase length (300-3000 s), the disjoint-context substrate does the
+  same thing: an even split at the first change, the older context released at the next change, and
+  flat in between. Phase length is not a variable for this substrate; overlap is (step 1's overlap
+  arm). Step 1 is complete.
+
 ## 2026-09-28 — Generalization step 1, overlap arm: with 50% overlapping contexts a new context captures most of the population at 300 s and 1000 s alike, so the just-departed keeps only ~37% (disjoint: 86-96%). Overlap, not phase length, sets the split
 
 **Data:** `notebooks/brian2/short_phase_data/short300ov50_*`, seeds 44000-44007, 8/8 completed (295 s

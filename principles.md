@@ -239,7 +239,7 @@ build-up. It is **not** a general law.
   just-departed filler is dropped and older core residue survives.
 - **What does generalize so far:** re-assignment is triggered by the change (never between changes).
   What decides *which* context loses neurons is open, but **not phase length**: 300 s disjoint
-  phases give one-back just like 1000 s (step 1, same day). The deviation comes with input overlap.
+  phases give one-back just like 1000 s (step 1, same day; 3000 s too, 2026-09-29). The deviation comes with input overlap.
   At 50% overlap, a new context captures most of the population and the just-departed keeps
   only ~37% of its neurons (disjoint: 86-96%), at either phase length. **So one back is the
   disjoint-context case, and overlapping contexts get less than one back.** Memory has to carry

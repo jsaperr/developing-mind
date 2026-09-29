@@ -107,6 +107,8 @@ before running; save full traces for exploratory runs; inspect trajectories befo
   overlap, not phase length. **Overlap arm (same day):** at 50% overlap a new context captures most of
   the population (4.4-4.9 of 7 in 150 s), and the just-departed keeps ~37% (disjoint 86-96%), at 300 s
   and 1000 s alike. One back is the disjoint case; overlap means less than one back.
+  **3000 s arm (2026-09-29):** identical to 300 and 1000 s; long holds don't block release, and nothing
+  moves between changes. Phase length (300-3000 s) is not a variable here. Step 1 complete.
 - One-back retention over longer schedules: does the lock-in residue accumulate across many
   changes, and is release triggered by the change itself or just slow (more than 1000 s)? It
   predicted that A→B→C→A should *not* recognize A instantly, and v1 confirmed that. Still open:
@@ -162,6 +164,7 @@ Each line is the entry's own heading (its conclusion is in the title).
 
 **05 Non-stationary correlation (2026-09-25)**: [`docs/log/brian2/05_nonstationary_correlation.md`](docs/log/brian2/05_nonstationary_correlation.md)
 
+- 2026-09-29 — Generalization step 1, 3000 s arm: one-back holds after 3000 s holds too; 300, 1000 and 3000 s phases are near-identical, and nothing moves between changes over 2700 s of stable world
 - 2026-09-28 — Generalization step 1, overlap arm: with 50% overlapping contexts a new context captures most of the population at 300 s and 1000 s alike, so the just-departed keeps only ~37% (disjoint: 86-96%). Overlap, not phase length, sets the split
 - 2026-09-28 — Generalization step 1, short-phase arm: with 300 s disjoint phases the substrate is one-back, almost exactly as at 1000 s, so step 0's deviation came from overlap, not phase length
 - 2026-09-28 — Generalization step 0 + the long world: re-assignment is change-triggered (never between changes), but "exactly one back" is schedule-dependent: after a short, overlapping filler the substrate drops the just-departed filler and keeps the older core's residue; no drift and no residue build-up over 20 phases

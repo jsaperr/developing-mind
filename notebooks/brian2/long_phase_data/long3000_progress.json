@@ -1,0 +1,70 @@
+{
+ "done": [
+  {
+   "job": [
+    "long3000",
+    45002
+   ],
+   "returncode": 0,
+   "elapsed_s": 2705
+  },
+  {
+   "job": [
+    "long3000",
+    45003
+   ],
+   "returncode": 0,
+   "elapsed_s": 2705
+  },
+  {
+   "job": [
+    "long3000",
+    45006
+   ],
+   "returncode": 0,
+   "elapsed_s": 2705
+  },
+  {
+   "job": [
+    "long3000",
+    45007
+   ],
+   "returncode": 0,
+   "elapsed_s": 2705
+  },
+  {
+   "job": [
+    "long3000",
+    45000
+   ],
+   "returncode": 0,
+   "elapsed_s": 2715
+  },
+  {
+   "job": [
+    "long3000",
+    45004
+   ],
+   "returncode": 0,
+   "elapsed_s": 2725
+  },
+  {
+   "job": [
+    "long3000",
+    45001
+   ],
+   "returncode": 0,
+   "elapsed_s": 2735
+  },
+  {
+   "job": [
+    "long3000",
+    45005
+   ],
+   "returncode": 0,
+   "elapsed_s": 2750
+  }
+ ],
+ "running": [],
+ "pending": []
+}

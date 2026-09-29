@@ -1,0 +1,46 @@
+3000 s seeds: 8
+
+3000 s disjoint: mean holders per context (A B C)
+  swap 1 ->B before  7.00  0.00  0.00
+  swap 1 ->B +150    3.75  3.25  0.00
+  swap 1 ->B +300    3.75  3.25  0.00
+  swap 2 ->C before  3.50  3.38  0.12
+  swap 2 ->C +150    0.75  3.12  3.12
+  swap 2 ->C +300    0.50  2.88  3.62
+  swap 3 ->A before  0.38  2.88  3.75
+  swap 3 ->A +150    3.25  0.38  3.38
+  swap 3 ->A +300    3.50  0.25  3.25
+  swap 4 ->B before  3.88  0.12  3.00
+  swap 4 ->B +150    3.75  2.88  0.38
+  swap 4 ->B +300    3.75  3.00  0.25
+
+1000 s disjoint (v1b, reference): mean holders per context (A B C)
+  swap 1 ->B before  7.00  0.00  0.00
+  swap 1 ->B +150    3.88  3.12  0.00
+  swap 1 ->B +300    3.75  3.25  0.00
+  swap 2 ->C before  3.62  3.38  0.00
+  swap 2 ->C +150    0.38  3.25  3.38
+  swap 2 ->C +300    0.25  3.25  3.50
+  swap 3 ->A before  0.25  3.25  3.50
+  swap 3 ->A +150    3.62  0.75  2.62
+  swap 3 ->A +300    4.00  0.50  2.50
+  swap 4 ->B before  4.25  0.38  2.38
+  swap 4 ->B +150    3.00  3.50  0.50
+  swap 4 ->B +300    2.88  3.75  0.38
+
+300 s disjoint (reference): mean holders per context (A B C)
+  swap 1 ->B before  7.00  0.00  0.00
+  swap 1 ->B +150    3.75  3.25  0.00
+  swap 1 ->B +300    3.50  3.50  0.00
+  swap 2 ->C before  3.50  3.50  0.00
+  swap 2 ->C +150    0.88  3.00  3.12
+  swap 2 ->C +300    0.50  2.88  3.62
+  swap 3 ->A before  0.50  2.88  3.62
+  swap 3 ->A +150    3.75  0.88  2.38
+  swap 3 ->A +300    4.00  0.75  2.25
+  swap 4 ->B before  4.00  0.75  2.25
+  swap 4 ->B +150    2.62  3.38  1.00
+  swap 4 ->B +300    2.62  3.38  1.00
+
+LP-P1: at C's arrival B keeps 93% at +150 (>= 60%?); A holders at +300 = 0.50 (<= 1?); incoming just before two-back returns: swap 3 (A) 0.38, swap 4 (B) 0.12 (<= 1?)
+LP-P2: largest change in any context's mean holders between +300 s after a swap and the next swap: 0.38 (<= 0.5?)

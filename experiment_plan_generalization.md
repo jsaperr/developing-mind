@@ -1,7 +1,7 @@
 # Experiment Plan: does the integration story generalize beyond the one rig, and onto real data?
 
-**Status:** IN PROGRESS. Step 0 and step 1's 300 s arms are done (2026-09-28). Steps 1 (3000 s), 2, 3
-and 4 (MNIST) are planned, not run. Written 2026-09-28; MNIST folded in as step 4 on 2026-09-29.
+**Status:** IN PROGRESS. Steps 0 and 1 are done (2026-09-28/29). Steps 2, 3 and 4 (MNIST) are
+planned, not run. Written 2026-09-28; MNIST folded in as step 4 on 2026-09-29.
 **Phase:** Brian2 substrate + integration replay. Steps 0-3 re-run existing pipelines on new
 synthetic settings. Step 4 is the first real data (MNIST), and needs a few new input and substrate
 pieces (listed there).
@@ -86,7 +86,11 @@ overlap.
   (disjoint: 86-96%), the same at 300 and 1000 s.
 - So overlap, not phase length, sets the split.
 
-**Still to run: the 3000 s arm** (disjoint, v1b schedule, N=7, 13mV/1.5). It checks the other
+**3000 s arm DONE 2026-09-29:** identical to 300 and 1000 s (B keeps 93% at C's arrival, A released to
+0.5 by +300 s, two-back incoming 0.12-0.38, flat between changes). **Step 1 is complete:** phase length
+(300-3000 s) doesn't change the substrate; overlap does.
+
+Original 3000 s text: the 3000 s arm (disjoint, v1b schedule, N=7, 13mV/1.5). It checks the other
 direction: does a long phase harden the retainers so much that the next change can't release them?
 - **Cost:** 15,000 s total, ~50 min for 8 seeds in parallel.
 
