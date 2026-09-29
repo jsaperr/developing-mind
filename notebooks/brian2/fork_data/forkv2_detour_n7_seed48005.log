@@ -1,0 +1,23 @@
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([1.40152591e-03, 2.04732880e-03, 2.28623382e-03, ...,
+       4.99999568e+03, 4.99999837e+03, 4.99999970e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+[seed 48005 t=250s] wall=41s
+[seed 48005 t=500s] wall=86s
+[seed 48005 t=750s] wall=131s
+[seed 48005 t=1000s] wall=176s
+[seed 48005 t=1250s] wall=221s
+[seed 48005 t=1500s] wall=266s
+[seed 48005 t=1750s] wall=311s
+[seed 48005 t=2000s] wall=355s
+[seed 48005 t=2250s] wall=399s
+[seed 48005 t=2500s] wall=443s
+[seed 48005 t=2750s] wall=486s
+[seed 48005 t=3000s] wall=530s
+[seed 48005 t=3250s] wall=574s
+[seed 48005 t=3500s] wall=618s
+[seed 48005 t=3750s] wall=662s
+[seed 48005 t=4000s] wall=705s
+[seed 48005 t=4250s] wall=749s
+[seed 48005 t=4500s] wall=792s
+[seed 48005 t=4750s] wall=835s
+[seed 48005 t=5000s] wall=878s
+fork v2 seed 48005 detour -> C:\Users\urawi\OneDrive\Desktop\a wide variety of vscode projects\developing-mind\notebooks\brian2\fork_data\forkv2_detour_n7_seed48005.json.gz (completed)

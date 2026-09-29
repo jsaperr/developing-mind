@@ -60,6 +60,10 @@ runs are replayed into memory, with no feedback yet.
   and memory flickers between naming each (no blend memory, no NOVEL). The readout normalizes away how
   close the call was; the unnormalized fingerprint magnitude halves under ambiguity. That's a free
   confidence signal, logged as a candidate.
+- **The fork (2026-09-29):** a true fork (Brian2 seeded) shows small differences compounding in the
+  wiring (twins drift to 59% of the unrelated-network distance in 3000 s) while function stays at 0.99; a
+  different experience leaves a lasting wiring mark, a small functional one (0.96), and an explicit
+  memory record. Identity from history holds in function and memory; synapses carry the noise.
 - **Recency has two timescales.** Episode timing (staleness) is exact. Character recency needs age
   differences of about w_char's 2000-step constant, so it's absent in short runs and weak in the
   long world.
@@ -82,6 +86,74 @@ runs are replayed into memory, with no feedback yet.
   the doc itself is unchanged.
 - Not yet done: live/feedback coupling, other N, many-context worlds, curiosity/metacog (out of
   scope by dependency order).
+
+---
+
+## 2026-09-29 — The fork (framework VII): small differences compound in the wiring but barely in function; a different experience leaves a lasting mark in wiring, a small one in function, and an explicit one in memory
+
+**Data:** `notebooks/brian2/fork_data/`, seeds 48000-48007 x 3 branches, disjoint 30-input rig, N=7,
+13mV/1.5.
+- **Design:** a shared past A(1000) B(1000); then **twin1 / twin2** (B for 1000 s with different
+  random clicks) or **detour** (C for 1000 s); then an **identical** test A(1000) B(1000) for all
+  three.
+- **Scripts:** `run_fork_seed.py` (v1), `run_forkv2_seed.py` (v2), `analyze_fork.py` (distances
+  neuron-matched by the Hungarian algorithm; FK-P2b, a functional comparison, was added before any
+  result). Outputs `fork_output.txt`, `forkv2_output.txt`.
+
+**v1 (kept on record): not a fork.**
+- FK-P1 failed: the branches differed from second 1. The network's per-step membrane noise
+  (`sigma_v`) comes from Brian2's own RNG, which no runner seeded. So the "deterministic per seed"
+  line in every batch script was false (corrected in `notebooks/brian2/README.md`; no result relied
+  on it).
+- **Read post-hoc** as an identical-input, independent-neural-noise experiment:
+  - copies with identical input clicks ended up as differently wired as unrelated networks (4.73 vs
+    4.66);
+  - but they represented contexts the same way (fingerprint cosine 0.96, like unrelated runs, 0.95).
+- **v2** seeds Brian2 (`brian2.seed(seed)`; checked bit-identical beforehand). Its predictions were
+  written after seeing v1, and say so.
+
+**v2, a true fork** (weights identical to the bit before 2000 s; the first difference is at 2001 s):
+
+| t (s) | twin1 vs twin2 | detour vs twin1 | unrelated seeds |
+|---|---|---|---|
+| 1900 | 0.00 | 0.00 | 4.62 |
+| 2100 | 0.82 | 4.36 | 4.70 |
+| 3000 (test starts) | 1.52 | 7.52 | 4.90 |
+| 4000 | 2.67 | 7.05 | 4.61 |
+| 5000 | 2.84 | 4.98 | 4.80 |
+
+- **F2-P1 (true fork): CONFIRMED.**
+- **F2-P2 (twins reach ≥ 50% of the unrelated distance within 1000 s and ≥ 80% by 5000 s): REFUTED,
+  in the slow direction.** Small differences *do* compound: two copies that differ only in which
+  random clicks they heard drift apart steadily (0.82 → 1.52 → 2.84), and they're still growing at
+  the end. But it's gradual: 31% of the unrelated distance at 1000 s after the fork, 59% at 3000 s.
+  (v1's FK-P2, "stay below 30%", is refuted too.)
+- **F2-P3 (twins still represent the same thing, fingerprint cosine ≥ 0.9): CONFIRMED, strongly.**
+  0.993 under identical input (unrelated runs: 0.941). **The wiring diverges; the function barely
+  does.**
+- **F2-P4: HALF.**
+  - The detour responds differently to identical input, as predicted: at the test's start it holds
+    0.5 A-neurons vs the twins' 3.75. Memory names A later (W=10: 122 s vs 72-85 s; W=50: 225 s vs
+    119-131 s).
+  - **But the substrate does NOT return to the twin noise floor** (the predicted ≤ 1.5x). At 5000 s
+    the detour-twin distance is 1.75x the twin distance (every seed > 1.2x), and as large as between
+    unrelated networks.
+  - One different experience re-randomizes the wiring, and the shared test doesn't undo it.
+  - Functionally the mark is small but real: detour-twin fingerprint cosine 0.959, between twins'
+    0.993 and unrelated 0.941.
+- **F2-P5 (memory keeps the detour, W=10): CONFIRMED** (C character detour 8/8, twins 0/8). At W=50,
+  0/8 in every branch: 20 checks of C don't lift w_char to the 1.5 criterion. The criterion is
+  clock-dependent, not a memory failure.
+- **Reading, for the framework's fork and "identity from history":**
+  - Wiring is path-dependent and noise-sensitive: small differences compound, as the doc says, and a
+    different experience changes it lastingly.
+  - Function, what the system represents, is robust: forks with the same history stay at 0.99, and a
+    different history leaves a small lasting difference (0.96).
+  - The explicit record of what each fork lived through is in memory.
+  - So the self diverges the way the doc describes, but at three different rates: fast in wiring,
+    slow in function, explicit in memory.
+  - Identity from history holds at the levels it should (function and memory), while individual
+    synapses carry the noise.
 
 ---
 

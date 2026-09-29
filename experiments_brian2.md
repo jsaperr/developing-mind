@@ -164,6 +164,7 @@ Each line is the entry's own heading (its conclusion is in the title).
 
 **05 Non-stationary correlation (2026-09-25)**: [`docs/log/brian2/05_nonstationary_correlation.md`](docs/log/brian2/05_nonstationary_correlation.md)
 
+- 2026-09-29 — The fork (logged in experiments_integration.md): with Brian2 seeded, forked twins' wiring diverges steadily from a tiny input difference while their function stays at 0.99; the runners' membrane noise was never seeded (correction in notebooks/brian2/README.md)
 - 2026-09-29 — Ambiguity (both contexts at once): the substrate holds both readings with zero switching, and the two groups' activity jitters around a tie as white noise, with no rivalry
 - 2026-09-29 — Rest: with no synchrony at all for 3000 s, the substrate holds its tuning exactly (zero re-assignment), barely blurs, and doesn't register rest as a change
 - 2026-09-29 — Generalization step 1, 3000 s arm: one-back holds after 3000 s holds too; 300, 1000 and 3000 s phases are near-identical, and nothing moves between changes over 2700 s of stable world

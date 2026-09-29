@@ -1,0 +1,19 @@
+fork seeds: 8
+FK-P1: max |weight difference| between branches before 2000 s: 0 (== 0?); first differing second: [2001]
+neuron-matched weight distance (mean over seeds):
+   t (s)   twin1-twin2   detour-twin1   independent seeds
+    1900         0.000          0.000               4.616
+    2100         0.817          4.363               4.699
+    2500         1.148          7.375               4.817
+    3000         1.516          7.521               4.898
+    3500         2.278          7.178               4.512
+    4000         2.671          7.054               4.606
+    4500         2.242          4.796               4.670
+    5000         2.844          4.979               4.803
+FK-P2: largest twin / independent ratio after the fork: 59% (<= 30%?)
+FK-P3: A-neurons at the test's start: twins 3.75 (>= 2.5?), detour 0.50 (<= 1?)
+FK-P4: at 5000 s detour-twin1 4.979 vs twin1-twin2 2.844 -> ratio 1.75 (<= 1.5?); per seed ratios [1.63, 1.27, 1.89, 2.14, 1.82, 1.79, 2.18, 1.58]
+FK-P2b: fingerprint cosine over the settled test (identical clicks): twin1-twin2 median 0.993 (>= 0.9?; per seed [0.98, 0.98, 0.99, 1.0, 1.0, 0.99, 0.99, 0.99]), detour-twin1 0.959, independent seeds 0.941
+W=50: twin1: C character 0/8, test-A first named after 131 s, named A 99% of settled | twin2: C character 0/8, test-A first named after 119 s, named A 99% of settled | detour: C character 0/8, test-A first named after 225 s, named A 99% of settled
+W=10: twin1: C character 0/8, test-A first named after 85 s, named A 100% of settled | twin2: C character 0/8, test-A first named after 72 s, named A 100% of settled | detour: C character 8/8, test-A first named after 122 s, named A 100% of settled
+FK-P5 (W=50): detour C character 8/8 and twins 0/8?

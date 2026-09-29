@@ -1,0 +1,198 @@
+{
+ "done": [
+  {
+   "job": [
+    "twin2",
+    48002
+   ],
+   "returncode": 0,
+   "elapsed_s": 930
+  },
+  {
+   "job": [
+    "twin1",
+    48000
+   ],
+   "returncode": 0,
+   "elapsed_s": 935
+  },
+  {
+   "job": [
+    "detour",
+    48001
+   ],
+   "returncode": 0,
+   "elapsed_s": 940
+  },
+  {
+   "job": [
+    "twin1",
+    48002
+   ],
+   "returncode": 0,
+   "elapsed_s": 940
+  },
+  {
+   "job": [
+    "twin2",
+    48000
+   ],
+   "returncode": 0,
+   "elapsed_s": 955
+  },
+  {
+   "job": [
+    "detour",
+    48000
+   ],
+   "returncode": 0,
+   "elapsed_s": 955
+  },
+  {
+   "job": [
+    "twin1",
+    48001
+   ],
+   "returncode": 0,
+   "elapsed_s": 955
+  },
+  {
+   "job": [
+    "twin2",
+    48001
+   ],
+   "returncode": 0,
+   "elapsed_s": 965
+  },
+  {
+   "job": [
+    "detour",
+    48002
+   ],
+   "returncode": 0,
+   "elapsed_s": 1870
+  },
+  {
+   "job": [
+    "twin2",
+    48003
+   ],
+   "returncode": 0,
+   "elapsed_s": 1875
+  },
+  {
+   "job": [
+    "twin1",
+    48003
+   ],
+   "returncode": 0,
+   "elapsed_s": 1880
+  },
+  {
+   "job": [
+    "detour",
+    48004
+   ],
+   "returncode": 0,
+   "elapsed_s": 1890
+  },
+  {
+   "job": [
+    "detour",
+    48003
+   ],
+   "returncode": 0,
+   "elapsed_s": 1895
+  },
+  {
+   "job": [
+    "twin1",
+    48004
+   ],
+   "returncode": 0,
+   "elapsed_s": 1895
+  },
+  {
+   "job": [
+    "twin2",
+    48004
+   ],
+   "returncode": 0,
+   "elapsed_s": 1895
+  },
+  {
+   "job": [
+    "twin1",
+    48005
+   ],
+   "returncode": 0,
+   "elapsed_s": 1900
+  },
+  {
+   "job": [
+    "twin2",
+    48005
+   ],
+   "returncode": 0,
+   "elapsed_s": 2775
+  },
+  {
+   "job": [
+    "detour",
+    48005
+   ],
+   "returncode": 0,
+   "elapsed_s": 2780
+  },
+  {
+   "job": [
+    "twin1",
+    48006
+   ],
+   "returncode": 0,
+   "elapsed_s": 2791
+  },
+  {
+   "job": [
+    "detour",
+    48007
+   ],
+   "returncode": 0,
+   "elapsed_s": 2791
+  },
+  {
+   "job": [
+    "twin2",
+    48007
+   ],
+   "returncode": 0,
+   "elapsed_s": 2796
+  },
+  {
+   "job": [
+    "twin2",
+    48006
+   ],
+   "returncode": 0,
+   "elapsed_s": 2801
+  },
+  {
+   "job": [
+    "detour",
+    48006
+   ],
+   "returncode": 0,
+   "elapsed_s": 2801
+  },
+  {
+   "job": [
+    "twin1",
+    48007
+   ],
+   "returncode": 0,
+   "elapsed_s": 2806
+  }
+ ],
+ "running": [],
+ "pending": []
+}
