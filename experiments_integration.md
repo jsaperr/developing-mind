@@ -23,6 +23,18 @@ inspect trajectories before claiming.
   toward the store (option 2). On real runs: 0 wrong links in 31, but the store is barely exercised
   (no links at W=50) and its only errors are missed links. Design notes on each downside are in that
   entry; the real test needs long worlds with many returns after eviction.
+- **Framework check (developing_mind_framework_v5, III.3), flagged as an inconsistency, not fixed.**
+  - The framework says the forgetting problem is "how to make forgetting hit the episodic layer
+    and not the gradient layer".
+  - The current episodic memory stores w_char *on* each episode, so eviction deletes the character
+    contribution too: forgetting hits both layers. This has been true since eviction arrived
+    (July, v1-v5); fixed-X memory never evicted, so it never showed.
+  - Option 2 (dormant entries) is the framework's stated design, not a change to it. The framework
+    also frames forgetting "as raised threshold rather than deletion" (savings), which is what a
+    dormant entry is.
+  - Second, smaller tension: the framework puts the character gradient "distributed across the whole
+    substrate", but the substrate retains one context back. So character has to live on the memory
+    side, as w_char does.
 - **So Q2 can stay open.** With the radius, the clock's only remaining consequence is the horizon
   (plus the ov70 W=10 case).
 
