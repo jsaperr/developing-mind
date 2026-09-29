@@ -44,6 +44,12 @@ The `brian2_*.ipynb` notebooks at this level are the early single-neuron experim
 - **Batches:** a Python orchestrator with a concurrency cap and a progress JSON rewritten after every
   completed job; launch it detached (trailing `&` and `disown`) and use `python -u`. 8-9 concurrent
   jobs is the throughput sweet spot on this machine (about 6 physical cores).
+- **Randomness (corrected 2026-09-29):** the competitive network's per-step membrane noise (`sigma_v`, `xi`)
+  comes from Brian2's own RNG, which the runners do NOT seed. The numpy seed fixes the input only, so two
+  runs of the same seed are NOT bit-identical. The "deterministic per seed" line in the batch scripts'
+  `already_completed` docstrings is wrong (harmless: resumed jobs are simply re-run). For exact
+  reproducibility, call `brian2.seed(seed)` before the run, as `fork_data/run_forkv2_seed.py` does
+  (verified bit-identical).
 - **Backend:** Cython runtime, `dt=0.2 ms`. Do not use `cpp_standalone` for anything compared against
   earlier results (see arc 06).
 - **Old scripts are frozen.** They produced logged results; new experiments get new scripts rather

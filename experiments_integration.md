@@ -580,7 +580,10 @@ consolidation lag). Predictions RC-P1..P4 are in the docstring, written before t
 
 **Data:** `notebooks/brian2/set_worlds_data/`: ov50 (38000-38007), ov70 (39000-39007), checkb
 (40000-40007), all 24 completed. The batch was paused once for Jasper and resumed; runs are
-deterministic per seed. Readout: `notebooks/integration/set_worlds/readout_set_worlds.py`.
+deterministic per seed. **[Correction 2026-09-29: false.** The competitive network adds per-step membrane noise
+(`sigma_v`) from Brian2's own RNG, which no runner seeded, so no two runs are bit-identical. Resumed jobs were
+re-run from scratch, and they're valid independent runs; no result relied on reproduction. Found by the fork
+experiment.**]** Readout: `notebooks/integration/set_worlds/readout_set_worlds.py`.
 - Predictions OV-P1..P4 and CB-P1..P4 were written before any set-world data existed, for the
   contrast readout, and are judged on it.
 - The rectified readout (now the default) is reported alongside.
