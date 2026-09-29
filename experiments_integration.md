@@ -51,6 +51,11 @@ runs are replayed into memory, with no feedback yet.
 - **Check (b), open since July, is answered for these run lengths.** With the new memory: first
   context recognized 8/8 at both clocks, primacy 8/8, every core keeps its character, accuracy
   0.98-1.00.
+- **Rest (2026-09-29):** 3000 s of no synchrony leaves the substrate's tuning exactly in place (not a
+  "change"). Memory recognizes recent contexts as ghosts in the resting activity (about half of rest
+  checks), and those ghost recognitions are what keep an unvisited episode live through the rest
+  (causal, via an idle-memory control). A primitive analogue of sleep replay; also a source of false
+  recognitions a metacognitive layer would need to discount.
 - **Recency has two timescales.** Episode timing (staleness) is exact. Character recency needs age
   differences of about w_char's 2000-step constant, so it's absent in short runs and weak in the
   long world.
@@ -73,6 +78,54 @@ runs are replayed into memory, with no feedback yet.
   the doc itself is unchanged.
 - Not yet done: live/feedback coupling, other N, many-context worlds, curiosity/metacog (out of
   scope by dependency order).
+
+---
+
+## 2026-09-29 — Rest: memory "sees" recent contexts in the substrate's resting activity, and those ghost recognitions are what keep an unvisited memory alive through a long rest (causal)
+
+**Data:** `notebooks/brian2/rest_data/` (A B C REST(3000 s) B, 8 seeds). Substrate side: `docs/log/brian2/05_...`.
+**Memory:** the default src `DormantGatedMemory` replayed on the rectified readout, W=10 and W=50.
+**Scripts:** `analyze_rest.py` (predictions RE-P4/P5 in `run_rest_seed.py`, before launch); the
+post-hoc control is labelled in the same file. Outputs `rest_output.txt`, `rest_posthoc_output.txt`.
+
+**What memory reported during 3000 s of rest** (share of rest checks):
+
+| clock | A | B | C | NOVEL | still changing | stored a "rest" memory |
+|---|---|---|---|---|---|---|
+| W=10 | 7% | 30% | 23% | 38% | 1% | 1/8 seeds |
+| W=50 | 14% | 36% | 15% | 32% | 3% | 2/8 seeds |
+
+- **RE-P4 (ghosts: memory names B or C in ≥ 30% of rest checks, and mostly doesn't store "rest"):
+  CONFIRMED** (53% B or C at W=10; a rest memory in 1/8).
+  - The resting fingerprint is made of whatever neurons are momentarily above average. Those are
+    tuned to the contexts the substrate still holds, so its best match to a real context has a
+    median cosine of 0.80.
+  - Memory recognizes recent contexts in pure noise about half the time, and says "nothing fits"
+    most of the rest.
+  - Even A shows up (7-14%), through its residue neuron.
+- **RE-P5 (ghost recognitions rehearse memory: B's memory still live when B returns, W=10, ≥ 5/8):
+  CONFIRMED** (8/8).
+  - B was last seen 4000 s before its return, far past the fast clock's ~1500 s horizon.
+  - **Post-hoc control (not predicted):** the same replay with memory idle during rest (no queries,
+    entries just age and can be evicted).
+    - W=10: B's memory is **live 0/8 and dormant 8/8** at return, against live 8/8 with the ghosts.
+    - W=50 (horizon 7500 s) makes no difference, as the horizon rule says.
+  - **So the ghost recognitions are what keep B's episode live through rest.**
+  - B is still *named* at its return 8/8 in both arms: when the episode goes dormant, the
+    returning B reawakens it and inherits its character. Rest-time rehearsal keeps the *episode*;
+    the dormant store keeps the *character* either way.
+- **Reading:** with nothing built for it, the resting substrate's spontaneous activity replays
+  echoes of recent contexts, and memory's ordinary rehearsal rule turns those echoes into
+  maintenance. It's a primitive analogue of sleep replay protecting recent memories (framework v5,
+  section I: "the resting state isn't nothing"; III.3: consolidation cycles analogous to sleep).
+- **Caveats:**
+  - Ghost recognitions are also *false* recognitions: memory says "B" when B isn't there, 30% of
+    the time.
+  - A metacognitive layer would need to tell "recognizing in the world" from "recognizing in
+    idle activity". Here the substrate's own rates might carry it, since rest has no synchrony, but
+    that's untested.
+  - The one rest memory (1/8 seeds) shows memory can occasionally store "nothing happening" as a
+    context.
 
 ---
 

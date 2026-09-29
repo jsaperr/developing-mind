@@ -164,6 +164,7 @@ Each line is the entry's own heading (its conclusion is in the title).
 
 **05 Non-stationary correlation (2026-09-25)**: [`docs/log/brian2/05_nonstationary_correlation.md`](docs/log/brian2/05_nonstationary_correlation.md)
 
+- 2026-09-29 — Rest: with no synchrony at all for 3000 s, the substrate holds its tuning exactly (zero re-assignment), barely blurs, and doesn't register rest as a change
 - 2026-09-29 — Generalization step 1, 3000 s arm: one-back holds after 3000 s holds too; 300, 1000 and 3000 s phases are near-identical, and nothing moves between changes over 2700 s of stable world
 - 2026-09-28 — Generalization step 1, overlap arm: with 50% overlapping contexts a new context captures most of the population at 300 s and 1000 s alike, so the just-departed keeps only ~37% (disjoint: 86-96%). Overlap, not phase length, sets the split
 - 2026-09-28 — Generalization step 1, short-phase arm: with 300 s disjoint phases the substrate is one-back, almost exactly as at 1000 s, so step 0's deviation came from overlap, not phase length

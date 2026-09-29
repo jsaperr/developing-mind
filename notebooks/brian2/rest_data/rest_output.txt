@@ -1,0 +1,15 @@
+rest seeds: 8
+mean holders per context (A B C):
+  end of C (rest starts)   0.50  2.75  3.75
+  rest +300                0.50  2.75  3.75
+  rest +1500               0.50  2.75  3.75
+  end of rest              0.50  2.75  3.75
+  B back +150              0.50  3.12  3.38
+  end                      0.50  3.38  3.12
+RE-P1: largest holder change during rest 0.00 (<= 0.5?); B holders at end of rest 2.75 (>= 2?)
+RE-P2: preferred-block share: end of C 0.871, rest +300 0.861, end of rest 0.813 -> fall = 9% of excess over 1/3 (>= 10%?)
+RE-P3: 60 s displacement peak after C's arrival 3.245, at rest onset 0.828, rest +300..end 0.792; rest onset smaller in 8/8 (>= 6?)
+      change flag on during the first 300 s of rest: 0% of seconds (mean over seeds)
+W=10: memory during rest: A 7%  B 30%  C 23%  R 0%  N 38%  T 1% | stored a memory during rest in 1/8 | B's memory live when B returns 8/8 | rest fingerprint's best cosine to A/B/C: median 0.80
+W=50: memory during rest: A 14%  B 36%  C 15%  R 0%  N 32%  T 3% | stored a memory during rest in 2/8 | B's memory live when B returns 8/8 | rest fingerprint's best cosine to A/B/C: median 0.82
+RE-P4 (W=10): names B or C in >= 30% of rest checks? stores a rest memory in <= 3/8?  RE-P5 (W=10): B live >= 5/8?

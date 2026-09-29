@@ -1,0 +1,4 @@
+POST-HOC W=10 ghosts (as run)   : B's memory live at return 8/8, dormant 0/8, B named in > half of its settled return 8/8
+POST-HOC W=10 idle during rest  : B's memory live at return 0/8, dormant 8/8, B named in > half of its settled return 8/8
+POST-HOC W=50 ghosts (as run)   : B's memory live at return 8/8, dormant 0/8, B named in > half of its settled return 8/8
+POST-HOC W=50 idle during rest  : B's memory live at return 8/8, dormant 0/8, B named in > half of its settled return 8/8

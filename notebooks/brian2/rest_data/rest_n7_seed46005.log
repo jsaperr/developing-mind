@@ -1,0 +1,31 @@
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([3.75144101e-03, 8.69207741e-03, 1.20046936e-02, ...,
+       6.99998918e+03, 6.99999357e+03, 7.00000016e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+[seed 46005 t=250s] wall=49s
+[seed 46005 t=500s] wall=97s
+[seed 46005 t=750s] wall=145s
+[seed 46005 t=1000s] wall=192s
+[seed 46005 t=1250s] wall=240s
+[seed 46005 t=1500s] wall=284s
+[seed 46005 t=1750s] wall=328s
+[seed 46005 t=2000s] wall=372s
+[seed 46005 t=2250s] wall=416s
+[seed 46005 t=2500s] wall=459s
+[seed 46005 t=2750s] wall=502s
+[seed 46005 t=3000s] wall=549s
+[seed 46005 t=3250s] wall=593s
+[seed 46005 t=3500s] wall=636s
+[seed 46005 t=3750s] wall=679s
+[seed 46005 t=4000s] wall=723s
+[seed 46005 t=4250s] wall=767s
+[seed 46005 t=4500s] wall=810s
+[seed 46005 t=4750s] wall=854s
+[seed 46005 t=5000s] wall=898s
+[seed 46005 t=5250s] wall=941s
+[seed 46005 t=5500s] wall=985s
+[seed 46005 t=5750s] wall=1029s
+[seed 46005 t=6000s] wall=1072s
+[seed 46005 t=6250s] wall=1116s
+[seed 46005 t=6500s] wall=1160s
+[seed 46005 t=6750s] wall=1204s
+[seed 46005 t=7000s] wall=1246s
+rest seed 46005 -> C:\Users\urawi\OneDrive\Desktop\a wide variety of vscode projects\developing-mind\notebooks\brian2\rest_data\rest_n7_seed46005.json.gz (completed)

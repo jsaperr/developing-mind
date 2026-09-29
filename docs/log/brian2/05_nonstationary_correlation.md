@@ -2,6 +2,38 @@
 
 Entries moved verbatim from `experiments_brian2.md` on 2026-09-25 (no wording changed). Index: `experiments_brian2.md`.
 
+## 2026-09-29 — Rest: with no synchrony at all for 3000 s, the substrate holds its tuning exactly (zero re-assignment), barely blurs, and doesn't register rest as a change
+
+**Data:** `notebooks/brian2/rest_data/`, seeds 46000-46007, 8/8 completed (1315 s wall).
+- **World:** A(1000) B(1000) C(1000) REST(3000) B(1000) s, the disjoint 30-input rig, N=7, 13mV/1.5.
+- **REST:** every wire independent at the same 20 Hz. Only the timing structure goes away; rates are
+  matched (checked on the builder).
+- **Code:** the input builder is local (`run_rest_seed.py`), `src` untouched. Predictions RE-P1..P5
+  were in `run_rest_seed.py` before launch; the scorer `analyze_rest.py` was committed before any
+  result. Output `rest_output.txt`.
+- **Why:** framework v5, section I ("the resting state isn't nothing"). Every earlier run fed a
+  context the whole time.
+
+| mean holders (A B C) | end of C | rest +300 s | rest +1500 s | end of rest | B back +150 s |
+|---|---|---|---|---|---|
+| | 0.50 2.75 3.75 | 0.50 2.75 3.75 | 0.50 2.75 3.75 | 0.50 2.75 3.75 | 0.50 3.12 3.38 |
+
+- **RE-P1 (tuning survives rest): CONFIRMED, exactly.**
+  - Zero change in any holder count over 3000 s of rest, and B still has 2.75 holders when it
+    returns.
+  - With no new context to recruit them, no neuron changes allegiance.
+  - Note that B returning after rest takes back only ~0.4 neurons from C (3.75 → 3.38). Rest was
+    not a change: B came back as a one-back context, not a two-back one.
+- **RE-P2 (selectivity blurs by ≥ 10% of its excess over uniform): narrowly REFUTED** (9%). The
+  preferred-block share goes 0.861 → 0.813 over 3000 s. The blurring is real but slow.
+- **RE-P3 (rest is a smaller event than a change): CONFIRMED.**
+  - The 60 s weight displacement peak at rest onset is 0.83, against 3.25 after C's arrival (8/8
+    seeds).
+  - The re-learning flag was on **0%** of the first 300 s of rest.
+  - The substrate doesn't treat losing all structure as a world change. Only a new structure
+    triggers re-assignment.
+- The memory side (ghosts, rehearsal during rest) is in `experiments_integration.md` (2026-09-29).
+
 ## 2026-09-29 — Generalization step 1, 3000 s arm: one-back holds after 3000 s holds too; 300, 1000 and 3000 s phases are near-identical, and nothing moves between changes over 2700 s of stable world
 
 **Data:** `notebooks/brian2/long_phase_data/`, seeds 45000-45007, 8/8 completed (2755 s wall). v1b

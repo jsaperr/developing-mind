@@ -115,5 +115,53 @@ def main():
     json.dump(out, open(HERE / "rest_summary.json", "w"), indent=1)
 
 
-if __name__ == '__main__':
+if __name__ == '__main__' and len(sys.argv) == 1:
     main()
+
+
+def post_hoc_no_rehearsal_control():
+    """POST-HOC control (added after seeing RE-P5, not predicted): was B's memory kept alive by the ghost
+    recognitions during rest? Same replay, but during rest the memory gets no queries at all: each rest
+    step only ages every live entry by one step and runs eviction (memory idle, no rehearsal). If B's
+    memory then goes dormant before B returns, the ghosts are what kept it live."""
+    runs = R.load(HERE / "rest_n7_seed*.json.gz")
+    for W in (10, 50):
+        rng = np.random.default_rng(0); torch.manual_seed(0)
+        streams = [R.build(d, wm, r, chg, W, "H+", rng) for d, wm, r, chg in runs]
+        gs = RS.ground_gap_scale(streams)
+        res = {}
+        for mode in ("ghosts (as run)", "idle during rest"):
+            live, dormant_b, named_back = 0, 0, 0
+            for s in streams:
+                m = DormantGatedMemory(dim=30, gap_scale=gs)
+                P = np.vstack([protos3(), np.zeros(30)])
+                tag, checked, reports_ret = {}, False, []
+                for i, x in enumerate(torch.tensor(s['q'], dtype=torch.float32)):
+                    if s['ph'][i] == 4 and not checked:
+                        checked = True
+                        live += any(tag.get(e) == 1 for e in m.mem.ids)
+                        dormant_b += any(tag.get(dd['id']) == 1 for dd in m.dormant)
+                    if s['ph'][i] == 3 and mode == "idle during rest":
+                        mem = m.mem
+                        mem.staleness = [st + 1 for st in mem.staleness]
+                        snap = {e: (mem.patterns[k].clone(), mem.w_char[k]) for k, e in enumerate(mem.ids)}
+                        mem.prune_step(m.t); m.t += 1
+                        for e in [e for e in snap if e not in mem.ids]:
+                            m.dormant.append(dict(id=e, pattern=snap[e][0], w_char=snap[e][1]))
+                        for dd in m.dormant:
+                            dd['w_char'] += 0.0005 * (1 - dd['w_char'])
+                        continue
+                    o = m.step(x, steady=bool(s['steady'][i]), changing=bool(s['changing'][i]))
+                    if o['created'] is not None:
+                        tag[o['created']] = int(np.argmax(P @ x.numpy()))
+                    if s['ph'][i] == 4 and s['settled'][i]:
+                        rep = o['report']
+                        reports_ret.append(rep is not TRANSITIONAL and rep != NOVEL and tag.get(rep) == 1)
+                named_back += np.mean(reports_ret) > 0.5
+            res[mode] = (live, dormant_b, named_back)
+            print(f"POST-HOC W={W} {mode:18s}: B's memory live at return {live}/8, dormant {dormant_b}/8, "
+                  f"B named in > half of its settled return {named_back}/8")
+
+
+if __name__ == '__main__' and len(sys.argv) > 1 and sys.argv[1] == 'posthoc':
+    post_hoc_no_rehearsal_control()

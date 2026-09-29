@@ -1,0 +1,70 @@
+{
+ "done": [
+  {
+   "job": [
+    "rest",
+    46005
+   ],
+   "returncode": 0,
+   "elapsed_s": 1275
+  },
+  {
+   "job": [
+    "rest",
+    46007
+   ],
+   "returncode": 0,
+   "elapsed_s": 1275
+  },
+  {
+   "job": [
+    "rest",
+    46006
+   ],
+   "returncode": 0,
+   "elapsed_s": 1280
+  },
+  {
+   "job": [
+    "rest",
+    46003
+   ],
+   "returncode": 0,
+   "elapsed_s": 1285
+  },
+  {
+   "job": [
+    "rest",
+    46002
+   ],
+   "returncode": 0,
+   "elapsed_s": 1295
+  },
+  {
+   "job": [
+    "rest",
+    46004
+   ],
+   "returncode": 0,
+   "elapsed_s": 1295
+  },
+  {
+   "job": [
+    "rest",
+    46001
+   ],
+   "returncode": 0,
+   "elapsed_s": 1305
+  },
+  {
+   "job": [
+    "rest",
+    46000
+   ],
+   "returncode": 0,
+   "elapsed_s": 1310
+  }
+ ],
+ "running": [],
+ "pending": []
+}
