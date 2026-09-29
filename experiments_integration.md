@@ -35,6 +35,17 @@ inspect trajectories before claiming.
   - Second, smaller tension: the framework puts the character gradient "distributed across the whole
     substrate", but the substrate retains one context back. So character has to live on the memory
     side, as w_char does.
+- **Later 2026-09-28: the long world, generalization step 0, anchoring.**
+  - Substrate: re-assignment is change-triggered, there's no drift over ~15,000 s, and the residue
+    doesn't build up. But "exactly one back" is schedule-dependent (scope caveat in
+    `principles.md`).
+  - The dormant store's wrong links on real input were inherited from memory's own identity drift.
+    **Anchored consolidation** (content can't leave the radius around its birth pattern) stops that
+    drift at no cost elsewhere: absorption 0 everywhere, store wrong links 7 → 1.
+  - Most remaining fast-clock overlap errors are memory naming a context whose match is below its
+    own novelty radius. A NOVEL report would remove them without touching any correct report
+    (counted, not yet run as its own test).
+  - Nothing adopted: anchoring, dormant entries and the NOVEL report are Jasper's calls.
 - **So Q2 can stay open.** With the radius, the clock's only remaining consequence is the horizon
   (plus the ov70 W=10 case).
 
@@ -81,6 +92,45 @@ substrate runs are replayed into memory, with no feedback yet.
   hypothesis, untested, is consolidation lag at the 50 s clock, which would make it a Q2 question.
 - Not yet done: live/feedback coupling, network sizes other than N=7, worlds with more than a
   handful of contexts, curiosity/metacog (out of scope by dependency order).
+
+---
+
+## 2026-09-28 — Anchored consolidation stops identity drift at no cost; the rest of the fast-clock overlap errors are memory naming a context it doesn't actually match
+
+**Script:** `notebooks/integration/memory_limits/anchored_consolidation.py` (predictions AN-P1..P4
+committed before the first run), output `..._output.txt`.
+- **Rule:** each entry keeps its birth pattern. It consolidates only toward queries within the
+  radius (0.8) of that birth pattern, and never moves outside that radius. Nothing else changes.
+- **Setup:** notebook-only variant, `src` untouched. Radius 0.8, all 8 worlds, both clocks.
+
+- **What it fixed:** absorption (an established entry changing identity) is **0 in every cell**
+  (ov70 W=10: 6 → 0; long world W=10: 3 → 0). Dormant-store wrong links in the long world drop
+  **7 → 1**. D steps won by an A-born entry go 26% → 14%.
+- **AN-P3 (no cost elsewhere): CONFIRMED.** Every cell except ov70 W=10 is identical, or within 0.007
+  accuracy (the long world).
+- **AN-P1 (ov70 W=10 merged ≤ 2/8): REFUTED** (5/8), and accuracy *fell* there (0.90 → 0.81), with more
+  entries (**AN-P4 refuted there**: created per occurrence +0.30; elsewhere +0.02 at most).
+  **AN-P2: HALF** (wrong links 1, as predicted; but A-born wins 14%, not ≤ 5%).
+- **Diagnosis of the remainder (post-hoc, ov70 and the long world, W=10, anchored):**
+  - The merged entries were born clean (0.86-0.95 to one prototype), so it's not blended births.
+  - Over settled committed reports:
+    - **every correct report came from a winner matching the query at ≥ 0.8** (0 of 13,307
+      below);
+    - **73-79% of wrong reports came from a winner matching below 0.8** (ov70 251 of 345; long
+      world 221 of 279).
+  - Memory names its best match even when that match is below its own novelty radius, i.e. when
+    it *knows* the query is new (it just can't create an entry yet: creation waits for steady).
+- **The implied fix, not yet run as its own test:** a third output state. Report NOVEL (or keep
+  TRANSITIONAL) when the best match is below the radius, as TRANSITIONAL already does while the
+  substrate re-learns.
+  - Counting from these numbers (accuracy by birth label): ov70 W=10 committed accuracy would go 0.88 → 0.96, and the long
+    world 0.975 → 0.995, without touching a single correct report.
+  - It's the absolute-match lesson (`principles.md`) again, now at the report level: "no candidate
+    fits" should be said, not papered over with the best bad fit.
+- **Recommendation:**
+  - Anchoring goes with dormant entries: it's the identity stability they need, and it's free
+    elsewhere.
+  - The NOVEL report is the natural next small step. Both are Jasper's call; nothing is adopted.
 
 ---
 

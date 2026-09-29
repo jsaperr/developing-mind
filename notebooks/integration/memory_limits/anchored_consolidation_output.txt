@@ -1,0 +1,48 @@
+
+##### 13mV v1b
+  W=10 r0.8           acc 0.987 abs 0 merged 0/8 created/occ 0.67 | A two-back 8/8 | B two-back 6/8
+  W=10 r0.8 anchored  acc 0.987 abs 0 merged 0/8 created/occ 0.67 | A two-back 8/8 | B two-back 6/8
+  W=50 r0.8           acc 1.000 abs 0 merged 0/8 created/occ 0.60 | A two-back 8/8 | B two-back 8/8
+  W=50 r0.8 anchored  acc 1.000 abs 0 merged 0/8 created/occ 0.60 | A two-back 8/8 | B two-back 8/8
+
+##### 13mV v1c
+  W=10 r0.8           acc 0.989 abs 0 merged 0/8 created/occ 0.69 | B 2000s 0/8
+  W=10 r0.8 anchored  acc 0.989 abs 0 merged 0/8 created/occ 0.69 | B 2000s 0/8
+  W=50 r0.8           acc 1.000 abs 0 merged 0/8 created/occ 0.50 | B 2000s 8/8
+  W=50 r0.8 anchored  acc 1.000 abs 0 merged 0/8 created/occ 0.50 | B 2000s 8/8
+
+##### stg v1b
+  W=10 r0.8           acc 0.982 abs 0 merged 0/8 created/occ 0.72 | A two-back 8/8 | B two-back 7/8
+  W=10 r0.8 anchored  acc 0.982 abs 0 merged 0/8 created/occ 0.72 | A two-back 8/8 | B two-back 7/8
+  W=50 r0.8           acc 1.000 abs 0 merged 0/8 created/occ 0.60 | A two-back 8/8 | B two-back 8/8
+  W=50 r0.8 anchored  acc 1.000 abs 0 merged 0/8 created/occ 0.60 | A two-back 8/8 | B two-back 8/8
+
+##### stg v1c
+  W=10 r0.8           acc 0.985 abs 0 merged 0/8 created/occ 0.69 | B 2000s 1/8
+  W=10 r0.8 anchored  acc 0.985 abs 0 merged 0/8 created/occ 0.71 | B 2000s 1/8
+  W=50 r0.8           acc 1.000 abs 0 merged 0/8 created/occ 0.50 | B 2000s 8/8
+  W=50 r0.8 anchored  acc 1.000 abs 0 merged 0/8 created/occ 0.50 | B 2000s 8/8
+
+##### ov50
+  W=10 r0.8           acc 0.979 abs 0 merged 0/8 created/occ 0.93 | A two-back 5/8 | B two-back 1/8
+  W=10 r0.8 anchored  acc 0.979 abs 0 merged 0/8 created/occ 0.93 | A two-back 5/8 | B two-back 1/8
+  W=50 r0.8           acc 1.000 abs 0 merged 0/8 created/occ 0.60 | A two-back 8/8 | B two-back 8/8
+  W=50 r0.8 anchored  acc 1.000 abs 0 merged 0/8 created/occ 0.60 | A two-back 8/8 | B two-back 8/8
+
+##### ov70
+  W=10 r0.8           acc 0.900 abs 6 merged 6/8 created/occ 0.65 | A two-back 4/8 | B two-back 3/8
+  W=10 r0.8 anchored  acc 0.814 abs 0 merged 5/8 created/occ 0.95 | A two-back 5/8 | B two-back 2/8
+  W=50 r0.8           acc 0.976 abs 0 merged 0/8 created/occ 0.60 | A two-back 8/8 | B two-back 8/8
+  W=50 r0.8 anchored  acc 0.977 abs 0 merged 0/8 created/occ 0.60 | A two-back 8/8 | B two-back 8/8
+
+##### checkb
+  W=10 r0.8           acc 0.970 abs 0 merged 0/8 created/occ 0.89 | A return 5/8
+  W=10 r0.8 anchored  acc 0.970 abs 0 merged 0/8 created/occ 0.89 | A return 5/8
+  W=50 r0.8           acc 0.998 abs 0 merged 0/8 created/occ 0.73 | A return 8/8
+  W=50 r0.8 anchored  acc 0.998 abs 0 merged 0/8 created/occ 0.73 | A return 8/8
+
+##### long world
+  W=10 r0.8           acc 0.960 abs 3 D steps won by A-born 26.1% | store links 74 WRONG 7 | created/occ 0.77
+  W=10 r0.8 anchored  acc 0.953 abs 0 D steps won by A-born 13.7% | store links 76 WRONG 1 | created/occ 0.79
+  W=50 r0.8           acc 0.997 abs 0 D steps won by A-born 0.2% | store links 8 WRONG 0 | created/occ 0.30
+  W=50 r0.8 anchored  acc 0.997 abs 0 D steps won by A-born 0.2% | store links 8 WRONG 0 | created/occ 0.30
