@@ -6,95 +6,73 @@ and the ESN in `experiments_esn.md`. The design spec for this phase is `system_c
 Entries are newest first. State predictions before running, keep contaminated runs on record,
 inspect trajectories before claiming.
 
-## Current state (2026-09-26, updated 2026-09-28): semi-wrapped
+## Current state (2026-09-28): wrapped for now
 
-**Update 2026-09-28** (entries below; the lists further down are from 2026-09-26):
-- **Memory's overlap limit is solved at the slow clock by one similarity radius** (novelty threshold =
-  consolidation floor = 0.8). It fixes ov70 at W=50 (B 0/8 → 8/8), removes the ov50 fast-clock
-  merging, and costs nothing elsewhere. Recommended as the default, not yet adopted (`src`
-  unchanged). ov70 at W=10 still merges (6/8).
-- **Recency is not a clock question.** Recency in w_char and survival under eviction can't coexist:
-  w_char needs ~2000 steps of age difference to order entries, and eviction removes anything
-  unrehearsed after ~150. No clock choice fixes that. Flagged as an architectural question: should
-  recency live in w_char at all? Staleness already records it exactly.
-- **Where recency lives** (follow-up): timing variables (staleness, w_fast) order B and C 8/8 while both
-  are remembered, but nothing is left to order once B is evicted. A toy persistent character store
-  (records outlive episodes) restores C > B 7-8/8 on long phases with primacy intact. Jasper leans
-  toward the store (option 2). On real runs: 0 wrong links in 31, but the store is barely exercised
-  (no links at W=50) and its only errors are missed links. Design notes on each downside are in that
-  entry; the real test needs long worlds with many returns after eviction.
-- **Framework check (developing_mind_framework_v5, III.3), flagged as an inconsistency, not fixed.**
-  - The framework says the forgetting problem is "how to make forgetting hit the episodic layer
-    and not the gradient layer".
-  - The current episodic memory stores w_char *on* each episode, so eviction deletes the character
-    contribution too: forgetting hits both layers. This has been true since eviction arrived
-    (July, v1-v5); fixed-X memory never evicted, so it never showed.
-  - Option 2 (dormant entries) is the framework's stated design, not a change to it. The framework
-    also frames forgetting "as raised threshold rather than deletion" (savings), which is what a
-    dormant entry is.
-  - Second, smaller tension: the framework puts the character gradient "distributed across the whole
-    substrate", but the substrate retains one context back. So character has to live on the memory
-    side, as w_char does.
-- **Later 2026-09-28: the long world, generalization step 0, anchoring.**
-  - Substrate: re-assignment is change-triggered, there's no drift over ~15,000 s, and the residue
-    doesn't build up. But "exactly one back" is schedule-dependent (scope caveat in
-    `principles.md`).
-  - The dormant store's wrong links on real input were inherited from memory's own identity drift.
-    **Anchored consolidation** (content can't leave the radius around its birth pattern) stops that
-    drift at no cost elsewhere: absorption 0 everywhere, store wrong links 7 → 1.
-  - Most remaining fast-clock overlap errors are memory naming a context whose match is below its
-    own novelty radius. A NOVEL report would remove them without touching any correct report
-    (counted, not yet run as its own test).
-  - **Then adopted and built (Jasper's go):** `src/hopfield/episodic_dormant.DormantGatedMemory` =
-    commit rule + radius 0.8 + anchoring + dormant entries + NOVEL report (on by default; it passed
-    all four predictions). It reproduces the notebook toys exactly (tests). It's the new default
-    memory; `GatedEpisodicMemory` (radius 0.5) stays alongside.
-- **So Q2 can stay open.** With the radius, the clock's only remaining consequence is the horizon
-  (plus the ov70 W=10 case).
-
-**What the system is now.** A spiking substrate (STDP, homeostatic scaling, lateral inhibition)
-feeds an episodic memory through a label-free interface. It's offline and one-way: saved
-substrate runs are replayed into memory, with no feedback yet.
-- Interface: `src/integration/interface.py`. The default readout is `rectified`; `contrast` is kept
+**What the system is.** A spiking substrate (STDP, homeostatic scaling, lateral inhibition, N=7)
+feeds an episodic memory through a label-free interface. It's offline and one-way: saved substrate
+runs are replayed into memory, with no feedback yet.
+- **Interface:** `src/integration/interface.py`. The default readout is `rectified`; `contrast` is kept
   alongside.
-- Memory: `src/hopfield/episodic_consolidating.GatedEpisodicMemory`, with the adopted commit
-  rule. `src/hopfield/episodic.py` is unchanged.
+- **Memory:** `src/hopfield/episodic_dormant.DormantGatedMemory` is the default (2026-09-28).
+  `GatedEpisodicMemory` (radius 0.5) and the validated `episodic.py` are kept alongside.
+  - **Commit rule:** create only when novel AND steady AND the substrate isn't re-learning;
+    consolidate only when not re-learning; rehearse always; report TRANSITIONAL while re-learning.
+  - **One similarity radius (0.8)** for novelty, the consolidation floor, the anchor and relinking.
+  - **Anchored consolidation:** content can sharpen but never leave its birth radius.
+  - **Dormant entries:** forgetting demotes an episode instead of deleting it. Its character decays
+    and is pruned at baseline; a returning context reawakens it and inherits its character.
+  - **NOVEL report** when nothing matches within the radius.
+- **Tests:** `tests/test_integration_promoted.py` and `tests/test_episodic_dormant.py` (81 passing)
+  show the `src` code reproduces the experiments exactly.
 
 **Established** (each with predictions stated before the run; details in the entries below):
-- **The core split works.** The substrate holds exactly one context back
-  (`principles.md`, named finding), and memory carries older ones. A context the substrate has
-  dropped is recognized by its original memory: 8/8 at W=50, replicated at the opposite-character
-  operating point, robust across 7 neighbouring parameter settings.
-- **Transitional rehearsal (causal).** Every world change opens a window where memory retrieves
-  (it can't create) and each winning entry's eviction clock resets. A lesion kills survival.
-  Memory therefore has to bridge only from the last rehearsal (in practice, the substrate's
-  release of the context) to its return (the horizon rule, confirmed in v1c).
-- **The commit rule** (adopted): create only when the query is novel AND steady AND the substrate
-  isn't re-learning (60 s weight displacement, causal, label-free); consolidate content only when
-  it isn't re-learning; rehearse always; report TRANSITIONAL while it re-learns. Absorption is 0
-  in all 14 disjoint-world cells, and committed accuracy is 0.98-1.00.
-- **The rectified readout H+** reads contexts at 0.96-0.97 with or without 50% input overlap,
-  leaks ~none of the previous context, reads a context the same after any predecessor
-  (0.94-0.99), and removes the cold start. The first context is recognized 8/8 everywhere (it
-  was 0-6/8).
-- Two principle-level lessons (in `principles.md`): the ambiguity gate is relative and can't see
-  novelty (pair it with an absolute match condition); and the one-back finding.
+- **The complementary split works.** The substrate holds recent context and memory carries older
+  context. The two-back test passes 8/8 at W=50, replicated at a second operating point and robust
+  across neighbouring settings.
+- **Transitional rehearsal is causal,** so memory must bridge only from the last rehearsal (in
+  practice, release) to the return: the horizon rule.
+- **The substrate** (arc 05; `principles.md` has the one-back finding and its scope caveat):
+  - it reorganizes when the world changes, and only then;
+  - with disjoint contexts it holds exactly one back, at 300 s and at 1000 s phases;
+  - with 50% overlapping contexts, a new context captures most of the population, so it holds
+    less than one back (again the same at 300 and 1000 s): overlap, not phase length, sets
+    the split;
+  - over a 20-phase world its readout doesn't drift (0.96 over ~15,000 s) and residue doesn't
+    accumulate.
+- **Rectified readout:** 0.96-0.97 with or without overlap, predecessor-independent, no cold start.
+- **Memory:**
+  - The 0.8 radius removes the 70% overlap limit at the slow clock and costs nothing elsewhere.
+  - Anchoring stops identity drift (absorption 0 everywhere).
+  - NOVEL catches 81-90% of wrong reports where they cluster and loses ≤ 0.19% of correct ones.
+  - Dormant entries misattribute only where memory itself can't separate contexts (one radius, one
+    limit), and pruning bounds them.
+- **Savings is real:** a forgotten context re-strengthens 1.9x faster from its dormant character, with
+  no faster recognition (strength breaks ties) and no accuracy cost.
+- **Check (b), open since July, is answered for these run lengths.** With the new memory: first
+  context recognized 8/8 at both clocks, primacy 8/8, every core keeps its character, accuracy
+  0.98-1.00.
+- **Recency has two timescales.** Episode timing (staleness) is exact. Character recency needs age
+  differences of about w_char's 2000-step constant, so it's absent in short runs and weak in the
+  long world.
+- **Principle-level lessons** (`principles.md`):
+  - the ambiguity gate needs an absolute-match condition, and that now applies at the report level
+    too (NOVEL);
+  - one threshold per question;
+  - forgetting should hit episodes, not character (framework III.3, which the build had violated
+    since July; fixed).
 
 **Open:**
-- **Q2, the clock (Jasper's requirement).** How long after the substrate releases a context
-  should it stay recognizable? That number sets staleness x clock. At W=10 memory's horizon is
-  1500 s, and anything beyond that is lost, correctly, by the rule. At W=50 it's 7500 s.
-- **Content consolidation under input overlap at the fast clock** merges contexts (50% overlap,
-  W=10: 4/8 seeds). Gated creation alone keeps overlapping contexts separate. At W=50 there's no
-  merging.
-- **Memory's overlap limit** (70% overlap, predicted): contexts more similar than memory's novelty
-  threshold get merged, even with perfect input. That's a memory-mechanism question (a finer or
-  adaptive novelty criterion, or pattern separation).
-- **Integrated check (b):** the original failure doesn't recur (W=50, rectified: A recognized 8/8,
-  cores alive 7/8), and primacy holds. **Recency ordering fails in every arm** (C > B 0/8); the
-  hypothesis, untested, is consolidation lag at the 50 s clock, which would make it a Q2 question.
-- Not yet done: live/feedback coupling, network sizes other than N=7, worlds with more than a
-  handful of contexts, curiosity/metacog (out of scope by dependency order).
+- **Q2, the clock** (Jasper: unknowable this early). With the radius, its only consequence is the
+  horizon.
+- **70% overlap at the fast clock** is still the weakest cell (NOVEL takes it to 0.92 named accuracy).
+- **Generalization** (`experiment_plan_generalization.md`):
+  - Step 0 and step 1's short arms (disjoint and 50% overlap) are done.
+  - Still to do: the 3000 s arm, network size, more inputs and contexts.
+- **Where recency should live long-term** is a framework question.
+  `framework_drift.md` collects every place the build departs from framework v5. It's provisional;
+  the doc itself is unchanged.
+- Not yet done: live/feedback coupling, other N, many-context worlds, curiosity/metacog (out of
+  scope by dependency order).
 
 ---
 

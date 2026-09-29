@@ -71,8 +71,9 @@ Original step 0 text:
 ## Step 1: phase length (highest priority)
 
 **Short arm DONE 2026-09-28:** 300 s disjoint phases give one-back like 1000 s, so step 0's
-deviation was overlap, not phase length (arc 05 log). Still to run: the 3000 s arm, and a 300 s arm
-with 50% overlap to find which aspect of overlap matters.
+deviation was overlap, not phase length (arc 05 log). The 300 s 50%-overlap arm is also DONE (same day): overlap, not phase length, sets the split
+(the just-departed keeps ~37% at 50% overlap vs 86-96% disjoint, at 300 and 1000 s). Still to run:
+the 3000 s arm, then steps 2-3.
 
 - **Why:** one-back could be "the change releases the older context" or "1000 s happens to be the
   release time". Those predict different things at other phase lengths, and the horizon/rehearsal

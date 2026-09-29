@@ -104,7 +104,9 @@ before running; save full traces for exploratory runs; inspect trajectories befo
   after a short (300 s), partly overlapping filler, the substrate drops the filler and keeps older
   core residue. Why (phase length, overlap, group sizes) is open. That's the plan's step 1.
   **Step 1 short arm (2026-09-28):** 300 s *disjoint* phases give one-back just like 1000 s, so it's
-  overlap, not phase length. Which aspect of overlap is open.
+  overlap, not phase length. **Overlap arm (same day):** at 50% overlap a new context captures most of
+  the population (4.4-4.9 of 7 in 150 s), and the just-departed keeps ~37% (disjoint 86-96%), at 300 s
+  and 1000 s alike. One back is the disjoint case; overlap means less than one back.
 - One-back retention over longer schedules: does the lock-in residue accumulate across many
   changes, and is release triggered by the change itself or just slow (more than 1000 s)? It
   predicted that A→B→C→A should *not* recognize A instantly, and v1 confirmed that. Still open:
@@ -160,6 +162,7 @@ Each line is the entry's own heading (its conclusion is in the title).
 
 **05 Non-stationary correlation (2026-09-25)**: [`docs/log/brian2/05_nonstationary_correlation.md`](docs/log/brian2/05_nonstationary_correlation.md)
 
+- 2026-09-28 — Generalization step 1, overlap arm: with 50% overlapping contexts a new context captures most of the population at 300 s and 1000 s alike, so the just-departed keeps only ~37% (disjoint: 86-96%). Overlap, not phase length, sets the split
 - 2026-09-28 — Generalization step 1, short-phase arm: with 300 s disjoint phases the substrate is one-back, almost exactly as at 1000 s, so step 0's deviation came from overlap, not phase length
 - 2026-09-28 — Generalization step 0 + the long world: re-assignment is change-triggered (never between changes), but "exactly one back" is schedule-dependent: after a short, overlapping filler the substrate drops the just-departed filler and keeps the older core's residue; no drift and no residue build-up over 20 phases
 - 2026-09-25 — v1 world (A→B→C→A→C): one-back retention confirmed within seeds, the residue doesn't grow over four changes, and a residue neuron recognizes a 2-back return

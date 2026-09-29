@@ -2,6 +2,35 @@
 
 Entries moved verbatim from `experiments_brian2.md` on 2026-09-25 (no wording changed). Index: `experiments_brian2.md`.
 
+## 2026-09-28 — Generalization step 1, overlap arm: with 50% overlapping contexts a new context captures most of the population at 300 s and 1000 s alike, so the just-departed keeps only ~37% (disjoint: 86-96%). Overlap, not phase length, sets the split
+
+**Data:** `notebooks/brian2/short_phase_data/short300ov50_*`, seeds 44000-44007, 8/8 completed (295 s
+wall): the ov50 world (v1b schedule, pairwise 50% overlapping input sets) with 300 s phases. Scored
+together with the existing ov50 1000 s runs (`set_worlds_data`, 38000-38007) by
+`analyze_short_ov50.py` (step 0's holder metric), output `short_ov50_output.txt`. Predictions SO-P1/P2
+were in `run_short_ov50_seed.py`, committed before launch and before the 1000 s runs were scored
+with this metric.
+
+| world | incoming holders +150 s (swap 1 / swap 2) | just-departed at swap 2: before → +150 s |
+|---|---|---|
+| ov50, 300 s | 4.75 / 4.38 | 6.00 → 2.25 (**38%**) |
+| ov50, 1000 s | 4.88 / 4.38 | 6.62 → 2.38 (**36%**) |
+| disjoint, 300 s | 3.25 / 3.12 | 3.50 → 3.00 (86%) |
+| disjoint, 1000 s | 3.12 / 3.38 | 3.38 → 3.25 (96%) |
+
+- **SO-P1 (the incoming context takes ≥ 5 of 7 within 150 s, under overlap): REFUTED narrowly, in the
+  predicted direction** (4.4-4.9, vs 3.1-3.4 disjoint). By the end of its phase it holds 6.0-6.6 of 7.
+- **SO-P2 (the just-departed keeps < 60% of its holders): CONFIRMED** (36-38%, vs 86-96% disjoint), at
+  both phase lengths.
+- **Reading:** with overlapping contexts there's no even split and no stable retainer group. Each new
+  context captures most of the population, presumably because neurons tuned to the previous context
+  already respond to the shared inputs. So the substrate holds *less* than one full context back.
+  300 s and 1000 s are indistinguishable, so **overlap, not phase length, sets how much the
+  substrate retains.** This is also what step 0 saw in checkb, whose fillers overlap the cores.
+- **For memory:** nothing breaks. Memory already carries whatever the substrate drops (ov50 two-back
+  recognition 8/8 at W=50), and rehearsal is keyed to changes, which still trigger all
+  re-assignment. It sharpens `principles.md`'s caveat: "one back" is the disjoint-context case.
+
 ## 2026-09-28 — Generalization step 1, short-phase arm: with 300 s disjoint phases the substrate is one-back, almost exactly as at 1000 s, so step 0's deviation came from overlap, not phase length
 
 **Data:** `notebooks/brian2/short_phase_data/`, seeds 43000-43007, 8/8 completed (305 s wall). v1b

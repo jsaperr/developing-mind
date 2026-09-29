@@ -1,0 +1,7 @@
+seeds: ov50 300 s 8, ov50 1000 s 8, disjoint 300 s 8, disjoint 1000 s 8
+ov50, 300 s              | swap 1: incoming holds 4.75 at +150 | swap 2: incoming holds 4.38 at +150, just-departed keeps 38% (6.00 -> 2.25)
+ov50, 1000 s             | swap 1: incoming holds 4.88 at +150 | swap 2: incoming holds 4.38 at +150, just-departed keeps 36% (6.62 -> 2.38)
+disjoint, 300 s (ref)    | swap 1: incoming holds 3.25 at +150 | swap 2: incoming holds 3.12 at +150, just-departed keeps 86% (3.50 -> 3.00)
+disjoint, 1000 s (ref)   | swap 1: incoming holds 3.12 at +150 | swap 2: incoming holds 3.38 at +150, just-departed keeps 96% (3.38 -> 3.25)
+ov50, 300 s: SO-P1 incoming >= 5 at both swaps: False; SO-P2 just-departed keeps < 60%: True
+ov50, 1000 s: SO-P1 incoming >= 5 at both swaps: False; SO-P2 just-departed keeps < 60%: True
