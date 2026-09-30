@@ -171,6 +171,34 @@ before launch):**
 - Full MNIST: a classification score in the published range for its size (a sanity check, not a
   pass/fail on the architecture).
 
+**Mood-map checks (added 2026-09-29, before any MNIST data; see `experiments_integration.md`,
+the mood map).** The three label-free signals (re-learning flag, memory match, fingerprint strength)
+carried to real data, at two nested timescales:
+- **image level:** one memory check per image, from the ~350 ms presentation;
+- **context level:** 10-50 s windows, as now.
+
+Every threshold is self-set from the system's own statistics (the tripwire rule). Any that needs hand
+re-tuning gets flagged.
+- **MC-1, calibration (4a):**
+  - Image-level strength is the unnormalized H+ over the image's presentation.
+  - Bin test images into strength quintiles (quintiles of the run's own strength distribution) and
+    score each bin with the standard label-assignment accuracy (labels used only for scoring).
+  - *Pass:* accuracy rises across the quintiles, and the weakest quintile is at least 15 points below
+    the strongest.
+  - Expected failure mode, to report not hide: confidently wrong digits (a 4 written like a 9).
+    Strength can't catch those, as in the toy worlds.
+- **MC-2, novelty (4a):**
+  - Train on 4 classes, then present 2 held-out classes (and the 4 known ones, interleaved).
+  - An image is "strange" when its best memory match is below the self-set radius (the 5th
+    percentile of known-class best-match similarity during training).
+  - *Pass:* held-out images are strange at least 2x as often as known-class images.
+- **MC-3, lost / returning on split-MNIST (4b):** context-level states around each class-set switch.
+  *Pass,* in ≥ 6/8 seeds:
+  - at switches to a never-seen set, at least one "strange" check before the first "home";
+  - at the return to {0,1}, no "strange" before "home" (it goes lost → returning → home).
+- **Also recorded:** which thresholds (radius, change window, strength cutoff) had to be re-grounded
+  for MNIST, and whether the self-set versions coped.
+
 **Practicalities:**
 - **Data:** MNIST isn't on this machine. It would be downloaded through torchvision (installed) from
   the standard mirror, ~11 MB. **Ask Jasper before downloading.**
