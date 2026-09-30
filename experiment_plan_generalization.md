@@ -96,6 +96,9 @@ direction: does a long phase harden the retainers so much that the next change c
 
 ## Step 2: network size
 
+- **Top size, open (2026-09-29):** 30 was a loose judgment call (Diehl & Cook's ~10 neurons per class, scaled
+  down loosely). 40 is proposed so the top size equals the MNIST pilot at their ratio (10 per class x 4
+  classes). Jasper to pick. Seed Brian2 (`brian2.seed(seed)`) in these runs so they're reproducible.
 - **Design:** v1b schedule, same 30-input rig, N ∈ {5, 10, 15, 30} (7 exists), inhibition via
   `scale_inhib_for_n` (as in arc 03). N=30 is added as the bridge to step 4, whose pilot needs
   20-30 neurons.
