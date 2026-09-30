@@ -1,0 +1,132 @@
+{
+ "W10": {
+  "flagged": {
+   "ghost": 0.4948453608247423,
+   "coin": 0.5111301369863014,
+   "real": 0.029770644524327882,
+   "error": 0.0
+  },
+  "n": {
+   "ghost": 1455,
+   "coin": 1168,
+   "real": 19751,
+   "error": 58
+  },
+  "occupancy": {
+   "v1b / real": {
+    "home": 0.98,
+    "uncertain": 0.010714285714285714,
+    "strange": 0.00035714285714285714,
+    "returning": 0.008214285714285714,
+    "lost": 0.0007142857142857143
+   },
+   "long world / real": {
+    "home": 0.9500892857142857,
+    "uncertain": 0.025357142857142856,
+    "strange": 0.018482142857142857,
+    "returning": 0.0034821428571428573,
+    "lost": 0.002589285714285714
+   },
+   "checkb / real": {
+    "home": 0.9116071428571428,
+    "uncertain": 0.08616071428571428,
+    "strange": 0.002232142857142857,
+    "returning": 0.0,
+    "lost": 0.0
+   },
+   "rest / real": {
+    "home": 0.9616071428571429,
+    "uncertain": 0.01830357142857143,
+    "strange": 0.0008928571428571428,
+    "returning": 0.019196428571428573,
+    "lost": 0.0
+   },
+   "rest / ghost": {
+    "home": 0.30625,
+    "uncertain": 0.3,
+    "strange": 0.385,
+    "returning": 0.005,
+    "lost": 0.00375
+   },
+   "ambiguity / real": {
+    "home": 0.9761904761904762,
+    "uncertain": 0.023809523809523808,
+    "strange": 0.0,
+    "returning": 0.0,
+    "lost": 0.0
+   },
+   "ambiguity / coin": {
+    "home": 0.4198529411764706,
+    "uncertain": 0.4389705882352941,
+    "strange": 0.04044117647058824,
+    "returning": 0.09411764705882353,
+    "lost": 0.006617647058823529
+   }
+  }
+ },
+ "W50": {
+  "flagged": {
+   "ghost": 0.8038585209003215,
+   "coin": 0.8602150537634409,
+   "real": 0.007038712921065862,
+   "error": NaN
+  },
+  "n": {
+   "ghost": 311,
+   "coin": 186,
+   "real": 3978,
+   "error": 0
+  },
+  "occupancy": {
+   "v1b / real": {
+    "home": 0.9875,
+    "uncertain": 0.0,
+    "strange": 0.0,
+    "returning": 0.0125,
+    "lost": 0.0
+   },
+   "long world / real": {
+    "home": 0.9758928571428571,
+    "uncertain": 0.010267857142857143,
+    "strange": 0.0004464285714285714,
+    "returning": 0.011160714285714286,
+    "lost": 0.002232142857142857
+   },
+   "checkb / real": {
+    "home": 0.9888392857142857,
+    "uncertain": 0.011160714285714286,
+    "strange": 0.0,
+    "returning": 0.0,
+    "lost": 0.0
+   },
+   "rest / real": {
+    "home": 0.9642857142857143,
+    "uncertain": 0.0,
+    "strange": 0.0,
+    "returning": 0.03571428571428571,
+    "lost": 0.0
+   },
+   "rest / ghost": {
+    "home": 0.12708333333333333,
+    "uncertain": 0.5208333333333334,
+    "strange": 0.31875,
+    "returning": 0.020833333333333332,
+    "lost": 0.0125
+   },
+   "ambiguity / real": {
+    "home": 1.0,
+    "uncertain": 0.0,
+    "strange": 0.0,
+    "returning": 0.0,
+    "lost": 0.0
+   },
+   "ambiguity / coin": {
+    "home": 0.09558823529411764,
+    "uncertain": 0.5882352941176471,
+    "strange": 0.025735294117647058,
+    "returning": 0.27205882352941174,
+    "lost": 0.01838235294117647
+   }
+  }
+ }
+}

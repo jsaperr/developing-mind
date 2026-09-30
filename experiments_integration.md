@@ -64,6 +64,10 @@ runs are replayed into memory, with no feedback yet.
   wiring (twins drift to 59% of the unrelated-network distance in 3000 s) while function stays at 0.99; a
   different experience leaves a lasting wiring mark, a small functional one (0.96), and an explicit
   memory record. Identity from history holds in function and memory; synapses carry the noise.
+- **Mood map (2026-09-29):** from the re-learning flag, the match test and the fingerprint's strength (with a
+  self-set cutoff), the system flags 50% (fast clock) to 80-86% (slow clock) of ghost and coin-flip
+  recognitions as uncertain while flagging 1-3% of real ones. It can't catch confident errors. Analysis
+  only; not in `src`.
 - **Recency has two timescales.** Episode timing (staleness) is exact. Character recency needs age
   differences of about w_char's 2000-step constant, so it's absent in short runs and weak in the
   long world.
@@ -86,6 +90,56 @@ runs are replayed into memory, with no feedback yet.
   the doc itself is unchanged.
 - Not yet done: live/feedback coupling, other N, many-context worlds, curiosity/metacog (out of
   scope by dependency order).
+
+---
+
+## 2026-09-29 — The mood map: three label-free signals give five internal states, and a self-set strength cutoff tells real recognitions from ghosts and coin-flips (half of them at the fast clock, over 80% at the slow one, while flagging 1-3% of real ones)
+
+**Script:** `notebooks/integration/mood_map/mood_map.py` (predictions MM-P1..P4 committed before the first
+run), outputs `mood_map_output.txt`, `mood_map_summary.json`, figure `mood_map_timelines.png`.
+- **Worlds:** replay only, over v1b, the long world, checkb, rest and ambiguity (8 seeds each).
+  Default memory, rectified readout.
+- **Signals per check (no labels):**
+  - the substrate's re-learning flag;
+  - whether the winning memory matches (cosine ≥ 0.8);
+  - the fingerprint's strength before normalizing (the ambiguity finding).
+- **The strength cutoff is self-set and causal:** the 5th percentile of the run's own confident
+  recognitions so far, updated only by confident moments (the tripwire rule: no hand-set value).
+- **States:** home, uncertain (matches but weak), strange (stable, nothing matches), returning,
+  lost.
+
+| share of recognitions flagged "uncertain" | W=10 | W=50 |
+|---|---|---|
+| ghosts (rest phase) | 49.5% (n=1455) | **80.4%** (n=311) |
+| coin-flips (ambiguous AB) | 51.1% (n=1168) | **86.0%** (n=186) |
+| real recognitions | 3.0% (n=19,751) | 0.7% (n=3,978) |
+| wrong recognitions in real phases | 0.0% (n=58) | none occurred |
+
+- **MM-P1 (≥ 50% of ghosts flagged, W=10): narrowly REFUTED** (49.5%).
+- **MM-P2 (≥ 50% of coin-flips): CONFIRMED** (51.1%).
+- **MM-P3 (≤ 10% of real recognitions): CONFIRMED** (3.0%).
+- **MM-P4 (occupancy): CONFIRMED.** Settled v1b is 98% home. The rest phase is 31% home, 30%
+  uncertain, 38% strange. Settled AB is 42% home, 44% uncertain.
+- **The slow clock separates much better** (80-86% flagged vs 0.7% of real ones): 50 s windows
+  estimate strength with less noise.
+- **What it doesn't catch:** the 58 wrong recognitions in real phases are all confident (0% flagged).
+  Strength tells *weak* from *strong*, not *right* from *wrong*. Those errors are the memory-side
+  merging cases (the 70% overlap and fast-clock family), and a different signal would be needed
+  for them.
+- **The picture** (figure, one seed per world): real contexts are long green "home" stretches, with
+  "lost" then "returning" after each change. Rest turns into a speckle of uncertain and strange.
+  Ambiguity turns into home/uncertain flicker. Returns to a remembered context show "returning"
+  before "home".
+- **Reading:**
+  - With signals it already has, the system can tell "I'm really seeing this" from "I'm dreaming it or
+    guessing" much of the time, with no labels and no hand-set threshold. Reliably so on the slow
+    clock.
+  - It's the first concrete piece of framework v5 IX's distinction (settled confidently vs wandered),
+    and of the metacognitive layer's input. "Strange" (stable but unrecognized) is the natural target
+    for curiosity.
+- **Not built:** the states are an analysis over replayed runs. Nothing in `src` reports them yet.
+  Adding the strength signal to the interface and the uncertain state to memory's output would be a
+  small promotion, for Jasper to decide.
 
 ---
 

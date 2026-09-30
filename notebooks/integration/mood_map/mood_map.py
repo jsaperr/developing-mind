@@ -173,7 +173,7 @@ def plot(timelines):
         swaps = [0] + list(d['swap_times_s']) + [d['total_s']]
         for k in range(len(swaps) - 1):
             cid = d['phase_corr_blocks'][k]; n = len(d['context_sets'][cid])
-            name = "rest" if n == 0 else "AB" if n == 20 else ("ABC"[cid] if cid < 3 else f"F{cid - 2}")
+            name = "rest" if n == 0 else "AB" if n == 20 else ("ABCDE"[cid] if world == "long world" else "ABC"[cid] if cid < 3 else f"F{cid - 2}")
             ax.text((swaps[k] + swaps[k + 1]) / 2, 0.82, name, ha="center", va="center", fontsize=8, transform=ax.get_xaxis_transform())
             ax.axvline(swaps[k], ymin=0.66, ymax=1.0, color="#888", lw=0.6)
         ax.set_xlim(0, d['total_s']); ax.set_yticks([]); ax.set_ylabel(world, rotation=0, ha="right", va="center", fontsize=9)

@@ -1,0 +1,33 @@
+
+===== W=10 =====
+share of recognitions flagged 'uncertain' by the self-set cutoff:
+  ghost   49.5%  (n=1455)
+  coin    51.1%  (n=1168)
+  real     3.0%  (n=19751)
+  error    0.0%  (n=58)
+state occupancy (settled phases; the whole rest phase):
+  v1b / real               home  98%  uncertain   1%  strange   0%  returning   1%  lost   0%
+  long world / real        home  95%  uncertain   3%  strange   2%  returning   0%  lost   0%
+  checkb / real            home  91%  uncertain   9%  strange   0%  returning   0%  lost   0%
+  rest / real              home  96%  uncertain   2%  strange   0%  returning   2%  lost   0%
+  rest / ghost             home  31%  uncertain  30%  strange  38%  returning   0%  lost   0%
+  ambiguity / real         home  98%  uncertain   2%  strange   0%  returning   0%  lost   0%
+  ambiguity / coin         home  42%  uncertain  44%  strange   4%  returning   9%  lost   1%
+
+===== W=50 =====
+share of recognitions flagged 'uncertain' by the self-set cutoff:
+  ghost   80.4%  (n=311)
+  coin    86.0%  (n=186)
+  real     0.7%  (n=3978)
+  error    nan%  (n=0)
+state occupancy (settled phases; the whole rest phase):
+  v1b / real               home  99%  uncertain   0%  strange   0%  returning   1%  lost   0%
+  long world / real        home  98%  uncertain   1%  strange   0%  returning   1%  lost   0%
+  checkb / real            home  99%  uncertain   1%  strange   0%  returning   0%  lost   0%
+  rest / real              home  96%  uncertain   0%  strange   0%  returning   4%  lost   0%
+  rest / ghost             home  13%  uncertain  52%  strange  32%  returning   2%  lost   1%
+  ambiguity / real         home 100%  uncertain   0%  strange   0%  returning   0%  lost   0%
+  ambiguity / coin         home  10%  uncertain  59%  strange   3%  returning  27%  lost   2%
+
+MM-P1 ghost >= 50%?  MM-P2 coin >= 50%?  MM-P3 real <= 10%?  MM-P4 v1b/real home >= 85%, rest/ghost & ambiguity/coin home <= 50%? (W=10)
+figure: C:\Users\urawi\OneDrive\Desktop\a wide variety of vscode projects\developing-mind\notebooks\integration\mood_map\mood_map_timelines.png
