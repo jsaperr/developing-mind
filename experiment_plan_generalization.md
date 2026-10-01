@@ -160,7 +160,7 @@ direction: does a long phase harden the retainers so much that the next change c
   return, with NOVEL and TRANSITIONAL doing their jobs?
 - **Scored against the synthetic results.**
 
-**4c. Full MNIST (cluster).**
+**4c. Full MNIST (Modal, 2026-10-01: the WWU cluster is unavailable).**
 - **Setup:** 28×28 (784 inputs), N=100-400, the full training set.
 - **Scoring:** the standard label-assignment classification score, to compare with the literature.
   This is a calibration of the substrate, not a goal in itself.
@@ -210,7 +210,7 @@ re-tuning gets flagged.
   (arc 06 found they diverge at `strong_tight_gate`).
 - **Compute:**
   - 4a and 4b run on the laptop, at 196 inputs × 30 neurons ≈ 5,900 connections.
-  - 4c goes to the WWU HTCondor cluster: 784 × 100+ ≈ 78,000+ connections, and full MNIST is
+  - 4c goes to Modal CPU (the WWU cluster is unavailable): 784 × 100+ ≈ 78,000+ connections, and full MNIST is
     ~30,000 simulated seconds per pass.
 
 ## Optional, only if 1-3 hold
@@ -224,7 +224,8 @@ Step 1 (3000 s) → 2 → 3 → 4a → 4b → 4c.
 - Steps 1-3: about 3 hours of laptop time at 8 concurrent jobs.
 - 4a-4b: an afternoon each, including building the input encoder and (if needed) the adaptive
   threshold.
-- 4c: the natural first use of the cluster.
+- 4c: Modal CPU, after a calibration pilot (CLAUDE.md, Stack). Long runs
+  there need periodic checkpointing, since Modal's cheap tier can preempt.
 
 **Shortcut if MNIST is the priority:** 4a only needs step 2's N=30 arm to show the substrate behaves
 at that size, so the minimum path is step 2 (N=30) → 4a → 4b. Steps 1 (3000 s) and 3 can run
