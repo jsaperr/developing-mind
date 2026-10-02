@@ -74,6 +74,10 @@ runs are replayed into memory, with no feedback yet.
 - **Six contexts (2026-10-01, generalization step 3):** the substrate's retention becomes a graded tail (1 back
   about 30%, 2 back about 20%, deeper under 7%). Memory remembers every return up to 5 back: live entries at W=50,
   dormant reawakening at W=10 (the dormant mechanism's first heavy real use).
+- **Real data (2026-10-01, MNIST pilot, arc 08):** learning digits needed substrate changes (gain control,
+  winner-take-all, a fair-share threshold; 79% on digits 0-3). But that substrate BREAKS the integration properties
+  on the click world: the readout collapses and memory recognizes 0/8. Integration currently works only on the old
+  substrate. Reconciling the two is the open problem before split-MNIST.
 - **Recency has two timescales.** Episode timing (staleness) is exact. Character recency needs age
   differences of about w_char's 2000-step constant, so it's absent in short runs and weak in the
   long world.

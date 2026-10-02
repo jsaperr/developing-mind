@@ -2,6 +2,48 @@
 
 Index: `experiments_brian2.md`. Plan: `experiment_plan_generalization.md`, step 4. Newest entries first.
 
+## 2026-10-01 — Unified-substrate check: the substrate MNIST needed (winner-take-all + fair-share threshold) BREAKS the click world's integration properties: old contexts aren't released, the change signal misses changes, the readout collapses, memory recognizes nothing. Synthetic and real data currently need different substrates
+
+**Data:** `notebooks/brian2/unified_substrate/unify_n{7,40}_seed*.json.gz` (16 runs, Modal).
+- **Format:** compact files, the first real use of the data policy (10 MB here; raw 1 s files on the Volume
+  `developing-mind-raw` under `unified_substrate/`).
+- **World:** v1b A B C A B, 5 x 1000 s, disjoint 30-input rig.
+- **Substrate:** MNIST v4's: WTA 20 mV with the gate off, plus the fair-share threshold. Gain control is irrelevant for
+  rate-matched input. The gates were left at their defaults.
+- **Scripts:** `modal_unify.py` (predictions U-P1..P4, before launch) and `analyze_unify.py` (before results). Output
+  `unify_output.txt`.
+
+| | old substrate (step 2), N=7 / 40 | **unified substrate, N=7 / 40** |
+|---|---|---|
+| U-P1 late rate, neurons active | ~15 Hz / ~3 Hz, all | 13.2 / 3.7 Hz, 100%: **CONFIRMED** |
+| B keeps at C's arrival | 85% / 87% | 88% / 79% |
+| incoming before the two-back returns (A / B, share of N) | 9%/5%, 4%/6% | **43%/27%, 55%/23%** |
+| U-P3 change signal fired / on when settled | 100% / 0.6-1.6% | **78% / 0.9%, 59% / 0.4%** |
+| settled readout to its true prototype | 0.97 / 0.99 | **-0.18 / 0.06** |
+| U-P4 B named at two-back, W=50 | 8/8 / 8/8 | **0/8 / 0/8** |
+
+- **U-P1 (no silencing): CONFIRMED.** The fair-share threshold fixed what it was meant to fix.
+- **U-P2 (one back survives): REFUTED.** B is kept, but old contexts are NOT released: 23-55% of the population still
+  holds a context two back just before it returns.
+- **U-P3 (change signal at its defaults, tripwire #3): REFUTED.** It catches only 59-78% of changes. **The tripwire
+  fires here,** though the cause looks like the substrate, not the gate's numbers.
+- **U-P4 (readout >= 0.9, memory >= 7/8): REFUTED.** The readout collapses (the settled fingerprint doesn't point at
+  the current context), so memory recognizes nothing (0/8).
+- **Likely mechanism (a hypothesis, not tested):**
+  - In a sustained world, the fair-share threshold LOWERS the thresholds of quiet neurons, the ones tuned to old
+    contexts.
+  - Under winner-take-all, whoever crosses threshold first silences the rest, so those low-threshold, wrongly tuned
+    neurons can win on background input.
+  - Losers don't learn, so they keep stale tuning. The readout then reflects which neurons win, not what the input
+    is.
+  - This is the risk recorded in U-P2's docstring, worse than feared. MNIST's brief presentations with rests hide it.
+- **Consequence:**
+  - **Don't adopt the MNIST substrate as THE substrate yet,** and don't build split-MNIST (4b) on it.
+  - The old substrate passes everything integration-related but can't learn real digits; the new one learns digits
+    but breaks integration.
+  - Reconciling them is the open problem. Candidates: keep the ambiguity gate with stronger inhibition; a slower or
+    bounded fair-share; competition that lets losers learn a little; temporal gain control.
+
 ## 2026-10-01 — MNIST pilot v4: a fair-share threshold (no ratchet) beats the published adaptive threshold: 79% accuracy, every digit represented in every seed, confidence and novelty working; the published one silences any continuously running network
 
 **Why v4:** on the continuously running click world, Diehl & Cook's adaptive threshold silenced the network.

@@ -163,6 +163,9 @@ download).**
 - **v4:** a fair-share threshold replaced the published ratchet, which silences continuous runs. 79% accuracy, every
   digit, confidence and novelty working.
 - **Accuracy work stops here** (MNIST is calibration).
+- **Unified-substrate check, 2026-10-01: FAILED.** The MNIST substrate breaks the click world (readout collapses,
+  memory 0/8, change signal 59-78%, old contexts not released). 4b waits until one substrate passes both worlds. That's
+  the next open problem.
 - **Before 4b:** confirm the new substrate keeps the integration properties (`notebooks/brian2/unified_substrate/`),
   and make gain control continuous instead of per-image.
 

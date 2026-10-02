@@ -1,0 +1,2 @@
+N=7 (8 seeds) | U-P1 late rate 13.15 Hz, active 100% | U-P2 B keeps 88% (old 85%), before two-back A 43% B 27% of N (old 9%/5%) | U-P3 change fired 78%, settled-on 0.9% | U-P4 readout -0.180, B named W50 0/8 | theta range -3.4..7.9 mV
+N=40 (8 seeds) | U-P1 late rate 3.71 Hz, active 100% | U-P2 B keeps 79% (old 87%), before two-back A 55% B 23% of N (old 4%/6%) | U-P3 change fired 59%, settled-on 0.4% | U-P4 readout 0.055, B named W50 0/8 | theta range -4.1..14.5 mV
