@@ -178,7 +178,7 @@ Each line is the entry's own heading (its conclusion is in the title).
 
 **06 Performance audit (2026-09-25)**: [`docs/log/brian2/06_performance_audit.md`](docs/log/brian2/06_performance_audit.md)
 
-- 2026-10-01 — Modal fidelity check: a remote re-run of the arc-01 8-seed 5000 s ensemble matches the saved results to rounding error (spike counts identical, weights within ~1e-15, not bit-identical); per-seed time 892-1479 s, not faster than local; single-neuron rig only, the competitive network is untested
+- 2026-10-01 — Modal fidelity check: a remote re-run of the arc-01 8-seed 5000 s ensemble matches the saved results to rounding error (spike counts identical, weights within ~1e-15, not bit-identical; a local control is bit-identical to the saved file, so the difference is platform, not drift); per-seed time 892-1479 s vs ~960 s local, not faster; single-neuron rig only, the competitive network is untested
 - 2026-09-25 — Simulation performance audit: where the time goes, and why `cpp_standalone` isn't a drop-in
 
 **07 Interface readout, S1 (2026-09-25)**: [`docs/log/brian2/07_interface_readout.md`](docs/log/brian2/07_interface_readout.md)

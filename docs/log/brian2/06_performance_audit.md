@@ -46,8 +46,19 @@ competitive network's `sigma_v`), so only the numpy-seeded input varies.
   setuptools 82.0.1 on 07-01) with no later changes, matching the Modal pins; the saved ensemble is from
   2026-07-20 or later. Code drift checked by a second reviewer: `network.py` single-neuron model refactored
   only (same values), `spikes.py`/`metrics.py` only gained functions, neither side sets `dt` (Brian2 default).
-  Still untested: a local seed-2001 re-run with today's env (~9 min uncontended) to confirm laptop-now
-  reproduces the saved file bit-for-bit; if it does, the Modal difference is platform, not drift.
+
+**Control (same day): local seed 2001, today's env, frozen `run_single_seed.py`, one job on the laptop
+(`notebooks/brian2/modal_ensemble_check_out/local_seed2001.json`).** Prediction before running: bit-identical
+to the saved file. Result: **bit-identical** (final weights and gap trace max |diff| 0.0; post_rate 18.9176).
+Modal vs that same local run: max |diff| 4.4e-16 (weights), 5.0e-16 (gap trace), post_rate identical. So
+nothing drifted locally since July, and the Modal difference is a platform effect (compiler/libm or
+hardware), not library or code drift. It is rounding-scale and did not grow. Which platform factor
+(MSVC vs gcc, libm, CPU) is not isolated.
+
+**Timing correction (P4).** The local single-seed run took 957 s, not ~560 s: the arc-06 rate (5.6 s per
+50 simulated s) was for a bare run, and this rig also records a spike monitor and a 500 ms weight trace
+and generates 5000 s of input. Against 957 s uncontended local, Modal's fast containers (892-978 s) match
+and its slow ones (~1460-1480 s) are ~50% slower. Budget 1500 s per 5000 s seed on Modal; 960 s locally.
 - P2 (statistics hold): supported, much more tightly than predicted (exact to the reported precision).
 - P3: not triggered; the Modal setup reproduces this rig.
 - P4 (wall time 560-1100 s): not supported. Per-seed time ranged 892-1479 s; five of eight seeds were

@@ -1,0 +1,17 @@
+seed  target  wall(s)  post_rate modal/saved   min_gap modal/saved     max_overlap  | modal vs saved: bit, max|dw|, max|dgap|
+2001  cython     1459  18.9176/18.9176   -0.00810/-0.00810   0.80/0.80  | False, 4.44e-16, 5e-16
+2002  cython     1479  18.7874/18.7874   -0.00781/-0.00781   0.68/0.68  | False, 8.88e-16, 5e-16
+2003  cython      895  18.7234/18.7234   -0.01657/-0.01657   0.89/0.89  | False, 3.33e-16, 5.55e-16
+2004  cython     1469  18.8434/18.8434   -0.02117/-0.02117   0.93/0.93  | False, 1.89e-15, 7.22e-16
+2005  cython      892  18.8430/18.8430   -0.01354/-0.01354   1.00/1.00  | False, 4.44e-16, 6.11e-16
+2006  cython      978  18.8918/18.8918   -0.01755/-0.01755   0.92/0.92  | False, 6.66e-16, 6.66e-16
+2007  cython     1464  18.7878/18.7878   -0.01316/-0.01316   0.80/0.80  | False, 3.33e-16, 9.99e-16
+2008  cython     1477  18.8372/18.8372   -0.01345/-0.01345   0.91/0.91  | False, 3.33e-16, 8.33e-16
+
+local (today's laptop env), seed 2001: status completed, wall 957 s
+  local vs saved  bit-identical True, max|dw| 0, max|dgap| 0
+  modal vs local  bit-identical False, max|dw| 4.44e-16, max|dgap| 5e-16
+
+P1 bit-identical to saved: 0/8
+P2 statistics in the stated ranges for all 8: False
+P4 wall_elapsed in 560-1100 s: 3/8 (range 892-1479 s)
