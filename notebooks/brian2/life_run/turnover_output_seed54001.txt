@@ -1,0 +1,8 @@
+Turnover, seed 54001
+top-10% synapses still top-10% after: 0.0166667 h: 74% | 0.166667 h: 50% | 1 h: 23% | 3 h: 16% | 10 h: 8% (chance 10%)
+A: first vs last visit (26.5 h apart): wiring cosine 0.120, function cosine 0.967
+B: first vs last visit (26.7 h apart): wiring cosine 0.147, function cosine 0.989
+C: first vs last visit (25.8 h apart): wiring cosine -0.049, function cosine 0.977
+D: first vs last visit (18.9 h apart): wiring cosine 0.022, function cosine 0.987
+E: first vs last visit (7.8 h apart): wiring cosine 0.115, function cosine 0.985
+F: first vs last visit (7.8 h apart): wiring cosine 0.076, function cosine 0.945

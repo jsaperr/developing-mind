@@ -64,6 +64,11 @@ spike; downloaded, no re-sim).
   +0.42 (25 ms spike counts) vs -0.06 for other pairs. During the preceding active phase it's +0.74 vs -0.07.
   - Every held assembly co-fires about equally (by recency rank 1 / 2 / 3 / older: +0.44 / +0.46 / +0.42 / +0.48), not
     just the most recent.
+  - **Replicated on seed 54001 (same day; `*_output_seed54001.txt`):**
+    - turnover 74 / 50 / 23 / 16 / 8%;
+    - wiring -0.05 to 0.15 vs function 0.945-0.989;
+    - rest co-firing +0.42 vs -0.06 in 100% of rests;
+    - recognition latency the same (100% within ~1 s when >= 10% hold it).
   - **Mechanism:** shared wiring. Co-tuned neurons listen to the same 10 input wires, so random clicks drive them together.
     There's no recurrent excitation, so this is noise re-expressing assemblies, not internally generated replay
     (sequences), which would need recurrence.
