@@ -78,9 +78,12 @@ def run_pilot(seed, subset, target_total, n_post=40, n_train=None, max_rate=MAX_
         per_conn = float((N.v_thresh - N.v_rest) / mV)                  # 20 mV: one competitor spike = full threshold distance
         gap = 1e9                                                        # ambiguity gate off
     builder = build_competitive_population_network if adaptive is None else build_adaptive
-    kw = {} if adaptive is None else dict(theta_plus=adaptive["theta_plus_mV"] * mV, tau_theta=adaptive["tau_theta_s"] * second)
-    pre, post, syn, inhib = builder(n_post, idx, t * second, 0.005, per_conn * mV, gap, n_pre=n_pre,
-                                    w_init=target_total / n_pre, target_total=target_total, **kw)
+    kw = {} if adaptive is None else dict(theta_plus=adaptive["theta_plus_mV"] * mV, tau_theta=adaptive["tau_theta_s"] * second,
+                                          fair_share=bool(adaptive.get("fair_share", False)))
+    built = builder(n_post, idx, t * second, 0.005, per_conn * mV, gap, n_pre=n_pre,
+                    w_init=target_total / n_pre, target_total=target_total, **kw)
+    pre, post, syn, inhib = built[:4]
+    share = built[4] if len(built) > 4 else None    # a plain local, so Brian2's run() collects it (it gathers from this frame)
     sp = SpikeMonitor(post)
     si, sj = np.array(syn.i[:]), np.array(syn.j[:])
 
@@ -107,7 +110,8 @@ def run_pilot(seed, subset, target_total, n_post=40, n_train=None, max_rate=MAX_
                 counts=counts.tolist(), weights_after=snaps)
 
 
-def build_adaptive(n_post, idx, t, apre_val, inhib_strength, gap_scale, n_pre, w_init, target_total, theta_plus, tau_theta):
+def build_adaptive(n_post, idx, t, apre_val, inhib_strength, gap_scale, n_pre, w_init, target_total, theta_plus, tau_theta,
+                   fair_share=False):
     """src build_competitive_population_network plus Diehl & Cook's adaptive threshold (notebook variant, src
     untouched). Everything else (LIF + sigma_v noise, STDP, homeostatic weight budget, ambiguity-gated lateral
     inhibition) is the same code and the same constants."""
@@ -127,4 +131,11 @@ def build_adaptive(n_post, idx, t, apre_val, inhib_strength, gap_scale, n_pre, w
     inhib = Synapses(post, post, on_pre="v_post -= inhib_strength / (1 + abs(r_pre - r_post) / gap_scale)",
                      namespace={"inhib_strength": inhib_strength, "gap_scale": gap_scale})
     inhib.connect(condition="i != j")
+    if fair_share:
+        # Mean-preserving ("fair-share") threshold: each spike raises its own neuron's theta by theta_plus (reset) and
+        # lowers EVERY neuron's theta, itself included, by theta_plus / n_post, so sum(theta) is constant: no ratchet.
+        share = Synapses(post, post, on_pre="theta_post -= theta_plus / n_share",
+                         namespace={"theta_plus": theta_plus, "n_share": float(n_post)})
+        share.connect()                                                  # all-to-all INCLUDING self
+        return pre, post, syn, inhib, share
     return pre, post, syn, inhib
