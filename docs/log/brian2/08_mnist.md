@@ -2,6 +2,42 @@
 
 Index: `experiments_brian2.md`. Plan: `experiment_plan_generalization.md`, step 4. Newest entries first.
 
+## 2026-10-01 — MNIST pilot v2: gain control flips the ink bias toward sparse digits; the adaptive threshold creates sharp specialization (91-96%, digit-like weights) but nearly every neuron picks the same digit. The missing piece is diversity, not specialization
+
+**Data:** `notebooks/brian2/mnist_pilot/mnist_v2_{norm,adapt,norm_adapt}_seed70100-70107.json.gz` (24 runs, Modal).
+The same seeds as v1 (paired: same images, order and noise). Script `modal_mnist_v2.py` (predictions V2-P1..P5
+before launch); scored with v1's scorer and criteria (`analyze_mnist_pilot.py <prefix>`). Output
+`mnist_v2_output.txt`.
+
+| arm | specialized | weights match assigned class | vote accuracy | neurons per class 0/1/2/3 (typical) | spikes/image (test) |
+|---|---|---|---|---|---|
+| v1 (none) | 0% | 30% | 53.9% | ~25/0/4/11 | ~720 |
+| norm (gain control) | 0% | 10% | 46.7% | ~0/36/0/3 | ~910 |
+| adapt (threshold) | **91%** | 77% | 28.1% | ~39/0/0/1 | 9-10 |
+| norm_adapt (both) | **96%** | **88%** | 42.5% | ~1/37/0/2 | 10-11 |
+
+- **V2-P1 (norm removes the ink confound, every class gets >= 3 neurons): REFUTED.** Equal total input per image
+  packs a thin "1" into a few very bright pixels, so the bias flips to 1s (32-39 of 40 neurons).
+- **V2-P2 (adapt sparsifies but keeps the ink bias): CONFIRMED.** Spikes/image drop from ~720 to ~22 (9-10 in
+  test), and 36-40 neurons pick "0".
+- **V2-P3 (norm_adapt best: specialization >= 40%, weight match >= 50%, accuracy >= 65%): HALF.** Specialization
+  96% and weight match 88% are confirmed. Accuracy 42.5% (25-60%) is REFUTED: almost every neuron specializes on the
+  SAME digit.
+- **V2-P4 / P5 (MC-1, MC-2): undefined in the adapt arms.** With ~10 spikes per image, many test images get no
+  response at all, so strength is 0, the quintiles degenerate (NaN), and the novelty match is degenerate (0%).
+  Where responses exist, the strongest quintile is 88-100% accurate in norm_adapt, a hint that strength is a real
+  confidence signal once ink is out of the way. Not a scored claim.
+- **Reading:**
+  - v1's failure had two layers: an input confound (ink), and under it a competition too weak to give different
+    neurons different jobs.
+  - The adaptive threshold solves specialization, but with our gentle, ambiguity-gated inhibition (~0.67 mV per
+    spike at N=40) nothing stops all neurons converging on the class that wins first.
+  - Diehl & Cook's strong winner-take-all inhibition is the missing rule.
+- **Next (v3):** winner-take-all inhibition as a derived rule, not a tuned number. Each competitor spike pushes a
+  neuron down by its full threshold distance (v_thresh - v_rest = 20 mV), with the ambiguity gate off. Arms: Diehl &
+  Cook's recipe (raw input + adaptive threshold + WTA), and the same with gain control. The scorer gets explicit
+  handling for zero-response images, defined before v3 data.
+
 ## 2026-10-01 — MNIST pilot v1: the unchanged substrate learns how much ink a digit has, not its shape (0% specialization, no neuron for "1", inverted confidence), though its fingerprint still separates classes and the population vote reaches 54%
 
 **Data:** `notebooks/brian2/mnist_pilot/mnist_pilot_seed70100-70107.json.gz` (8 seeds, Modal, Brian2 seeded).

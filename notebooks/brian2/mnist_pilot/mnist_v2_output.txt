@@ -1,0 +1,55 @@
+######## norm
+seeds: 8
+seed 70100: specialized 0% | RF matches class 8% | acc 41.0% | separation True | strength-quintile acc [0.29, 0.41, 0.47, 0.46, 0.41] | strange known 12% held 50% (ratio 4.1) | neurons per class [0, 38, 0, 2] | memory entries 1 | mean spikes/image 837 (test period 919)
+seed 70101: specialized 0% | RF matches class 12% | acc 47.8% | separation True | strength-quintile acc [0.42, 0.62, 0.41, 0.49, 0.44] | strange known 11% held 4% (ratio 0.4) | neurons per class [0, 34, 0, 6] | memory entries 2 | mean spikes/image 829 (test period 914)
+seed 70102: specialized 0% | RF matches class 8% | acc 46.8% | separation True | strength-quintile acc [0.28, 0.5, 0.56, 0.55, 0.45] | strange known 8% held 8% (ratio 0.9) | neurons per class [0, 37, 1, 2] | memory entries 1 | mean spikes/image 820 (test period 908)
+seed 70103: specialized 0% | RF matches class 2% | acc 35.2% | separation True | strength-quintile acc [0.26, 0.23, 0.44, 0.35, 0.49] | strange known 7% held 30% (ratio 4.1) | neurons per class [0, 39, 0, 1] | memory entries 1 | mean spikes/image 826 (test period 910)
+seed 70104: specialized 0% | RF matches class 10% | acc 47.5% | separation True | strength-quintile acc [0.44, 0.56, 0.46, 0.45, 0.46] | strange known 7% held 16% (ratio 2.3) | neurons per class [0, 37, 1, 2] | memory entries 1 | mean spikes/image 819 (test period 904)
+seed 70105: specialized 0% | RF matches class 22% | acc 54.8% | separation True | strength-quintile acc [0.41, 0.56, 0.66, 0.5, 0.6] | strange known 8% held 14% (ratio 1.8) | neurons per class [0, 32, 1, 7] | memory entries 2 | mean spikes/image 817 (test period 909)
+seed 70106: specialized 0% | RF matches class 10% | acc 41.0% | separation False | strength-quintile acc [0.4, 0.47, 0.46, 0.31, 0.4] | strange known 6% held 10% (ratio 1.7) | neurons per class [0, 37, 0, 3] | memory entries 1 | mean spikes/image 828 (test period 910)
+seed 70107: specialized 0% | RF matches class 10% | acc 59.2% | separation True | strength-quintile acc [0.59, 0.6, 0.59, 0.57, 0.61] | strange known 11% held 16% (ratio 1.5) | neurons per class [1, 36, 1, 2] | memory entries 1 | mean spikes/image 816 (test period 901)
+
+MP-P1 specialized >= 60%: mean 0%
+MP-P2 RF matches class >= 60%: mean 10%
+MP-P3 separation in every pair: 7/8 seeds
+MP-P4 accuracy >= 50%: mean 46.7% (min 35.2%)
+MC-1 rise in 1/8 seeds; weakest-vs-strongest gap mean 10 points
+MC-2 held-out strange ratio >= 2: mean 2.1
+######## adapt
+seeds: 8
+seed 70100: specialized 80% | RF matches class 62% | acc 31.2% | separation False | strength-quintile acc [nan, nan, 0.14, 0.44, 0.71] | strange known 0% held 0% (ratio 0.0) | neurons per class [38, 0, 0, 2] | memory entries 116 | mean spikes/image 22 (test period 9)
+seed 70101: specialized 100% | RF matches class 72% | acc 25.0% | separation False | strength-quintile acc [nan, nan, 0.12, 0.29, 0.59] | strange known 0% held 0% (ratio 0.0) | neurons per class [40, 0, 0, 0] | memory entries 128 | mean spikes/image 21 (test period 10)
+seed 70102: specialized 90% | RF matches class 80% | acc 25.0% | separation False | strength-quintile acc [nan, nan, 0.12, 0.25, 0.64] | strange known 0% held 0% (ratio 0.0) | neurons per class [40, 0, 0, 0] | memory entries 120 | mean spikes/image 21 (test period 10)
+seed 70103: specialized 85% | RF matches class 82% | acc 33.2% | separation False | strength-quintile acc [nan, nan, 0.14, 0.51, 0.74] | strange known 0% held 0% (ratio 0.0) | neurons per class [36, 0, 0, 4] | memory entries 123 | mean spikes/image 21 (test period 10)
+seed 70104: specialized 88% | RF matches class 65% | acc 30.5% | separation False | strength-quintile acc [nan, nan, 0.14, 0.39, 0.71] | strange known 0% held 0% (ratio 0.0) | neurons per class [39, 0, 1, 0] | memory entries 121 | mean spikes/image 21 (test period 10)
+seed 70105: specialized 90% | RF matches class 88% | acc 29.8% | separation False | strength-quintile acc [nan, nan, 0.12, 0.46, 0.68] | strange known 0% held 0% (ratio 0.0) | neurons per class [39, 0, 0, 1] | memory entries 128 | mean spikes/image 22 (test period 9)
+seed 70106: specialized 98% | RF matches class 75% | acc 25.0% | separation False | strength-quintile acc [nan, nan, nan, 0.15, 0.64] | strange known 0% held 0% (ratio 0.0) | neurons per class [40, 0, 0, 0] | memory entries 110 | mean spikes/image 21 (test period 9)
+seed 70107: specialized 98% | RF matches class 88% | acc 25.0% | separation False | strength-quintile acc [nan, nan, 0.11, 0.3, 0.62] | strange known 0% held 0% (ratio 0.0) | neurons per class [40, 0, 0, 0] | memory entries 124 | mean spikes/image 22 (test period 10)
+
+MP-P1 specialized >= 60%: mean 91%
+MP-P2 RF matches class >= 60%: mean 77%
+MP-P3 separation in every pair: 0/8 seeds
+MP-P4 accuracy >= 50%: mean 28.1% (min 25.0%)
+C:\Users\urawi\OneDrive\Desktop\a wide variety of vscode projects\developing-mind\notebooks\brian2\mnist_pilot\analyze_mnist_pilot.py:108: RuntimeWarning: Mean of empty slice
+  print(f"MC-1 rise in {sum(agg['mc1_rise'])}/{len(runs)} seeds; weakest-vs-strongest gap mean {np.nanmean(agg['mc1_gap']) * 100:.0f} points")
+MC-1 rise in 0/8 seeds; weakest-vs-strongest gap mean nan points
+MC-2 held-out strange ratio >= 2: mean 0.0
+######## norm_adapt
+seeds: 8
+seed 70100: specialized 95% | RF matches class 82% | acc 60.2% | separation False | strength-quintile acc [nan, 0.35, 0.65, 0.66, 0.99] | strange known 0% held 0% (ratio 0.0) | neurons per class [3, 31, 0, 6] | memory entries 38 | mean spikes/image 26 (test period 11)
+seed 70101: specialized 100% | RF matches class 92% | acc 25.0% | separation False | strength-quintile acc [nan, nan, 0.02, 0.19, 1.0] | strange known 0% held 0% (ratio 0.0) | neurons per class [0, 40, 0, 0] | memory entries 73 | mean spikes/image 27 (test period 10)
+seed 70102: specialized 98% | RF matches class 88% | acc 25.0% | separation False | strength-quintile acc [nan, nan, 0.02, 0.21, 0.97] | strange known 0% held 0% (ratio 0.0) | neurons per class [0, 40, 0, 0] | memory entries 70 | mean spikes/image 28 (test period 11)
+seed 70103: specialized 98% | RF matches class 90% | acc 29.8% | separation False | strength-quintile acc [nan, nan, 0.01, 0.49, 0.88] | strange known 0% held 0% (ratio 0.0) | neurons per class [0, 39, 0, 1] | memory entries 69 | mean spikes/image 27 (test period 11)
+seed 70104: specialized 95% | RF matches class 85% | acc 59.2% | separation False | strength-quintile acc [nan, 0.37, 0.53, 0.71, 0.99] | strange known 0% held 0% (ratio 0.0) | neurons per class [3, 35, 0, 2] | memory entries 44 | mean spikes/image 24 (test period 10)
+seed 70105: specialized 95% | RF matches class 88% | acc 51.7% | separation False | strength-quintile acc [nan, 0.42, 0.3, 0.53, 0.93] | strange known 0% held 0% (ratio 0.0) | neurons per class [1, 37, 1, 1] | memory entries 60 | mean spikes/image 26 (test period 11)
+seed 70106: specialized 98% | RF matches class 95% | acc 40.2% | separation False | strength-quintile acc [nan, nan, 0.12, 0.68, 0.99] | strange known 0% held 0% (ratio 0.0) | neurons per class [0, 36, 0, 4] | memory entries 59 | mean spikes/image 28 (test period 11)
+seed 70107: specialized 92% | RF matches class 88% | acc 49.0% | separation False | strength-quintile acc [nan, 0.39, 0.3, 0.45, 0.94] | strange known 0% held 0% (ratio 0.0) | neurons per class [2, 36, 0, 2] | memory entries 50 | mean spikes/image 27 (test period 10)
+
+MP-P1 specialized >= 60%: mean 96%
+MP-P2 RF matches class >= 60%: mean 88%
+MP-P3 separation in every pair: 0/8 seeds
+MP-P4 accuracy >= 50%: mean 42.5% (min 25.0%)
+C:\Users\urawi\OneDrive\Desktop\a wide variety of vscode projects\developing-mind\notebooks\brian2\mnist_pilot\analyze_mnist_pilot.py:108: RuntimeWarning: Mean of empty slice
+  print(f"MC-1 rise in {sum(agg['mc1_rise'])}/{len(runs)} seeds; weakest-vs-strongest gap mean {np.nanmean(agg['mc1_gap']) * 100:.0f} points")
+MC-1 rise in 0/8 seeds; weakest-vs-strongest gap mean nan points
+MC-2 held-out strange ratio >= 2: mean 0.0
