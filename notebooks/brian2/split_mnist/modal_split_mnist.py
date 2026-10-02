@@ -1,5 +1,5 @@
 """Split-MNIST two-back (generalization plan step 4b): the two-back test on real data, on the reconciled substrate.
-PREPARED 2026-10-02, NOT LAUNCHED (Jasper reviews first).
+Prepared 2026-10-02; launched the same afternoon in Jasper's open window ("nothing off the table until 4pm").
 
 Schedule: digit sets {0,1} -> {2,3} -> {4,5} -> {0,1} -> {2,3}, 5 x 1000 s (2000 images per phase, 350 ms on + 150 ms
 blank, 14x14). A return shows NEW images of the same digits; every image is used once (split_subset.npz, built by
@@ -14,7 +14,13 @@ Recording (as in the life run): every 1 s, D(t) = sum |w(t) - w(t-60)| from a ri
 Compact output: rectified/contrast fingerprints at W = 10, 50; change flags; D; rates10; assignments every 50 s (nearest
 digit-set prototype = unit(mean image of the set)); per-image counts and labels. Raw npz on the Volume (life-run pattern).
 
-PREDICTIONS (draft, to be committed before launch; fingerprint check 2026-10-02: on this substrate, 10 s windows of the SAME
+SUBSTRATE CHOICE (made from the gain map before launch, not from any 4b data): the gain-map cell with the lowest click-world
+flicker among cells that pass the click world AND keep every digit on MNIST at >= 70%. Recorded in TP / TAU_THETA below.
+KNOWN RISK, disclosed (a 1-seed mini-run with 350 s phases, AFTER the predictions below were drafted; the predictions are
+left unchanged): memory named the wrong digit set in ~50% of settled checks at W=50, and the weight change signal fired after
+only 1 of 4 switches (the activity signal after all 4).
+
+PREDICTIONS (drafted before the mini-run, final at launch; fingerprint check 2026-10-02: on this substrate, 10 s windows of the SAME
 digit set agree at only ~0.75 (5th pct ~0.45), below memory's 0.8 radius and 0.9 steadiness gate; between sets 0.27-0.47):
   SM-P1 (the plan's pass bar) default memory at W=50 names the returning {0,1} correctly in more than half of its settled
         checks in >= 6/8 seeds, with absorption 0. Same for the {2,3} return.
@@ -47,7 +53,7 @@ SUBSET = MN / "data" / "split_subset.npz"
 SETS = [(0, 1), (2, 3), (4, 5), (0, 1), (2, 3)]
 PER_PHASE = 2000
 SEEDS = list(range(55000, 55008))
-TP, TAU_THETA, TAU_G = 0.05, 100.0, 0.005
+TP, TAU_THETA, TAU_G = 1.0, 5.0, 0.005   # chosen by the rule above from the gain map: click flicker 0.8%, readout 0.996, 8/8; MNIST 73.1%, every digit
 N_POST, BUDGET = 40, 30.0
 
 if SUBSET.exists():
