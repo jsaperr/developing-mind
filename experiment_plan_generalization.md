@@ -96,7 +96,10 @@ direction: does a long phase harden the retainers so much that the next change c
 
 ## Step 2: network size
 
-- **Top size, open (2026-09-29):** 30 was a loose judgment call (Diehl & Cook's ~10 neurons per class, scaled
+- **Top size DECIDED 2026-10-01: N=40** (Jasper's go): it equals the MNIST pilot at Diehl & Cook's ratio.
+  A seeded N=7 arm is added so every size runs under one protocol. Launched on Modal
+  (`notebooks/brian2/n_scaling_v1b_data/modal_nscale.py`, predictions NS-P1..P5 in its docstring).
+- *Earlier note* (2026-09-29): 30 was a loose judgment call (Diehl & Cook's ~10 neurons per class, scaled
   down loosely). 40 is proposed so the top size equals the MNIST pilot at their ratio (10 per class x 4
   classes). Jasper to pick. Seed Brian2 (`brian2.seed(seed)`) in these runs so they're reproducible.
 - **Design:** v1b schedule, same 30-input rig, N ∈ {5, 10, 15, 30} (7 exists), inhibition via
