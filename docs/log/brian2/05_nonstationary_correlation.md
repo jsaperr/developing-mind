@@ -2,6 +2,18 @@
 
 Entries moved verbatim from `experiments_brian2.md` on 2026-09-25 (no wording changed). Index: `experiments_brian2.md`.
 
+## 2026-10-02 — No savings in the substrate (post-hoc): a context the network has let go is re-learned exactly as fast as the first time (median 58 s to recruit a quarter of the neurons, both), so no latent trace stays in the wiring; savings live only in memory
+
+**Post-hoc:** script `notebooks/brian2/life_run/analyze_savings.py`, output `savings_output.txt`.
+- **7 seeds at 50 s resolution:** time until >= 25% of neurons are assigned to the incoming context. First visits (n=42)
+  median 100 s; returns of contexts held by <= 5% at the switch (n=312) median 100 s.
+- **Seed 54000 at 1 s resolution (raw trace):** first visits median 58 s (52-65); returns after being let go median 58 s
+  (IQR 51-70).
+- **Reading:** once released, nothing of a context remains in the substrate that speeds re-learning. Together with
+  "re-recruits the same neurons only for ~2-10 ks" and the Ship of Theseus result, the substrate's memory is short and
+  complete: it holds what it holds, and the rest is gone. Savings (1.9x faster re-strengthening, 2026-09-28) are purely
+  a memory-layer (dormant character) property. This is the complementary-systems split at its sharpest.
+
 ## 2026-10-02 — Recognition latency (raw spikes, post-hoc): the substrate recognizes any context it still holds within ~1 s (100% when >= 10% of neurons hold it; one back 96%, two back 83%) from existing wiring; contexts it let go need minutes of re-learning, where memory takes over
 
 **Post-hoc:** seed 54000's raw spikes, 131 home-to-home switches. Script `notebooks/brian2/life_run/analyze_recognition_latency.py`,

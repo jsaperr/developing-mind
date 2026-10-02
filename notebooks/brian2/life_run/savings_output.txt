@@ -1,0 +1,4 @@
+Substrate savings (7 seeds): time to >= 25% of neurons on the incoming context
+first visits: n=42, reached 100%, median 100 s
+returns after being let go (<= 5% held): n=312, reached 100%, median 100 s
+1 s resolution, seed 54000: first visits n=6, median 58 s (range 52-65); returns after being let go n=47, median 58 s (IQR 51-70)

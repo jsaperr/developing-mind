@@ -185,6 +185,7 @@ Each line is the entry's own heading (its conclusion is in the title).
 
 **05 Non-stationary correlation (2026-09-25)**: [`docs/log/brian2/05_nonstationary_correlation.md`](docs/log/brian2/05_nonstationary_correlation.md)
 
+- 2026-10-02 — No savings in the substrate (post-hoc): a context the network has let go is re-learned exactly as fast as the first time (median 58 s to recruit a quarter of the neurons, both), so no latent trace stays in the wiring; savings live only in memory
 - 2026-10-02 — Recognition latency (raw spikes, post-hoc): the substrate recognizes any context it still holds within ~1 s (100% when >= 10% of neurons hold it; one back 96%, two back 83%) from existing wiring; contexts it let go need minutes of re-learning, where memory takes over
 - 2026-10-02 — Ship of Theseus (raw life data, post-hoc): over 27 h each context's WIRING becomes unrelated to its first visit (cosine 0.02-0.18; half the strongest synapses turn over in 10 min, chance by 10 h) while its FUNCTION stays at 0.97-0.99; and during rest, same-context neurons co-fire (+0.42 vs -0.06) through shared wiring
 - 2026-10-02 — Neuron identity over a life (post-hoc): a returning context re-recruits the SAME neurons for about 2-10 ks (86% within 2000 s, 63% at 2-10 ks, vs ~48% chance), then neurons become interchangeable (chance after ~3 h); every neuron serves all 7 home contexts over its life
