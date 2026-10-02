@@ -135,6 +135,14 @@ underneath this the entire time. That's stable-population/unstable-unit, exactly
 reviewer's proposed reframe — now with two independent confirmations (the 8-seed/5000s N=1
 ensemble, and the 5-neuron population extension) instead of one.
 
+*Life-scale confirmation, 2026-10-02 (raw data of the 100,000 s life, two seeds).* Over 27 simulated hours, each context's
+full wiring (2400 synapses) at its last visit is essentially unrelated to its first (cosine -0.05 to 0.18). Half of the
+strongest synapses are replaced within 10 minutes, and it's chance by 10 hours. WHICH neurons carry a context is chance after
+~3 h of absence. Yet each context's functional readout stays at 0.95-0.99, and memory still recognizes 98% of rare returns.
+The substrate also keeps no latent trace of a context it has let go: re-learning is exactly as fast as first learning. So
+savings belong to memory, not wiring. Stability here is entirely a property of the population readout and the memory layer,
+a Ship of Theseus: every part is replaced and the identity holds.
+
 **Choosing (b): this mechanism needs to guarantee a stable population-level readout, not
 individual-synapse fixed points, for its role feeding a future Hopfield layer.** The empirical
 case stands on its own, on the two paragraphs above alone: reversal-frequency invariance rules
