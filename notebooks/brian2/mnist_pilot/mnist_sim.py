@@ -36,8 +36,38 @@ def build_input(images, max_rate, rng, t0=0.0):
     return pix.astype(np.int64), step * DT_S, starts
 
 
+def build_input_temporal(images, max_rate, rng, total, tau_g_s, t0=0.0, dt=0.001):
+    """Causal (temporal) gain control, no image boundaries used (2026-10-02). Each pixel's rate is
+    x_i/255 * max_rate * total / g(t), where g(t) is a running estimate of the current total intensity, updated only while
+    something is presented (it holds through the blank), with time constant tau_g_s. So an image starts at the previous
+    image's gain and adapts toward its own: g(t) = I_k + (g_start - I_k) exp(-t/tau_g). Per-image normalization is the
+    tau_g -> 0 limit; tau_g >> one presentation averages over many images (no normalization of the current one).
+    Poisson spikes per dt bin, uniform within the bin, then the same 0.2 ms snapping/de-duplication as build_input."""
+    period = PRESENT_S + REST_S
+    starts = t0 + period * np.arange(len(images))
+    X = np.asarray(images, dtype=float)
+    ink = X.sum(1)
+    nb = int(round(PRESENT_S / dt)); tb = (np.arange(nb) + 0.5) * dt
+    g = float(total)
+    idx_all, t_all = [], []
+    for k in range(len(X)):
+        gk = ink[k] + (g - ink[k]) * np.exp(-tb / tau_g_s)                        # (nb,)
+        lam = (X[k] / 255.0 * max_rate)[None, :] * (total / gk)[:, None] * dt  # (nb, 196)
+        c = rng.poisson(lam)
+        b, pix = np.nonzero(c)
+        reps = c[b, pix]
+        b = np.repeat(b, reps); pix = np.repeat(pix, reps)
+        idx_all.append(pix); t_all.append(starts[k] + (b + rng.uniform(0, 1, len(b))) * dt)
+        g = float(gk[-1])
+    pix = np.concatenate(idx_all); t = np.concatenate(t_all)
+    step = np.floor(t / DT_S).astype(np.int64)
+    key = np.unique(step * 1000 + pix)
+    step, pix = key // 1000, key % 1000
+    return pix.astype(np.int64), step * DT_S, starts
+
+
 def run_pilot(seed, subset, target_total, n_post=40, n_train=None, max_rate=MAX_RATE, normalize=False, adaptive=None,
-              wta=False, epochs=1):
+              wta=False, epochs=1, gain_tau_s=None):
     """subset: dict of arrays from prep_mnist.py's npz. Returns a compact result dict (all small).
     normalize (v2): per-image gain control. Every image delivers the same total input rate, equal to the TRAINING
       set's mean total (mean summed intensity x max_rate), so total drive no longer encodes ink.
@@ -47,6 +77,8 @@ def run_pilot(seed, subset, target_total, n_post=40, n_train=None, max_rate=MAX_
     wta (v3): winner-take-all inhibition as a DERIVED rule, not a tuned number. Each competitor spike pushes a neuron
       down by its full threshold distance, v_thresh - v_rest = 20 mV, with the ambiguity gate off (gap_scale
       effectively infinite). Replaces the gentle normalized inhibition (13 mV x 2/(N-1) = 0.67 mV per spike at N=40).
+    gain_tau_s (2026-10-02): None, or the time constant of CAUSAL gain control (build_input_temporal); replaces the
+      per-image normalize (which uses image boundaries) when set.
     epochs (2026-10-02, dose test): passes over the training images, each a fresh shuffle. epochs=1 is the original
       (identical random draws)."""
     from brian2 import SpikeMonitor, defaultclock, mV, ms, prefs, run, second, seed as b2_seed, start_scope
@@ -69,7 +101,11 @@ def run_pilot(seed, subset, target_total, n_post=40, n_train=None, max_rate=MAX_
         seq_in = seq_x.astype(float) / np.maximum(sums, 1e-9) * total    # same total for every image
     else:
         seq_in = seq_x
-    idx, t, starts = build_input(seq_in, max_rate, rng)
+    if gain_tau_s is not None:
+        tr = subset["train_x"].reshape(len(subset["train_y"]), -1).astype(float)
+        idx, t, starts = build_input_temporal(seq_x, max_rate, rng, tr.sum(1).mean(), gain_tau_s)
+    else:
+        idx, t, starts = build_input(seq_in, max_rate, rng)
     n_pre = seq_x.shape[1]
 
     start_scope()
@@ -105,7 +141,7 @@ def run_pilot(seed, subset, target_total, n_post=40, n_train=None, max_rate=MAX_
     counts = np.zeros((n_post, len(seq_y)), dtype=np.int32)
     np.add.at(counts, (sidx[in_present], img[in_present]), 1)
     theta_final = (np.asarray(post.theta / mV).round(4).tolist() if adaptive is not None else None)
-    return dict(status="completed", seed=int(seed), n_post=n_post, normalize=bool(normalize), adaptive=adaptive, wta=bool(wta), epochs=int(epochs),
+    return dict(status="completed", seed=int(seed), n_post=n_post, normalize=bool(normalize), adaptive=adaptive, wta=bool(wta), epochs=int(epochs), gain_tau_s=gain_tau_s,
                 theta_final_mV=theta_final, n_pre=n_pre, target_total=target_total,
                 max_rate=max_rate, present_s=PRESENT_S, rest_s=REST_S, inhib_strength_mV=float(per_conn),
                 gap_scale=gap, apre=0.005, dt_ms=0.2, brian2_seeded=True, target=prefs.codegen.target,

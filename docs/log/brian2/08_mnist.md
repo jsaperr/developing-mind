@@ -2,6 +2,41 @@
 
 Index: `experiments_brian2.md`. Plan: `experiment_plan_generalization.md`, step 4. Newest entries first.
 
+## 2026-10-02 — Causal (temporal) gain control removes the image-boundary oracle at no cost: a 5-20 ms running gain matches or beats per-image normalization (75-77%, every digit), and on the reconciled substrate gain control is barely needed at all (69.5% without)
+
+**Exploration (Jasper: under an hour, nothing adopted).**
+- **Data:** `notebooks/brian2/mnist_pilot/mnist_tg_{none,tg5,tg20,tg100}_seed70100-70107.json.gz` (Modal).
+- **Script:** `modal_mnist_temporal_gain.py` (predictions TG-P1..P3 in its docstring, before launch). Outputs
+  `mnist_tg_*_output.txt`.
+- **Code:** `mnist_sim.build_input_temporal` (new; the default path is unchanged).
+- **Rule:** each pixel's rate is divided by a running estimate of total input, g(t), with time constant tau_g. g updates
+  only while something is shown, so an image starts at the previous image's gain and adapts. No image boundaries are used.
+- **Input check (corr of spikes per image with ink):** none 0.99, per-image 0.00; tau_g 20 / 100 / 1000 ms gives 0.42 /
+  0.72 / 0.92.
+- **Substrate:** the reconciled one (winner-take-all 20 mV, gate off + leaky fair-share 0.05 mV, tau 100 s), N=40, budget 30,
+  1 pass. Per-image reference: `mnist_leak_tau100`.
+
+| gain control | accuracy | every digit >= 3 neurons | specialized | novelty |
+|---|---|---|---|---|
+| per-image (oracle) | 74.8% | 8/8 | 66% | 3.2x |
+| causal tau_g 5 ms | **76.6%** | 8/8 | 64% | 3.5x |
+| causal tau_g 20 ms | 75.2% | 8/8 | 61% | 3.3x |
+| causal tau_g 100 ms | 72.1% | 8/8 | 66% | 2.8x |
+| none | 69.5% | 6/8 | 61% | 3.8x |
+
+- **TG-P1 (tau_g 5 and 20 ms >= 65%, every digit in >= 6/8): CONFIRMED.**
+- **TG-P2 (accuracy falls with tau_g): CONFIRMED.**
+- **TG-P3 (no gain control < 65% on this substrate): REFUTED** (69.5%, every digit in 6/8). On the original substrate, no
+  gain control meant learning ink (v1, 54%, no "1" neuron). On the reconciled substrate, fair-share plus winner-take-all
+  absorb most of the ink bias by themselves.
+- **Reading:** the "make gain control temporal before split-MNIST" item is resolved, provisionally. A fast causal gain
+  (5-20 ms, contrast-adaptation-like) works as well as the oracle. The substrate needs less of it than expected.
+  - On the click world it's a no-op (rate-matched input), so it can't affect the integration results.
+- **Familiar-switch caveat on this substrate (analysis only, same session):** on the six-context world at N=40, the
+  weight-based change signal fires on only 65-70% of BRAND-NEW contexts (winner-take-all re-wires fewer neurons). So a
+  third of new contexts would be read as "familiar" by the two-signal split. The activity signal still fires on 100% of
+  changes.
+
 ## 2026-10-02 — The reconciled substrate generalizes to step 3's six-context world: memory remembers every return 8/8 at both clocks and both N, the readout is better than the old substrate's (0.98-0.995), and retention turns FLAT (every past context keeps ~12-27% of neurons at N=40) instead of graded
 
 **Data:** `notebooks/brian2/unified_substrate/many_leak/tau{50,100}/many6_n{7,40}_seed*.json.gz` (32 runs, Modal, detached,
