@@ -37,7 +37,7 @@ def build_input(images, max_rate, rng, t0=0.0):
 
 
 def run_pilot(seed, subset, target_total, n_post=40, n_train=None, max_rate=MAX_RATE, normalize=False, adaptive=None,
-              wta=False):
+              wta=False, epochs=1):
     """subset: dict of arrays from prep_mnist.py's npz. Returns a compact result dict (all small).
     normalize (v2): per-image gain control. Every image delivers the same total input rate, equal to the TRAINING
       set's mean total (mean summed intensity x max_rate), so total drive no longer encodes ink.
@@ -46,7 +46,9 @@ def run_pilot(seed, subset, target_total, n_post=40, n_train=None, max_rate=MAX_
       src build_competitive_population_network (built here as a notebook variant; src is untouched).
     wta (v3): winner-take-all inhibition as a DERIVED rule, not a tuned number. Each competitor spike pushes a neuron
       down by its full threshold distance, v_thresh - v_rest = 20 mV, with the ambiguity gate off (gap_scale
-      effectively infinite). Replaces the gentle normalized inhibition (13 mV x 2/(N-1) = 0.67 mV per spike at N=40)."""
+      effectively infinite). Replaces the gentle normalized inhibition (13 mV x 2/(N-1) = 0.67 mV per spike at N=40).
+    epochs (2026-10-02, dose test): passes over the training images, each a fresh shuffle. epochs=1 is the original
+      (identical random draws)."""
     from brian2 import SpikeMonitor, defaultclock, mV, ms, prefs, run, second, seed as b2_seed, start_scope
     from src.brian2_stdp.network import build_competitive_population_network, scale_inhib_for_n
 
@@ -55,6 +57,8 @@ def run_pilot(seed, subset, target_total, n_post=40, n_train=None, max_rate=MAX_
     for split in ("train", "label", "test"):
         n = len(subset[f"{split}_y"]) if (split != "train" or n_train is None) else n_train
         order[split] = rng.permutation(len(subset[f"{split}_y"]))[:n]
+        if split == "train" and epochs > 1:
+            order[split] = np.concatenate([order[split]] + [rng.permutation(len(subset[f"{split}_y"]))[:n] for _ in range(epochs - 1)])
     seq_x = np.concatenate([subset[f"{s}_x"][order[s]].reshape(len(order[s]), -1) for s in ("train", "label", "test")])
     seq_y = np.concatenate([subset[f"{s}_y"][order[s]] for s in ("train", "label", "test")])
     seq_split = np.concatenate([[s] * len(order[s]) for s in ("train", "label", "test")])
@@ -101,7 +105,7 @@ def run_pilot(seed, subset, target_total, n_post=40, n_train=None, max_rate=MAX_
     counts = np.zeros((n_post, len(seq_y)), dtype=np.int32)
     np.add.at(counts, (sidx[in_present], img[in_present]), 1)
     theta_final = (np.asarray(post.theta / mV).round(4).tolist() if adaptive is not None else None)
-    return dict(status="completed", seed=int(seed), n_post=n_post, normalize=bool(normalize), adaptive=adaptive, wta=bool(wta),
+    return dict(status="completed", seed=int(seed), n_post=n_post, normalize=bool(normalize), adaptive=adaptive, wta=bool(wta), epochs=int(epochs),
                 theta_final_mV=theta_final, n_pre=n_pre, target_total=target_total,
                 max_rate=max_rate, present_s=PRESENT_S, rest_s=REST_S, inhib_strength_mV=float(per_conn),
                 gap_scale=gap, apre=0.005, dt_ms=0.2, brian2_seeded=True, target=prefs.codegen.target,
