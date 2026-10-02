@@ -30,6 +30,16 @@ PREDICTIONS ON RECORD (written before launch; the MNIST half of the dose test wa
   tau 100 s: reported, not predicted.
   => L-P1 + L-P3 = one substrate passing both worlds, with no ratchet, no erasure, and only a leak added back.
 
+FOLLOW-UP (written after the tau 10/100/1000 results, before running 30/50 s):
+  Results so far: tau 10 s passes the click world cleanly but MNIST loses diversity (45%, one digit takes ~35 neurons);
+  tau 100 s passes BOTH (click 0.98/0.97 median, 8/8; MNIST 74.8%, every digit), but its click readout FLICKERS (14-21% of
+  settled 10 s windows < 0.5, ~8-12 dips per phase: adaptation-driven alternation); tau 1000 s fails the click world.
+  Mapping the window with tau 30 and 50 s (run with --taus 30,50):
+  L-P5 tau 30 s: click passes with < 5% flicker windows at both N; MNIST every class >= 3 in >= 6/8 seeds, accuracy >= 65%.
+  L-P6 tau 50 s: both worlds pass; flicker between tau 30's and tau 100's.
+  Flicker = share of settled 10 s windows whose rectified readout has cosine < 0.5 to the current prototype
+  (analyze_leak_flicker.py).
+
 Cost estimate: 48 click runs (~20 min) + 24 MNIST runs (~5 min), about $1.5.
 Run from the repo root:  python -m modal run notebooks/brian2/unified_substrate/modal_leak.py
 """
@@ -120,7 +130,10 @@ def run_mnist(tau: float, seed: int) -> dict:
 
 
 @app.local_entrypoint()
-def main():
+def main(taus: str = ""):
+    global TAUS
+    if taus:
+        TAUS = [float(x) for x in taus.split(",")]
     clicks = [(tau, n, SEED_BASE[n] + k) for tau in TAUS for n in NS for k in range(8)
               if not (HERE / f"leak_tau{tag(tau)}_n{n}_seed{SEED_BASE[n] + k}.json.gz").exists()]
     mn = [(tau, s) for tau in TAUS for s in MNIST_SEEDS if not (MN / f"mnist_leak_tau{tag(tau)}_seed{s}.json.gz").exists()]

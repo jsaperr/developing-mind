@@ -38,7 +38,7 @@ def habituation(prefix, n):
 
 def main():
     out, lines = {}, []
-    for prefix in ("fact_ctrl", "unify", "dose_tp0p0005", "leak_tau10", "leak_tau100", "leak_tau1000"):
+    for prefix in ("fact_ctrl", "unify", "dose_tp0p0005", "leak_tau10", "leak_tau30", "leak_tau50", "leak_tau100", "leak_tau1000"):
         for n in (7, 40):
             row = AF.score(prefix, n)
             if row is None:
