@@ -168,6 +168,13 @@ download).**
   the next open problem.
 - **Before 4b:** confirm the new substrate keeps the integration properties (`notebooks/brian2/unified_substrate/`),
   and make gain control continuous instead of per-image.
+- **2026-10-02 update, both prerequisites met (provisionally; nothing adopted):**
+  - The fair-share threshold alone broke integration (habituation). A LEAKY fair-share (tau 50-100 s) passes both worlds
+    and the six-context world.
+  - Causal gain control (5-20 ms running gain) matches the per-image oracle.
+  - 4b is prepared and not run: `notebooks/brian2/split_mnist/` (draft predictions SM-P1..P4 and MC-3; ~$0.25 on Modal).
+  - **Pre-run risk found:** on this substrate, 10 s windows of the same digit set agree at only ~0.75, below the memory
+    radius (0.8) and steadiness gate (0.9). Expect W=10 to fail and W=50 to work: the clock question on real data.
 
 Original 4a text: **4a. Pilot (an afternoon; laptop).**
 - **Setup:** 14×14 images (196 inputs), 4 digit classes, N=20-30, a few hundred images per class.
