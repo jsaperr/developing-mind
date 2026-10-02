@@ -1,0 +1,5 @@
+target_total   10: mean rate   0.0 Hz (max   0.0), active neurons 0%, spikes per image 0.0 -> miss  (wall 10 s)
+target_total   20: mean rate   0.8 Hz (max   3.5), active neurons 100%, spikes per image 11.5 -> miss  (wall 10 s)
+target_total   30: mean rate  19.6 Hz (max  30.0), active neurons 100%, spikes per image 273.8 -> PASS  (wall 9 s)
+target_total   40: mean rate  34.9 Hz (max  46.7), active neurons 100%, spikes per image 489.2 -> miss  (wall 9 s)
+chosen target_total: 30.0
