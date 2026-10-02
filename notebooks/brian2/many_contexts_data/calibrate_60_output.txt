@@ -1,0 +1,2 @@
+N=7: rates (last 100 s) 15.3-17.8 Hz, mean 17.0; w_total 9.918-10.083 -> PASS
+N=40: rates (last 100 s) 13.6-17.9 Hz, mean 17.1; w_total 9.865-10.110 -> PASS
