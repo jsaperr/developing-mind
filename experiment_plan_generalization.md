@@ -96,6 +96,10 @@ direction: does a long phase harden the retainers so much that the next change c
 
 ## Step 2: network size
 
+**DONE 2026-10-01 (Modal):** N=5-40 changes nothing the integration layer relies on. One back,
+retainers 50-57%, change signal at its defaults (no tripwire), readout 0.96-0.99, memory 8/8 at every N.
+Arc 05 log. Next: step 3 (more contexts, the synthetic control for MNIST).
+
 - **Top size DECIDED 2026-10-01: N=40** (Jasper's go): it equals the MNIST pilot at Diehl & Cook's ratio.
   A seeded N=7 arm is added so every size runs under one protocol. Launched on Modal
   (`notebooks/brian2/n_scaling_v1b_data/modal_nscale.py`, predictions NS-P1..P5 in its docstring).

@@ -109,6 +109,8 @@ before running; save full traces for exploratory runs; inspect trajectories befo
   and 1000 s alike. One back is the disjoint case; overlap means less than one back.
   **3000 s arm (2026-09-29):** identical to 300 and 1000 s; long holds don't block release, and nothing
   moves between changes. Phase length (300-3000 s) is not a variable here. Step 1 complete.
+  **Step 2 (2026-10-01, Modal):** network size N=5-40 is not a variable either. One back holds, retainers
+  50-57%, and the change signal works at its hand-set defaults (no tripwire). The readout improves slightly with N.
 - One-back retention over longer schedules: does the lock-in residue accumulate across many
   changes, and is release triggered by the change itself or just slow (more than 1000 s)? It
   predicted that A→B→C→A should *not* recognize A instantly, and v1 confirmed that. Still open:
@@ -164,6 +166,7 @@ Each line is the entry's own heading (its conclusion is in the title).
 
 **05 Non-stationary correlation (2026-09-25)**: [`docs/log/brian2/05_nonstationary_correlation.md`](docs/log/brian2/05_nonstationary_correlation.md)
 
+- 2026-10-01 — Generalization step 2, network size: from 5 to 40 neurons, one-back, the ~half retainer fraction, the change signal at its hand-set defaults, the readout and memory recognition all hold unchanged
 - 2026-09-29 — The fork (logged in experiments_integration.md): with Brian2 seeded, forked twins' wiring diverges steadily from a tiny input difference while their function stays at 0.99; the runners' membrane noise was never seeded (correction in notebooks/brian2/README.md)
 - 2026-09-29 — Ambiguity (both contexts at once): the substrate holds both readings with zero switching, and the two groups' activity jitters around a tie as white noise, with no rivalry
 - 2026-09-29 — Rest: with no synchrony at all for 3000 s, the substrate holds its tuning exactly (zero re-assignment), barely blurs, and doesn't register rest as a change

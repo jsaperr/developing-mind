@@ -1,0 +1,161 @@
+✓ Initialized. View run at 
+https://modal.com/apps/jaspersgmail/main/ap-Ui3n8PksnHV33K3m7XpMPC
+✓ Created objects.
+├── ✓ Uploaded C:\Users\urawi\OneDrive\Desktop\a wide variety of vscode 
+│   projects\developing-mind\notebooks\brian2\n_scaling_v1b_data\modal_nscale.p
+│   y
+├── ✓ Uploaded PythonPackage:src
+└── ✓ Created Function run_n.
+40 jobs to run
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([6.21714035e-05, 2.83945239e-04, 9.37911819e-04, ...,
+       4.99999186e+03, 4.99999422e+03, 4.99999483e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([5.53001492e-03, 7.23738765e-03, 7.71750990e-03, ...,
+       4.99999797e+03, 4.99999871e+03, 5.00000042e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([1.40418417e-03, 1.96818162e-03, 2.40943726e-03, ...,
+       4.99999789e+03, 4.99999889e+03, 4.99999934e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([3.50486673e-03, 7.62792534e-03, 8.91735132e-03, ...,
+       4.99998957e+03, 4.99999060e+03, 4.99999625e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([1.16356323e-03, 1.97073368e-03, 2.18478979e-03, ...,
+       4.99999084e+03, 4.99999294e+03, 5.00000044e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([7.21684832e-04, 4.42882117e-03, 4.94092142e-03, ...,
+       4.99998943e+03, 4.99998957e+03, 4.99999079e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([3.24961126e-03, 4.36851542e-03, 5.15928942e-03, ...,
+       4.99999643e+03, 4.99999796e+03, 4.99999961e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([5.75949519e-03, 6.42281383e-03, 7.25412971e-03, ...,
+       4.99999616e+03, 4.99999956e+03, 5.00000026e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([1.17648544e-03, 2.74825289e-03, 3.42568271e-03, ...,
+       4.99999613e+03, 4.99999726e+03, 5.00000034e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([3.91643096e-03, 4.28552460e-03, 4.41670904e-03, ...,
+       4.99999974e+03, 4.99999977e+03, 5.00000031e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([3.49920655e-03, 6.78259497e-03, 7.25786763e-03, ...,
+       4.99999786e+03, 4.99999823e+03, 4.99999994e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([4.62332238e-03, 5.55232878e-03, 5.89738132e-03, ...,
+       4.99999099e+03, 4.99999201e+03, 5.00000026e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([6.40362736e-04, 2.96351339e-03, 3.62017634e-03, ...,
+       4.99999817e+03, 5.00000019e+03, 5.00000035e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([1.05585018e-03, 1.98533672e-03, 2.33031615e-03, ...,
+       4.99999855e+03, 4.99999913e+03, 5.00000096e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([1.79525055e-03, 9.83324036e-03, 1.23361490e-02, ...,
+       4.99999543e+03, 4.99999641e+03, 5.00000043e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([2.60641534e-04, 1.99717253e-03, 4.76910615e-03, ...,
+       4.99999360e+03, 4.99999707e+03, 4.99999745e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([4.70309986e-03, 1.03407251e-02, 1.13631660e-02, ...,
+       4.99999775e+03, 4.99999853e+03, 5.00000035e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([1.17909985e-03, 2.56181749e-03, 3.12087235e-03, ...,
+       4.99999882e+03, 4.99999954e+03, 4.99999956e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([1.07289916e-02, 1.57801101e-02, 1.57973046e-02, ...,
+       4.99999659e+03, 5.00000082e+03, 5.00000087e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([1.59753571e-03, 3.27733422e-03, 1.02654142e-02, ...,
+       5.00000008e+03, 5.00000044e+03, 5.00000062e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([4.30516411e-04, 1.10828145e-03, 2.93553747e-03, ...,
+       4.99999604e+03, 4.99999616e+03, 4.99999850e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([2.89981181e-03, 3.39332488e-03, 5.70350697e-03, ...,
+       4.99999513e+03, 4.99999895e+03, 5.00000064e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([5.95808230e-03, 8.59420190e-03, 9.77138182e-03, ...,
+       4.99999675e+03, 4.99999746e+03, 5.00000063e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([9.73950050e-04, 3.57301311e-03, 6.31685764e-03, ...,
+       4.99998881e+03, 4.99999135e+03, 4.99999764e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([2.97058378e-04, 1.29270477e-03, 6.29849309e-03, ...,
+       4.99999652e+03, 4.99999774e+03, 5.00000031e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([2.00800871e-03, 7.40666816e-03, 1.43166458e-02, ...,
+       4.99999131e+03, 4.99999622e+03, 4.99999959e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([6.24902375e-04, 2.11395384e-03, 3.65070730e-03, ...,
+       4.99999767e+03, 4.99999864e+03, 4.99999939e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([7.75735861e-03, 8.04030682e-03, 8.12400475e-03, ...,
+       4.99999224e+03, 4.99999225e+03, 4.99999949e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([6.19400625e-05, 5.54090526e-04, 1.08016440e-03, ...,
+       4.99999735e+03, 4.99999830e+03, 4.99999855e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([2.20840101e-03, 2.46430138e-03, 3.60564781e-03, ...,
+       4.99998998e+03, 4.99999208e+03, 5.00000003e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([1.77995402e-04, 8.55906310e-04, 8.82301148e-04, ...,
+       4.99999382e+03, 4.99999737e+03, 4.99999787e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([6.90794168e-03, 9.27901432e-03, 1.38541903e-02, ...,
+       4.99999129e+03, 4.99999246e+03, 4.99999572e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([5.01847347e-03, 8.12423932e-03, 8.41635359e-03, ...,
+       4.99998244e+03, 4.99998409e+03, 4.99999870e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([4.60556896e-05, 1.09698780e-03, 2.01253435e-03, ...,
+       4.99999438e+03, 4.99999923e+03, 4.99999965e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([8.84259129e-03, 1.28443753e-02, 1.30546323e-02, ...,
+       4.99999640e+03, 4.99999692e+03, 4.99999756e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([2.04648858e-03, 3.81305718e-03, 4.23867028e-03, ...,
+       4.99999285e+03, 4.99999353e+03, 4.99999667e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([4.26298994e-03, 1.09897515e-02, 1.17653303e-02, ...,
+       4.99999835e+03, 5.00000015e+03, 5.00000090e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([2.16712470e-03, 2.85008460e-03, 3.34084975e-03, ...,
+       4.99998868e+03, 4.99999416e+03, 4.99999963e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([0.00000000e+00, 3.39023477e-04, 1.25762467e-03, ...,
+       4.99999236e+03, 4.99999301e+03, 4.99999707e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+WARNING    't' is an internal variable of group 'synapses', but also exists in the run namespace with the value array([1.52360695e-03, 3.04232680e-03, 4.93147107e-03, ...,
+       4.99999589e+03, 4.99999617e+03, 4.99999679e+03]) * second. The internal variable will be used. [brian2.groups.group.Group.resolve.resolution_conflict]
+N=5 seed 51000: saved (1.4 MB gz)
+N=5 seed 51001: saved (1.4 MB gz)
+N=5 seed 51002: saved (1.4 MB gz)
+N=5 seed 51003: saved (1.4 MB gz)
+N=5 seed 51004: saved (1.4 MB gz)
+N=5 seed 51005: saved (1.4 MB gz)
+N=5 seed 51006: saved (1.4 MB gz)
+N=5 seed 51007: saved (1.4 MB gz)
+N=7 seed 51100: saved (2.0 MB gz)
+N=7 seed 51101: saved (2.0 MB gz)
+N=7 seed 51102: saved (2.0 MB gz)
+N=7 seed 51103: saved (2.0 MB gz)
+N=7 seed 51104: saved (2.0 MB gz)
+N=7 seed 51105: saved (2.0 MB gz)
+N=7 seed 51106: saved (2.0 MB gz)
+N=7 seed 51107: saved (2.0 MB gz)
+N=10 seed 51200: saved (2.9 MB gz)
+N=10 seed 51201: saved (2.9 MB gz)
+N=10 seed 51202: saved (2.9 MB gz)
+N=10 seed 51203: saved (2.9 MB gz)
+N=10 seed 51204: saved (2.9 MB gz)
+N=10 seed 51205: saved (2.8 MB gz)
+N=10 seed 51206: saved (2.9 MB gz)
+N=10 seed 51207: saved (2.8 MB gz)
+N=15 seed 51300: saved (4.3 MB gz)
+N=15 seed 51301: saved (4.3 MB gz)
+N=15 seed 51302: saved (4.3 MB gz)
+N=15 seed 51303: saved (4.3 MB gz)
+N=15 seed 51304: saved (4.3 MB gz)
+N=15 seed 51305: saved (4.3 MB gz)
+N=15 seed 51306: saved (4.3 MB gz)
+N=15 seed 51307: saved (4.3 MB gz)
+N=40 seed 51400: saved (11.4 MB gz)
+N=40 seed 51401: saved (11.4 MB gz)
+N=40 seed 51402: saved (11.5 MB gz)
+N=40 seed 51403: saved (11.4 MB gz)
+N=40 seed 51404: saved (11.4 MB gz)
+N=40 seed 51405: saved (11.4 MB gz)
+N=40 seed 51406: saved (11.4 MB gz)
+N=40 seed 51407: saved (11.4 MB gz)
+an error occurred during closing of asynchronous generator <async_generator object Synchronizer._run_generator_async at 0x0000024D7F88AC30>
+asyncgen: <async_generator object Synchronizer._run_generator_async at 0x0000024D7F88AC30>
+Traceback (most recent call last):
+  File "C:\Users\urawi\miniconda3\envs\developing-mind\Lib\site-packages\modal\_utils\async_utils.py", line 856, in __iter__
+    yield from run_async_gen(runner, self._async_iterable)
+GeneratorExit
+
+During handling of the above exception, another exception occurred:
+
+RuntimeError: aclose(): asynchronous generator is already running
+an error occurred during closing of asynchronous generator <async_generator object async_merge at 0x0000024D7F968EA0>
+asyncgen: <async_generator object async_merge at 0x0000024D7F968EA0>
+Traceback (most recent call last):
+  File "C:\Users\urawi\miniconda3\envs\developing-mind\Lib\site-packages\modal\_utils\async_utils.py", line 856, in __iter__
+    yield from run_async_gen(runner, self._async_iterable)
+GeneratorExit
+
+During handling of the above exception, another exception occurred:
+
+RuntimeError: aclose(): asynchronous generator is already running
+== 40/40 completed
+Stopping app - local entrypoint completed.
+✓ App completed. View run at 
+https://modal.com/apps/jaspersgmail/main/ap-Ui3n8PksnHV33K3m7XpMPC
+Task was destroyed but it is pending!
+task: <Task cancelling name='Task-399' coro=<async_merge.<locals>.producer() running at C:\Users\urawi\miniconda3\envs\developing-mind\Lib\site-packages\modal\_utils\async_utils.py:1087> wait_for=<Future pending cb=[Task.task_wakeup()]> cb=[gather.<locals>._done_callback() at C:\Users\urawi\miniconda3\envs\developing-mind\Lib\asyncio\tasks.py:764]>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-15879' coro=<<async_generator_athrow without __name__>()> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-15887' coro=<Synchronizer._run_function_async() done, defined at C:\Users\urawi\miniconda3\envs\developing-mind\Lib\site-packages\synchronicity\synchronizer.py:499> wait_for=<Future pending cb=[shield.<locals>._outer_done_callback() at C:\Users\urawi\miniconda3\envs\developing-mind\Lib\asyncio\tasks.py:908, Task.task_wakeup()]> cb=[shield.<locals>._inner_done_callback() at C:\Users\urawi\miniconda3\envs\developing-mind\Lib\asyncio\tasks.py:891]>
+Task was destroyed but it is pending!
+task: <Task pending name='Task-15889' coro=<wait_for() done, defined at C:\Users\urawi\miniconda3\envs\developing-mind\Lib\asyncio\tasks.py:436> wait_for=<Future finished result=None> cb=[shield.<locals>._inner_done_callback() at C:\Users\urawi\miniconda3\envs\developing-mind\Lib\asyncio\tasks.py:891]>

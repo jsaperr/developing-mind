@@ -1,0 +1,7 @@
+N= 5 (8 seeds, wall 561 s) | B keeps 79% at C | before two-back: A 5%, B 8% of N | A retainers at end of B 52% | change fired 100%, on when settled 0.4% | readout 0.962, between max -0.44 | B named W50 8/8 W10 8/8 | A named W50 8/8
+N= 7 (8 seeds, wall 693 s) | B keeps 85% at C | before two-back: A 9%, B 5% of N | A retainers at end of B 54% | change fired 100%, on when settled 1.6% | readout 0.974, between max -0.44 | B named W50 8/8 W10 8/8 | A named W50 8/8
+N=10 (8 seeds, wall 883 s) | B keeps 94% at C | before two-back: A 5%, B 0% of N | A retainers at end of B 57% | change fired 100%, on when settled 0.8% | readout 0.978, between max -0.46 | B named W50 8/8 W10 8/8 | A named W50 8/8
+N=15 (8 seeds, wall 826 s) | B keeps 80% at C | before two-back: A 6%, B 7% of N | A retainers at end of B 50% | change fired 100%, on when settled 0.6% | readout 0.983, between max -0.45 | B named W50 8/8 W10 8/8 | A named W50 8/8
+N=40 (8 seeds, wall 936 s) | B keeps 87% at C | before two-back: A 4%, B 6% of N | A retainers at end of B 53% | change fired 100%, on when settled 0.6% | readout 0.987, between max -0.46 | B named W50 8/8 W10 8/8 | A named W50 8/8
+
+NS-P1 B keep >= 60% and incoming <= 15% | NS-P2 retainers 35-65% | NS-P3 fired >= 90%, settled-on < 5% | NS-P4 readout >= 0.9, between < 0.8 | NS-P5 B named (W50) >= 7/8 -- at every N

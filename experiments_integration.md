@@ -68,6 +68,9 @@ runs are replayed into memory, with no feedback yet.
   self-set cutoff), the system flags 50% (fast clock) to 80-86% (slow clock) of ghost and coin-flip
   recognitions as uncertain while flagging 1-3% of real ones. It can't catch confident errors. Analysis
   only; not in `src`.
+- **Network size (2026-10-01, generalization step 2, on Modal):** from 5 to 40 neurons, the substrate facts memory
+  relies on hold unchanged, the hand-set gate numbers need no re-tuning, and the default memory recognizes two-back
+  returns 8/8 at every size (both clocks).
 - **Recency has two timescales.** Episode timing (staleness) is exact. Character recency needs age
   differences of about w_char's 2000-step constant, so it's absent in short runs and weak in the
   long world.

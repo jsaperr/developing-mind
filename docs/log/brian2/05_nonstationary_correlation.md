@@ -28,6 +28,45 @@ Entries moved verbatim from `experiments_brian2.md` on 2026-09-25 (no wording ch
   - Real perceptual rivalry needs something like adaptation to produce episodes. This substrate
     doesn't have it, the same ingredient the MNIST plan flags (adaptive threshold).
 
+## 2026-10-01 — Generalization step 2, network size: from 5 to 40 neurons, one-back, the ~half retainer fraction, the change signal at its hand-set defaults, the readout and memory recognition all hold unchanged
+
+**Data:** `notebooks/brian2/n_scaling_v1b_data/`, N in {5, 7, 10, 15, 40} x 8 seeds (51000-51407), 40/40 completed
+**on Modal** (cleared by the arc-06 fidelity checks). Brian2 seeded.
+- **World:** the v1b world A B C A B (5 x 1000 s), disjoint 30-input rig, 13 mV/1.5 normalized with
+  `scale_inhib_for_n`. Mirrors `run_v1_seed.py` with N as the only variable.
+- **N=7 arm:** included so every size runs under one seeded protocol.
+- **Top size 40:** the MNIST pilot size (Jasper's go).
+- **Scripts:** `modal_nscale.py` (predictions NS-P1..P5 in its docstring, committed before launch) and
+  `analyze_nscale.py` (committed before results). Output `nscale_output.txt`.
+- **Modal wall per run:** 561 s (N=5) to 936 s (N=40). About $0.70 in total.
+
+| N | B keeps at C's arrival | incoming before two-back returns (A / B, share of N) | A retainers at end of B | change fired / on when settled | settled readout | B named at two-back, W=50 / W=10 |
+|---|---|---|---|---|---|---|
+| 5 | 79% | 5% / 8% | 52% | 100% / 0.4% | 0.962 | 8/8 / 8/8 |
+| 7 | 85% | 9% / 5% | 54% | 100% / 1.6% | 0.974 | 8/8 / 8/8 |
+| 10 | 94% | 5% / 0% | 57% | 100% / 0.8% | 0.978 | 8/8 / 8/8 |
+| 15 | 80% | 6% / 7% | 50% | 100% / 0.6% | 0.983 | 8/8 / 8/8 |
+| 40 | 87% | 4% / 6% | 53% | 100% / 0.6% | 0.987 | 8/8 / 8/8 |
+
+- **NS-P1 (one back at every N): CONFIRMED.** B keeps 79-94% of its holders at C's arrival. A context two
+  back holds 0-9% of the population just before it returns.
+- **NS-P2 (retainer fraction roughly size-independent, 35-65%): CONFIRMED, tightly.** 50-57% at every N. More
+  neurons means proportionally more retainers per context, still one back (the leaning, now measured).
+- **NS-P3 (the change signal at its hand-set defaults, no re-tuning): CONFIRMED.** It fires after 100% of swaps
+  and is on for 0.4-1.6% of settled seconds at every N. **The tripwire did not fire:** L 60 s, trail 900 s and
+  k 3 work from 5 to 40 neurons.
+- **NS-P4 (readout): CONFIRMED.** The settled fingerprint is 0.962-0.987 to its prototype, rising slightly with N.
+  Between-context cosines are about −0.45, far below the 0.8 radius.
+- **NS-P5 (memory, B two-back at W=50 ≥ 7/8): CONFIRMED** (8/8 at every N). Also 8/8 at W=10 and for A's two-back
+  return.
+- **Reading:**
+  - Network size (5-40) is not a variable for this substrate on disjoint contexts. Everything the integration
+    layer relies on holds unchanged, with the same hand-set gate numbers.
+  - The only size-dependent quantity is readout quality, which improves with N.
+  - Together with step 1 (phase length 300-3000 s is not a variable either; overlap is), the substrate's
+    behaviour is robust to the two scale knobs tested.
+  - N=40 behaves fine, so the MNIST pilot size is cleared.
+
 ## 2026-09-29 — Rest: with no synchrony at all for 3000 s, the substrate holds its tuning exactly (zero re-assignment), barely blurs, and doesn't register rest as a change
 
 **Data:** `notebooks/brian2/rest_data/`, seeds 46000-46007, 8/8 completed (1315 s wall).
