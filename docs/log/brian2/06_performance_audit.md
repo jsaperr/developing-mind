@@ -59,7 +59,10 @@ hardware), not library or code drift. It is rounding-scale and did not grow. Whi
 50 simulated s) was for a bare run, and this rig also records a spike monitor and a 500 ms weight trace
 and generates 5000 s of input. Against 957 s uncontended local, Modal's fast containers (892-978 s) match
 and its slow ones (~1460-1480 s) are ~50% slower. Budget 1500 s per 5000 s seed on Modal; 960 s locally.
-- P2 (statistics hold): supported, much more tightly than predicted (exact to the reported precision).
+- P2 (statistics hold): **literally refuted on one seed, but because the range was mis-set, not because of Modal.**
+  The stated post_rate range (18.7-18.9 Hz) excludes seed 2001's own saved value (18.9176), so it would have
+  "failed" against the original data too. Modal matches the saved statistics exactly (to the reported precision),
+  which is the substance of P2. Noted 2026-10-01; the prediction is kept as written.
 - P3: not triggered; the Modal setup reproduces this rig.
 - P4 (wall time 560-1100 s): not supported. Per-seed time ranged 892-1479 s; five of eight seeds were
   slower than the loaded local runs. Modal is not faster per job, and varies by container (budget ~1500 s
