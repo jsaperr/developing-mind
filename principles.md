@@ -3,7 +3,9 @@
 Read this when a task needs to know *why*, not just *what happened*.
 CLAUDE.md has the build history. The full 14-section framework document
 (developing_mind_framework_v5.docx) is not in this repo — it's the
-project's primary design artifact, kept outside the codebase. This file
+project's primary design artifact, kept outside the codebase. Notes on
+where the build departs from that doc (`framework_drift.md`, referenced in a
+few places) are likewise kept local and not published. This file
 is the middle layer: the load-bearing commitments that should shape how
 you diagnose failures and propose fixes, so a bug in one mechanism
 doesn't get misread as a verdict on the whole approach, without needing
