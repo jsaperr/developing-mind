@@ -1,0 +1,12 @@
+== P0 probe (same noise stream?)
+  seed 49100: max|dw| at t=1 s 0, over 0-4 s 0
+  seed 49101: max|dw| at t=1 s 1.11e-16, over 0-4 s 2.22e-16
+  seed 49102: max|dw| at t=1 s 0, over 0-4 s 2.22e-16
+== P1/P2 stg (strong_tight_gate, N=3, 600 s)
+  n=32 | per-seed final max|dw| median 1.58e-15 (min 2.5e-16, max 8.55e-15)
+  differentiate: laptop 15/32, modal 15/32 | per-seed label agreement 32/32
+  late-window std: laptop median 0.0064, modal 0.0064, Mann-Whitney p 1.000; per-seed correlation 1.00
+== P3 op (13 mV/1.5, N=7, 300 s phases A B C A B)
+  n=16 | per-seed assignments identical at all 5 phase ends: 16/16
+  laptop: B keeps 88% of its holders at C's arrival (+150 s); incoming holders before two-back returns: A 0.31, B 0.56
+  modal: B keeps 88% of its holders at C's arrival (+150 s); incoming holders before two-back returns: A 0.31, B 0.56

@@ -2,6 +2,52 @@
 
 Entries moved verbatim from `experiments_brian2.md` on 2026-09-25 (no wording changed). Index: `experiments_brian2.md`.
 
+## 2026-10-01 — Modal fidelity check, part 2 (competitive network): with Brian2 seeded, Modal and the laptop give the same runs seed for seed (to ~1e-15), even at the bistable strong_tight_gate; nothing amplified over 600-1500 s
+
+**Data:** `notebooks/brian2/modal_competitive_check/out/` ({laptop,modal}_{probe,stg,op}_seed*.json.gz).
+**Scripts:**
+- `modal_competitive_check.py`: Modal functions; the predictions CC-P0..P3 are in its docstring, committed
+  before any run.
+- `local_batch.py`: runs the SAME function bodies on the laptop, 8 concurrent.
+- `score.py`: committed before results were read.
+
+Output `score_output.txt`.
+
+**Design:** matched seeds with Brian2 seeded (`brian2.seed`), so both platforms draw the same membrane noise.
+- **probe:** strong_tight_gate, N=3, 5 s, 3 seeds. Same noise stream?
+- **stg:** strong_tight_gate (10 mV/1.0), N=3, 600 s, 32 seeds. The bistable canary; mirrors
+  `run_competitive_seed.py`.
+- **op:** 13 mV/1.5, N=7, v1b schedule with 300 s phases, 16 seeds. The operating point every integration
+  result uses; mirrors `run_v1_seed.py`.
+
+**Cost:** Modal about 51 containers, stg ~143 s each. The laptop side took 1330 s.
+
+- **CC-P0 (same noise stream): CONFIRMED.** Laptop vs Modal max |dw| at 1 s is 0 to 1.1e-16 (over 0-4 s: 0 to
+  2.2e-16). Brian2's seeded generator gives the same stream on Windows and Linux.
+- **CC-P1 (the competitive network amplifies rounding to ≥ 0.05): REFUTED.** After 600 s at strong_tight_gate the
+  per-seed final max |dw| has a median of 1.6e-15 (max 8.6e-15). Nothing grew.
+  - Likely why: spikes happen on discrete 0.1-0.2 ms time steps. A 1e-16 voltage difference only matters if it
+    moves a threshold crossing to a different step, which is vanishingly rare. Time discretization absorbs the
+    rounding.
+  - Contrast with the fork: there the twins got different input SPIKES, a macroscopic perturbation, and that
+    does compound.
+  - Caveat: over much longer runs a single shifted spike could eventually occur, and from then on the runs
+    would diverge like the fork twins. That's untested past 1500 s.
+- **CC-P2 (statistics match): CONFIRMED, at the strongest possible level.** 'differentiate' 15/32 on both
+  platforms, per-seed label agreement 32/32, late-window std per-seed correlation 1.00 (Mann-Whitney p = 1.0).
+- **CC-P3 (operating point robust): CONFIRMED.**
+  - Per-seed neuron assignments are identical at all 5 phase ends in 16/16 seeds.
+  - The one-back statistics are identical on both platforms: B keeps 88% of its holders at C's arrival; incoming
+    holders before the two-back returns are A 0.31, B 0.56.
+- **Side note:** strong_tight_gate at 600 s differentiated in 15/32 seeds here. The saved sweep cell had 1/8,
+  with only 8 seeds. That's consistent with the ~50/50 bistability, and the old cell was undersampled.
+- **Verdict:**
+  - Modal is a faithful substitute for the competitive network, per seed, not just statistically, as long as
+    Brian2 is seeded and the runs are at most ~1500 s (tested).
+  - Seeded Modal and laptop runs can be mixed in one comparison.
+  - Comparisons against the OLD (unseeded) laptop runs remain statistical by necessity.
+  - For long runs, spot-check a seed on both platforms before mixing them per seed.
+
 ## 2026-10-01 — Modal fidelity check: a remote run reproduces the saved arc-01 ensemble to rounding error (single-neuron rig only)
 
 **Data:** `notebooks/brian2/modal_ensemble_check_out/` (one `modal_seed<N>.json` per seed, written by the
