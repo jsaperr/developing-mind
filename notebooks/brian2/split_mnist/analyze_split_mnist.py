@@ -2,8 +2,11 @@
 
 Memory stream per clock W (10, 50 s): the compact rectified fingerprints; steady = interface.steady_flags(q, 0.9); changing =
 interface.window_any(change flags, starts, W); gap_scale grounded by readout_set_worlds.ground_gap_scale; memory = the
-default DormantGatedMemory (dim 196). Entries are content-tagged at birth by the nearest digit-set prototype (unit mean image
-of the set). Labels are used only here, for scoring. Settled = >= 300 s into a phase.
+default DormantGatedMemory (dim 196). Entries are content-tagged at birth by the nearest digit-set prototype. Prototype =
+unit mean of that seed's settled fingerprints during the set's FIRST visit (phases 1-3) at the same clock. (Changed before
+any 4b data: a mini-run test showed the mean-image prototypes are 0.78-0.84 alike and fingerprints match them only ~0.72,
+so tags were noisy.) The mean-image readout is still reported. Labels are used only here, for scoring. Settled = >= 300 s
+into a phase.
   SM-P1/P2: a return (phase 4 = {0,1}, phase 5 = {2,3}) is REMEMBERED when its set is named in more than half of its settled
             checks AND the entry that first names it is old (born before the phase or reawakened), as in analyze_many.py.
             Also reported: the wrong-set share of settled named checks (absorption proxy), and the NOVEL share.
@@ -44,8 +47,10 @@ def stream(d, W):
     q = np.array(d["fingerprints"][f"W{W}"]["rect"], float)
     starts = np.arange(len(q)) * W
     ph = np.minimum((starts // d["phase_s"]).astype(int), len(CTX) - 1)
-    return dict(q=q, starts=starts, ph=ph, true=np.array([CTX[p] for p in ph]), protos=np.array(d["protos"], float),
-                settled=(starts - ph * d["phase_s"]) >= SETTLE, steady=I.steady_flags(q, 0.9),
+    settled = (starts - ph * d["phase_s"]) >= SETTLE
+    fp_protos = np.array([I.unit(q[(ph == p) & settled].mean(0)) for p in range(3)])      # first visits of {0,1}, {2,3}, {4,5}
+    return dict(q=q, starts=starts, ph=ph, true=np.array([CTX[p] for p in ph]), protos=fp_protos,
+                img_protos=np.array(d["protos"], float), settled=settled, steady=I.steady_flags(q, 0.9),
                 changing=I.window_any(np.asarray(d["change_flags"], bool), starts, W))
 
 
@@ -94,7 +99,7 @@ def main():
             mc3 += ok_new and ok_ret
         lines.append(f"W={W} (gap_scale {gs:.3f}) | {{0,1}} return remembered {rem[3]}/{k}, {{2,3}} return {rem[4]}/{k} | "
                      f"wrong-set share of settled named checks {np.nanmean(wrong):.1%} | NOVEL share of settled checks {np.mean(novel):.1%} | MC-3 {mc3}/{k}")
-    held, wfire, afire, rd = [], [], [], []
+    held, wfire, afire, rd, rd_ret = [], [], [], [], []
     for d in runs:
         A = np.array(d["assign_50s"]); ps = int(d["phase_s"])
         held.append(np.mean(A[(3 * ps - 50) // 50] == 0))
@@ -103,11 +108,14 @@ def main():
         afire.append(sum(fa[p * ps // 10:p * ps // 10 + 30].any() for p in range(1, 5)))
     s10 = [stream(d, 10) for d in runs]
     for s in s10:
-        rd += [s["q"][i] @ s["protos"][s["true"][i]] for i in range(len(s["q"])) if s["settled"][i]]
+        rd += [s["q"][i] @ s["img_protos"][s["true"][i]] for i in range(len(s["q"])) if s["settled"][i]]
+        ret = [s["q"][i] @ s["protos"][s["true"][i]] for i in range(len(s["q"])) if s["settled"][i] and s["ph"][i] >= 3]
+        rd_ret.append(np.median(ret) if ret else np.nan)
     lines.append(f"SM-P3 neurons nearest {{0,1}} just before its return: {np.mean(held):.0%} (per seed {', '.join(f'{h:.0%}' for h in held)})")
     lines.append(f"SM-P4 weight change signal fired after >= 3 of 4 switches in {sum(w >= 3 for w in wfire)}/{k} seeds (mean {np.mean(wfire):.1f}/4); "
                  f"activity signal all 4 in {sum(a == 4 for a in afire)}/{k}")
-    lines.append(f"readout (W=10, settled, cosine to the true set's mean image): median {np.median(rd):.3f}")
+    lines.append(f"readout (W=10, settled): cosine to the true set's mean image, median {np.median(rd):.3f}; returns vs the set's "
+                 f"first-visit fingerprint, median {np.nanmean(rd_ret):.3f}")
     txt = "\n".join(lines)
     print(txt)
     (HERE / "split_output.txt").write_text(txt + "\n", encoding="utf-8")
