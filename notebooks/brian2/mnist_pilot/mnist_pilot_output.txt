@@ -1,0 +1,16 @@
+seeds: 8
+seed 70100: specialized 0% | RF matches class 38% | acc 53.5% | separation True | strength-quintile acc [0.65, 0.6, 0.75, 0.53, 0.15] | strange known 10% held 18% (ratio 1.8) | neurons per class [21, 0, 3, 16] | memory entries 6 | mean spikes/image 719
+seed 70101: specialized 0% | RF matches class 30% | acc 57.0% | separation True | strength-quintile acc [0.75, 0.7, 0.62, 0.53, 0.25] | strange known 10% held 17% (ratio 1.7) | neurons per class [25, 0, 5, 10] | memory entries 6 | mean spikes/image 721
+seed 70102: specialized 0% | RF matches class 25% | acc 49.8% | separation True | strength-quintile acc [0.53, 0.64, 0.53, 0.54, 0.26] | strange known 4% held 24% (ratio 5.3) | neurons per class [30, 0, 2, 8] | memory entries 9 | mean spikes/image 719
+seed 70103: specialized 0% | RF matches class 30% | acc 58.5% | separation True | strength-quintile acc [0.75, 0.78, 0.65, 0.47, 0.28] | strange known 6% held 6% (ratio 1.0) | neurons per class [23, 0, 7, 10] | memory entries 15 | mean spikes/image 722
+seed 70104: specialized 0% | RF matches class 38% | acc 52.0% | separation False | strength-quintile acc [0.72, 0.64, 0.59, 0.51, 0.14] | strange known 10% held 16% (ratio 1.6) | neurons per class [20, 0, 5, 15] | memory entries 6 | mean spikes/image 714
+seed 70105: specialized 0% | RF matches class 18% | acc 48.2% | separation True | strength-quintile acc [0.61, 0.69, 0.57, 0.39, 0.15] | strange known 9% held 9% (ratio 1.0) | neurons per class [29, 0, 2, 9] | memory entries 8 | mean spikes/image 718
+seed 70106: specialized 0% | RF matches class 22% | acc 55.5% | separation True | strength-quintile acc [0.74, 0.72, 0.68, 0.54, 0.1] | strange known 6% held 8% (ratio 1.4) | neurons per class [23, 0, 5, 12] | memory entries 5 | mean spikes/image 727
+seed 70107: specialized 0% | RF matches class 40% | acc 57.0% | separation True | strength-quintile acc [0.78, 0.78, 0.64, 0.53, 0.14] | strange known 12% held 10% (ratio 0.8) | neurons per class [19, 0, 2, 19] | memory entries 6 | mean spikes/image 717
+
+MP-P1 specialized >= 60%: mean 0%
+MP-P2 RF matches class >= 60%: mean 30%
+MP-P3 separation in every pair: 7/8 seeds
+MP-P4 accuracy >= 50%: mean 53.9% (min 48.2%)
+MC-1 rise in 0/8 seeds; weakest-vs-strongest gap mean -51 points
+MC-2 held-out strange ratio >= 2: mean 1.8

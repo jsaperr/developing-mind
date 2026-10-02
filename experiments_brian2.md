@@ -128,6 +128,10 @@ before running; save full traces for exploratory runs; inspect trajectories befo
 Each line is the entry's own heading (its conclusion is in the title).
 
 
+**08 MNIST (2026-10-01)**: [`docs/log/brian2/08_mnist.md`](docs/log/brian2/08_mnist.md)
+
+- 2026-10-01 — MNIST pilot v1: the unchanged substrate learns how much ink a digit has, not its shape (0% specialization, no neuron for "1", inverted confidence), though its fingerprint still separates classes and the population vote reaches 54%
+
 **Archive (superseded)**: [`docs/log/brian2/00_archive_2026-07-21_summary.md`](docs/log/brian2/00_archive_2026-07-21_summary.md)
 
 - 2026-07-21 — STDP/SNN arc: consolidated summary
