@@ -48,6 +48,7 @@ def fingerprints(r, period, wkey):
 def main():
     from subset_means import mean_images
     prefix = sys.argv[1] if len(sys.argv) > 1 else "mnist_pilot"
+    V3 = len(sys.argv) > 2 and sys.argv[2] == "v3"   # v3 definitions: silent = abstain (see modal_mnist_v3.py)
     runs = load_all(prefix)
     print(f"seeds: {len(runs)}")
     means = mean_images()                                                     # class -> (196,) mean known image
@@ -69,12 +70,17 @@ def main():
         pred = []
         for i in np.where(tk)[0]:
             score = {c: C[assign == c, i].mean() if (assign == c).any() else -1 for c in KNOWN}
-            pred.append(max(score, key=score.get))
+            pred.append(-1 if (V3 and C[:, i].sum() == 0) else max(score, key=score.get))
         correct = np.array(pred) == y[tk]
         acc = float(correct.mean())
         sel, F, S, yy, _ = fingerprints(r, "test", "label")
         km = np.isin(yy, KNOWN)
         Fk, yk, Sk = F[km], yy[km], S[km]
+        silent_frac = float(np.mean(S == 0)); acc_resp = float("nan")
+        if V3:
+            resp_k = Sk > 0
+            Fk, yk, Sk, correct = Fk[resp_k], yk[resp_k], Sk[resp_k], correct[resp_k]
+            acc_resp = float(correct.mean()) if len(correct) else float("nan")
         within = {c: np.mean([Fk[a] @ Fk[b] for a in np.where(yk == c)[0] for b in np.where(yk == c)[0] if a < b]) for c in KNOWN}
         sep = all(min(within[a], within[b]) > np.mean([Fk[i] @ Fk[k] for i in np.where(yk == a)[0] for k in np.where(yk == b)[0]])
                   for ia, a in enumerate(KNOWN) for b in KNOWN[ia + 1:])
@@ -90,14 +96,18 @@ def main():
         bank = torch.stack([p for p, w, s in m.character()]) if m.character() else torch.zeros(1, 196)
         _, Flab, _, _, _ = fingerprints(r, "label", "train")
         best_lab = (torch.tensor(Flab, dtype=torch.float32) @ bank.T).max(1).values.numpy()
-        radius = np.percentile(best_lab, 5)
+        if V3:
+            best_lab = best_lab[np.linalg.norm(Flab, axis=1) > 0]
+        radius = np.percentile(best_lab, 5) if len(best_lab) else 1.0
         best_test = (torch.tensor(F, dtype=torch.float32) @ bank.T).max(1).values.numpy()
-        strange_known = float(np.mean(best_test[km] < radius)); strange_held = float(np.mean(best_test[~km] < radius))
+        is_strange = (best_test < radius) | (np.linalg.norm(F, axis=1) == 0) if V3 else (best_test < radius)
+        strange_known = float(np.mean(is_strange[km])); strange_held = float(np.mean(is_strange[~km]))
         ratio = strange_held / max(strange_known, 1e-9)
         for k, v in (("spec", spec), ("rf", float(np.mean(rf_ok))), ("acc", acc), ("sep_ok", sep), ("mc1_rise", rise),
                      ("mc1_gap", gap), ("mc2_ratio", ratio), ("assign_counts", np.bincount(assign, minlength=4)[KNOWN].tolist())):
             agg[k].append(v)
-        print(f"seed {r['seed']}: specialized {spec:.0%} | RF matches class {np.mean(rf_ok):.0%} | acc {acc:.1%} | "
+        extra = f" | silent {silent_frac:.0%}, responsive-only acc {acc_resp:.1%}" if V3 else ""
+        print(f"seed {r['seed']}{extra}: specialized {spec:.0%} | RF matches class {np.mean(rf_ok):.0%} | acc {acc:.1%} | "
               f"separation {sep} | strength-quintile acc {[round(a, 2) for a in accq]} | strange known {strange_known:.0%} "
               f"held {strange_held:.0%} (ratio {ratio:.1f}) | neurons per class {np.bincount(assign, minlength=4)[KNOWN].tolist()} | "
               f"memory entries {len(m.character())} | mean spikes/image {C.sum(0).mean():.0f} (test period {C[:, sp == 'test'].sum(0).mean():.0f})")

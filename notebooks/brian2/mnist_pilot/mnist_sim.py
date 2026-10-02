@@ -36,13 +36,17 @@ def build_input(images, max_rate, rng, t0=0.0):
     return pix.astype(np.int64), step * DT_S, starts
 
 
-def run_pilot(seed, subset, target_total, n_post=40, n_train=None, max_rate=MAX_RATE, normalize=False, adaptive=None):
+def run_pilot(seed, subset, target_total, n_post=40, n_train=None, max_rate=MAX_RATE, normalize=False, adaptive=None,
+              wta=False):
     """subset: dict of arrays from prep_mnist.py's npz. Returns a compact result dict (all small).
     normalize (v2): per-image gain control. Every image delivers the same total input rate, equal to the TRAINING
       set's mean total (mean summed intensity x max_rate), so total drive no longer encodes ink.
     adaptive (v2): None, or dict(theta_plus_mV, tau_theta_s). Diehl & Cook's adaptive threshold: threshold
       v > v_thresh + theta; each spike adds theta_plus; theta decays with tau_theta. Network otherwise identical to
-      src build_competitive_population_network (built here as a notebook variant; src is untouched)."""
+      src build_competitive_population_network (built here as a notebook variant; src is untouched).
+    wta (v3): winner-take-all inhibition as a DERIVED rule, not a tuned number. Each competitor spike pushes a neuron
+      down by its full threshold distance, v_thresh - v_rest = 20 mV, with the ambiguity gate off (gap_scale
+      effectively infinite). Replaces the gentle normalized inhibition (13 mV x 2/(N-1) = 0.67 mV per spike at N=40)."""
     from brian2 import SpikeMonitor, defaultclock, mV, ms, prefs, run, second, seed as b2_seed, start_scope
     from src.brian2_stdp.network import build_competitive_population_network, scale_inhib_for_n
 
@@ -68,9 +72,14 @@ def run_pilot(seed, subset, target_total, n_post=40, n_train=None, max_rate=MAX_
     defaultclock.dt = 0.2 * ms
     b2_seed(seed)
     per_conn = scale_inhib_for_n(n_post, reference_inhib_mV=13.0, reference_n_post=3)
+    gap = 1.5
+    if wta:
+        from src.brian2_stdp import network as N
+        per_conn = float((N.v_thresh - N.v_rest) / mV)                  # 20 mV: one competitor spike = full threshold distance
+        gap = 1e9                                                        # ambiguity gate off
     builder = build_competitive_population_network if adaptive is None else build_adaptive
     kw = {} if adaptive is None else dict(theta_plus=adaptive["theta_plus_mV"] * mV, tau_theta=adaptive["tau_theta_s"] * second)
-    pre, post, syn, inhib = builder(n_post, idx, t * second, 0.005, per_conn * mV, 1.5, n_pre=n_pre,
+    pre, post, syn, inhib = builder(n_post, idx, t * second, 0.005, per_conn * mV, gap, n_pre=n_pre,
                                     w_init=target_total / n_pre, target_total=target_total, **kw)
     sp = SpikeMonitor(post)
     si, sj = np.array(syn.i[:]), np.array(syn.j[:])
@@ -89,10 +98,10 @@ def run_pilot(seed, subset, target_total, n_post=40, n_train=None, max_rate=MAX_
     counts = np.zeros((n_post, len(seq_y)), dtype=np.int32)
     np.add.at(counts, (sidx[in_present], img[in_present]), 1)
     theta_final = (np.asarray(post.theta / mV).round(4).tolist() if adaptive is not None else None)
-    return dict(status="completed", seed=int(seed), n_post=n_post, normalize=bool(normalize), adaptive=adaptive,
+    return dict(status="completed", seed=int(seed), n_post=n_post, normalize=bool(normalize), adaptive=adaptive, wta=bool(wta),
                 theta_final_mV=theta_final, n_pre=n_pre, target_total=target_total,
                 max_rate=max_rate, present_s=PRESENT_S, rest_s=REST_S, inhib_strength_mV=float(per_conn),
-                gap_scale=1.5, apre=0.005, dt_ms=0.2, brian2_seeded=True, target=prefs.codegen.target,
+                gap_scale=gap, apre=0.005, dt_ms=0.2, brian2_seeded=True, target=prefs.codegen.target,
                 wall_elapsed=time.time() - t0, labels=seq_y.tolist(), split=seq_split.tolist(),
                 image_order={k: v.tolist() for k, v in order.items()},
                 counts=counts.tolist(), weights_after=snaps)
