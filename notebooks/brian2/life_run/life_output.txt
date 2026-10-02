@@ -1,15 +1,15 @@
-Life in eras: 7 seeds, 200 phases x 500 s
-LL-P5 A first vs last visit cosine 0.978 (per seed 0.99, 0.97, 0.99, 0.98, 0.98, 0.97, 0.97); neurons on past one-offs at era ends 69.6%, 0.0%, 0.0% -> FAIL
-LL-P6 change signal fired after 78% of changes into a structured context; on 0.8% of settled seconds; on 0% of rest seconds
---- W=10 s (gap_scale 0.3537, 7 seeds) ---
-LL-P1 era order E,F > C,D > A,B in 3/7 (strict 0/7); mean character A 6.26 B 5.99 C 6.60 D 5.65 E 8.80 F 7.95 G 2.36
-LL-P2 A/B returns in eras 2-3 remembered by an old memory: 110/112 = 98%
-LL-P3 rest: a home context named in 47% of checks; most-named = the one before in 68% of 98 rests
-LL-P4 dormant entries mid 23.4 -> end 21.7 (x0.93); live 3.0 -> 4.7; per seed [(21, 21), (27, 22), (21, 21), (25, 23), (24, 23), (21, 24), (25, 18)]
+Life in eras: 8 seeds, 200 phases x 500 s
+LL-P5 A first vs last visit cosine 0.979 (per seed 0.99, 0.97, 0.99, 0.98, 0.98, 0.97, 0.99, 0.97); neurons on past one-offs at era ends 69.7%, 0.0%, 0.0% -> FAIL
+LL-P6 change signal fired after 77% of changes into a structured context; on 0.7% of settled seconds; on 0% of rest seconds
+--- W=10 s (gap_scale 0.3521, 8 seeds) ---
+LL-P1 era order E,F > C,D > A,B in 3/8 (strict 0/8); mean character A 6.23 B 6.01 C 6.59 D 5.64 E 8.80 F 7.95 G 2.36
+LL-P2 A/B returns in eras 2-3 remembered by an old memory: 126/128 = 98%
+LL-P3 rest: a home context named in 47% of checks; most-named = the one before in 67% of 112 rests
+LL-P4 dormant entries mid 23.4 -> end 21.8 (x0.93); live 3.0 -> 4.8; per seed [(21, 21), (27, 22), (21, 21), (25, 23), (25, 23), (21, 24), (21, 22), (26, 18)]
 readout settled median 0.987; one-offs that got an entry 30.0/30
---- W=50 s (gap_scale 0.3426, 7 seeds) ---
-LL-P1 era order E,F > C,D > A,B in 0/7 (strict 0/7); mean character A 7.20 B 6.70 C 7.50 D 6.77 E 6.71 F 6.33 G 3.60
-LL-P2 A/B returns in eras 2-3 remembered by an old memory: 108/112 = 96%
-LL-P3 rest: a home context named in 42% of checks; most-named = the one before in 46% of 98 rests
-LL-P4 dormant entries mid 18.9 -> end 31.1 (x1.65); live 4.0 -> 7.0; per seed [(20, 32), (18, 31), (21, 33), (18, 30), (19, 32), (18, 30), (18, 30)]
-readout settled median 0.989; one-offs that got an entry 30.0/30
+--- W=50 s (gap_scale 0.3429, 8 seeds) ---
+LL-P1 era order E,F > C,D > A,B in 0/8 (strict 0/8); mean character A 7.21 B 6.70 C 7.50 D 6.77 E 6.72 F 6.34 G 3.57
+LL-P2 A/B returns in eras 2-3 remembered by an old memory: 124/128 = 97%
+LL-P3 rest: a home context named in 42% of checks; most-named = the one before in 47% of 112 rests
+LL-P4 dormant entries mid 19.1 -> end 31.4 (x1.64); live 4.0 -> 7.0; per seed [(20, 32), (18, 31), (21, 33), (18, 30), (19, 32), (18, 30), (21, 33), (18, 30)]
+readout settled median 0.990; one-offs that got an entry 30.0/30

@@ -163,7 +163,7 @@ computing), output `self_report_output.txt`.
 one-back returns, because nothing re-wires. The system had no "a familiar switch just happened" event. Arc 07 said
 rates alone carry "now vs just before", so activity should change at every switch.
 
-**Data:** the life run's compact files (first scored on 7 seeds, 791 home -> home changes). Analysis only, no new sim.
+**Data:** the life run's compact files (first scored on 7 seeds, 791 home -> home changes; rescored on all 8 the same day, see `familiar_switch_output.txt`, unchanged within a point). Analysis only, no new sim.
 - **Script:** `notebooks/integration/familiar_switch/analyze_familiar_switch.py` (predictions FS-P1..P5 committed
   before the signal was computed). Output `familiar_switch_output.txt`.
 - **Signal, no new hand-set number:**

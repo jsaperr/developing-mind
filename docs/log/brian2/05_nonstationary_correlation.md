@@ -110,7 +110,9 @@ spike; downloaded, no re-sim).
 
 **Data:** `notebooks/brian2/life_run/life_seed54000-54007.json.gz` (compact). Raw on the Volume `developing-mind-raw`
 under `life_run/raw/`: the full 1 s weight trace and every spike (~1 GB per seed, kept for later analysis).
-- **Seeds:** first scored on 7 of 8. Seed 54006's container was retried and finished last; see the note at the end.
+- **Seeds:** first scored on 7 of 8. Seed 54006 was preempted repeatedly, then relaunched with 16 GiB (the 8 GiB request
+  was too tight for the 100,000 s input) and finished. **Rescored on 8/8: nothing changes.** P1 3/8; P2 126/128 = 98%;
+  P3 47% / 67% of 112 rests; P4 x0.93; drift 0.979; change signal 77% / 0.7%.
 - **Run:** Modal, detached (`.spawn()`, jobs write to the Volume and outlive the local driver; tested first).
   3.2-4.9 h per seed, about $3.5.
 - **Life:** 200 phases x 500 s, the same schedule for every seed (rng 2027).
