@@ -2,6 +2,27 @@
 
 Entries moved verbatim from `experiments_brian2.md` on 2026-09-25 (no wording changed). Index: `experiments_brian2.md`.
 
+## 2026-10-02 — Recognition latency (raw spikes, post-hoc): the substrate recognizes any context it still holds within ~1 s (100% when >= 10% of neurons hold it; one back 96%, two back 83%) from existing wiring; contexts it let go need minutes of re-learning, where memory takes over
+
+**Post-hoc:** seed 54000's raw spikes, 131 home-to-home switches. Script `notebooks/brian2/life_run/analyze_recognition_latency.py`,
+output `recognition_latency_output.txt`.
+- **Method:** every 1 s after a switch, each context's score is the mean rate of the neurons assigned to it by the weight
+  assignment FROZEN at the switch (only pre-existing wiring counts). Recognized = the incoming context tops the score for
+  >= 8 of 10 s.
+- **By depth:**
+  - one back: held by 34% of neurons, recognized 96%, median 1 s;
+  - two back: 16%, 83%, 1 s;
+  - 3+ back: 4%, 32%, 1 s;
+  - first visits: 0%.
+- **By how many neurons held it:** under 10% gives 26%; 10-30% and over 30% give 100%. Always within the first second when
+  it happens.
+- **Reading:** two recognition systems on two timescales.
+  - **The substrate:** instant (about 1 s) but only for what it still holds (one or two back here).
+  - **Memory:** carries everything older (98% of rare returns named; it runs at a 10 s clock, so seconds to tens of
+    seconds).
+  - This is the complementary split seen from the speed side, and it's the familiar-switch finding's mechanism: familiar
+    = held = recognized instantly with no re-wiring.
+
 ## 2026-10-02 — Ship of Theseus (raw life data, post-hoc): over 27 h each context's WIRING becomes unrelated to its first visit (cosine 0.02-0.18; half the strongest synapses turn over in 10 min, chance by 10 h) while its FUNCTION stays at 0.97-0.99; and during rest, same-context neurons co-fire (+0.42 vs -0.06) through shared wiring
 
 **Post-hoc and exploratory:** no predictions. Data are seed 54000's raw file from the Volume (full 1 s weight trace and every

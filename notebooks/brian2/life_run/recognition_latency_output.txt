@@ -1,0 +1,8 @@
+Recognition latency, seed 54000, 131 home switches (not from rest)
+one back    n= 51 | held by 34% of neurons at the switch | recognized from existing wiring within 300 s: 96%, median latency 1 s
+two back    n= 30 | held by 16% of neurons at the switch | recognized from existing wiring within 300 s: 83%, median latency 1 s
+3+ back     n= 44 | held by 4% of neurons at the switch | recognized from existing wiring within 300 s: 32%, median latency 1 s
+first visit n=  6 | held by 0% of neurons at the switch | recognized from existing wiring within 300 s: 0%, median latency nan s
+held 0%-10%: n=58, recognized 26%, median 1 s
+held 10%-30%: n=29, recognized 100%, median 1 s
+held 30%-100%: n=44, recognized 100%, median 1 s
