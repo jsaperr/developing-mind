@@ -121,8 +121,26 @@ def run_mnist(tp: float, seed: int) -> dict:
     return r
 
 
+@app.function(image=image, cpu=1.0, memory=4096, timeout=6 * 3600, max_containers=64, volumes={RAW_MOUNT: RAW_VOLUME},
+              retries=modal.Retries(max_retries=2, initial_delay=5.0))
+def run_mnist_vol(tp: float, seed: int) -> str:
+    """Detached variant (added 2026-10-02 after the blocking driver hit the local time limit with 21 MNIST results
+    uncollected): runs the identical job and writes the result to the Volume (unified_substrate/dose/mnist/)."""
+    import modal_common as MC
+    r = run_mnist.local(tp, seed)
+    rel = f"unified_substrate/dose/mnist/mnist_dose_tp{tag(tp)}_e{EPOCHS}_seed{seed}.json.gz"
+    p = Path(RAW_MOUNT) / rel; p.parent.mkdir(parents=True, exist_ok=True); p.write_bytes(MC.gz_bytes(r))
+    RAW_VOLUME.commit()
+    return rel
+
+
 @app.local_entrypoint()
-def main():
+def main(mnist_detached: bool = False):
+    if mnist_detached:   # python -m modal run --detach modal_dose.py --mnist-detached ; collect with modal volume get
+        mn = [(tp, s) for tp in MNIST_TP for s in MNIST_SEEDS if not (MN / f"mnist_dose_tp{tag(tp)}_e{EPOCHS}_seed{s}.json.gz").exists()]
+        calls = [run_mnist_vol.spawn(*x) for x in mn]
+        print("spawned", len(calls), "detached MNIST dose runs", flush=True)
+        return
     clicks = [(tp, n, SEED_BASE[n] + k) for tp in CLICK_TP for n in NS for k in range(8)
               if not (HERE / f"dose_tp{tag(tp)}_n{n}_seed{SEED_BASE[n] + k}.json.gz").exists()]
     mn = [(tp, s) for tp in MNIST_TP for s in MNIST_SEEDS if not (MN / f"mnist_dose_tp{tag(tp)}_e{EPOCHS}_seed{s}.json.gz").exists()]
