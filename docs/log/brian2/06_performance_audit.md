@@ -2,6 +2,66 @@
 
 Entries moved verbatim from `experiments_brian2.md` on 2026-09-25 (no wording changed). Index: `experiments_brian2.md`.
 
+## 2026-10-01 — Modal fidelity check: a remote run reproduces the saved arc-01 ensemble to rounding error (single-neuron rig only)
+
+**Data:** `notebooks/brian2/modal_ensemble_check_out/` (one `modal_seed<N>.json` per seed, written by the
+driver), compared against `notebooks/brian2/apre005_ensemble_data/apre_ensemble_seed200{1-8}.json`.
+Script: `notebooks/brian2/modal_ensemble_check.py` (mirrors the frozen `run_single_seed.py`; predictions
+are in its docstring, written before launch). Setup notes: "Modal" section of `CLAUDE.md`.
+
+**Question.** Modal is only trustworthy for new experiments if it reproduces results we already have.
+Container-vs-container is already checked (smoke test: seed 0 twice, identical). This is
+container-vs-laptop, the claim that matters.
+
+**Setup.** 8 seeds (2001-2008), 5000 s, single-neuron rig, `Apre=0.005`, `p_share=0.9`, Cython target,
+1 core / 2 GiB per container, all 8 dispatched at once. Image pins read from the local env (numpy 2.0.1,
+Cython 3.2.8, setuptools 82.0.1, brian2 2.9.0). This rig has no Brian2 membrane noise (that is the
+competitive network's `sigma_v`), so only the numpy-seeded input varies.
+
+**Predictions (P1-P3 written before launch, in the script docstring):**
+- P1: final weights and `group_mean_gap` bit-identical to the saved files.
+- P2: if P1 fails on float drift, statistics still hold: post_rate 18.7-18.9 Hz, min_group_mean_gap in
+  [-0.022, -0.007], max_overlap_fraction in [0.68, 1.0], all 8 seeds.
+- P3: a miss at the statistics level means Modal is not a faithful substitute.
+- P4 (added after launch, before any result was read): per-seed `wall_elapsed` lands between ~560 s (this
+  audit's uncontended rate, 5.6 s per 50 simulated s) and ~1,100 s (the saved local runs, 8 concurrent).
+  I.e. Modal may be faster per job than the *loaded* laptop, because each container has its own core, but
+  not faster than an uncontended local run.
+
+**Results (8/8 seeds completed, Cython target on all):**
+- Spike counts identical: `post_rate` matches the saved value to 4 decimals on every seed (18.72-18.92 Hz).
+  `min_group_mean_gap` and `max_overlap_fraction` match exactly (-0.0078 to -0.0212; 0.68 to 1.00).
+- Not bit-identical on any seed. Max |diff| on final weights 3.3e-16 to 1.9e-15; on the 500 s gap trace
+  5e-16 to 1e-15. That is float rounding (machine-epsilon scale), nothing grew over 5000 s.
+- `wall_elapsed` per seed: 1459, 1479, 895, 1469, 892, 978, 1464, 1477 s. Bimodal: three at ~900-980 s,
+  five at ~1460-1480 s. Saved local runs: 1102-1143 s (8 concurrent). Likely different host CPUs
+  per container (not checked).
+- Cost: summed wall 10,113 s x ($0.0000131 + 2 GiB x $0.00000222) per s = about $0.18 computed from the
+  rates, plus a little for startup. Not yet read off the Modal billing page.
+
+**Verdicts:**
+- P1 (bit-identical): NOT supported. The likely cause is a different compiler/libm (local: Windows MSVC;
+  Modal: Linux gcc), not the CPU, but that wasn't tested. Library-version drift is unlikely: `conda list
+  --revisions` for the local env shows brian2 2.9.0 and Cython 3.2.8 installed 2026-07-20 12:48 (numpy 2.0.1,
+  setuptools 82.0.1 on 07-01) with no later changes, matching the Modal pins; the saved ensemble is from
+  2026-07-20 or later. Code drift checked by a second reviewer: `network.py` single-neuron model refactored
+  only (same values), `spikes.py`/`metrics.py` only gained functions, neither side sets `dt` (Brian2 default).
+  Still untested: a local seed-2001 re-run with today's env (~9 min uncontended) to confirm laptop-now
+  reproduces the saved file bit-for-bit; if it does, the Modal difference is platform, not drift.
+- P2 (statistics hold): supported, much more tightly than predicted (exact to the reported precision).
+- P3: not triggered; the Modal setup reproduces this rig.
+- P4 (wall time 560-1100 s): not supported. Per-seed time ranged 892-1479 s; five of eight seeds were
+  slower than the loaded local runs. Modal is not faster per job, and varies by container (budget ~1500 s
+  per 5000 s seed).
+
+**What this does and doesn't establish.** On the single-neuron rig, which is not chaotic, rounding-level
+differences stay at rounding level, so Modal reproduces the saved arc-01 results. It does NOT yet cover the
+competitive network, where `strong_tight_gate` is bistable and the `cpp_standalone` backend's tiny
+differences shifted outcomes (arc 06 above). A 1e-16 difference could be amplified there. Also the old
+competitive runs used unseeded Brian2 noise, so exact matching is impossible and the comparison would have
+to be statistical (e.g. the regime fractions, one-back retention counts). That is the next fidelity check
+before using Modal for N>1 experiments.
+
 ## 2026-09-25 — Simulation performance audit: where the time goes, and why `cpp_standalone` isn't a drop-in
 
 **Data:** `notebooks/brian2/perf_audit/` (profiling scripts, `backend_comparison_results.json`, 96
