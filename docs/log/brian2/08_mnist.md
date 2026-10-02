@@ -2,6 +2,43 @@
 
 Index: `experiments_brian2.md`. Plan: `experiment_plan_generalization.md`, step 4. Newest entries first.
 
+## 2026-10-01 — MNIST pilot v4: a fair-share threshold (no ratchet) beats the published adaptive threshold: 79% accuracy, every digit represented in every seed, confidence and novelty working; the published one silences any continuously running network
+
+**Why v4:** on the continuously running click world, Diehl & Cook's adaptive threshold silenced the network.
+- **Click world:** within ~300 s the threshold was up ~35 mV and the rate was 0 Hz at N=7 (0.05 Hz at N=40).
+- **Cause:** it's a one-way ratchet (+0.05 mV per spike, decay 1e4 s). It works in their train-then-freeze setting,
+  which the framework doesn't have.
+- **Replacement, the fair-share threshold:** each spike raises its own neuron's theta by 0.05 mV (their constant) and
+  lowers every neuron's theta by 0.05/N, so the sum is conserved. No new number. Busy neurons get harder to fire, quiet
+  ones easier: homeostatic intrinsic plasticity without a setpoint. A local check kept the click world firing steadily.
+
+**Data:** `notebooks/brian2/mnist_pilot/mnist_v4_wta_norm_fair_seed70100-70107.json.gz` (8 runs, Modal, paired with
+v1-v3). Script `modal_mnist_v4.py` (predictions before launch); scored with `analyze_mnist_pilot.py <prefix> v3`.
+Output `mnist_v4_output.txt`.
+
+| | v3 wta_norm_adapt | **v4 wta_norm_fair** |
+|---|---|---|
+| vote accuracy (classes 0-3, chance 25%) | 65.1% | **79.2%** (76-84%) |
+| silent test images | 0-1% | **0%** |
+| neurons per class | every class >= 3 | **4-16, every class, every seed** |
+| specialized / weight match | 74% / 67% | 65% / 72% |
+| fingerprint separation (every pair) | 6/8 seeds | **8/8** |
+| strength quintile gap / rises | +30 / 5 of 8 | +21 / **8 of 8** |
+| held-out strange ratio | 2.0x | **2.5x** |
+
+- **V4-P1 (keeps v3's result: specialization >= 60%, every class >= 3 in >= 6/8, accuracy >= 60%): CONFIRMED** (65%, 8/8,
+  79.2%).
+- **V4-P2 (confidence gap >= 15 in >= 6/8; novelty >= 1.5): CONFIRMED** (6/8 by the gap bar, rising 8/8; novelty 2.5x).
+- **Reading:**
+  - The ratchet slowly priced neurons out of firing (~10 spikes/image). Fair-share keeps all of them in play (~40-50
+    spikes/image) while still spreading the work, and it's the only one of the two that suits an always-on system.
+  - The substrate now has three added rules: gain control (per-image, see the caveat), winner-take-all (derived 20 mV,
+    ambiguity gate off), and the fair-share threshold.
+- **Stopping point for accuracy (Jasper, 2026-10-01): MNIST is calibration, and 79% at 40 neurons is enough.** Further
+  rule changes should be judged by the framework-relevant tests (continuity, memory), not accuracy.
+- **Caveat on gain control:** it normalizes per IMAGE, which uses the image boundaries as an oracle. A continuous system
+  would adapt to its recent input over time. To fix before split-MNIST.
+
 ## 2026-10-01 — MNIST pilot v3: with derived winner-take-all inhibition added, the substrate learns real digits (74% specialized, every digit represented, 65% accuracy), and response strength becomes a working confidence signal. The pilot bar is met
 
 **Data:** `notebooks/brian2/mnist_pilot/mnist_v3_{wta_adapt,wta_norm_adapt}_seed70100-70107.json.gz` (16 runs, Modal;

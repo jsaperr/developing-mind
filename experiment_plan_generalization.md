@@ -156,7 +156,17 @@ download).**
 - **What a "context" is:** a set of digit classes shown together. The memory still only sees
   fingerprints; labels are used only for scoring.
 
-**4a. Pilot (an afternoon; laptop).**
+**4a. DONE 2026-10-01 (v1-v4, `docs/log/brian2/08_mnist.md`):**
+- **v1, unchanged substrate:** learned ink, not shape.
+- **v2:** gain control flipped the bias; the adaptive threshold specialized neurons but gave no diversity.
+- **v3:** derived winner-take-all met the pilot bar (65%).
+- **v4:** a fair-share threshold replaced the published ratchet, which silences continuous runs. 79% accuracy, every
+  digit, confidence and novelty working.
+- **Accuracy work stops here** (MNIST is calibration).
+- **Before 4b:** confirm the new substrate keeps the integration properties (`notebooks/brian2/unified_substrate/`),
+  and make gain control continuous instead of per-image.
+
+Original 4a text: **4a. Pilot (an afternoon; laptop).**
 - **Setup:** 14×14 images (196 inputs), 4 digit classes, N=20-30, a few hundred images per class.
 - **Questions:**
   - Do neurons specialize by digit without labels (scored afterwards by the class each neuron
