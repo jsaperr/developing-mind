@@ -2,6 +2,33 @@
 
 Index: `experiments_brian2.md`. Plan: `experiment_plan_generalization.md`, step 4. Newest entries first.
 
+## 2026-10-02 — The flicker is spontaneous recall: during a dip the readout points at ANOTHER STORED context about 90% of the time (the previous one 44-55%, the third 34-46%), for ~10 s. Adaptation-driven rivalry between the current and held contexts
+
+**Post-hoc:** no predictions. Data are the leak cells (tau 50 and 100 s, N=7 and 40, v1b click world). Script
+`notebooks/brian2/unified_substrate/analyze_flicker_target.py`, output `flicker_target_output.txt`.
+- **Method:** for every settled 10 s window whose rectified readout has cosine < 0.5 to the current context, find the
+  context it points at (cosine >= 0.5).
+
+| cell | dip windows | -> previous context | -> the other context | -> none | median dip |
+|---|---|---|---|---|---|
+| tau 100, N=7 | 503 | 55% | 41% | 2% | 10 s |
+| tau 100, N=40 | 379 | 55% | 34% | 6% | 10 s |
+| tau 50, N=7 | 124 | 52% | 41% | 3% | 10 s |
+| tau 50, N=40 | 179 | 44% | 46% | 6% | 10 s |
+
+- **Reading:** the flicker isn't noise.
+  - The current context's neurons tire (their leaky thresholds rise), and for ~10 s the neurons still tuned to a
+    remembered context win.
+  - The substrate briefly re-expresses a context it holds while another is in front of it: spontaneous recall during
+    perception.
+  - That's the active-time cousin of the rest "ghosts" (arc 05), and the adaptation-driven alternation the ambiguity
+    experiment found missing.
+  - Both held contexts get recalled, with a mild bias to the just-departed one. On this substrate retention is flat, so
+    both are held.
+- **For memory:** these windows would read as brief recognitions of other contexts (memory still passed 8/8; its
+  steadiness gate filters most of them). A metacognitive layer would want to tell recall from perception. The
+  mood-map strength signal is the candidate.
+
 ## 2026-10-02 — Causal (temporal) gain control removes the image-boundary oracle at no cost: a 5-20 ms running gain matches or beats per-image normalization (75-77%, every digit), and on the reconciled substrate gain control is barely needed at all (69.5% without)
 
 **Exploration (Jasper: under an hour, nothing adopted).**

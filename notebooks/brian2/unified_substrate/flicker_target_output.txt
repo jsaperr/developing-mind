@@ -1,0 +1,4 @@
+leak_tau100 N=7: 503 dip windows -> current 2%, previous context 55%, the other context 41%, none (all < 0.5) 2% | median dip length 10 s
+leak_tau100 N=40: 379 dip windows -> current 5%, previous context 55%, the other context 34%, none (all < 0.5) 6% | median dip length 10 s
+leak_tau50 N=7: 124 dip windows -> current 3%, previous context 52%, the other context 41%, none (all < 0.5) 3% | median dip length 10 s
+leak_tau50 N=40: 179 dip windows -> current 4%, previous context 44%, the other context 46%, none (all < 0.5) 6% | median dip length 10 s
