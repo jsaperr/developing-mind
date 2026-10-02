@@ -147,6 +147,15 @@ computing), output `self_report_output.txt`.
   - It's a first pass, not a design: a per-state self-set cutoff (and the familiar-switch split) is the obvious next
     version.
   - Not in `src`.
+- **v2 (post-hoc, same day; `self_report_v2_output.txt`):**
+  - **Changes:** the rest cutoff is an Otsu split of the system's own strength distribution (no assumed fraction);
+    "just changed" is scored over 120 s; KNOWN is split into naming an entry born this phase (NEW) vs an older one (OLD).
+  - **Correct-ish shares:** just changed 81% (re-learning 44%, switch 37%); resting 86%; one-offs 65% (re-learning 37%,
+    naming its own new entry 28%); known 77% (14% read as resting, 9% as re-learning).
+  - **The new failure mode:** a third of one-off time reads as RESTING. Truly unfamiliar input drives the network weakly
+    and diffusely, like no structure at all, so "never seen this" and "nothing there" look alike from inside.
+  - Separating them needs a signal about the input itself (e.g. its overall drive or synchrony), a concrete requirement
+    for the metacognition layer.
 
 ## 2026-10-02 — Familiar-switch detection: an activity-change signal (the change signal's own rule and constants, applied to firing rates) marks every switch, and together with the weight signal it splits switches into "familiar" and "re-learning". Memory recognizes the familiar ones within a minute, every time
 

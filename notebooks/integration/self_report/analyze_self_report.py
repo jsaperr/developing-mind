@@ -18,7 +18,11 @@ change -> "just changed" (either RE-LEARNING or SWITCH counts), later -> known.
 Written before computing. Expectations (stated now, not formal predictions): known and just-changed are read well; resting
 is read from strength; one-offs read as RE-LEARNING early (new wiring) and then NOVEL or KNOWN-of-a-wrong-entry later.
 
-Usage: analyze_self_report.py   (conda env; reads the life run; writes self_report_output.txt)
+v2 (post-hoc, after v1's results; run with argument v2): rest cutoff = Otsu threshold of the system's own strength
+distribution over the preceding 10,000 s (the split that best separates its two modes; no assumed fraction); "just changed"
+scored over the first 120 s; KNOWN split into KNOWN-NEW (names an entry born in the current phase) and KNOWN-OLD.
+
+Usage: analyze_self_report.py [v2]   (conda env; reads the life run; writes self_report_output.txt)
 """
 import sys
 from collections import Counter
@@ -35,7 +39,14 @@ import analyze_life as AL
 import readout_set_worlds as RS
 from src.hopfield.episodic_dormant import NOVEL
 
-STATES = ["RE-LEARNING", "SWITCH", "RESTING", "NOVEL", "KNOWN"]
+V2 = len(sys.argv) > 1 and sys.argv[1] == "v2"
+STATES = ["RE-LEARNING", "SWITCH", "RESTING", "NOVEL", "KNOWN-NEW", "KNOWN-OLD"] if V2 else ["RE-LEARNING", "SWITCH", "RESTING", "NOVEL", "KNOWN"]
+
+
+def otsu(x):
+    h, e = np.histogram(x, 64); c = (e[:-1] + e[1:]) / 2; w = np.cumsum(h); mu = np.cumsum(h * c)
+    tot = w[-1]; between = (mu[-1] * w - mu * tot) ** 2 / np.maximum(w * (tot - w), 1e-9)
+    return c[int(np.argmax(between[:-1]))]
 TRUTH = ["just changed", "resting", "novel", "known"]
 
 
@@ -54,14 +65,17 @@ def main():
         # memory's raw report per step: re-run to capture NOVEL (run_memory maps NOVEL to None)
         from src.hopfield.episodic_dormant import DormantGatedMemory
         import torch
-        m = DormantGatedMemory(dim=60, gap_scale=gs); novel = []
+        m = DormantGatedMemory(dim=60, gap_scale=gs); novel = []; born = {}; newname = []
         for i, x in enumerate(torch.tensor(s["q"], dtype=torch.float32)):
             o = m.step(x, steady=bool(s["steady"][i]), changing=bool(s["changing"][i]))
             novel.append(o["report"] == NOVEL)
+            if o["created"] is not None:
+                born[o["created"]] = int(s["ph"][i])
+            newname.append(born.get(o["report"], -1) == int(s["ph"][i]) if isinstance(o["report"], int) else False)
         for b in range(len(s["q"])):
             p = b * 10 // ps
             hist = st[max(0, b - 1000):b]
-            weak = len(hist) >= 100 and st[b] < np.percentile(hist, 5)
+            weak = len(hist) >= 100 and st[b] < (otsu(hist) if V2 else np.percentile(hist, 5))
             if fw[b * 10:b * 10 + 10].any():
                 rep = "RE-LEARNING"
             elif fa[b]:
@@ -71,20 +85,21 @@ def main():
             elif novel[b]:
                 rep = "NOVEL"
             else:
-                rep = "KNOWN"
+                rep = ("KNOWN-NEW" if newname[b] else "KNOWN-OLD") if V2 else "KNOWN"
             n = names[p]; into = b * 10 - p * ps
-            truth = "resting" if n == "REST" else "novel" if n.startswith("N") else ("just changed" if (p > 0 and into < 300) else "known")
+            truth = "resting" if n == "REST" else "novel" if n.startswith("N") else ("just changed" if (p > 0 and into < (120 if V2 else 300)) else "known")
             conf[truth][rep] += 1
     lines = [f"Self-report on the life run ({len(runs)} seeds; rows = truth, columns = what the system reports, % of row)",
              f"{'':14s}" + "".join(f"{c:>13s}" for c in STATES) + "      n"]
     for t in TRUTH:
         tot = sum(conf[t].values())
         lines.append(f"{t:14s}" + "".join(f"{conf[t][c] / tot:13.0%}" for c in STATES) + f"  {tot:6d}")
-    good = {"just changed": ("RE-LEARNING", "SWITCH"), "resting": ("RESTING",), "novel": ("NOVEL", "RE-LEARNING"), "known": ("KNOWN",)}
+    good = {"just changed": ("RE-LEARNING", "SWITCH"), "resting": ("RESTING",), "novel": ("NOVEL", "RE-LEARNING", "KNOWN-NEW"),
+            "known": ("KNOWN", "KNOWN-OLD", "KNOWN-NEW")}
     lines.append("correct-ish share: " + ", ".join(f"{t} {sum(conf[t][c] for c in good[t]) / sum(conf[t].values()):.0%}" for t in TRUTH))
     txt = "\n".join(lines)
     print(txt)
-    (HERE / "self_report_output.txt").write_text(txt + "\n", encoding="utf-8")
+    (HERE / ("self_report_v2_output.txt" if V2 else "self_report_output.txt")).write_text(txt + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":
