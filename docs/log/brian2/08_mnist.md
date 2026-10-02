@@ -2,6 +2,51 @@
 
 Index: `experiments_brian2.md`. Plan: `experiment_plan_generalization.md`, step 4. Newest entries first.
 
+## 2026-10-02 — Split-MNIST two-back (step 4b): memory recognizes the returning {2,3} (7/8) but not the returning {0,1} (1/8). The FIRST set is learned while the substrate is still developing and is re-represented by the time it returns (0.73 vs 0.91); W=10 fails as predicted; real digit sets sit closer than memory's radius
+
+**Data:** `notebooks/brian2/split_mnist/split_seed55000-55007.json.gz` (Modal, detached; raw on the Volume).
+- **Schedule:** {0,1} -> {2,3} -> {4,5} -> {0,1} -> {2,3}, 5 x 1000 s, new images on every visit.
+- **Substrate:** winner-take-all 20 mV, gate off; leaky fair-share 1.0 mV / 5 s (chosen by a pre-registered rule from the
+  gain map); causal gain control 5 ms; N=40.
+- **Scripts:** `modal_split_mnist.py` (predictions SM-P1..P4 and MC-3; the substrate rule and a disclosed mini-run risk,
+  committed before launch), `analyze_split_mnist.py` (scorer fixed on a mini-run before any 4b data). Output
+  `split_output.txt`. Diagnostic (post-hoc): `diag_split_mnist.py`, `diag_output.txt`.
+
+| | W=50 | W=10 |
+|---|---|---|
+| {0,1} return remembered by an old memory | **1/8** | 0/8 |
+| {2,3} return remembered | **7/8** | 3/8 |
+| wrong-set share of settled named checks | 21% | 30% |
+| NOVEL share of settled checks | 0.9% | 54% |
+| MC-3 lost -> returning | 0/8 | 1/8 |
+
+- **SM-P1 (both returns >= 6/8 at W=50): HALF.** {2,3} 7/8; {0,1} 1/8.
+- **SM-P2 (W=10 fails): CONFIRMED** (54% NOVEL: within-set noise, as the pre-run fingerprint check said).
+- **SM-P3 (<= 30% hold {0,1} two back): REFUTED narrowly** (36%, 25-45%). The substrate retains more of the first set
+  than predicted.
+- **SM-P4 (weight change signal after >= 3 of 4 switches; activity after all 4): weight REFUTED** (1/4 in every seed);
+  **activity CONFIRMED** (8/8). The familiar-switch finding again: on real data the weights barely move at switches, and
+  activity carries the change.
+- **MC-3: REFUTED** (0/8).
+- **Diagnostic (post-hoc, labelled), settled W=50 means:**
+  - {0,1}'s return matches its first visit at **0.727**, below memory's 0.8 radius, so memory makes a new entry.
+  - {2,3}'s return matches at **0.909**.
+  - Within {0,1}'s own first visit, early vs late agree at only 0.872: the network was still developing.
+  - Between sets: {0,1}-{2,3} 0.55, {2,3}-{4,5} **0.82** (above the radius; hence the wrong-set naming).
+- **Reading:**
+  1. **Development rewrites the first experience.** The first context is learned while the substrate itself is forming,
+     so by its return the network represents it differently, and memory's anchored entry no longer matches. Later
+     contexts, learned on a matured substrate, are stable.
+     - In synthetic worlds the rectified readout fixed the cold start; on real data it isn't fixed.
+     - Framework-relevant: early memories get rewritten by development. Candidate remedies: let consolidation track
+       slow representational drift (the anchor radius forbids it), or treat the developing period differently.
+  2. **The fixed 0.8 radius is too coarse for real data.** Similar digit sets sit at 0.82 apart: the tripwire. The
+     radius should be self-set from the system's own within- vs between-context statistics.
+  3. **The clock question (Q2) has a real-data answer:** the clock must average enough samples of a context (W=10 s
+     = 20 images fails; W=50 works).
+  4. **Change signals:** on real data, use the activity signal for "something changed". The weight signal is nearly
+     silent.
+
 ## 2026-10-02 — Gain map: MNIST needs loop gain (>= ~5; gain 1 fails at any tau), and at a fixed gain a SHORTER leak wins on both worlds (step 0.2 mV / tau 25 s: click 0.985, flicker 6.6%; MNIST 76.2%, every digit). Flicker grows with gain and with tau
 
 **Data:** `notebooks/brian2/unified_substrate/gmap_*_n40_seed531xx.json.gz` (click, N=40) and

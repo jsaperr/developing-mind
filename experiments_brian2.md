@@ -133,6 +133,7 @@ Each line is the entry's own heading (its conclusion is in the title).
 
 **08 MNIST (2026-10-01)**: [`docs/log/brian2/08_mnist.md`](docs/log/brian2/08_mnist.md)
 
+- 2026-10-02 — Split-MNIST two-back (step 4b): memory recognizes the returning {2,3} (7/8) but not the returning {0,1} (1/8). The FIRST set is learned while the substrate is still developing and is re-represented by the time it returns (0.73 vs 0.91); W=10 fails as predicted; real digit sets sit closer than memory's radius
 - 2026-10-02 — Gain map: MNIST needs loop gain (>= ~5; gain 1 fails at any tau), and at a fixed gain a SHORTER leak wins on both worlds (step 0.2 mV / tau 25 s: click 0.985, flicker 6.6%; MNIST 76.2%, every digit). Flicker grows with gain and with tau
 - 2026-10-02 — The flicker is spontaneous recall: during a dip the readout points at ANOTHER STORED context about 90% of the time (the previous one 44-55%, the third 34-46%), for ~10 s. Adaptation-driven rivalry between the current and held contexts
 - 2026-10-02 — Causal (temporal) gain control removes the image-boundary oracle at no cost: a 5-20 ms running gain matches or beats per-image normalization (75-77%, every digit), and on the reconciled substrate gain control is barely needed at all (69.5% without)

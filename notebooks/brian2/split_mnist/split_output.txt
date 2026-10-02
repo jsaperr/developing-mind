@@ -1,0 +1,6 @@
+Split-MNIST: 8 seeds
+W=50 (gap_scale 0.207) | {0,1} return remembered 1/8, {2,3} return 7/8 | wrong-set share of settled named checks 21.0% | NOVEL share of settled checks 0.9% | MC-3 0/8
+W=10 (gap_scale 0.102) | {0,1} return remembered 0/8, {2,3} return 3/8 | wrong-set share of settled named checks 29.8% | NOVEL share of settled checks 53.8% | MC-3 1/8
+SM-P3 neurons nearest {0,1} just before its return: 36% (per seed 45%, 38%, 25%, 32%, 35%, 30%, 42%, 38%)
+SM-P4 weight change signal fired after >= 3 of 4 switches in 0/8 seeds (mean 1.0/4); activity signal all 4 in 8/8
+readout (W=10, settled): cosine to the true set's mean image, median 0.680; returns vs the set's first-visit fingerprint, median 0.767

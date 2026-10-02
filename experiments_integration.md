@@ -86,6 +86,9 @@ runs are replayed into memory, with no feedback yet.
   diversity against a clean sustained readout (flicker 5-21% of windows at 50-100 s). A hand-chosen dose, not adopted.
   **Six contexts on it (same day):** every return remembered 8/8 (both clocks, both N), readout 0.98-0.995; the substrate's
   retention turns flat (every past context keeps ~12-27% at N=40) instead of graded.
+  **Split-MNIST 4b (same day):** the returning {2,3} is recognized 7/8 at W=50, but the FIRST set {0,1} only 1/8. It
+  was learned while the substrate was still developing and is re-represented by its return (0.73 to its first visit).
+  W=10 fails (within-set noise). Similar digit sets sit closer (0.82) than the 0.8 radius: the tripwire on real data.
 - **A long life (2026-10-02, 100,000 s, arc 05):** nothing wears out (no drift, bounded memory, rare old
   contexts remembered 98%). Character follows what's still visited, not chronology. The change signal is a
   RE-LEARNING detector (silent at familiar switches).

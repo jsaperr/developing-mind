@@ -1,0 +1,2 @@
+W=50: {0,1} first vs return 0.727 | {2,3} first vs return 0.909 | {0,1} early vs late within first visit 0.872
+between sets: phase0-phase1 0.549, phase1-phase2 0.819, phase3-phase4 0.815
