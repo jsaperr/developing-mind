@@ -303,8 +303,10 @@ is exactly "who responds". Slowing it only delays the erasure (dose test); it ne
 - **The fix is a leak, which turns integral control into proportional control.** Differences shrink by a loop gain but
   keep their direction, and the readout is a direction. With a ~50-100 s leak, one substrate passes both the digit world
   and the click world (and six contexts).
-- **The leak is a dial, not a free lunch.** Too short and the "fairness memory" can't span enough inputs to spread
-  representations. Too long (high gain) and neurons take turns (flicker), then habituate.
+- **Two dials, not one (gain map, same day).** The step x leak product (loop gain) has to be about 5 for real data to
+  spread across neurons. Given that, a SHORT leak (seconds: 1.0 mV / 5 s) is best on every world: flicker 0.8%,
+  readout 0.996, every digit kept. A long leak at the same gain makes neurons take turns (flicker: spontaneous recall
+  of held contexts), and no leak habituates. The first sweep's "narrow 50-100 s window" came from holding the step fixed.
 - **Before adding any homeostatic or adaptive rule, ask what it would erase if the input held still.** Rules borrowed
   from train-then-freeze settings (Diehl & Cook's threshold is a ratchet) tend to fail exactly here. That's the
   framework's train/deploy critique showing up inside a single mechanism.
