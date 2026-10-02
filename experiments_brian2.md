@@ -183,6 +183,7 @@ Each line is the entry's own heading (its conclusion is in the title).
 
 **05 Non-stationary correlation (2026-09-25)**: [`docs/log/brian2/05_nonstationary_correlation.md`](docs/log/brian2/05_nonstationary_correlation.md)
 
+- 2026-10-02 — Neuron identity over a life (post-hoc): a returning context re-recruits the SAME neurons for about 2-10 ks (86% within 2000 s, 63% at 2-10 ks, vs ~48% chance), then neurons become interchangeable (chance after ~3 h); every neuron serves all 7 home contexts over its life
 - 2026-10-02 — Life in eras (100,000 s, 8 seeds): over ~28 simulated hours nothing wears out (no drift, bounded memory, rare old contexts remembered 98%), but the change signal turns out to be a RE-LEARNING detector: it misses switches back to contexts the population still holds
 - 2026-10-01 — Generalization step 3, six contexts: retention becomes graded (about 30% one back, 20% two back, under 7% deeper), the gates still work at their defaults, and memory remembers every return up to 5 back
 - 2026-10-01 — Generalization step 2, network size: from 5 to 40 neurons, one-back, the ~half retainer fraction, the change signal at its hand-set defaults, the readout and memory recognition all hold unchanged

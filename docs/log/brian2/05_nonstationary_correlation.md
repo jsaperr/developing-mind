@@ -2,6 +2,35 @@
 
 Entries moved verbatim from `experiments_brian2.md` on 2026-09-25 (no wording changed). Index: `experiments_brian2.md`.
 
+## 2026-10-02 — Neuron identity over a life (post-hoc): a returning context re-recruits the SAME neurons for about 2-10 ks (86% within 2000 s, 63% at 2-10 ks, vs ~48% chance), then neurons become interchangeable (chance after ~3 h); every neuron serves all 7 home contexts over its life
+
+**Post-hoc and exploratory:** no predictions. Data are the life run's compact files (7 seeds). Script
+`notebooks/brian2/life_run/analyze_identity.py`, output `identity_output.txt`.
+- **Holders** = neurons whose 50 s weight average is nearest a context's prototype at the end of its phase.
+- **Re-recruitment** = the share of a returning context's holders that also held it at the end of its previous visit.
+  Chance = previous holders / 40.
+
+| absence before the return | same neurons re-recruited | chance | returns |
+|---|---|---|---|
+| under 2000 s | **86%** | 49% | 546 |
+| 2-10 ks | **63%** | 48% | 392 |
+| over 10 ks | 45% | 46% | 63 |
+
+- **Per neuron over the life:**
+  - every neuron held all 7 home contexts at some point;
+  - it spends ~29% of its home-context time on its favourite (chance 14%; quartiles 25-32%);
+  - ~62 assignment switches per life.
+- **Reading:**
+  - The substrate has a neuron-level identity memory: a context comes back to the neurons that last held it, for one to
+    a few hours.
+  - Beyond ~3 h of absence, WHO represents a context is chance. The neurons are interchangeable, and there are no
+    lifelong specialists.
+  - Meanwhile the context's functional readout stays the same (A first vs last visit 0.978), and memory still names
+    98% of rare returns.
+  - So in this system "identity from history" lives in the population's function and in memory, not in which neurons
+    do the work. This matches the fork result (wiring diverges, function holds) and arc 01's "stability = a population
+    readout that tolerates churn", now over a 28-hour life.
+
 ## 2026-10-02 — Life in eras (100,000 s, 8 seeds): over ~28 simulated hours nothing wears out (no drift, bounded memory, rare old contexts remembered 98%), but the change signal turns out to be a RE-LEARNING detector: it misses switches back to contexts the population still holds
 
 **Data:** `notebooks/brian2/life_run/life_seed54000-54007.json.gz` (compact). Raw on the Volume `developing-mind-raw`

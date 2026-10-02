@@ -1,0 +1,5 @@
+returns after absence: 1001; same neurons re-recruited: 74% of the returning context's holders were its previous holders (chance 48%)
+  gap 0-2.0 ks: overlap 86% vs chance 49% (n=546)
+  gap 2-10.0 ks: overlap 63% vs chance 48% (n=392)
+  gap 10-inf ks: overlap 45% vs chance 46% (n=63)
+neurons: loyalty to favourite home context 29% (quartiles 25%/29%/32%); distinct home contexts held over a life: 7.0; assignment switches per life 62
