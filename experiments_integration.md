@@ -84,6 +84,8 @@ runs are replayed into memory, with no feedback yet.
   **Dose and leak (same day): ONE substrate passes both worlds.** A LEAKY fair-share threshold (proportional homeostasis)
   with a 50-100 s memory gives MNIST 64-75% with every digit AND click-world memory 8/8 at N=7 and N=40. The leak trades
   diversity against a clean sustained readout (flicker 5-21% of windows at 50-100 s). A hand-chosen dose, not adopted.
+  **Six contexts on it (same day):** every return remembered 8/8 (both clocks, both N), readout 0.98-0.995; the substrate's
+  retention turns flat (every past context keeps ~12-27% at N=40) instead of graded.
 - **A long life (2026-10-02, 100,000 s, arc 05):** nothing wears out (no drift, bounded memory, rare old
   contexts remembered 98%). Character follows what's still visited, not chronology. The change signal is a
   RE-LEARNING detector (silent at familiar switches).

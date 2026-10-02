@@ -2,6 +2,42 @@
 
 Index: `experiments_brian2.md`. Plan: `experiment_plan_generalization.md`, step 4. Newest entries first.
 
+## 2026-10-02 — The reconciled substrate generalizes to step 3's six-context world: memory remembers every return 8/8 at both clocks and both N, the readout is better than the old substrate's (0.98-0.995), and retention turns FLAT (every past context keeps ~12-27% of neurons at N=40) instead of graded
+
+**Data:** `notebooks/brian2/unified_substrate/many_leak/tau{50,100}/many6_n{7,40}_seed*.json.gz` (32 runs, Modal, detached,
+compact; raw on the Volume).
+- **World and seeds:** step 3's world and seeds exactly (A B C D E F | E C F B F A, 12 x 1000 s, 60 inputs; paired with
+  52000-52007 / 52100-52107).
+- **Substrate:** winner-take-all 20 mV (gate off) + leaky fair-share (0.05 mV, tau 50 or 100 s). No gain control (the
+  click input is rate-matched).
+- **Scripts:** `modal_many_leak.py` (predictions ML-P1..P3, before launch) and `analyze_many_leak.py` (step 3's
+  `analyze_many.py`, unchanged, on compact files, plus flicker). Output `many_leak_output.txt`.
+
+| | old substrate (step 3) N=7 / 40 | tau 50 s N=7 / 40 | tau 100 s N=7 / 40 |
+|---|---|---|---|
+| returns remembered by an old memory, W=50 and W=10 | 8/8 all / 8/8 all | **8/8 all / 8/8 all** | **8/8 all / 8/8 all** |
+| settled readout | 0.973 / 0.987 | **0.995 / 0.993** | 0.978 / 0.987 |
+| flicker (settled windows < 0.5) | n/a | 0.2% / 0.0% | 6.6% / 0.7% |
+| just-departed keeps at +150 s (min) | 55% / 61% | 100% / 88% | 100% / 89% |
+| incoming before 1, 2, 3, 4, 5-back returns, N=40 | ~31, 19, 5, 0, 0% | 13-15, 14, 12, 14, 27% | 12-17, 13, 13, 13, 23% |
+| change signal fired / on when settled | 92% / 1.4%, 95% / 0.4% | 85% / 1.5%, 81% / 0.2% | 84% / 0.6%, 78% / 0.2% |
+
+- **ML-P1 (every return remembered >= 7/8, W=50, both N, both tau): CONFIRMED.** 8/8 for every return, at W=10 too, deep
+  returns via dormant entries.
+- **ML-P2 (readout >= 0.9; flicker at tau 100 >= tau 50): CONFIRMED.**
+- **ML-P3 (3-5 back released, <= 15% on average): HALF.** N=7 holds (12-13%); N=40 doesn't (16-18%; the 5-back return A holds
+  23-27%).
+- **Reading:**
+  - The reconciled substrate passes the harder world.
+  - Its retention is different in kind: FLAT rather than graded. At N=40 every past context keeps ~12-27% of the
+    population regardless of depth, where the old substrate kept 30 / 20 / under 7%.
+  - Fair-share spreads neurons across everything the network has met, so nothing fades out of the substrate. It holds a
+    little of all of it.
+  - Memory's job stays the same (it recognizes everything). With 6 contexts and 40 neurons, the substrate itself now
+    carries every context.
+  - Whether that survives many more contexts than neurons is open.
+  - Flicker is much lower here than in v1b (0-6.6% vs 14-21% at tau 100 s). It's not a fixed property of tau.
+
 ## 2026-10-02 — Dose and leak tests: ONE substrate now passes both worlds. A LEAKY fair-share threshold (proportional, not integral, homeostasis) with a ~50-100 s memory keeps every digit (65-75%) and the click world's memory (8/8); the leak is a single dial trading 'spread the work' against 'hold a sustained context'
 
 **Why:** the factorial (below) found the fair-share threshold habituates sustained contexts away.

@@ -133,6 +133,7 @@ Each line is the entry's own heading (its conclusion is in the title).
 
 **08 MNIST (2026-10-01)**: [`docs/log/brian2/08_mnist.md`](docs/log/brian2/08_mnist.md)
 
+- 2026-10-02 — The reconciled substrate generalizes to step 3's six-context world: memory remembers every return 8/8 at both clocks and both N, the readout is better than the old substrate's (0.98-0.995), and retention turns FLAT (every past context keeps ~12-27% of neurons at N=40) instead of graded
 - 2026-10-02 — Dose and leak tests: ONE substrate now passes both worlds. A LEAKY fair-share threshold (proportional, not integral, homeostasis) with a ~50-100 s memory keeps every digit (65-75%) and the click world's memory (8/8); the leak is a single dial trading 'spread the work' against 'hold a sustained context'
 - 2026-10-02 — Substrate factorial: the FAIR-SHARE THRESHOLD alone breaks the click world (winner-take-all alone is harmless), and the mechanism is habituation: rate homeostasis erases a sustained context within ~2-5 minutes. MNIST still needs both rules
 - 2026-10-01 — Unified-substrate check: the MNIST substrate breaks the click world's integration properties (old contexts not released, change signal misses, readout collapses, memory 0/8); synthetic and real data currently need different substrates

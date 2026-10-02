@@ -1,0 +1,38 @@
+######## tau 50 s ########
+===== N=7 (8 seeds) =====
+MC-P1 just-departed keeps at +150 s, every change: min 100%  [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+MC-P2 incoming holders just before each return (share of N): E@1back 16%  C@3back 21%  F@2back 21%  B@4back 12%  F@1back 21%  A@5back 5%
+MC-P3 change fired 85%, on when settled 1.5%
+MC-P4 readout 0.995, between max -0.18
+MC-P5 W=50: E (phase 7, 1 back): remembered 8/8 (named 8, via dormant 0) | C (phase 8, 3 back): remembered 8/8 (named 8, via dormant 0) | F (phase 9, 2 back): remembered 8/8 (named 8, via dormant 0) | B (phase 10, 4 back): remembered 8/8 (named 8, via dormant 0) | F (phase 11, 1 back): remembered 8/8 (named 8, via dormant 0) | A (phase 12, 5 back): remembered 8/8 (named 8, via dormant 0)
+MC-P5 W=10: E (phase 7, 1 back): remembered 8/8 (named 8, via dormant 0) | C (phase 8, 3 back): remembered 8/8 (named 8, via dormant 5) | F (phase 9, 2 back): remembered 8/8 (named 8, via dormant 8) | B (phase 10, 4 back): remembered 8/8 (named 8, via dormant 8) | F (phase 11, 1 back): remembered 8/8 (named 8, via dormant 8) | A (phase 12, 5 back): remembered 8/8 (named 8, via dormant 8)
+
+===== N=40 (8 seeds) =====
+MC-P1 just-departed keeps at +150 s, every change: min 88%  [0.94, 0.92, 0.96, 0.92, 0.88, 1.0, 1.0, 0.96, 1.02, 0.94, 1.0]
+MC-P2 incoming holders just before each return (share of N): E@1back 13%  C@3back 12%  F@2back 14%  B@4back 14%  F@1back 15%  A@5back 27%
+MC-P3 change fired 81%, on when settled 0.2%
+MC-P4 readout 0.993, between max -0.15
+MC-P5 W=50: E (phase 7, 1 back): remembered 8/8 (named 8, via dormant 0) | C (phase 8, 3 back): remembered 8/8 (named 8, via dormant 0) | F (phase 9, 2 back): remembered 8/8 (named 8, via dormant 0) | B (phase 10, 4 back): remembered 8/8 (named 8, via dormant 0) | F (phase 11, 1 back): remembered 8/8 (named 8, via dormant 0) | A (phase 12, 5 back): remembered 8/8 (named 8, via dormant 2)
+MC-P5 W=10: E (phase 7, 1 back): remembered 8/8 (named 8, via dormant 0) | C (phase 8, 3 back): remembered 8/8 (named 8, via dormant 8) | F (phase 9, 2 back): remembered 8/8 (named 8, via dormant 7) | B (phase 10, 4 back): remembered 8/8 (named 8, via dormant 8) | F (phase 11, 1 back): remembered 8/8 (named 8, via dormant 7) | A (phase 12, 5 back): remembered 8/8 (named 8, via dormant 8)
+
+flicker N=7: settled median 0.995, < 0.5 in 0.2%, < 0 in 0.0%
+flicker N=40: settled median 0.993, < 0.5 in 0.0%, < 0 in 0.0%
+######## tau 100 s ########
+===== N=7 (8 seeds) =====
+MC-P1 just-departed keeps at +150 s, every change: min 100%  [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+MC-P2 incoming holders just before each return (share of N): E@1back 23%  C@3back 16%  F@2back 23%  B@4back 14%  F@1back 23%  A@5back 5%
+MC-P3 change fired 84%, on when settled 0.6%
+MC-P4 readout 0.978, between max -0.09
+MC-P5 W=50: E (phase 7, 1 back): remembered 8/8 (named 8, via dormant 0) | C (phase 8, 3 back): remembered 8/8 (named 8, via dormant 0) | F (phase 9, 2 back): remembered 8/8 (named 8, via dormant 0) | B (phase 10, 4 back): remembered 8/8 (named 8, via dormant 0) | F (phase 11, 1 back): remembered 8/8 (named 8, via dormant 0) | A (phase 12, 5 back): remembered 8/8 (named 8, via dormant 0)
+MC-P5 W=10: E (phase 7, 1 back): remembered 8/8 (named 8, via dormant 0) | C (phase 8, 3 back): remembered 8/8 (named 8, via dormant 1) | F (phase 9, 2 back): remembered 8/8 (named 8, via dormant 2) | B (phase 10, 4 back): remembered 8/8 (named 8, via dormant 4) | F (phase 11, 1 back): remembered 8/8 (named 8, via dormant 2) | A (phase 12, 5 back): remembered 8/8 (named 8, via dormant 7)
+
+===== N=40 (8 seeds) =====
+MC-P1 just-departed keeps at +150 s, every change: min 89%  [1.0, 1.0, 0.96, 1.0, 0.89, 1.02, 1.02, 1.02, 1.0, 1.0, 1.0]
+MC-P2 incoming holders just before each return (share of N): E@1back 12%  C@3back 13%  F@2back 13%  B@4back 13%  F@1back 17%  A@5back 23%
+MC-P3 change fired 78%, on when settled 0.2%
+MC-P4 readout 0.987, between max -0.13
+MC-P5 W=50: E (phase 7, 1 back): remembered 8/8 (named 8, via dormant 0) | C (phase 8, 3 back): remembered 8/8 (named 8, via dormant 0) | F (phase 9, 2 back): remembered 8/8 (named 8, via dormant 0) | B (phase 10, 4 back): remembered 8/8 (named 8, via dormant 0) | F (phase 11, 1 back): remembered 8/8 (named 8, via dormant 0) | A (phase 12, 5 back): remembered 8/8 (named 8, via dormant 3)
+MC-P5 W=10: E (phase 7, 1 back): remembered 8/8 (named 8, via dormant 0) | C (phase 8, 3 back): remembered 8/8 (named 8, via dormant 3) | F (phase 9, 2 back): remembered 8/8 (named 8, via dormant 5) | B (phase 10, 4 back): remembered 8/8 (named 8, via dormant 8) | F (phase 11, 1 back): remembered 8/8 (named 8, via dormant 5) | A (phase 12, 5 back): remembered 8/8 (named 8, via dormant 8)
+
+flicker N=7: settled median 0.978, < 0.5 in 6.6%, < 0 in 2.6%
+flicker N=40: settled median 0.987, < 0.5 in 0.7%, < 0 in 0.1%

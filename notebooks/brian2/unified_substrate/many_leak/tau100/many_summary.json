@@ -1,0 +1,236 @@
+{
+ "7": {
+  "seeds": 8,
+  "keep_min": 1.0,
+  "keep_each": [
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "incoming": [
+   [
+    "E",
+    1,
+    0.232
+   ],
+   [
+    "C",
+    3,
+    0.161
+   ],
+   [
+    "F",
+    2,
+    0.232
+   ],
+   [
+    "B",
+    4,
+    0.143
+   ],
+   [
+    "F",
+    1,
+    0.232
+   ],
+   [
+    "A",
+    5,
+    0.054
+   ]
+  ],
+  "change_fired": 0.8409090909090909,
+  "change_settled_on": 0.00551948051948052,
+  "readout_settled_median": 0.9776731556939819,
+  "between_max": -0.09018200594123865,
+  "W50": {
+   "E (phase 7, 1 back)": {
+    "remembered": 8,
+    "named": 8,
+    "via_dormant": 0
+   },
+   "C (phase 8, 3 back)": {
+    "remembered": 8,
+    "named": 8,
+    "via_dormant": 0
+   },
+   "F (phase 9, 2 back)": {
+    "remembered": 8,
+    "named": 8,
+    "via_dormant": 0
+   },
+   "B (phase 10, 4 back)": {
+    "remembered": 8,
+    "named": 8,
+    "via_dormant": 0
+   },
+   "F (phase 11, 1 back)": {
+    "remembered": 8,
+    "named": 8,
+    "via_dormant": 0
+   },
+   "A (phase 12, 5 back)": {
+    "remembered": 8,
+    "named": 8,
+    "via_dormant": 0
+   }
+  },
+  "W10": {
+   "E (phase 7, 1 back)": {
+    "remembered": 8,
+    "named": 8,
+    "via_dormant": 0
+   },
+   "C (phase 8, 3 back)": {
+    "remembered": 8,
+    "named": 8,
+    "via_dormant": 1
+   },
+   "F (phase 9, 2 back)": {
+    "remembered": 8,
+    "named": 8,
+    "via_dormant": 2
+   },
+   "B (phase 10, 4 back)": {
+    "remembered": 8,
+    "named": 8,
+    "via_dormant": 4
+   },
+   "F (phase 11, 1 back)": {
+    "remembered": 8,
+    "named": 8,
+    "via_dormant": 2
+   },
+   "A (phase 12, 5 back)": {
+    "remembered": 8,
+    "named": 8,
+    "via_dormant": 7
+   }
+  }
+ },
+ "40": {
+  "seeds": 8,
+  "keep_min": 0.8913043478260869,
+  "keep_each": [
+   1.0,
+   1.0,
+   0.96,
+   1.0,
+   0.89,
+   1.02,
+   1.02,
+   1.02,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "incoming": [
+   [
+    "E",
+    1,
+    0.119
+   ],
+   [
+    "C",
+    3,
+    0.134
+   ],
+   [
+    "F",
+    2,
+    0.131
+   ],
+   [
+    "B",
+    4,
+    0.134
+   ],
+   [
+    "F",
+    1,
+    0.169
+   ],
+   [
+    "A",
+    5,
+    0.231
+   ]
+  ],
+  "change_fired": 0.7840909090909091,
+  "change_settled_on": 0.0023214285714285715,
+  "readout_settled_median": 0.9868295270609895,
+  "between_max": -0.12845323324681363,
+  "W50": {
+   "E (phase 7, 1 back)": {
+    "remembered": 8,
+    "named": 8,
+    "via_dormant": 0
+   },
+   "C (phase 8, 3 back)": {
+    "remembered": 8,
+    "named": 8,
+    "via_dormant": 0
+   },
+   "F (phase 9, 2 back)": {
+    "remembered": 8,
+    "named": 8,
+    "via_dormant": 0
+   },
+   "B (phase 10, 4 back)": {
+    "remembered": 8,
+    "named": 8,
+    "via_dormant": 0
+   },
+   "F (phase 11, 1 back)": {
+    "remembered": 8,
+    "named": 8,
+    "via_dormant": 0
+   },
+   "A (phase 12, 5 back)": {
+    "remembered": 8,
+    "named": 8,
+    "via_dormant": 3
+   }
+  },
+  "W10": {
+   "E (phase 7, 1 back)": {
+    "remembered": 8,
+    "named": 8,
+    "via_dormant": 0
+   },
+   "C (phase 8, 3 back)": {
+    "remembered": 8,
+    "named": 8,
+    "via_dormant": 3
+   },
+   "F (phase 9, 2 back)": {
+    "remembered": 8,
+    "named": 8,
+    "via_dormant": 5
+   },
+   "B (phase 10, 4 back)": {
+    "remembered": 8,
+    "named": 8,
+    "via_dormant": 8
+   },
+   "F (phase 11, 1 back)": {
+    "remembered": 8,
+    "named": 8,
+    "via_dormant": 5
+   },
+   "A (phase 12, 5 back)": {
+    "remembered": 8,
+    "named": 8,
+    "via_dormant": 8
+   }
+  }
+ }
+}
