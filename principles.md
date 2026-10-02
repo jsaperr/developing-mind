@@ -250,6 +250,9 @@ build-up. It is **not** a general law.
   only ~37% of its neurons (disjoint: 86-96%), at either phase length. **So one back is the
   disjoint-context case, and overlapping contexts get less than one back.** Memory has to carry
   whatever the substrate drops, and it already does.
+- **Substrate-dependent (2026-10-02):** on the reconciled substrate (winner-take-all + leaky fair-share), retention
+  with six contexts is FLAT instead of graded: every past context keeps ~12-27% of the population at N=40. Fair-share
+  spreads neurons across everything met. The retention profile is a property of the substrate's rules, not a constant.
 - **For memory's design this changes little:** memory carries whatever the substrate doesn't, and
   rehearsal is keyed to changes.
 
@@ -283,6 +286,30 @@ Don't assume the substrate "remembers" a context it left two changes ago, and do
 mapping without checking memory's horizon against the release-to-return intervals that matter. (The
 resemblance to complementary learning systems is motivation, not evidence. The timescales here
 aren't biological.)
+
+**Named finding: integral homeostasis is guaranteed habituation (2026-10-02, arc 08).** A homeostatic rule that
+*accumulates* (no leak) drives every sustained difference it acts on to exactly zero, eventually. The fair-share threshold
+(each spike raises its own neuron's threshold, lowers everyone's by the mean) is such a rule. On real data it is what
+spreads neurons across digits. On a world with sustained contexts it erases "who responds" within minutes, and the readout
+is exactly "who responds". Slowing it only delays the erasure (dose test); it never stops it.
+- **The fix is a leak, which turns integral control into proportional control.** Differences shrink by a loop gain but
+  keep their direction, and the readout is a direction. With a ~50-100 s leak, one substrate passes both the digit world
+  and the click world (and six contexts).
+- **The leak is a dial, not a free lunch.** Too short and the "fairness memory" can't span enough inputs to spread
+  representations. Too long (high gain) and neurons take turns (flicker), then habituate.
+- **Before adding any homeostatic or adaptive rule, ask what it would erase if the input held still.** Rules borrowed
+  from train-then-freeze settings (Diehl & Cook's threshold is a ratchet) tend to fail exactly here. That's the
+  framework's train/deploy critique showing up inside a single mechanism.
+
+**Named finding: name a signal by what it measures, not by what you wanted it to detect (2026-10-02).** The "is the
+substrate changing" signal (60 s weight displacement) was built for the commit rule, and it's right for that job. But a
+100,000 s life showed it is a RE-LEARNING detector: it stays silent when the world switches back to a context the
+substrate still holds (one-back returns: 36% fired), because nothing re-wires.
+- The same rule applied to firing activity catches every switch (97-100%).
+- Together the two signals separate surprise (re-learning) from recognition (a familiar switch). Memory recognizes the
+  familiar switches within a minute, every time.
+- Watch for the same slippage elsewhere: a signal's name carries a hypothesis about the world, and long, messy
+  schedules are what test it.
 
 ## How to fail correctly
 
