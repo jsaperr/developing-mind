@@ -78,6 +78,12 @@ runs are replayed into memory, with no feedback yet.
   winner-take-all, a fair-share threshold; 79% on digits 0-3). But that substrate BREAKS the integration properties
   on the click world: the readout collapses and memory recognizes 0/8. Integration currently works only on the old
   substrate. Reconciling the two is the open problem before split-MNIST.
+- **A long life (2026-10-02, 100,000 s, arc 05):** nothing wears out (no drift, bounded memory, rare old
+  contexts remembered 98%). Character follows what's still visited, not chronology. The change signal is a
+  RE-LEARNING detector (silent at familiar switches).
+- **Familiar switches (2026-10-02):** an activity-change signal with the change signal's own rule fires at 97-99% of
+  switches (0.2% settled). With the weight signal it splits switches into familiar vs re-learning, and memory
+  recognizes familiar ones within 60 s every time. A label-free surprise-vs-recognition primitive; analysis only.
 - **Recency has two timescales.** Episode timing (staleness) is exact. Character recency needs age
   differences of about w_char's 2000-step constant, so it's absent in short runs and weak in the
   long world.
@@ -102,6 +108,50 @@ runs are replayed into memory, with no feedback yet.
   scope by dependency order).
 
 ---
+
+## 2026-10-02 — Familiar-switch detection: an activity-change signal (the change signal's own rule and constants, applied to firing rates) marks every switch, and together with the weight signal it splits switches into "familiar" and "re-learning". Memory recognizes the familiar ones within a minute, every time
+
+**Why:** the life run (arc 05, same day) showed the change signal is a re-learning detector. It fires on only 36% of
+one-back returns, because nothing re-wires. The system had no "a familiar switch just happened" event. Arc 07 said
+rates alone carry "now vs just before", so activity should change at every switch.
+
+**Data:** the life run's compact files (first scored on 7 seeds, 791 home -> home changes). Analysis only, no new sim.
+- **Script:** `notebooks/integration/familiar_switch/analyze_familiar_switch.py` (predictions FS-P1..P5 committed
+  before the signal was computed). Output `familiar_switch_output.txt`.
+- **Signal, no new hand-set number:**
+  - Dr = sum over neurons of |mean rate over the last 60 s - mean rate over the 60 s before|, at the data's 10 s
+    resolution.
+  - It's flagged by `changing_per_second`'s exact rule: median + 3 x 1.4826 x MAD over a 900 s trail, with 100 s of
+    minimum history.
+  - The secondary version is the same rule on the readout jump, 1 - cos(q(t), q(t - 60 s)).
+
+| | activity signal | weight signal (existing) |
+|---|---|---|
+| fired after home -> home changes | **97%** | 66% |
+| fired after one-back returns | **99%** | 36% |
+| on when settled | **0.2%** | 0.8% |
+| rest onsets / into one-offs / one-off -> home / rest -> home | 100% / 100% / 95% / 100% | |
+| readout-jump version: fired, one-back, settled-on | 100%, 100%, 0.1% | |
+
+- **FS-P1 (fires on >= 90% of changes and of one-back returns): CONFIRMED** (97%, 99%).
+- **FS-P2 (< 5% settled): CONFIRMED** (0.2%).
+- **FS-P3 (familiar = activity yes / weights no: >= 50% of one-back, <= 20% at depth >= 3): CONFIRMED** (64%, 3%).
+  - The split follows depth: familiar is 64% at one back, 28% at two back, and 0-6% deeper.
+- **FS-P4 (memory names the incoming context within 60 s in >= 80% of familiar switches, fewer at re-learning
+  ones): CONFIRMED** (100% vs 49%).
+- **FS-P5 (activity flags no later than weights in >= 75% where both fire): CONFIRMED** (92% of 501).
+- **Reading:**
+  - Two label-free signals, both made by the same self-normalizing rule, give a 2x2 of internal events:
+    - activity changed + weights changed = **re-learning** (something new, or something the network let go);
+    - activity changed + weights still = **familiar switch** (a known context is back, and memory recognizes it
+      immediately);
+    - neither = steady.
+  - That's a primitive "surprise vs recognition" distinction with nothing hand-tuned, and it's a candidate input for
+    the metacog layer.
+  - The readout-jump version is as good or better (100% / 0.1%), so the interface already has it.
+  - Nothing in `src` changed. The commit rule should keep using the weight signal: don't commit while re-learning
+    is exactly right, and familiar switches need no commit.
+- **Scope:** the life run's world (disjoint home contexts, 500 s phases, N=40), one substrate.
 
 ## 2026-09-29 — The mood map: three label-free signals give five internal states, and a self-set strength cutoff tells real recognitions from ghosts and coin-flips (half of them at the fast clock, over 80% at the slow one, while flagging 1-3% of real ones)
 

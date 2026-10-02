@@ -1,0 +1,9 @@
+Familiar-switch detection on the life run: 7 seeds, 791 home -> home changes
+FS-P1 activity signal fired after 97% of changes, 99% of one-back returns (weight signal: 66%, 36%)
+FS-P2 activity signal on for 0.2% of settled blocks
+FS-P3 familiar switch (activity yes, weights no): one-back 64%, depth >= 3 3%, all 34%
+FS-P4 memory names the incoming context within 60 s: familiar 100%, re-learning 49%
+FS-P5 activity flag no later than the weight flag in 92% of 501 changes where both fired
+readout-jump version: fired 100%, one-back 100%, settled on 0.1%
+activity signal on other changes: rest onset 100% of 140, into one-off 100% of 203, one-off -> home 95% of 126, rest -> home 100% of 133
+by depth: -1: n 28 act 100% w 100% fam 0% | 1: n 322 act 99% w 36% fam 64% | 2: n 189 act 96% w 72% fam 28% | 3: n 119 act 97% w 94% fam 6% | 4: n 42 act 90% w 100% fam 0% | 5: n 21 act 71% w 95% fam 5% | 6: n 7 act 100% w 100% fam 0% | 7: n 14 act 100% w 100% fam 0% | 8: n 14 act 100% w 100% fam 0% | 9: n 7 act 100% w 100% fam 0% | 10: n 7 act 100% w 100% fam 0% | 11: n 14 act 100% w 100% fam 0% | 14: n 7 act 100% w 100% fam 0%

@@ -2,6 +2,63 @@
 
 Entries moved verbatim from `experiments_brian2.md` on 2026-09-25 (no wording changed). Index: `experiments_brian2.md`.
 
+## 2026-10-02 — Life in eras (100,000 s, 8 seeds): over ~28 simulated hours nothing wears out (no drift, bounded memory, rare old contexts remembered 98%), but the change signal turns out to be a RE-LEARNING detector: it misses switches back to contexts the population still holds
+
+**Data:** `notebooks/brian2/life_run/life_seed54000-54007.json.gz` (compact). Raw on the Volume `developing-mind-raw`
+under `life_run/raw/`: the full 1 s weight trace and every spike (~1 GB per seed, kept for later analysis).
+- **Seeds:** first scored on 7 of 8. Seed 54006's container was retried and finished last; see the note at the end.
+- **Run:** Modal, detached (`.spawn()`, jobs write to the Volume and outlive the local driver; tested first).
+  3.2-4.9 h per seed, about $3.5.
+- **Life:** 200 phases x 500 s, the same schedule for every seed (rng 2027).
+  - Every 10th phase is rest; 15% are one-off random 10-input contexts that never return (30 of them).
+  - Era 1 (phases 1-60): A, B (.45 each), C (.10).
+  - Era 2 (61-140): C, D (.38), G = half A + half C (.12), A, B (.06).
+  - Era 3 (141-200): E, F (.38), A-D (.06 each).
+- **Substrate:** the original (13 mV/1.5 gated, no threshold), N=40, 60-input rig, Brian2 seeded.
+- **Scripts:** `modal_life.py` (predictions LL-P1..P6, before launch), `collect_life.py`, `analyze_life.py` (written
+  and pipeline-tested on a 10,000 s mini-life before any result). Output `life_output.txt`.
+
+| (W=10 s memory clock, primary) | result |
+|---|---|
+| LL-P1 character ranks by era (E,F > C,D > A,B), >= 6/8 | **3/7, REFUTED.** E 8.8, F 8.0 on top; A 6.3, B 6.0, C 6.6, D 5.7 |
+| LL-P2 A/B rare returns in eras 2-3 named by an old memory, >= 80% | **98% (110/112), CONFIRMED** |
+| LL-P3 rest: home context named >= 30%; most-named = the one before >= 50% | **47%, 68%, CONFIRMED** |
+| LL-P4 dormant store end / midpoint <= 1.3 | **0.93 (23.4 -> 21.7), CONFIRMED** |
+| LL-P5 A first vs last visit cosine >= 0.9; one-off residue <= 10% and not rising | **0.978, CONFIRMED; residue FAILED as written (see below)** |
+| LL-P6 change signal fires after >= 90% of changes into a structured context; on < 5% settled | **78%, REFUTED; 0.8%, OK** |
+| readout (settled, to true prototype) / one-offs that got a memory entry | 0.987 / 30 of 30 |
+
+- **LL-P1, refuted in a revealing way.** The newest era's contexts do lead, but era 1 never fades: A and B,
+  visited only 6% of the time after phase 60, keep as much character as era 2's C and D. Rare visits are enough
+  to top them up. Character here means "recent plus still-visited", not chronology.
+  - At W=50 every context saturates near 7 (no order at all), and the dormant store grows (x1.65).
+  - The slow clock's character is saturated over a life this long.
+- **LL-P5 residue: the checkpoint, not pile-up.**
+  - Era 1's end falls on a rest that follows one-off N9. Tuning holds through rest (the rest finding), so 70% of
+    neurons still carried N9 from 500 s earlier, which the pre-registered definition counted as a "past" one-off.
+  - **Post-hoc, labelled:** counting only one-offs at least two phases old, every 50 s across the life, residue
+    averages 2% / 4% / 3% by era. The peak (98%) is the instant after N24 -> N25 -> rest: recent tuning held
+    through a rest, not accumulation.
+- **LL-P6: the change signal is a re-learning detector, not a change detector.** By kind of change:
+  - It fires after 99-100% of changes into or out of one-offs and 89% from rest.
+  - It fires after only 66% of home -> home switches. By the incoming context's recency depth: one back 36%, two
+    back 72%, three back 94%, deeper ~100%.
+  - By how much of the population already holds the incoming context: under 10% -> 99%; 30% or more -> about 27%.
+  - Returning to a context the population still holds needs no re-wiring, so D(t) doesn't move. That's what the
+    signal was built to report (the commit rule's "don't commit while re-learning"), and memory doesn't suffer:
+    recognition stays at 98% and the readout at 0.987.
+  - But the system has no "a familiar switch just happened" event. Follow-up: `experiments_integration.md`,
+    familiar-switch detection (activity-change signal, same day).
+- **Tripwire: quiet.** Nothing was re-tuned. The settled false-positive rate (0.8%) is unchanged, and the misses
+  are about what the signal measures, not its numbers.
+- **Reading:** over ~28 simulated hours, with 3 eras, 20 rests and 30 one-off experiences, nothing wears out:
+  - no drift (0.978);
+  - a bounded memory store;
+  - no residue build-up;
+  - rare old contexts remembered.
+  What a long life adds is two corrections to how we describe the parts: character follows what's still lived,
+  and the change signal reports re-learning.
+
 ## 2026-09-29 — Ambiguity (both contexts at once): the substrate holds both readings with zero switching, and the two groups' activity jitters around a tie as white noise, with no rivalry
 
 **Data:** `notebooks/brian2/ambiguity_data/`, seeds 47000-47007, 8/8 completed (935 s wall).

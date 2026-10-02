@@ -113,6 +113,9 @@ before running; save full traces for exploratory runs; inspect trajectories befo
   50-57%, and the change signal works at its hand-set defaults (no tripwire). The readout improves slightly with N.
   **Step 3 (2026-10-01, Modal, 6 contexts / 60 inputs):** retention turns graded (about 30% / 20% / under 7% at
   1 / 2 / 3+ back); the gates still need no re-tuning.
+  **Life in eras (2026-10-02, 100,000 s):** no drift over ~28 simulated hours (0.978), no residue build-up, bounded
+  memory; rare old contexts remembered 98%. The change signal is a RE-LEARNING detector: it misses switches back
+  to contexts still held (one back fires 36%), by design.
 - One-back retention over longer schedules: does the lock-in residue accumulate across many
   changes, and is release triggered by the change itself or just slow (more than 1000 s)? It
   predicted that A→B→C→A should *not* recognize A instantly, and v1 confirmed that. Still open:
@@ -176,6 +179,7 @@ Each line is the entry's own heading (its conclusion is in the title).
 
 **05 Non-stationary correlation (2026-09-25)**: [`docs/log/brian2/05_nonstationary_correlation.md`](docs/log/brian2/05_nonstationary_correlation.md)
 
+- 2026-10-02 — Life in eras (100,000 s, 8 seeds): over ~28 simulated hours nothing wears out (no drift, bounded memory, rare old contexts remembered 98%), but the change signal turns out to be a RE-LEARNING detector: it misses switches back to contexts the population still holds
 - 2026-10-01 — Generalization step 3, six contexts: retention becomes graded (about 30% one back, 20% two back, under 7% deeper), the gates still work at their defaults, and memory remembers every return up to 5 back
 - 2026-10-01 — Generalization step 2, network size: from 5 to 40 neurons, one-back, the ~half retainer fraction, the change signal at its hand-set defaults, the readout and memory recognition all hold unchanged
 - 2026-09-29 — The fork (logged in experiments_integration.md): with Brian2 seeded, forked twins' wiring diverges steadily from a tiny input difference while their function stays at 0.99; the runners' membrane noise was never seeded (correction in notebooks/brian2/README.md)
