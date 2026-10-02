@@ -47,6 +47,12 @@ The `brian2_*.ipynb` notebooks at this level are the early single-neuron experim
 - **Batches:** a Python orchestrator with a concurrency cap and a progress JSON rewritten after every
   completed job; launch it detached (trailing `&` and `disown`) and use `python -u`. 8-9 concurrent
   jobs is the throughput sweet spot on this machine (about 6 physical cores).
+- **Data size policy (from 2026-10-01, Jasper's go):** new Modal runs keep the FULL 1 s result on the Modal Volume
+  `developing-mind-raw` (1 TiB/month free) and put a COMPACT `.json.gz` in the repo: 10 s weight blocks, 1 s change
+  flags computed remotely, 1 s spike bins, and `raw_path`. About 9x smaller. On a step 2 run it reproduces holders,
+  change flags and memory reports exactly, with fingerprints to 6e-5. Helpers: `modal_common.py` (`IMAGE`,
+  `RAW_VOLUME`, `compact`, `write_raw`, `load_compact`). Fetch a raw file with
+  `python -m modal volume get developing-mind-raw <raw_path> <local_path>`. Data committed before this date stays as is.
 - **Randomness (corrected 2026-09-29):** the competitive network's per-step membrane noise (`sigma_v`, `xi`)
   comes from Brian2's own RNG, which the runners do NOT seed. The numpy seed fixes the input only, so two
   runs of the same seed are NOT bit-identical. The "deterministic per seed" line in the batch scripts'
