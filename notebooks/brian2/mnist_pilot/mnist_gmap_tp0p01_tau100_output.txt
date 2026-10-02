@@ -1,0 +1,16 @@
+seeds: 8
+seed 70100 | silent 0%, responsive-only acc 42.2%: specialized 12% | RF matches class 80% | acc 42.2% | separation True | strength-quintile acc [0.21, 0.35, 0.24, 0.47, 0.84] | strange known 9% held 10% (ratio 1.1) | neurons per class [37, 2, 0, 1] | memory entries 9 | mean spikes/image 26 (test period 28)
+seed 70101 | silent 0%, responsive-only acc 48.2%: specialized 10% | RF matches class 15% | acc 48.2% | separation False | strength-quintile acc [0.29, 0.29, 0.36, 0.68, 0.8] | strange known 10% held 24% (ratio 2.5) | neurons per class [36, 2, 1, 1] | memory entries 26 | mean spikes/image 29 (test period 33)
+seed 70102 | silent 0%, responsive-only acc 30.8%: specialized 12% | RF matches class 60% | acc 30.8% | separation True | strength-quintile acc [0.19, 0.2, 0.24, 0.29, 0.62] | strange known 7% held 20% (ratio 2.7) | neurons per class [35, 2, 3, 0] | memory entries 14 | mean spikes/image 29 (test period 31)
+seed 70103 | silent 0%, responsive-only acc 30.0%: specialized 25% | RF matches class 15% | acc 30.0% | separation False | strength-quintile acc [0.04, 0.04, 0.16, 0.33, 0.94] | strange known 7% held 21% (ratio 2.9) | neurons per class [36, 2, 0, 2] | memory entries 12 | mean spikes/image 29 (test period 31)
+seed 70104 | silent 0%, responsive-only acc 47.8%: specialized 15% | RF matches class 70% | acc 47.8% | separation True | strength-quintile acc [0.17, 0.41, 0.55, 0.66, 0.59] | strange known 6% held 23% (ratio 3.7) | neurons per class [36, 2, 1, 1] | memory entries 13 | mean spikes/image 27 (test period 29)
+seed 70105 | silent 0%, responsive-only acc 35.8%: specialized 18% | RF matches class 72% | acc 35.8% | separation False | strength-quintile acc [0.16, 0.26, 0.17, 0.31, 0.88] | strange known 6% held 14% (ratio 2.3) | neurons per class [35, 1, 2, 2] | memory entries 11 | mean spikes/image 26 (test period 30)
+seed 70106 | silent 0%, responsive-only acc 37.0%: specialized 18% | RF matches class 45% | acc 37.0% | separation False | strength-quintile acc [0.16, 0.28, 0.38, 0.5, 0.54] | strange known 13% held 25% (ratio 1.9) | neurons per class [37, 2, 0, 1] | memory entries 10 | mean spikes/image 25 (test period 28)
+seed 70107 | silent 0%, responsive-only acc 46.5%: specialized 15% | RF matches class 50% | acc 46.5% | separation False | strength-quintile acc [0.31, 0.28, 0.28, 0.49, 0.97] | strange known 9% held 20% (ratio 2.3) | neurons per class [35, 3, 1, 1] | memory entries 22 | mean spikes/image 31 (test period 35)
+
+MP-P1 specialized >= 60%: mean 16%
+MP-P2 RF matches class >= 60%: mean 51%
+MP-P3 separation in every pair: 3/8 seeds
+MP-P4 accuracy >= 50%: mean 39.8% (min 30.0%)
+MC-1 rise in 5/8 seeds; weakest-vs-strongest gap mean 58 points
+MC-2 held-out strange ratio >= 2: mean 2.4

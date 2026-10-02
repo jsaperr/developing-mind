@@ -16,7 +16,8 @@ import analyze_leak_flicker as LF
 
 CELLS = [("leak_tau100", "tp 0.05 / tau 100 (gain 5, reference)"), ("gmap_tp0p2_tau25", "tp 0.2 / tau 25 (gain 5)"),
          ("gmap_tp0p0125_tau400", "tp 0.0125 / tau 400 (gain 5)"), ("gmap_tp0p01_tau100", "tp 0.01 / tau 100 (gain 1)"),
-         ("gmap_tp0p0025_tau400", "tp 0.0025 / tau 400 (gain 1)")]
+         ("gmap_tp0p0025_tau400", "tp 0.0025 / tau 400 (gain 1)"),
+         ("gmap_tp0p5_tau10", "tp 0.5 / tau 10 (gain 5)"), ("gmap_tp1_tau5", "tp 1.0 / tau 5 (gain 5)"), ("gmap_tp0p4_tau25", "tp 0.4 / tau 25 (gain 10)")]
 
 
 def main():

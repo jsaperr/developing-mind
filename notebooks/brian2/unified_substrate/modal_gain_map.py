@@ -26,6 +26,13 @@ PREDICTIONS ON RECORD (written before launch):
   GM-P4 at low gain and tau 400 s, MNIST keeps diversity (every digit >= 3 in >= 6/8) with accuracy >= 65%.
   => GM-P1..P4 together = the product law: tau = "long enough to sample the inputs", gain = "about 1".
 
+FOLLOW-UP (written after the first gain map, before running; run with --cells "0.5:10,1.0:5,0.4:25"):
+  Results so far: MNIST needs gain (gain 1 fails at any tau); at gain 5 SHORTER tau is better on both worlds (tp 0.2 / tau 25:
+  click 0.985, flicker 6.6%; MNIST 76.2%, every digit), flicker grows with tau (6.6 / 14.1 / 16.1% at tau 25 / 100 / 400).
+  GM-P5 the trend continues at gain 5: tau 10 (tp 0.5) and tau 5 (tp 1.0) pass the click world with flicker <= tau 25's,
+        and MNIST keeps every digit (>= 6/8) at >= 70%.
+  GM-P6 gain 10 at tau 25 (tp 0.4): MNIST >= tau 25 / gain 5's 76.2% - 3 points, and click flicker higher than gain 5's.
+
 Cost: 32 click runs (~20 min) + 32 MNIST (~5 min) in parallel, about $1.5.
 Run from the repo root:  python -m modal run notebooks/brian2/unified_substrate/modal_gain_map.py
 """
@@ -112,7 +119,10 @@ def run_mnist(tp: float, tau: float, seed: int) -> dict:
 
 
 @app.local_entrypoint()
-def main():
+def main(cells: str = ""):
+    global CELLS
+    if cells:
+        CELLS = [tuple(float(v) for v in c.split(":")) for c in cells.split(",")]
     clicks = [(tp, tau, s) for tp, tau in CELLS for s in CLICK_SEEDS if not (HERE / f"gmap_{tag(tp, tau)}_n40_seed{s}.json.gz").exists()]
     mn = [(tp, tau, s) for tp, tau in CELLS for s in MNIST_SEEDS if not (MN / f"mnist_gmap_{tag(tp, tau)}_seed{s}.json.gz").exists()]
     print(f"{len(clicks)} click + {len(mn)} MNIST runs to do", flush=True)
