@@ -78,6 +78,9 @@ runs are replayed into memory, with no feedback yet.
   winner-take-all, a fair-share threshold; 79% on digits 0-3). But that substrate BREAKS the integration properties
   on the click world: the readout collapses and memory recognizes 0/8. Integration currently works only on the old
   substrate. Reconciling the two is the open problem before split-MNIST.
+  **Factorial (2026-10-02):** the fair-share threshold alone breaks integration (winner-take-all alone passes). The
+  mechanism is habituation: rate homeostasis equalizes firing within ~2-5 min and erases a sustained context from the
+  readout.
 - **A long life (2026-10-02, 100,000 s, arc 05):** nothing wears out (no drift, bounded memory, rare old
   contexts remembered 98%). Character follows what's still visited, not chronology. The change signal is a
   RE-LEARNING detector (silent at familiar switches).

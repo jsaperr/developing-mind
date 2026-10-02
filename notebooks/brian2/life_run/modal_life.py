@@ -107,7 +107,7 @@ def flags_from_D(D, L=60, trail=900, k=3.0, min_hist=100):
     return flag
 
 
-@app.function(image=image, cpu=1.0, memory=8192, timeout=24 * 3600, volumes={RAW_MOUNT: RAW_VOLUME},
+@app.function(image=image, cpu=1.0, memory=16384, timeout=24 * 3600, volumes={RAW_MOUNT: RAW_VOLUME},
               retries=modal.Retries(max_retries=1, initial_delay=10.0))
 def run_life(seed_val: int, phase_s: float = PHASE_S, n_phases: int = N_PHASES) -> str:
     import time
@@ -208,6 +208,9 @@ def run_life(seed_val: int, phase_s: float = PHASE_S, n_phases: int = N_PHASES) 
 
 
 @app.local_entrypoint()
-def main():
-    calls = [run_life.spawn(s) for s in SEEDS]
+def main(seeds: str = ""):
+    # memory 8 -> 16 GiB (2026-10-02): the 100,000 s input (~120M spikes, plus sort copies) left too little headroom;
+    # seed 54006 was killed over its memory request and preempted repeatedly. Relaunch one seed: --seeds 54006
+    todo = [int(x) for x in seeds.split(",")] if seeds else SEEDS
+    calls = [run_life.spawn(s) for s in todo]
     print("spawned", len(calls), "life runs (detached):", [c.object_id for c in calls], flush=True)

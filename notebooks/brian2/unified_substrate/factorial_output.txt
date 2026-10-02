@@ -1,0 +1,8 @@
+fact_ctrl N= 7 (8 seeds) | rate 15.56 Hz, active 100% (>1 Hz 100%) | B keeps 96%, incoming before two-back A 4% B 4% | change fired 100%, settled-on 0.2% | readout 0.974, B named W50 8/8 | PASS
+fact_ctrl N=40 (8 seeds) | rate 15.52 Hz, active 100% (>1 Hz 100%) | B keeps 77%, incoming before two-back A 7% B 4% | change fired 100%, settled-on 0.1% | readout 0.985, B named W50 8/8 | PASS
+fact_fair N= 7 (8 seeds) | rate 18.05 Hz, active 100% (>1 Hz 100%) | B keeps 92%, incoming before two-back A 11% B 21% | change fired 100%, settled-on 0.1% | readout 0.462, B named W50 0/8 | fail
+fact_fair N=40 (8 seeds) | rate 18.14 Hz, active 100% (>1 Hz 100%) | B keeps 95%, incoming before two-back A 14% B 35% | change fired 94%, settled-on 0.0% | readout 0.108, B named W50 0/8 | fail
+fact_wta  N= 7 (8 seeds) | rate 9.05 Hz, active 100% (>1 Hz 100%) | B keeps 91%, incoming before two-back A 32% B 34% | change fired 69%, settled-on 0.5% | readout 0.969, B named W50 8/8 | PASS
+fact_wta  N=40 (8 seeds) | rate 1.91 Hz, active 39% (>1 Hz 36%) | B keeps 103%, incoming before two-back A 9% B 49% | change fired 50%, settled-on 1.5% | readout 0.902, B named W50 8/8 | PASS
+unify     N= 7 (8 seeds) | rate 13.15 Hz, active 100% (>1 Hz 100%) | B keeps 88%, incoming before two-back A 43% B 27% | change fired 78%, settled-on 0.9% | readout -0.180, B named W50 0/8 | fail
+unify     N=40 (8 seeds) | rate 3.71 Hz, active 100% (>1 Hz 100%) | B keeps 79%, incoming before two-back A 55% B 23% | change fired 59%, settled-on 0.4% | readout 0.055, B named W50 0/8 | fail

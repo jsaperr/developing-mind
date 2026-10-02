@@ -2,6 +2,50 @@
 
 Index: `experiments_brian2.md`. Plan: `experiment_plan_generalization.md`, step 4. Newest entries first.
 
+## 2026-10-02 — Substrate factorial: the FAIR-SHARE THRESHOLD alone breaks the click world (winner-take-all alone is harmless), and the mechanism is habituation: rate homeostasis erases a sustained context within ~2-5 minutes. MNIST still needs both rules
+
+**Why:** the unified-substrate check changed two rules at once. This tests each alone, on both worlds.
+**Data:** `notebooks/brian2/unified_substrate/fact_{ctrl,fair,wta}_n{7,40}_seed*.json.gz` (48 click runs, paired seeds with
+the unified check) and `notebooks/brian2/mnist_pilot/mnist_fact_{norm_fair,wta_norm}_seed*.json.gz` (16, paired with v1-v4),
+all on Modal.
+- **Scripts:** `modal_factorial.py` (predictions F-P1..P5, before launch), `analyze_factorial.py` (before results), outputs
+  `factorial_output.txt`, `mnist_fact_*_output.txt`.
+- **ctrl cell:** the old substrate through the notebook builder, verified bit-identical to `src`'s builder before launch.
+
+| click world (pass = readout >= 0.9 AND B named at two-back >= 7/8) | N=7 | N=40 |
+|---|---|---|
+| ctrl (gated, no threshold = old substrate) | 0.974, 8/8: PASS | 0.985, 8/8: PASS |
+| **fair-share alone** (gated) | **0.462, 0/8: fail** | **0.108, 0/8: fail** |
+| winner-take-all alone | 0.969, 8/8: PASS | 0.902, 8/8: PASS |
+| both (unified check, 2026-10-01) | -0.180, 0/8 | 0.055, 0/8 |
+
+| MNIST (gain control on) | vote accuracy | specialized | classes with >= 3 neurons |
+|---|---|---|---|
+| neither (v2 norm) | 46.7% | 0% | ~1 |
+| fair-share alone | 47.1% | 0% | ~1-2 (class 1 takes 31-39 of 40) |
+| winner-take-all alone | 28.7% | 2% | 1 (class 0 takes 37-38) |
+| both (v4) | 79.2% | 65% | 4, every seed |
+
+- **F-P1 (ctrl passes): CONFIRMED.**
+- **F-P2 (fair-share alone passes the click world): REFUTED.** It is the culprit.
+- **F-P3 (winner-take-all alone passes): CONFIRMED.** At N=40 only ~40% of neurons stay active, and the change signal
+  fires 50-69% (fewer neurons re-wire per change); the readout and memory still pass.
+- **F-P4 (MNIST, winner-take-all alone: monopolized, < 60%): CONFIRMED** (28.7%, one digit wins).
+- **F-P5 (MNIST, fair-share alone: no specialization, < 65%): CONFIRMED** (0%, 47.1%).
+- **The predicted "interaction" reading is wrong:** one rule (fair-share) is enough to break integration, and MNIST needs
+  it (with winner-take-all) anyway.
+- **Mechanism (post-hoc, labelled): habituation.** Readout cosine to the current context, and rate CV across neurons, at
+  10 / 30 / 60 / 120 / 300 / 600 / 900 s into phases 2-5 (seed means):
+  - ctrl N=40: readout -0.09 / 0.04 / 0.75 / 0.96 / 0.98 / 0.98 / 0.98; CV ~0.20 throughout.
+  - fair-share N=40: readout 0.17 / 0.44 / **0.57** / 0.25 / 0.03 / -0.10 / -0.03; CV 0.30 -> **0.04**.
+  - Fair-share is rate homeostasis. It drives every neuron to the same firing rate. The readout is "who fires above
+    average", so once a context lasts longer than the equalization time (~2-5 min at Diehl & Cook's 0.05 mV), the
+    representation is erased. The network responds to the change (it reads the new context faster than ctrl at 30-60
+    s) and then habituates.
+  - On MNIST, images last 0.35 s, so equalization works ACROSS images: that's what spreads neurons over digits.
+- **Consequence:** the conflict is a timescale conflict. Homeostasis must be slower than the experiences the readout
+  should represent, and fast enough to spread neurons during development. Dose test next (`modal_dose.py`, same day).
+
 ## 2026-10-01 — Unified-substrate check: the substrate MNIST needed (winner-take-all + fair-share threshold) BREAKS the click world's integration properties: old contexts aren't released, the change signal misses changes, the readout collapses, memory recognizes nothing. Synthetic and real data currently need different substrates
 
 **Data:** `notebooks/brian2/unified_substrate/unify_n{7,40}_seed*.json.gz` (16 runs, Modal).
