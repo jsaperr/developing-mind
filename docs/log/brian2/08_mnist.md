@@ -2,6 +2,47 @@
 
 Index: `experiments_brian2.md`. Plan: `experiment_plan_generalization.md`, step 4. Newest entries first.
 
+## 2026-10-01 — MNIST pilot v3: with derived winner-take-all inhibition added, the substrate learns real digits (74% specialized, every digit represented, 65% accuracy), and response strength becomes a working confidence signal. The pilot bar is met
+
+**Data:** `notebooks/brian2/mnist_pilot/mnist_v3_{wta_adapt,wta_norm_adapt}_seed70100-70107.json.gz` (16 runs, Modal;
+the same seeds as v1/v2, paired).
+- **Rule added:** winner-take-all lateral inhibition, derived rather than tuned. Each competitor spike pushes a
+  neuron down by its full threshold distance (v_thresh - v_rest = 20 mV), ambiguity gate off. The adaptive
+  threshold is v2's (Diehl & Cook's constants).
+- **Scripts:** `modal_mnist_v3.py` (predictions V3-P1..P6 and the silent-image scoring definitions, before launch);
+  `analyze_mnist_pilot.py <prefix> v3` (v1 scoring regression-checked unchanged). Output `mnist_v3_output.txt`.
+
+| | v1 | v2 norm_adapt | **v3 wta_norm_adapt** | v3 wta_adapt (raw) |
+|---|---|---|---|---|
+| specialized neurons | 0% | 96% | **74%** | 71% |
+| weight map matches its class | 30% | 88% | **67%** | 64% |
+| neurons per class (0/1/2/3) | ~25/0/4/11 | ~1/37/0/2 | **~13/12/8/7, every class >= 3 in 8/8** | ~25/0/8/7 |
+| vote accuracy, silent = wrong (chance 25%) | 53.9% | 42.5% | **65.1%** (58-73%) | 47.7% (68.0% responsive-only) |
+| silent test images | 0% | many | **0-1%** | 27-33% |
+| strength: strongest vs weakest quintile | −51 points (inverted) | n/a | **+30** (rises in 5/8) | **+39** (rises in 8/8) |
+| held-out 4/5 strange vs known | 1.8x | n/a | **2.0x** (1.4-2.6) | 1.2x |
+
+- **V3-P1 (every class >= 3 neurons in >= 6/8, both arms): HALF.**
+  - wta_norm_adapt: 8/8, a real division of labour across digits.
+  - wta_adapt (raw input): "1" still gets 0 neurons in every seed, so the ink bias survives without gain control.
+- **V3-P2 (the full pilot bar in wta_norm_adapt): CONFIRMED, at the margin.** Specialization 74%, weight match 67%,
+  accuracy 65.1% (bar 65%; 58-73% by seed).
+- **V3-P3 (raw input loses to abstentions): CONFIRMED.** 27-33% of test images get no response (faint digits can't
+  beat the risen thresholds), so accuracy falls to 47.7%, although its answers, when it gives them, are as good (68%).
+- **V3-P4 (confidence, >= 15-point gap in >= 6/8 seeds): CONFIRMED** (6/8; mean +30 points). v1's inversion is gone.
+  Once competition is sparse, a strong response really means a confident, usually correct call.
+- **V3-P5 (novelty >= 2x): CONFIRMED, exactly at the bar** (mean 2.04x; 5/8 seeds >= 2.0x).
+- **V3-P6 (fingerprint separation in >= 6/8): CONFIRMED** (6/8).
+- **The substrate needed three rules for real data, none of them a hand-tuned number:**
+  1. per-image gain control (the input's own mean total);
+  2. Diehl & Cook's adaptive threshold (their published constants);
+  3. winner-take-all inhibition (derived from the neuron's own voltages).
+
+  The integration gates (radius, change window) were not touched; MC-2's radius was self-set from the data.
+  **Flag:** the synthetic-world results (one-back, the change signal, the memory results) were all found on the OLD
+  substrate (gentle, gated inhibition, no adaptive threshold). Before building split-MNIST (4b) on the new one,
+  check that those integration-critical properties survive on it.
+
 ## 2026-10-01 — MNIST pilot v2: gain control flips the ink bias toward sparse digits; the adaptive threshold creates sharp specialization (91-96%, digit-like weights) but nearly every neuron picks the same digit. The missing piece is diversity, not specialization
 
 **Data:** `notebooks/brian2/mnist_pilot/mnist_v2_{norm,adapt,norm_adapt}_seed70100-70107.json.gz` (24 runs, Modal).
