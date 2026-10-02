@@ -24,9 +24,9 @@ from src.integration.interface import unit
 KNOWN, HELD = [0, 1, 2, 3], [4, 5]
 
 
-def load_all():
+def load_all(prefix="mnist_pilot"):
     runs = []
-    for f in sorted(HERE.glob("mnist_pilot_seed*.json.gz")):
+    for f in sorted(HERE.glob(f"{prefix}_seed*.json.gz")):
         with gzip.open(f, "rt", encoding="utf-8") as fh:
             r = json.load(fh)
         if r.get("status") == "completed":
@@ -47,7 +47,8 @@ def fingerprints(r, period, wkey):
 
 def main():
     from subset_means import mean_images
-    runs = load_all()
+    prefix = sys.argv[1] if len(sys.argv) > 1 else "mnist_pilot"
+    runs = load_all(prefix)
     print(f"seeds: {len(runs)}")
     means = mean_images()                                                     # class -> (196,) mean known image
     agg = {k: [] for k in ("spec", "rf", "acc", "sep_ok", "mc1_rise", "mc1_gap", "mc2_ratio", "assign_counts")}
@@ -99,7 +100,7 @@ def main():
         print(f"seed {r['seed']}: specialized {spec:.0%} | RF matches class {np.mean(rf_ok):.0%} | acc {acc:.1%} | "
               f"separation {sep} | strength-quintile acc {[round(a, 2) for a in accq]} | strange known {strange_known:.0%} "
               f"held {strange_held:.0%} (ratio {ratio:.1f}) | neurons per class {np.bincount(assign, minlength=4)[KNOWN].tolist()} | "
-              f"memory entries {len(m.character())} | mean spikes/image {C.sum(0).mean():.0f}")
+              f"memory entries {len(m.character())} | mean spikes/image {C.sum(0).mean():.0f} (test period {C[:, sp == 'test'].sum(0).mean():.0f})")
     print(f"\nMP-P1 specialized >= 60%: mean {np.mean(agg['spec']):.0%}")
     print(f"MP-P2 RF matches class >= 60%: mean {np.mean(agg['rf']):.0%}")
     print(f"MP-P3 separation in every pair: {sum(agg['sep_ok'])}/{len(runs)} seeds")
@@ -107,7 +108,7 @@ def main():
     print(f"MC-1 rise in {sum(agg['mc1_rise'])}/{len(runs)} seeds; weakest-vs-strongest gap mean {np.nanmean(agg['mc1_gap']) * 100:.0f} points")
     print(f"MC-2 held-out strange ratio >= 2: mean {np.mean(agg['mc2_ratio']):.1f}")
     json.dump({k: [float(x) if not isinstance(x, list) else x for x in v] for k, v in agg.items()},
-              open(HERE / "mnist_pilot_summary.json", "w"), indent=1)
+              open(HERE / f"{prefix}_summary.json", "w"), indent=1)
 
 
 if __name__ == "__main__":
