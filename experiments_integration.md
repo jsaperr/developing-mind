@@ -117,6 +117,37 @@ runs are replayed into memory, with no feedback yet.
 
 ---
 
+## 2026-10-02 — Self-report from label-free signals (toward metacognition; analysis only): "steady and known" is read 98% right; switches, rests and one-offs are read only 38-44% with today's crude rules
+
+**Why:** the framework's metacognition layer is unbuilt, and the build now has most of the raw signals it would use. This
+asks: can the system say what situation it's in, from its own signals alone?
+**Data:** the life run (7 seeds). Script `notebooks/integration/self_report/analyze_self_report.py` (rules written before
+computing), output `self_report_output.txt`.
+- **Rules (first that applies):**
+  - weight flag -> RE-LEARNING;
+  - activity flag -> SWITCH;
+  - response strength below the 5th percentile of its own previous 10,000 s -> RESTING;
+  - memory says NOVEL -> NOVEL;
+  - otherwise KNOWN.
+
+| truth \ report | RE-LEARNING | SWITCH | RESTING | NOVEL | KNOWN |
+|---|---|---|---|---|---|
+| just changed (first 300 s) | 29% | 15% | 0% | 1% | 55% |
+| resting | 0% | 14% | 38% | 18% | 30% |
+| one-off (novel) | 37% | 1% | 0% | 1% | 61% |
+| known (settled home) | 1% | 0% | 0% | 0% | 98% |
+
+- **Reading:**
+  - The steady state is read almost perfectly.
+  - The change signals flag the switch moments, but "just changed" was scored over 300 s, longer than the signals stay
+    on (most of the KNOWN there comes after the flags have done their job).
+  - Rest is under-detected: a 5th-percentile cutoff can't catch 10% of time.
+  - One-offs read KNOWN 61% of the time. Part of that is memory correctly naming the one-off's own new entry after it
+    commits; part is confident misnaming. These rules don't separate the two.
+  - It's a first pass, not a design: a per-state self-set cutoff (and the familiar-switch split) is the obvious next
+    version.
+  - Not in `src`.
+
 ## 2026-10-02 — Familiar-switch detection: an activity-change signal (the change signal's own rule and constants, applied to firing rates) marks every switch, and together with the weight signal it splits switches into "familiar" and "re-learning". Memory recognizes the familiar ones within a minute, every time
 
 **Why:** the life run (arc 05, same day) showed the change signal is a re-learning detector. It fires on only 36% of

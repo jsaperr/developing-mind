@@ -1,0 +1,3 @@
+Rest replay, seed 54000: 20 rests; mean pairwise correlation of 25 ms spike counts
+co-tuned vs cross pairs: REST +0.4228 vs -0.0552 (co-tuned higher in 100% of rests) | ACTIVE before +0.7440 vs -0.0733
+within-assembly co-firing in rest by recency (1 = context just before the rest; 4 = 4th or older/one-off): 1: +0.4439 (n=20) | 2: +0.4619 (n=17) | 3: +0.4215 (n=12) | 4: +0.4753 (n=11)

@@ -2,6 +2,43 @@
 
 Entries moved verbatim from `experiments_brian2.md` on 2026-09-25 (no wording changed). Index: `experiments_brian2.md`.
 
+## 2026-10-02 — Ship of Theseus (raw life data, post-hoc): over 27 h each context's WIRING becomes unrelated to its first visit (cosine 0.02-0.18; half the strongest synapses turn over in 10 min, chance by 10 h) while its FUNCTION stays at 0.97-0.99; and during rest, same-context neurons co-fire (+0.42 vs -0.06) through shared wiring
+
+**Post-hoc and exploratory:** no predictions. Data are seed 54000's raw file from the Volume (full 1 s weight trace and every
+spike; downloaded, no re-sim).
+- **Scripts:** `notebooks/brian2/life_run/analyze_turnover.py`, `analyze_rest_replay.py`, `plot_theseus.py`. Outputs
+  `turnover_output.txt`, `rest_replay_output.txt`, `theseus_seed54000.png`.
+- **Caveat:** spike times were saved as float32, so timing resolution is ~4-8 ms late in the life. Hence 25 ms bins;
+  save float64 next time.
+
+- **Turnover:** of the top 10% of synapses at any moment, the share still in the top 10% after 1 min / 10 min / 1 h / 3 h /
+  10 h is 74% / 51% / 24% / 15% / 8% (chance 10%).
+- **Wiring vs function, first vs last visit:**
+
+  | context | apart | wiring | function |
+  |---|---|---|---|
+  | A | 26.5 h | 0.089 | 0.988 |
+  | B | 26.7 h | 0.172 | 0.973 |
+  | C | 25.8 h | 0.022 | 0.976 |
+  | D | 18.9 h | 0.063 | 0.967 |
+  | E | 7.8 h | 0.184 | 0.986 |
+  | F | 7.8 h | 0.086 | 0.970 |
+
+  - The wiring falls to ~0.1-0.2 within the first hour or two of revisits; function stays flat at all of them (figure).
+  - The wiring cosine is over all 2400 synapses, so it counts WHICH neurons carry a context (they churn, see the identity
+    entry) as well as the pattern itself.
+- **Rest co-firing:** in all 20 rests (input fully unstructured), pairs of neurons assigned to the SAME context correlate at
+  +0.42 (25 ms spike counts) vs -0.06 for other pairs. During the preceding active phase it's +0.74 vs -0.07.
+  - Every held assembly co-fires about equally (by recency rank 1 / 2 / 3 / older: +0.44 / +0.46 / +0.42 / +0.48), not
+    just the most recent.
+  - **Mechanism:** shared wiring. Co-tuned neurons listen to the same 10 input wires, so random clicks drive them together.
+    There's no recurrent excitation, so this is noise re-expressing assemblies, not internally generated replay
+    (sequences), which would need recurrence.
+- **Reading:**
+  - The whole substrate is rebuilt over a day while every context keeps its functional identity: a Ship of Theseus.
+  - "Identity from history" lives in function and memory, not in parts. That's the strongest form yet of arc 01's
+    "stability = a population readout that tolerates churn", and of the fork result.
+
 ## 2026-10-02 — Neuron identity over a life (post-hoc): a returning context re-recruits the SAME neurons for about 2-10 ks (86% within 2000 s, 63% at 2-10 ks, vs ~48% chance), then neurons become interchangeable (chance after ~3 h); every neuron serves all 7 home contexts over its life
 
 **Post-hoc and exploratory:** no predictions. Data are the life run's compact files (7 seeds). Script

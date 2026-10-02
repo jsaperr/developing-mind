@@ -2,6 +2,33 @@
 
 Index: `experiments_brian2.md`. Plan: `experiment_plan_generalization.md`, step 4. Newest entries first.
 
+## 2026-10-02 — Gain map: MNIST needs loop gain (>= ~5; gain 1 fails at any tau), and at a fixed gain a SHORTER leak wins on both worlds (step 0.2 mV / tau 25 s: click 0.985, flicker 6.6%; MNIST 76.2%, every digit). Flicker grows with gain and with tau
+
+**Data:** `notebooks/brian2/unified_substrate/gmap_*_n40_seed531xx.json.gz` (click, N=40) and
+`notebooks/brian2/mnist_pilot/mnist_gmap_*` (MNIST, v4 conditions); `modal_gain_map.py` (predictions GM-P1..P4, before launch),
+`analyze_gain_map.py`, `gain_map_output.txt`, `mnist_gmap_*_output.txt`. Reference cell = leak_tau100.
+
+| step / tau (gain ~ step x tau) | click readout, memory | click flicker | MNIST | every digit |
+|---|---|---|---|---|
+| 0.2 mV / 25 s (5) | 0.985, 8/8 | **6.6%** | **76.2%** | 8/8 |
+| 0.05 / 100 (5, ref) | 0.968, 8/8 | 14.1% | 74.8% | 8/8 |
+| 0.0125 / 400 (5) | 0.936, 7/8 | 16.1% | 60.0% | 8/8 |
+| 0.01 / 100 (1) | 0.975, 8/8 | 3.6% | 39.8% | 0/8 |
+| 0.0025 / 400 (1) | 0.957, 8/8 | 3.6% | 31.7% | 0/8 |
+
+- **Predictions:**
+  - **GM-P1 (equal gain: the click world passes at every tau, flicker within 2x): click CONFIRMED.** Flicker is not
+    constant: it rises with tau (6.6 / 14.1 / 16.1%).
+  - **GM-P2 (MNIST improves with tau): REFUTED, reversed.**
+  - **GM-P3 (low gain: flicker < 3%): narrowly REFUTED** (3.6%).
+  - **GM-P4 (low gain + long tau keeps MNIST diversity): REFUTED** (31.7%, no diversity).
+- **Reading:**
+  - The "memory length" story was wrong. MNIST needs STRENGTH (loop gain), and the earlier tau 10 s failure was low gain
+    (0.5), not short memory.
+  - At a fixed gain, a short leak is better everywhere: a big, fast step behaves like spike-frequency adaptation with
+    fair sharing.
+  - The best substrate so far is 0.2 mV / 25 s. Follow-up (shorter still, higher gain) is in `modal_gain_map.py`'s docstring.
+
 ## 2026-10-02 — The flicker is spontaneous recall: during a dip the readout points at ANOTHER STORED context about 90% of the time (the previous one 44-55%, the third 34-46%), for ~10 s. Adaptation-driven rivalry between the current and held contexts
 
 **Post-hoc:** no predictions. Data are the leak cells (tau 50 and 100 s, N=7 and 40, v1b click world). Script

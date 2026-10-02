@@ -133,6 +133,7 @@ Each line is the entry's own heading (its conclusion is in the title).
 
 **08 MNIST (2026-10-01)**: [`docs/log/brian2/08_mnist.md`](docs/log/brian2/08_mnist.md)
 
+- 2026-10-02 — Gain map: MNIST needs loop gain (>= ~5; gain 1 fails at any tau), and at a fixed gain a SHORTER leak wins on both worlds (step 0.2 mV / tau 25 s: click 0.985, flicker 6.6%; MNIST 76.2%, every digit). Flicker grows with gain and with tau
 - 2026-10-02 — The flicker is spontaneous recall: during a dip the readout points at ANOTHER STORED context about 90% of the time (the previous one 44-55%, the third 34-46%), for ~10 s. Adaptation-driven rivalry between the current and held contexts
 - 2026-10-02 — Causal (temporal) gain control removes the image-boundary oracle at no cost: a 5-20 ms running gain matches or beats per-image normalization (75-77%, every digit), and on the reconciled substrate gain control is barely needed at all (69.5% without)
 - 2026-10-02 — The reconciled substrate generalizes to step 3's six-context world: memory remembers every return 8/8 at both clocks and both N, the readout is better than the old substrate's (0.98-0.995), and retention turns FLAT (every past context keeps ~12-27% of neurons at N=40) instead of graded
@@ -184,6 +185,7 @@ Each line is the entry's own heading (its conclusion is in the title).
 
 **05 Non-stationary correlation (2026-09-25)**: [`docs/log/brian2/05_nonstationary_correlation.md`](docs/log/brian2/05_nonstationary_correlation.md)
 
+- 2026-10-02 — Ship of Theseus (raw life data, post-hoc): over 27 h each context's WIRING becomes unrelated to its first visit (cosine 0.02-0.18; half the strongest synapses turn over in 10 min, chance by 10 h) while its FUNCTION stays at 0.97-0.99; and during rest, same-context neurons co-fire (+0.42 vs -0.06) through shared wiring
 - 2026-10-02 — Neuron identity over a life (post-hoc): a returning context re-recruits the SAME neurons for about 2-10 ks (86% within 2000 s, 63% at 2-10 ks, vs ~48% chance), then neurons become interchangeable (chance after ~3 h); every neuron serves all 7 home contexts over its life
 - 2026-10-02 — Life in eras (100,000 s, 8 seeds): over ~28 simulated hours nothing wears out (no drift, bounded memory, rare old contexts remembered 98%), but the change signal turns out to be a RE-LEARNING detector: it misses switches back to contexts the population still holds
 - 2026-10-01 — Generalization step 3, six contexts: retention becomes graded (about 30% one back, 20% two back, under 7% deeper), the gates still work at their defaults, and memory remembers every return up to 5 back

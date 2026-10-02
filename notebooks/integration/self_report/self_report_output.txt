@@ -1,0 +1,7 @@
+Self-report on the life run (7 seeds; rows = truth, columns = what the system reports, % of row)
+                RE-LEARNING       SWITCH      RESTING        NOVEL        KNOWN      n
+just changed            29%          15%           0%           1%          55%   31500
+resting                  0%          14%          38%          18%          30%    7000
+novel                   37%           1%           0%           1%          61%   10500
+known                    1%           0%           0%           0%          98%   21000
+correct-ish share: just changed 44%, resting 38%, novel 38%, known 98%
