@@ -2,6 +2,88 @@
 
 Index: `experiments_brian2.md`. Plan: `experiment_plan_generalization.md`, step 4. Newest entries first.
 
+## 2026-10-02 — Dose and leak tests: ONE substrate now passes both worlds. A LEAKY fair-share threshold (proportional, not integral, homeostasis) with a ~50-100 s memory keeps every digit (65-75%) and the click world's memory (8/8); the leak is a single dial trading 'spread the work' against 'hold a sustained context'
+
+**Why:** the factorial (below) found the fair-share threshold habituates sustained contexts away.
+**Data:** all on Modal, paired seeds (click 53000-53007 / 53100-53107; MNIST 70100-70107):
+- `notebooks/brian2/unified_substrate/dose_tp*_n*_seed*.json.gz` and `leak_tau*_n*_seed*.json.gz` (compact; raw on the Volume);
+- `notebooks/brian2/mnist_pilot/mnist_dose_tp*_e10_seed*.json.gz`, `mnist_leak_tau*_seed*.json.gz`.
+
+**Scripts** (each pre-registered and committed before launch):
+- `modal_dose.py` (D-P1..P5);
+- `modal_leak.py` (L-P1..P4; the follow-up L-P5, L-P6 was added after tau 10/100/1000 and before tau 30/50);
+- `analyze_dose.py`, `analyze_leak.py`, `analyze_leak_flicker.py`.
+
+**Outputs:** `dose_output.txt`, `leak_output.txt`, `leak_flicker_output.txt`, `mnist_dose_*_output.txt`, `mnist_leak_*_output.txt`.
+
+**Infrastructure notes:**
+- The dose test's blocking driver was killed by the local background-task limit with 21 MNIST results uncollected.
+- Those were relaunched detached, writing to the Volume (`--mnist-detached`; identical jobs).
+- Lesson in CLAUDE.md.
+
+**Dose (slower integral fair-share; MNIST given 10 passes):**
+
+| | click N=7 | click N=40 | MNIST (10 passes) |
+|---|---|---|---|
+| speed x1 (v4) | -0.18, 0/8 | 0.06, 0/8 | **82.8%** every digit (1 pass: 79.2%) |
+| x10 slower | 0.89, 8/8 (readout fades 0.86 -> 0.20 by 900 s) | 0.76, 7/8 | 75.6%, every digit |
+| x100 slower | 0.97, 8/8: PASS | 0.83, 6/8 (fades 0.84 -> 0.64) | 53.3%, no diversity |
+
+- **Predictions:**
+  - **D-P1 (x10 passes the click world): REFUTED.**
+  - **D-P2 (x100 passes): REFUTED at N=40.**
+  - **D-P3 (MNIST x10 >= 70%): CONFIRMED** (75.6%).
+  - **D-P4 (x100 < 65%): CONFIRMED** (53.3%).
+  - **D-P5 (x1 with 10 passes >= 75%): CONFIRMED** (82.8%, the best MNIST result yet).
+- **Reading:** slowing only DELAYS habituation. Integral fair-share (no decay) drives every sustained rate difference to
+  exactly zero, eventually.
+
+**Leak (fair-share with decay tau, Diehl & Cook's 0.05 mV step; MNIST 1 pass, v4's conditions):**
+
+| tau | click flicker N=7 / N=40 | click memory (B two-back) | MNIST accuracy | every digit >= 3 neurons | novelty |
+|---|---|---|---|---|---|
+| 10 s | 0% / 1.3% | 8/8, 8/8 | 45.0% | 0/8 (one digit takes ~35) | 1.8x |
+| 30 s | 1.9% / 2.4% | 8/8, 8/8 | 54.3% | 4/8 | 3.0x |
+| 50 s | 5.3% / 6.5% | 8/8, 8/8 | 64.3% | **8/8** | 3.1x |
+| 100 s | 21% / 14% | 8/8, 8/8 | **74.8%** | **8/8** | 3.2x |
+| 1000 s | 60% / 60% (readout ~0) | 1/8, 1/8 | 79.8% | 8/8 | 2.6x |
+| no decay (v4) | (readout ~0) | 0/8, 0/8 | 79.2% | 8/8 | 2.5x |
+
+**Flicker** = the share of settled 10 s windows whose rectified readout has cosine < 0.5 to the current context. The
+pre-registered settled MEDIAN stays 0.97-1.00 for tau 10-100 s.
+
+- **Predictions:**
+  - **L-P1 (tau 10 s passes the click world, no habituation): CONFIRMED** (0.98 / 0.98; 900 s into a phase 0.98 / 0.95).
+  - **L-P2 (tau 1000 s fails): CONFIRMED.**
+  - **L-P3 (tau 10 s keeps MNIST diversity): REFUTED.** A 10 s fairness memory (~20 images) can't spread digits.
+  - **L-P4 (tau 1000 s ~ v4): CONFIRMED** (79.8%).
+  - **L-P5 (tau 30 s passes both): REFUTED on MNIST** (4/8, 54%); the click half held (< 5% flicker).
+  - **L-P6 (tau 50 s passes both, flicker in between): MOSTLY.** Flicker 5-6.5% (in between), click 8/8; MNIST covers
+    every digit in 8/8 but reaches 64.3% against L-P3's 65% bar.
+- **Flicker is post-hoc, labelled.**
+  - At tau 100 s, settled medians stay high (0.97-0.98), but 14-21% of 10 s windows briefly point AWAY from the current
+    context (~8-12 dips per 700 s).
+  - Adaptation makes the winners sit out and others take over for a moment: the alternation ingredient the ambiguity
+    experiment found missing (arc 05, "no rivalry without adaptation").
+  - Memory still recognizes 8/8; its steadiness gate and the 0.8 radius ride through the dips.
+
+**Reading:**
+- **The reconciliation exists, and it's a timescale.** Fair-share's job (spreading the work across inputs) needs a memory
+  of who has been winning lasting a few hundred inputs (MNIST: ~50-100 s, 100-200 images). Integration needs that
+  memory to be short relative to a sustained context (click world: ~100 s or less against 1000 s phases).
+- **The leak is one dial between those.** Short = clean sustained representation, no diversity. Long = diversity,
+  then flicker, then habituation (integral = guaranteed erasure).
+- **At tau 50-100 s, one substrate passes both worlds.** The substrate there is: winner-take-all (20 mV, gate off),
+  gain control, and the fair-share threshold with decay.
+- **Biologically familiar:** a leaky, mean-preserving threshold is spike-frequency adaptation with fair sharing. The
+  trade-off is the familiar one between categorization (spread representations) and sustained attention (fatigue).
+- **Hand-chosen doses (tripwire spirit).** tau is picked from a sweep. It isn't adopted. The principled next step is to
+  set the leak from the system's own statistics, e.g. relative to how fast its input changes.
+- **Not yet done:**
+  - the life-length world on this substrate;
+  - temporal (not per-image) gain control;
+  - whether the flicker matters for anything downstream.
+
 ## 2026-10-02 — Substrate factorial: the FAIR-SHARE THRESHOLD alone breaks the click world (winner-take-all alone is harmless), and the mechanism is habituation: rate homeostasis erases a sustained context within ~2-5 minutes. MNIST still needs both rules
 
 **Why:** the unified-substrate check changed two rules at once. This tests each alone, on both worlds.
