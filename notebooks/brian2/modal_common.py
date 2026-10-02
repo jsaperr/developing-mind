@@ -15,6 +15,9 @@ Anything needing the full 1 s weight trace (e.g. displacement peaks) fetches the
     python -m modal volume get developing-mind-raw <raw_path> <local_path>
 `raw_path` is stored in every compact file.
 
+A script that imports this module must ship it into its image too (the container re-imports the script):
+    IMAGE.add_local_file(<path to modal_common.py>, "/root/modal_common.py")
+
 load_compact() returns the same (d, wm, rates, changing) tuple as
 notebooks/integration/set_worlds/run_rectified_memory.load, with wm expanded back to 1 s by repeating each block,
 so existing analysis code runs unchanged.

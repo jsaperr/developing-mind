@@ -41,7 +41,8 @@ from modal_common import IMAGE  # noqa: E402
 
 TARGET_TOTAL = 30.0
 SEEDS = list(range(70100, 70108))
-image = (IMAGE.add_local_file(str(HERE / "mnist_sim.py"), "/root/mnist_sim.py")
+image = (IMAGE.add_local_file(str(HERE.parent / "modal_common.py"), "/root/modal_common.py")
+         .add_local_file(str(HERE / "mnist_sim.py"), "/root/mnist_sim.py")
          .add_local_file(str(HERE / "data" / "pilot_subset.npz"), "/root/pilot_subset.npz"))
 app = modal.App("developing-mind-mnist-pilot")
 
