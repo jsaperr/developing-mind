@@ -3,3 +3,6 @@ tp 0.2 / tau 25 (gain 5)               | readout 0.985, B named W50 8/8 | flicke
 tp 0.0125 / tau 400 (gain 5)           | readout 0.936, B named W50 7/8 | flicker 16.1% (< 0: 6.6%) | PASS
 tp 0.01 / tau 100 (gain 1)             | readout 0.975, B named W50 8/8 | flicker 3.6% (< 0: 0.9%) | PASS
 tp 0.0025 / tau 400 (gain 1)           | readout 0.957, B named W50 8/8 | flicker 3.6% (< 0: 0.8%) | PASS
+tp 0.5 / tau 10 (gain 5)               | readout 0.993, B named W50 8/8 | flicker 2.2% (< 0: 0.9%) | PASS
+tp 1.0 / tau 5 (gain 5)                | readout 0.996, B named W50 8/8 | flicker 0.8% (< 0: 0.1%) | PASS
+tp 0.4 / tau 25 (gain 10)              | readout 0.975, B named W50 8/8 | flicker 10.7% (< 0: 5.5%) | PASS

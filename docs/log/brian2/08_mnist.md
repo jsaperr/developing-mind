@@ -28,6 +28,23 @@ Index: `experiments_brian2.md`. Plan: `experiment_plan_generalization.md`, step 
   - At a fixed gain, a short leak is better everywhere: a big, fast step behaves like spike-frequency adaptation with
     fair sharing.
   - The best substrate so far is 0.2 mV / 25 s. Follow-up (shorter still, higher gain) is in `modal_gain_map.py`'s docstring.
+- **Follow-up (GM-P5, GM-P6, pre-registered after the first map):**
+
+  | step / tau (gain) | click readout, memory | flicker | MNIST | every digit |
+  |---|---|---|---|---|
+  | 0.5 mV / 10 s (5) | 0.993, 8/8 | 2.2% | 75.3% | 8/8 |
+  | **1.0 mV / 5 s (5)** | **0.996, 8/8** | **0.8%** | 73.1% | 8/8 |
+  | 0.4 mV / 25 s (10) | 0.975, 8/8 | 10.7% | 76.2% | 8/8 |
+
+  - **GM-P5 (the shorter-leak trend continues, MNIST holds): CONFIRMED.**
+  - **GM-P6 (gain 10 doesn't help MNIST and raises flicker): CONFIRMED.**
+  - **Reading:** the leak wants to be SHORT (seconds), and the gain about 5. At 1.0 mV / 5 s the fair-share threshold is
+    effectively fast spike-frequency adaptation with fair sharing.
+    - The click world is as clean as the original substrate (0.996, flicker 0.8%).
+    - MNIST keeps every digit.
+    - The window that looked narrow (tau 50-100 s at the published step) was an artifact of holding the step fixed.
+  - **Chosen by a pre-registered rule as the split-MNIST (4b) substrate.** Not adopted as a default.
+
 
 ## 2026-10-02 — The flicker is spontaneous recall: during a dip the readout points at ANOTHER STORED context about 90% of the time (the previous one 44-55%, the third 34-46%), for ~10 s. Adaptation-driven rivalry between the current and held contexts
 
