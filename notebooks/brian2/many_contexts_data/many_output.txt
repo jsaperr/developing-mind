@@ -1,0 +1,16 @@
+
+===== N=7 (8 seeds) =====
+MC-P1 just-departed keeps at +150 s, every change: min 55%  [0.55, 0.64, 0.89, 0.79, 0.61, 0.84, 0.73, 0.78, 0.79, 0.92, 0.82]
+MC-P2 incoming holders just before each return (share of N): E@1back 29%  C@3back 7%  F@2back 20%  B@4back 2%  F@1back 32%  A@5back 0%
+MC-P3 change fired 92%, on when settled 1.4%
+MC-P4 readout 0.973, between max -0.18
+MC-P5 W=50: E (phase 7, 1 back): remembered 8/8 (named 8, via dormant 0) | C (phase 8, 3 back): remembered 8/8 (named 8, via dormant 0) | F (phase 9, 2 back): remembered 8/8 (named 8, via dormant 0) | B (phase 10, 4 back): remembered 8/8 (named 8, via dormant 0) | F (phase 11, 1 back): remembered 8/8 (named 8, via dormant 0) | A (phase 12, 5 back): remembered 8/8 (named 8, via dormant 1)
+MC-P5 W=10: E (phase 7, 1 back): remembered 8/8 (named 8, via dormant 0) | C (phase 8, 3 back): remembered 7/8 (named 8, via dormant 7) | F (phase 9, 2 back): remembered 8/8 (named 8, via dormant 3) | B (phase 10, 4 back): remembered 8/8 (named 8, via dormant 8) | F (phase 11, 1 back): remembered 8/8 (named 8, via dormant 3) | A (phase 12, 5 back): remembered 8/8 (named 8, via dormant 8)
+
+===== N=40 (8 seeds) =====
+MC-P1 just-departed keeps at +150 s, every change: min 61%  [0.61, 0.79, 0.69, 0.75, 0.85, 0.93, 0.76, 0.73, 0.67, 0.84, 0.86]
+MC-P2 incoming holders just before each return (share of N): E@1back 35%  C@3back 5%  F@2back 19%  B@4back 0%  F@1back 27%  A@5back 0%
+MC-P3 change fired 95%, on when settled 0.4%
+MC-P4 readout 0.987, between max -0.18
+MC-P5 W=50: E (phase 7, 1 back): remembered 8/8 (named 8, via dormant 0) | C (phase 8, 3 back): remembered 8/8 (named 8, via dormant 0) | F (phase 9, 2 back): remembered 8/8 (named 8, via dormant 0) | B (phase 10, 4 back): remembered 8/8 (named 8, via dormant 0) | F (phase 11, 1 back): remembered 8/8 (named 8, via dormant 0) | A (phase 12, 5 back): remembered 8/8 (named 8, via dormant 0)
+MC-P5 W=10: E (phase 7, 1 back): remembered 8/8 (named 8, via dormant 0) | C (phase 8, 3 back): remembered 8/8 (named 8, via dormant 8) | F (phase 9, 2 back): remembered 8/8 (named 8, via dormant 3) | B (phase 10, 4 back): remembered 8/8 (named 8, via dormant 8) | F (phase 11, 1 back): remembered 8/8 (named 8, via dormant 3) | A (phase 12, 5 back): remembered 8/8 (named 8, via dormant 8)

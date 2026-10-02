@@ -42,8 +42,17 @@ def returns(sched):
     return out
 
 
+def holders60(d, wm, c, t):
+    """Step 0's holder metric (RT.holders), sized to the rig's own input count. RT.holders hard-codes 30 inputs;
+    this fix was made after the first scoring attempt crashed on it, before any result was read. Same metric."""
+    n_pre = wm.shape[1]
+    protos = np.array([I.unit(np.isin(np.arange(n_pre), s).astype(float)) for s in d['context_sets']])
+    wbar = wm[:, :, t - 50:t].mean(axis=2)
+    return sum(int(np.argmax(protos @ I.unit(wbar[j]))) == c for j in range(d['n_post']))
+
+
 def hold(runs, c, t):
-    return float(np.mean([RT.holders(d, wm, c, t) for d, wm, r, ch in runs]))
+    return float(np.mean([holders60(d, wm, c, t) for d, wm, r, ch in runs]))
 
 
 def main():

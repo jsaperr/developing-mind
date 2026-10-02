@@ -117,6 +117,11 @@ Arc 05 log. Next: step 3 (more contexts, the synthetic control for MNIST).
 
 ## Step 3: more contexts, more inputs (the synthetic control for step 4)
 
+**DONE 2026-10-01 (Modal):** calibration passed. Retention becomes graded (about 30% / 20% / under 7% at 1 / 2 / 3+
+back). The gates need no re-tuning (no tripwire). Memory remembers every return up to 5 back (live at W=50,
+dormant reawakening at W=10). Arc 05 log. **Steps 0-3 are complete; next is step 4, MNIST (needs Jasper's OK to
+download).**
+
 - **Design:** 60 inputs, 6 disjoint blocks of 10, N=7 and N=30. A schedule with 1-, 2-, 3- and 4-back
   returns.
 - **Question:** with more contexts than neurons can each own, does one-back still hold, and does the

@@ -28,6 +28,57 @@ Entries moved verbatim from `experiments_brian2.md` on 2026-09-25 (no wording ch
   - Real perceptual rivalry needs something like adaptation to produce episodes. This substrate
     doesn't have it, the same ingredient the MNIST plan flags (adaptive threshold).
 
+## 2026-10-01 — Generalization step 3, six contexts: retention becomes graded (about 30% one back, 20% two back, under 7% deeper), the gates still work at their defaults, and memory remembers every return up to 5 back
+
+**Data:** `notebooks/brian2/many_contexts_data/`, N in {7, 40} x 8 seeds (52000-52007, 52100-52107), 16/16 completed
+on Modal, Brian2 seeded.
+- **Rig:** 60 inputs in 6 disjoint blocks. Calibrated first (`calibrate_60.py`, bar stated before running: PASS at
+  N=7 and N=40, rates 14-18 Hz, w_total 9.87-10.11, target_total 10, gmax unchanged).
+- **World:** 12 x 1000 s: A B C D E F | E C F B F A. The returns come from depths 1, 3, 2, 4, 1, 5.
+- **Scripts:** `modal_many.py` (predictions MC-P1..P5 in its docstring, before launch) and `analyze_many.py`
+  (before results). Output `many_output.txt`.
+- **Scorer bug, fixed before any result was read:** the first attempt crashed because the borrowed holder helper
+  (`analyze_release_timing.holders`) hard-codes 30 inputs. Swapped for the same metric sized to the rig.
+- **Wall time:** about 60 min per run. One slow container ran about 75 min. The driver used ordered outputs, so
+  nothing saved until it finished; that lesson is now in the CLAUDE.md Modal notes.
+
+| | N=7 | N=40 |
+|---|---|---|
+| just-departed keeps at +150 s (min over 11 changes) | 55% | 61% |
+| incoming before a 1-back return (E, F) | 29%, 32% | 35%, 27% |
+| incoming before the 2-back return (F) | **20%** | **19%** |
+| incoming before 3-, 4-, 5-back returns (C, B, A) | 7%, 2%, 0% | 5%, 0%, 0% |
+| change signal fired / on when settled | 92% / 1.4% | 95% / 0.4% |
+| settled readout / between-context max | 0.973 / −0.18 | 0.987 / −0.18 |
+| returns remembered (named by an old memory), W=50 | 8/8 every return | 8/8 every return |
+| returns remembered, W=10 | 7-8/8 (deep returns via dormant entries) | 8/8 (deep ones via dormant) |
+
+- **MC-P1 (the just-departed keeps ≥ 60% at every change): HALF.** It holds at N=40 (min 61%). N=7 misses at its
+  first change (55%); the other ten changes are 61-92%.
+- **MC-P2 (deeper than 1 back ≤ 15%; 1 back ≥ 30%): REFUTED in the interesting direction.**
+  - **Retention is graded, not a clean one-back:** about 30% of the population holds a 1-back context, about 20% a
+    2-back context, and under 7% anything 3+ back, at both N.
+  - With three contexts (v1b and step 2), the 2-back level was 0-9%. With six contexts and this schedule, the
+    second slot keeps about a fifth.
+  - The 1-back levels miss the ≥ 30% bar narrowly (27-35%) because the population is now shared around more.
+  - A plausible reason, not tested: the change before F's 2-back return was a 1-back return (E), which needed few
+    new neurons, so it recruited less from F.
+- **MC-P3 (change signal at its hand-set defaults): CONFIRMED** (fired 92-95%, on 0.4-1.4% of settled seconds).
+  **The tripwire did not fire** with six contexts and 60 inputs either.
+- **MC-P4 (readout): CONFIRMED** (0.973 / 0.987; disjoint 10-of-60 blocks sit at −0.18).
+- **MC-P5 (memory remembers every return, ≥ 7/8, both clocks, both N): CONFIRMED.**
+  - Every return, including A after 5 intervening contexts (about 9000 s), is named by an *old* memory.
+  - At W=50 the memories were still live.
+  - At W=10 the deep returns (3-5 back) came back by reawakening a dormant entry: 7-8 of 8 seeds via dormant for
+    C, B and A. That's the dormant mechanism doing exactly its job.
+- **Reading:**
+  - With more contexts than the network can give each its own neurons, the substrate's retention becomes a
+    graded, fading tail (1 back strong, 2 back partial, 3+ gone) rather than a sharp one-back cut.
+  - The gates need no re-tuning.
+  - Memory carries everything beyond the tail, using live entries at the slow clock and dormant reawakening at the
+    fast one.
+  - This is the synthetic control for MNIST: many contexts alone don't break anything.
+
 ## 2026-10-01 — Generalization step 2, network size: from 5 to 40 neurons, one-back, the ~half retainer fraction, the change signal at its hand-set defaults, the readout and memory recognition all hold unchanged
 
 **Data:** `notebooks/brian2/n_scaling_v1b_data/`, N in {5, 7, 10, 15, 40} x 8 seeds (51000-51407), 40/40 completed
